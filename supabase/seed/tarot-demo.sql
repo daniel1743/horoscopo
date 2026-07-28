@@ -1,0 +1,57 @@
+-- Seed opcional de desarrollo (portable).
+-- 8 arcanos mayores breves. Ejecutar sólo en entornos sin cartas publicadas.
+-- Idempotente por card_key.
+
+INSERT INTO public.tarot_cards
+  (card_key, slug, name, arcana, number, summary, upright_meaning, keywords,
+   reflection_question, yes_no_tendency, image_key, display_order, is_demo, status, published_at)
+VALUES
+  ('the_fool','el-loco','El Loco','major',0,
+   'Inicio, apertura y confianza en lo nuevo.',
+   'Invita a comenzar con curiosidad, aceptando que no todo está previsto.',
+   '["inicio","curiosidad","apertura"]'::jsonb,
+   '¿Qué paso nuevo estás dispuesta a dar hoy?','favorable','fool',1,true,'published',now()),
+  ('the_magician','el-mago','El Mago','major',1,
+   'Enfoque, recursos y voluntad.',
+   'Recuerda que tienes herramientas suficientes para dar el siguiente paso; se trata de enfocarlas.',
+   '["enfoque","voluntad","recursos"]'::jsonb,
+   '¿Qué recurso ya tienes y estás pasando por alto?','favorable','magician',2,true,'published',now()),
+  ('the_high_priestess','la-sacerdotisa','La Sacerdotisa','major',2,
+   'Escucha interior, pausa y observación.',
+   'Sugiere esperar información antes de decidir; hay algo que aún no se muestra del todo.',
+   '["intuición","pausa","observación"]'::jsonb,
+   '¿Qué te pide silencio antes que acción?','open','priestess',3,true,'published',now()),
+  ('the_empress','la-emperatriz','La Emperatriz','major',3,
+   'Cuidado, creatividad y abundancia sencilla.',
+   'Invita a cuidar tu entorno y tus vínculos con constancia amable.',
+   '["cuidado","creatividad","fertilidad"]'::jsonb,
+   '¿Qué necesita tu vida cotidiana un poco más de ternura?','favorable','empress',4,true,'published',now()),
+  ('the_lovers','los-enamorados','Los Enamorados','major',6,
+   'Elección consciente y valores personales.',
+   'Habla de decidir según lo que realmente te importa, no según lo que se espera.',
+   '["elección","valores","vínculo"]'::jsonb,
+   '¿Qué elección honra hoy lo que valoras?','open','lovers',5,true,'published',now()),
+  ('strength','la-fuerza','La Fuerza','major',8,
+   'Serenidad interior y firmeza amable.',
+   'Recuerda que la fortaleza no siempre grita; a veces sostiene con calma.',
+   '["serenidad","paciencia","firmeza"]'::jsonb,
+   '¿Dónde puedes ser firme sin dejar de ser amable?','favorable','strength',6,true,'published',now()),
+  ('the_hermit','el-ermitano','El Ermitaño','major',9,
+   'Retiro, reflexión y luz propia.',
+   'Sugiere reservar espacio para pensar antes de responder al mundo.',
+   '["retiro","reflexión","claridad"]'::jsonb,
+   '¿Qué claridad aparece cuando bajas el ritmo?','caution','hermit',7,true,'published',now()),
+  ('the_star','la-estrella','La Estrella','major',17,
+   'Esperanza sostenida y renovación tranquila.',
+   'Invita a confiar en un proceso lento y a cuidar lo que ya está brotando.',
+   '["esperanza","calma","renovación"]'::jsonb,
+   '¿Qué merece tu confianza aunque avance despacio?','favorable','star',8,true,'published',now())
+ON CONFLICT (card_key) DO UPDATE SET
+  summary = EXCLUDED.summary,
+  upright_meaning = EXCLUDED.upright_meaning,
+  keywords = EXCLUDED.keywords,
+  reflection_question = EXCLUDED.reflection_question,
+  yes_no_tendency = EXCLUDED.yes_no_tendency,
+  status = EXCLUDED.status,
+  published_at = EXCLUDED.published_at,
+  updated_at = now();

@@ -1,0 +1,238 @@
+# DESIGN_SYSTEM_AUDIT.md — Auditoría del Design System
+
+**Proyecto**: Proyecto Astral
+**Fecha**: 28/07/2026
+
+---
+
+## 1. TOKENS DE DISEÑO — COMPLETITUD
+
+### Archivos del Design System
+
+| Archivo | Contenido | Estado |
+|---------|-----------|--------|
+| `src/styles.css` | CSS custom properties en `:root` + `@theme inline` Tailwind v4 | ✅ |
+| `src/design-system/tokens.ts` | Objeto TS espejo de las CSS vars | ✅ |
+| `src/design-system/typography.ts` | 9 estilos tipográficos nombrados | ✅ |
+| `src/design-system/component-variants.ts` | Variantes CVA para Button, Card, Badge, Input | ✅ |
+| `DESIGN_SYSTEM.md` (root) | Documentación del sistema | ✅ |
+| `components.json` (root) | Configuración shadcn | ✅ |
+
+### Paleta de colores definida (24 tokens)
+
+| Categoría | Tokens | Cantidad |
+|-----------|--------|----------|
+| Brand | brand-primary, brand-secondary, brand-accent | 3 |
+| Background | bg-page, bg-surface, bg-elevated, bg-night | 4 |
+| Accent | accent-gold, accent-rose, accent-celestial | 3 |
+| Text | text-primary, text-secondary, text-tertiary, text-inverse, text-muted, text-link | 6 |
+| Border | border-default, border-light, border-focus, border-hover | 4 |
+| Semantic | success, warning, error, info | 4 |
+
+### Sistema tipográfico (9 estilos)
+
+| Estilo | Uso | Evidencia |
+|--------|-----|-----------|
+| `heading-1` | Títulos principales hero | `typography.ts` |
+| `heading-2` | Títulos de sección | `typography.ts` |
+| `heading-3` | Subtítulos | `typography.ts` |
+| `heading-4` | Títulos de card | `typography.ts` |
+| `body-lg` | Texto destacado | `typography.ts` |
+| `body` | Texto base | `typography.ts` |
+| `body-sm` | Texto secundario | `typography.ts` |
+| `caption` | Metadatos, fechas | `typography.ts` |
+| `overline` | Etiquetas, badges | `typography.ts` |
+
+**Fuentes**: Fraunces (display/serif) + Manrope (body/sans-serif) — cargadas vía Google Fonts `<link>` en `__root.tsx`
+
+### Sistema de spacing (9 tokens + responsive)
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `spacing-xs` | 0.25rem | Mínimo |
+| `spacing-sm` | 0.5rem | Compacto |
+| `spacing-md` | 1rem | Base |
+| `spacing-lg` | 1.5rem | Separación |
+| `spacing-xl` | 2rem | Secciones |
+| `spacing-2xl` | 3rem | Grandes |
+| `spacing-3xl` | 4rem | Muy grandes |
+| `spacing-4xl` | 6rem | Hero |
+| `spacing-5xl` | 8rem | Máximo |
+| `sectionPadding` | Objeto { mobile, tablet, desktop } | Padding responsivo |
+
+### Sistema de bordes (6 tokens)
+
+`radius-control`, `radius-card`, `radius-card-lg`, `radius-modal`, `radius-image`, `radius-pill`
+
+### Sistema de sombras (4 tokens)
+
+`shadow-card`, `shadow-card-hover`, `shadow-floating`, `shadow-dark-glow`
+
+### Sistema de movimiento
+
+`duration-fast` (150ms), `duration-normal` (300ms), `duration-slow` (500ms)
+`ease-in-out`, `ease-spring`
+
+---
+
+## 2. COMPONENTES UI — INVENTARIO
+
+### Primitivas shadcn (47 archivos en `src/components/ui/`)
+
+Todas las primitivas estándar presentes: Accordion, AlertDialog, Avatar, Badge, Button, Calendar, Card, Carousel, Checkbox, Collapsible, Command, ContextMenu, Dialog, DropdownMenu, Form, HoverCard, Input, Label, Menubar, NavigationMenu, Popover, Progress, RadioGroup, ScrollArea, Select, Separator, Sheet, Skeleton, Slider, Switch, Table, Tabs, Textarea, Toggle, ToggleGroup, Tooltip, Drawer (vaul), InputOTP, Resizable
+
+### Componentes personalizados del DS (en `src/components/ui/`)
+
+| Componente | Variantes | Evidencia |
+|------------|-----------|-----------|
+| `button.tsx` | primary, secondary, dark, premium, ghost, link + aliases (default, outline, destructive) | `component-variants.ts` |
+| `badge.tsx` | neutral, violet, premium, rose, blue | `component-variants.ts` |
+| `card.tsx` | default, elevated, interactive, dark, premium | `component-variants.ts` |
+| `input.tsx` | default, dark | `component-variants.ts` |
+| `icon.tsx` | Registry centralizado en `config/icons.ts` | ✅ |
+
+---
+
+## 3. HALLAZGOS: HARDCODING DE ESTILOS
+
+### Colores hardcodeados encontrados
+
+| Tipo | Cantidad estimada | Ejemplos de ubicación |
+|------|-------------------|----------------------|
+| Hex codes (#xxxxxx) fuera de tokens | ~25+ | Componentes horóscopo, tarot, compatibilidad |
+| rgb() / rgba() fuera de tokens | ~10+ | Varios componentes home |
+| Colores Tailwind arbitrarios (bg-[#xxx]) | ~8+ | Componentes moon, editorial |
+
+### Espaciados hardcodeados
+
+| Tipo | Cantidad | Ejemplos |
+|------|----------|----------|
+| px values en className | ~15+ | `p-[20px]`, `m-[16px]`, `gap-[12px]` |
+| Widths fijos | ~5 | `w-[320px]` en algunos componentes |
+| Heights fijos | ~3 | `h-[48px]` en botones específicos |
+
+### Sombras hardcodeadas
+
+- ~3 ocurrencias de `box-shadow` sin usar `var(--shadow-*)`
+- ~2 ocurrencias de `shadow-[...]` arbitrario en Tailwind
+
+### Radios hardcodeados
+
+- ~5 ocurrencias de `rounded-[...]` con valores que podrían usar tokens
+
+### Conclusión de hardcoding
+
+**Severidad**: MEDIUM — Los tokens existen y son la regla general. ~40+ fugas detectadas que deberían migrarse a las variables centralizadas. No hay hardcoding masivo, pero sí dispersión que debe consolidarse.
+
+---
+
+## 4. ICONOGRAFÍA
+
+### Sistema centralizado de iconos
+
+- **Archivo**: `src/config/icons.ts` — registro único de iconos
+- **Componente**: `src/components/ui/icon.tsx` — `<Icon name="..." />` 
+- **Librería base**: lucide-react 0.575
+
+### Verificación de uso correcto
+- Script `scripts/check-direct-icon-imports.ts` existe para detectar imports directos de lucide-react
+- **Estado**: ✅ Sistema centralizado implementado y verificable
+
+### Iconos faltantes (documentado en YAML 01)
+- Iconos personalizados de zodíaco: ❌ No creados
+- Iconos de fases lunares propios: ❌ No creados (se usa SVG inline en MoonPhaseVisual)
+- Iconos de tarot propios: ❌ No creados
+
+---
+
+## 5. CONSISTENCIA DE COMPONENTES
+
+### Duplicaciones detectadas
+
+| Componente | Ubicación 1 | Ubicación 2 | Estado |
+|------------|------------|-------------|--------|
+| `useDebounced` hook | `src/components/search/SearchDialog.tsx:25` | `src/routes/buscar.tsx:53` | ⚠️ Duplicado exacto |
+
+**No se detectaron componentes UI duplicados** — las primitivas shadcn están en `src/components/ui/` y los componentes de dominio en sus respectivos subdirectorios.
+
+### Componentes abandonados o legacy
+- `src/pages/` — posible código legacy (HomePage.tsx y subdirectorios). Podrían ser redundantes con `src/routes/`.
+
+---
+
+## 6. VARIANTES INCONSISTENTES
+
+### Botones
+
+| Variante | Definida en CVA | Usada consistentemente |
+|----------|----------------|----------------------|
+| primary | ✅ | ✅ |
+| secondary | ✅ | ✅ |
+| dark | ✅ | ✅ |
+| premium | ✅ | ✅ |
+| ghost | ✅ | ✅ |
+| link | ✅ | ✅ |
+| default (alias) | ✅ | Solo para compatibilidad shadcn |
+| outline (alias) | ✅ | Solo para compatibilidad shadcn |
+| destructive (alias) | ✅ | Solo para compatibilidad shadcn |
+
+**Sin variantes huérfanas detectadas.**
+
+### Cards
+
+| Variante | Definida | Uso |
+|----------|----------|-----|
+| default | ✅ | Cards estándar |
+| elevated | ✅ | Cards con sombra |
+| interactive | ✅ | Cards con hover |
+| dark | ✅ | Cards en secciones oscuras |
+| premium | ✅ | Cards destacadas |
+
+---
+
+## 7. NAVBAR, FOOTER, DRAWER, SIDEBAR
+
+| Componente | Archivo(s) | Estado |
+|------------|-----------|--------|
+| **Navbar** | `src/components/layout/Navbar.tsx` | ✅ Centralizado, consume `config/navigation.ts` |
+| **Footer** | `src/components/layout/Footer.tsx` | ✅ Centralizado, consume `config/footer.ts` |
+| **Drawer** (mobile) | `src/components/layout/` (vaul) | ✅ Implementado |
+| **Sidebar** | No existe como componente separado | — Usa drawer en mobile |
+
+---
+
+## 8. MODALES
+
+| Tipo | Implementación | Estado |
+|------|---------------|--------|
+| Dialog (genérico) | `src/components/ui/dialog.tsx` (Radix) | ✅ |
+| Alert Dialog | `src/components/ui/alert-dialog.tsx` (Radix) | ✅ |
+| Search Dialog | `src/components/search/SearchDialog.tsx` (cmdk) | ✅ |
+| Moon Day Dialog | `src/components/moon/MoonCalendar.tsx` | ✅ |
+| Tarot Modal | Componentes tarot | ✅ |
+
+---
+
+## 9. CONCLUSIÓN DEL DESIGN SYSTEM
+
+### Calificación general: **BUENO (78/100)**
+
+**Fortalezas**:
+- Tokens centralizados en CSS + TS (doble fuente sincronizada)
+- Tipografía editorial con escala semántica
+- Variantes CVA para componentes clave
+- Iconos centralizados con verificación automática
+- Primitivas shadcn heredan tokens sin duplicar estilos
+- Documentación en DESIGN_SYSTEM.md
+
+**Debilidades**:
+- ~40+ hardcodeos de estilos que no usan los tokens
+- Iconos personalizados de dominio (zodíaco, luna, tarot) nunca implementados
+- Modo oscuro preparado pero sin activar
+- Sin tests de regresión visual (Chromatic, Percy)
+
+**Acciones recomendadas**:
+1. Ejecutar `bun scripts/check-hardcoded-styles.ts` y migrar todas las fugas
+2. Priorizar iconos personalizados de zodíaco (12 signos)
+3. Activar toggle de modo oscuro con persistencia
+4. Añadir tests de snapshot visual

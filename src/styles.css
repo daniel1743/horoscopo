@@ -1,0 +1,250 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * ============================================================
+ * Proyecto Astral — Sistema de tokens (YAML 01)
+ * ------------------------------------------------------------
+ * Fuente única de color, radios, sombras y familias tipográficas.
+ * Nunca escribir hexadecimales o radios arbitrarios en componentes.
+ * Ver: DESIGN_SYSTEM.md y src/design-system/tokens.ts
+ * ============================================================
+ */
+
+:root {
+  /* --- Marca --- */
+  --brand-violet: #6c4bd9;
+  --brand-violet-hover: #5737be;
+  --brand-violet-soft: #f0ebfa;
+
+  /* --- Fondos --- */
+  --bg-lunar-ivory: #f8f5f0;
+  --bg-warm-white: #ffffff;
+  --bg-deep-night: #171526;
+  --bg-deep-night-elevated: #211e34;
+
+  /* --- Acentos --- */
+  --accent-lunar-gold: #c5a467;
+  --accent-astral-rose: #b96f91;
+  --accent-celestial-blue: #7189c8;
+
+  /* --- Texto --- */
+  --text-primary: #222029;
+  --text-secondary: #716d78;
+  --text-muted: #97929c;
+  --text-inverse: #ffffff;
+  --text-inverse-soft: #dcd7e5;
+  --text-link: #6c4bd9;
+
+  /* --- Bordes --- */
+  --border-default: #e5ded6;
+  --border-subtle: #eee9e3;
+  --border-strong: #cfc6bd;
+  --border-dark: rgba(255, 255, 255, 0.14);
+
+  /* --- Semánticos --- */
+  --success: #467a68;
+  --warning: #b5823f;
+  --danger: #b85c64;
+  --info: #607db5;
+
+  /* --- Radios --- */
+  --radius-control: 14px;
+  --radius-card: 20px;
+  --radius-card-lg: 28px;
+  --radius-modal: 24px;
+  --radius-image: 22px;
+  --radius-pill: 9999px;
+
+  /* --- Sombras --- */
+  --shadow-card: 0 10px 35px rgba(34, 32, 41, 0.07);
+  --shadow-card-hover: 0 18px 45px rgba(34, 32, 41, 0.11);
+  --shadow-floating: 0 20px 60px rgba(23, 21, 38, 0.18);
+  --shadow-dark-glow: 0 24px 70px rgba(108, 75, 217, 0.18);
+
+  /* --- Shadcn compat (mapea a tokens de marca) --- */
+  --background: var(--bg-lunar-ivory);
+  --foreground: var(--text-primary);
+  --card: var(--bg-warm-white);
+  --card-foreground: var(--text-primary);
+  --popover: var(--bg-warm-white);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--brand-violet);
+  --primary-foreground: var(--text-inverse);
+  --secondary: var(--brand-violet-soft);
+  --secondary-foreground: var(--brand-violet);
+  --muted: #f2ede6;
+  --muted-foreground: var(--text-secondary);
+  --accent: var(--brand-violet-soft);
+  --accent-foreground: var(--brand-violet);
+  --destructive: var(--danger);
+  --destructive-foreground: var(--text-inverse);
+  --border: var(--border-default);
+  --input: var(--border-default);
+  --ring: var(--brand-violet);
+  --radius: 14px;
+}
+
+@theme inline {
+  /* Colores → utilidades Tailwind (bg-*, text-*, border-*) */
+  --color-brand: var(--brand-violet);
+  --color-brand-hover: var(--brand-violet-hover);
+  --color-brand-soft: var(--brand-violet-soft);
+
+  --color-ivory: var(--bg-lunar-ivory);
+  --color-warm-white: var(--bg-warm-white);
+  --color-night: var(--bg-deep-night);
+  --color-night-elevated: var(--bg-deep-night-elevated);
+
+  --color-gold: var(--accent-lunar-gold);
+  --color-rose: var(--accent-astral-rose);
+  --color-celestial: var(--accent-celestial-blue);
+
+  --color-ink: var(--text-primary);
+  --color-ink-soft: var(--text-secondary);
+  --color-ink-muted: var(--text-muted);
+  --color-ink-inverse: var(--text-inverse);
+  --color-ink-inverse-soft: var(--text-inverse-soft);
+
+  --color-line: var(--border-default);
+  --color-line-subtle: var(--border-subtle);
+  --color-line-strong: var(--border-strong);
+  --color-line-dark: var(--border-dark);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* Shadcn */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Radios */
+  --radius-sm: 10px;
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-card-lg);
+  --radius-2xl: var(--radius-modal);
+  --radius-pill: var(--radius-pill);
+
+  /* Sombras */
+  --shadow-card: var(--shadow-card);
+  --shadow-card-hover: var(--shadow-card-hover);
+  --shadow-floating: var(--shadow-floating);
+  --shadow-dark-glow: var(--shadow-dark-glow);
+
+  /* Tipografías */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Manrope", Inter, system-ui, sans-serif;
+  --font-sans: "Manrope", Inter, system-ui, sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
+
+  /* Contenedor */
+  --container-editorial: 760px;
+  --container-site: 1280px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    font-weight: 600;
+  }
+  ::selection {
+    background: var(--brand-violet-soft);
+    color: var(--brand-violet-hover);
+  }
+  :focus-visible {
+    outline: 3px solid var(--brand-violet);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+@utility font-body {
+  font-family: var(--font-body);
+}
+
+@utility container-editorial {
+  max-width: var(--container-editorial);
+  margin-inline: auto;
+  padding-inline: 18px;
+}
+
+@utility container-site {
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: 18px;
+}
+
+@media (min-width: 640px) {
+  .container-site, .container-editorial { padding-inline: 24px; }
+}
+@media (min-width: 1024px) {
+  .container-site, .container-editorial { padding-inline: 32px; }
+}
+
+/* Tarot flip (YAML 04 — DailyTarotCard) */
+.tarot-flip { perspective: 1000px; }
+.tarot-flip-inner {
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.tarot-flip[data-revealed="true"] .tarot-flip-inner { transform: rotateY(180deg); }
+.tarot-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.tarot-face-back { transform: rotateY(180deg); }
+@media (prefers-reduced-motion: reduce) {
+  .tarot-flip-inner { transition: opacity 200ms ease; transform: none !important; }
+  .tarot-flip[data-revealed="true"] .tarot-face { opacity: 0; }
+  .tarot-flip[data-revealed="true"] .tarot-face-back { opacity: 1; transform: none; }
+  .tarot-face-back { opacity: 0; }
+}
