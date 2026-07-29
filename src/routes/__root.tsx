@@ -85,13 +85,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Horóscopo, tarot, compatibilidad y ciclos lunares con una mirada editorial clara, íntima y visualmente cuidada.",
       },
       { name: "author", content: "Proyecto Astral" },
-      { property: "og:title", content: "Proyecto Astral" },
+      {
+        name: "keywords",
+        content:
+          "astrología, horóscopo diario, tarot online, fases lunares, compatibilidad zodiacal",
+      },
+      { property: "og:site_name", content: "Proyecto Astral" },
+      { property: "og:title", content: "Proyecto Astral — Astrología Editorial" },
       {
         property: "og:description",
         content: "Astrología, tarot y luna con una voz editorial serena.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:card", content: "summary" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

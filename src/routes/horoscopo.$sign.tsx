@@ -3,11 +3,28 @@ import { SignHoroscopePage } from "@/pages/horoscope/SignHoroscopePage";
 import { getLatestHoroscope } from "@/lib/horoscope/repository";
 import { getPeriodBySlug } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
-import { buildMeta } from "@/config/seo";
+import { buildMeta, schemaOrg } from "@/config/seo";
 import type { HoroscopePeriod } from "@/types/horoscope";
 
 interface Search {
   periodo?: "hoy" | "semana" | "mes";
+}
+
+const SITE_URL = "https://proyectoastral.com";
+
+function canonicalForSign(sign: string, periodo: Search["periodo"]): string {
+  if (!periodo || periodo === "hoy") return `${SITE_URL}/horoscopo/${sign}`;
+  return `${SITE_URL}/horoscopo/${sign}?periodo=${periodo}`;
+}
+
+function periodLabel(periodo: Search["periodo"]): string {
+  if (periodo === "semana") return "esta semana";
+  if (periodo === "mes") return "este mes";
+  return "hoy";
+}
+
+function safeJsonLd(value: unknown): string {
+  return JSON.stringify(value).replaceAll("<", "\\u003c");
 }
 
 export const Route = createFileRoute("/horoscopo/$sign")({
@@ -24,14 +41,25 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const entry = await getLatestHoroscope(sign.slug, def.key);
     return { signSlug: sign.slug, period: def.key as HoroscopePeriod, entry };
   },
-  head: ({ params }) => {
+  head: ({ params, deps }) => {
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     const name = sign?.name ?? "Signo";
+    const label = periodLabel(deps.periodo);
     const m = buildMeta({
-      title: `${name} — Horóscopo · Proyecto Astral`,
-      description: `Horóscopo diario, semanal y mensual para ${name}, con foco, ánimo y energía.`,
+      title: `Horóscopo de ${name} ${label} | Proyecto Astral`,
+      description: `Lee el horóscopo de ${name} ${label} con una mirada editorial sobre vínculos, trabajo, bienestar y energía personal.`,
+      canonical: canonicalForSign(params.sign, deps.periodo),
     });
-    return { meta: m.meta, links: m.links };
+    return {
+      meta: [
+        ...m.meta,
+        {
+          name: "keywords",
+          content: `horoscopo ${name.toLowerCase()}, signo ${name.toLowerCase()}, astrologia, zodiaco`,
+        },
+      ],
+      links: m.links,
+    };
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-[720px] py-20 text-center">
@@ -54,5 +82,25 @@ export const Route = createFileRoute("/horoscopo/$sign")({
 
 function Page() {
   const { signSlug, period, entry } = Route.useLoaderData();
-  return <SignHoroscopePage signSlug={signSlug} period={period} entry={entry} />;
+  const sign = zodiacSigns.find((s) => s.slug === signSlug);
+  const name = sign?.name ?? signSlug;
+  const schema = entry?.publishedAt
+    ? schemaOrg.article({
+        headline: `Horóscopo de ${name}`,
+        description: entry.summary,
+        datePublished: entry.publishedAt,
+      })
+    : null;
+
+  return (
+    <>
+      {schema ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(schema) }}
+        />
+      ) : null}
+      <SignHoroscopePage signSlug={signSlug} period={period} entry={entry} />
+    </>
+  );
 }

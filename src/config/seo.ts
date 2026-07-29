@@ -14,7 +14,7 @@ export const seoDefaults = {
   defaultDescription: site.description,
   locale: "es_ES",
   type: "website",
-  twitterCard: "summary_large_image",
+  twitterCard: "summary",
   robots: { index: true, follow: true },
 } as const;
 
