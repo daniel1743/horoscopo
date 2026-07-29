@@ -11,7 +11,19 @@ import { PLANETARY_BODIES, PlanetaryEngineError } from "./planetary-engine";
 import { longitudeToZodiac, normalizeLongitude, signedLongitudeDelta } from "./zodiac-math";
 
 const ENGINE_VERSION = "astronomy-engine@2.1.19:planetary@2a";
-const RETROGRADE_SAMPLE_MS = 12 * 60 * 60 * 1000;
+
+const SPEED_SAMPLE_HOURS_BY_BODY: Record<PlanetaryBody, number> = {
+  sun: 6,
+  moon: 1,
+  mercury: 1,
+  venus: 2,
+  mars: 3,
+  jupiter: 6,
+  saturn: 6,
+  uranus: 12,
+  neptune: 12,
+  pluto: 12,
+};
 
 const BODY_TO_ASTRONOMY_BODY: Record<PlanetaryBody, Astronomy.Body> = {
   sun: Astronomy.Body.Sun,
@@ -66,8 +78,9 @@ function calculateLongitude(body: PlanetaryBody, date: Date): number {
 }
 
 function calculateSpeedDegreesPerDay(body: PlanetaryBody, date: Date): number {
-  const before = new Date(date.getTime() - RETROGRADE_SAMPLE_MS);
-  const after = new Date(date.getTime() + RETROGRADE_SAMPLE_MS);
+  const sampleMs = SPEED_SAMPLE_HOURS_BY_BODY[body] * 60 * 60 * 1000;
+  const before = new Date(date.getTime() - sampleMs);
+  const after = new Date(date.getTime() + sampleMs);
   const delta = signedLongitudeDelta(
     calculateLongitude(body, before),
     calculateLongitude(body, after),
