@@ -166,7 +166,7 @@ function calculateAspectPhase(
   const targetAngles =
     exactAngle === 0 || exactAngle === 180 ? [exactAngle] : [exactAngle, -exactAngle];
   const signedError = targetAngles
-    .map((targetAngle) => signedLongitudeDelta(relativeLongitude, targetAngle))
+    .map((targetAngle) => signedLongitudeDelta(targetAngle, relativeLongitude))
     .sort((leftError, rightError) => Math.abs(leftError) - Math.abs(rightError))[0];
 
   if (signedError === undefined) {
