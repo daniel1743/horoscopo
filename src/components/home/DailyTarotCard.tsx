@@ -42,7 +42,7 @@ export function DailyTarotCard() {
           <TarotCardVisual card={drawn?.card ?? null} revealed={revealed && !!drawn} size="lg" />
         </div>
 
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col min-w-0">
           <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-gold">
             Carta del día
           </p>
@@ -65,7 +65,7 @@ export function DailyTarotCard() {
             </p>
           )}
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button
               type="button"
               variant="premium"

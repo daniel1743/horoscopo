@@ -159,25 +159,12 @@ function HeroIllustration() {
           <stop offset="0%" stopColor="var(--accent-lunar-gold)" stopOpacity="0.7" />
           <stop offset="100%" stopColor="var(--brand-violet)" stopOpacity="0.4" />
         </linearGradient>
-        <radialGradient id="universePanel" cx="0.5" cy="0.45" r="0.75">
-          <stop offset="0%" stopColor="var(--brand-violet)" stopOpacity="0.9" />
-          <stop offset="48%" stopColor="var(--brand-violet)" stopOpacity="0.62" />
-          <stop offset="82%" stopColor="var(--accent-astral-rose)" stopOpacity="0.56" />
-          <stop offset="100%" stopColor="var(--bg-deep-night-elevated)" stopOpacity="0.92" />
-        </radialGradient>
         <clipPath id="front-ring-clip">
           <rect x="-100" y="200" width="600" height="200" transform="rotate(-18 220 200)" />
         </clipPath>
-        <clipPath id="universe-panel-clip">
-          <rect x="16" y="54" width="368" height="292" rx="22" />
-        </clipPath>
       </defs>
 
-      <rect x="16" y="54" width="368" height="292" rx="22" fill="var(--bg-deep-night-elevated)" />
-      <g clipPath="url(#universe-panel-clip)">
-        <rect x="-20" y="28" width="440" height="344" fill="url(#universePanel)" />
-        <circle cx="96" cy="138" r="84" fill="var(--bg-lunar-ivory)" opacity="0.06" />
-        <circle cx="244" cy="250" r="118" fill="var(--brand-violet)" opacity="0.16" />
+      <g>
         <g fill="var(--bg-lunar-ivory)">
           <circle
             cx="86"
@@ -249,15 +236,6 @@ function HeroIllustration() {
           />
         </g>
       </g>
-      <rect
-        x="16.5"
-        y="54.5"
-        width="367"
-        height="291"
-        rx="21.5"
-        stroke="var(--brand-violet)"
-        strokeOpacity="0.4"
-      />
 
       {/* Iluminación ambiental base e irregular */}
       <circle cx="220" cy="180" r="150" fill="url(#moonGlow)" className="anim-glow-1" />
