@@ -233,6 +233,45 @@
   .container-site, .container-editorial { padding-inline: 32px; }
 }
 
+.lunar-aura {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 0;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(
+    circle,
+    rgba(253, 249, 238, 0.2) 0%,
+    rgba(253, 249, 238, 0.08) 40%,
+    rgba(253, 249, 238, 0) 68%
+  );
+  border-radius: 9999px;
+  filter: blur(22px);
+  transform: translate(-50%, -50%);
+  animation: lunar-aura-pulse 7s ease-in-out infinite;
+}
+
+@keyframes lunar-aura-pulse {
+  0%,
+  100% {
+    opacity: 0.62;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lunar-aura {
+    animation: none !important;
+    opacity: 0.72;
+    transform: translate(-50%, -50%);
+  }
+}
+
 /* Tarot flip (YAML 04 — DailyTarotCard) */
 .tarot-flip { perspective: 1000px; }
 .tarot-flip-inner {
