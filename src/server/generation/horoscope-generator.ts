@@ -7,14 +7,20 @@ import {
   type StructuralGenerationValidation,
   type TextGenerationProvider,
 } from "./domain";
+import type { EditorialValidationResult } from "../validation/domain";
 import { parseGeneratedHoroscopeJson, validateGeneratedDraft } from "./strict-json-parser";
+import { validateEditorialDraft } from "../validation/editorial-validator";
 
-function invalidValidation(error: unknown): StructuralGenerationValidation {
+function invalidValidation(
+  error: unknown,
+  editorial?: EditorialValidationResult,
+): StructuralGenerationValidation {
   const code = error instanceof HoroscopeGenerationError ? error.code : "PROVIDER_FAILURE";
   return {
     valid: false,
     errors: [{ code, message: error instanceof Error ? error.message : String(error) }],
     warnings: [],
+    ...(editorial ? { editorial } : {}),
   };
 }
 
@@ -33,6 +39,7 @@ export async function generateHoroscopeDraft(
   const request = buildGenerationRequest(context);
   const prompt = buildPromptBundle(request);
   let validation: StructuralGenerationValidation;
+  let rejectedEditorialValidation: EditorialValidationResult | undefined;
   let draft = buildFallbackDraft(context);
   let status: GenerationResult["status"] = "fallback";
 
@@ -62,12 +69,24 @@ export async function generateHoroscopeDraft(
           : "STRUCTURAL_VALIDATION_FAILED",
       );
     }
+    const editorialValidation = validateEditorialDraft({
+      draft: parsed,
+      context,
+      constraints: request.constraints,
+    });
+    if (!editorialValidation.valid) {
+      rejectedEditorialValidation = editorialValidation;
+      throw new HoroscopeGenerationError(
+        "validacion editorial bloqueo el contenido",
+        "FORBIDDEN_CONTENT",
+      );
+    }
     draft = parsed;
-    validation = parsedValidation;
+    validation = { ...parsedValidation, editorial: editorialValidation };
     status = "generated";
   } catch (error) {
     draft = buildFallbackDraft(context);
-    validation = invalidValidation(error);
+    validation = invalidValidation(error, rejectedEditorialValidation);
   }
 
   const fallbackValidation = validateGeneratedDraft(draft, context, request.constraints);

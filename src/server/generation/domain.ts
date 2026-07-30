@@ -6,6 +6,7 @@ import type {
   SignContext,
   ZodiacSign,
 } from "../rules/domain";
+import type { EditorialValidationResult } from "../validation/domain";
 
 export const GENERATION_SCHEMA_VERSION = "generated-horoscope-draft@2e:v1";
 export const GENERATION_PROMPT_VERSION = "prompt@2e:v1";
@@ -84,6 +85,7 @@ export interface StructuralGenerationValidation {
   valid: boolean;
   errors: readonly GenerationValidationIssue[];
   warnings: readonly GenerationValidationIssue[];
+  editorial?: EditorialValidationResult;
 }
 
 export interface GenerationResult {

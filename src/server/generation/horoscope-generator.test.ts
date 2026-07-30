@@ -69,4 +69,52 @@ describe("horoscope-generator", () => {
     ]);
     expect(new Set(results.map((result) => JSON.stringify(result))).size).toBe(1);
   });
+
+  it("fallback por validacion editorial conserva diagnostico estructurado completo", async () => {
+    const context = signContext();
+    const rejected = {
+      ...validDraft(context),
+      summary: `${validDraft(context).summary} Marte en Tauro sin duda ocurrira seguro. No tienes opción.`,
+    };
+    const provider = new DeterministicTestGenerationProvider(() => JSON.stringify(rejected));
+    const first = await generateHoroscopeDraft(context, provider);
+    const second = await generateHoroscopeDraft(
+      context,
+      new DeterministicTestGenerationProvider(() => JSON.stringify(rejected)),
+    );
+
+    expect(first.status).toBe("fallback");
+    expect(provider.callCount).toBe(1);
+    expect(first.draft.summary).not.toContain("Marte");
+    expect(first.validation.errors[0]).toMatchObject({
+      code: "FORBIDDEN_CONTENT",
+      message: "validacion editorial bloqueo el contenido",
+    });
+    expect(first.validation.editorial?.valid).toBe(false);
+    expect(first.validation.editorial?.issues.length).toBeGreaterThan(3);
+    expect(first.validation.editorial?.issues).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: "UNAUTHORIZED_PLANET",
+          severity: "error",
+          path: "summary",
+        }),
+        expect.objectContaining({ code: "UNAUTHORIZED_SIGN", severity: "error", path: "summary" }),
+        expect.objectContaining({
+          code: "ABSOLUTE_CERTAINTY",
+          severity: "error",
+          path: "summary",
+        }),
+        expect.objectContaining({
+          code: "EMOTIONAL_MANIPULATION",
+          severity: "error",
+          path: "summary",
+          evidence: "no tienes opcion",
+        }),
+      ]),
+    );
+    expect(first.validation.editorial?.metrics.blockingIssueCount).toBeGreaterThan(3);
+    expect(first.validation.editorial?.metrics.totalWords).toBeGreaterThan(0);
+    expect(JSON.stringify(first)).toBe(JSON.stringify(second));
+  });
 });
