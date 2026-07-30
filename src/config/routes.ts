@@ -48,6 +48,7 @@ export const routes = {
   // Autenticación (público)
   signIn: "/auth",
   resetPassword: "/reset-password",
+  updatePassword: "/auth/update-password",
   authCallback: "/auth/callback",
 
   // Privado

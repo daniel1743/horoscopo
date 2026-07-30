@@ -4,6 +4,7 @@
  * lo suyo. Los inserts nunca aceptan user_id desde parámetros externos.
  */
 import { supabase } from "@/integrations/supabase/client";
+import type { BirthTimeStatus } from "@/lib/account/auth-profile";
 
 // ---------- Tipos ----------
 export interface Profile {
@@ -14,6 +15,17 @@ export interface Profile {
   preferred_sign: string | null;
   city: string | null;
   birth_date: string | null;
+  birth_time: string | null;
+  birth_time_status: BirthTimeStatus | null;
+  birth_place_label: string | null;
+  birth_city: string | null;
+  birth_region: string | null;
+  birth_country: string | null;
+  birth_country_code: string | null;
+  birth_timezone: string | null;
+  birth_latitude: number | null;
+  birth_longitude: number | null;
+  profile_completed_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -275,9 +287,6 @@ export async function deleteActivityEntry(id: string): Promise<void> {
 }
 
 export async function clearActivity(userId: string): Promise<void> {
-  const { error } = await supabase
-    .from("user_activity_history")
-    .delete()
-    .eq("user_id", userId);
+  const { error } = await supabase.from("user_activity_history").delete().eq("user_id", userId);
   if (error) throw error;
 }

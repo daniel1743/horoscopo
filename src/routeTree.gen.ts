@@ -31,6 +31,7 @@ import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authentic
 import { Route as AuthenticatedMiEspacioRouteImport } from './routes/_authenticated/mi-espacio'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthUpdatePasswordRouteImport } from './routes/auth.update-password'
 import { Route as AutoresSlugRouteImport } from './routes/autores.$slug'
 import { Route as CompatibilidadIndexRouteImport } from './routes/compatibilidad.index'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
@@ -175,6 +176,11 @@ const ApiSearchRoute = ApiSearchRouteImport.update({
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
   path: '/callback',
+  getParentRoute: () => AuthRoute,
+} as any)
+const AuthUpdatePasswordRoute = AuthUpdatePasswordRouteImport.update({
+  id: '/update-password',
+  path: '/update-password',
   getParentRoute: () => AuthRoute,
 } as any)
 const AutoresSlugRoute = AutoresSlugRouteImport.update({
@@ -393,6 +399,7 @@ export interface FileRoutesByFullPath {
   '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
+  '/auth/update-password': typeof AuthUpdatePasswordRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/horoscopo/$sign': typeof HoroscopoSignRoute
@@ -451,6 +458,7 @@ export interface FileRoutesByTo {
   '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
+  '/auth/update-password': typeof AuthUpdatePasswordRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/horoscopo/$sign': typeof HoroscopoSignRoute
@@ -512,6 +520,7 @@ export interface FileRoutesById {
   '/_authenticated/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
+  '/auth/update-password': typeof AuthUpdatePasswordRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
   '/horoscopo/$sign': typeof HoroscopoSignRoute
@@ -573,6 +582,7 @@ export interface FileRouteTypes {
     | '/mi-espacio'
     | '/api/search'
     | '/auth/callback'
+    | '/auth/update-password'
     | '/autores/$slug'
     | '/guias/$slug'
     | '/horoscopo/$sign'
@@ -631,6 +641,7 @@ export interface FileRouteTypes {
     | '/mi-espacio'
     | '/api/search'
     | '/auth/callback'
+    | '/auth/update-password'
     | '/autores/$slug'
     | '/guias/$slug'
     | '/horoscopo/$sign'
@@ -691,6 +702,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mi-espacio'
     | '/api/search'
     | '/auth/callback'
+    | '/auth/update-password'
     | '/autores/$slug'
     | '/guias/$slug'
     | '/horoscopo/$sign'
@@ -921,6 +933,13 @@ declare module '@tanstack/react-router' {
       path: '/callback'
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/auth/update-password': {
+      id: '/auth/update-password'
+      path: '/update-password'
+      fullPath: '/auth/update-password'
+      preLoaderRoute: typeof AuthUpdatePasswordRouteImport
       parentRoute: typeof AuthRoute
     }
     '/autores/$slug': {
@@ -1273,10 +1292,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface AuthRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthUpdatePasswordRoute: typeof AuthUpdatePasswordRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
+  AuthUpdatePasswordRoute: AuthUpdatePasswordRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
