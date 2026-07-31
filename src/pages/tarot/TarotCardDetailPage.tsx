@@ -4,6 +4,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { routes } from "@/config/routes";
 import { TarotCardVisual } from "@/components/tarot/TarotCardVisual";
+import { TarotContextualGuide } from "@/components/tarot/TarotContextualGuide";
 import { TarotReadingDisclaimer } from "@/components/tarot/TarotReadingDisclaimer";
 import { TarotSkeleton } from "@/components/tarot/TarotSkeleton";
 import { tarotService } from "@/services/tarot.service";
@@ -62,8 +63,11 @@ export function TarotCardDetailPage({ slug }: Props) {
     >
       <PageHeader eyebrow="Arcano mayor" title={card.name} description={card.summary} />
       <div className="grid gap-8 md:grid-cols-[minmax(0,220px)_1fr]">
-        <div className="mx-auto md:mx-0">
+        <div className="mx-auto md:mx-0 flex flex-col items-center">
           <TarotCardVisual card={card} revealed size="lg" />
+          <div className="mt-4 w-full">
+            <TarotContextualGuide card={card} readingContext="Biblioteca" />
+          </div>
         </div>
         <div className="flex flex-col gap-6">
           <section>

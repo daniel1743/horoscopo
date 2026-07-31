@@ -29,7 +29,7 @@ export const Route = createFileRoute("/guias/$slug")({
     }
     const { article } = loaderData;
     const meta = buildMeta({
-      title: article.seo.title ?? `${article.title} | Proyecto Astral`,
+      title: article.seo.title ?? `${article.title} | Creovision`,
       description: article.seo.description ?? article.excerpt,
       image: article.seo.og_image ?? article.imageUrl ?? undefined,
       canonical: article.canonicalOverride ?? articleRoute(article.slug),

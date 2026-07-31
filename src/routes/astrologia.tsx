@@ -4,9 +4,9 @@ import { Placeholder } from "@/components/layout/Placeholder";
 export const Route = createFileRoute("/astrologia")({
   head: () => ({
     meta: [
-      { title: "Astrología — Proyecto Astral" },
+      { title: "Astrología — Creovision" },
       { name: "description", content: "Comprende los principales conceptos de tu carta astral." },
-      { property: "og:title", content: "Astrología — Proyecto Astral" },
+      { property: "og:title", content: "Astrología — Creovision" },
       {
         property: "og:description",
         content: "Comprende los principales conceptos de tu carta astral.",

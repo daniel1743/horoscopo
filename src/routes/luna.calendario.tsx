@@ -10,12 +10,12 @@ import { getZonedParts } from "@/lib/moon/timezone";
 export const Route = createFileRoute("/luna/calendario")({
   head: () => ({
     meta: [
-      { title: "Calendario lunar — Proyecto Astral" },
+      { title: "Calendario lunar — Creovision" },
       {
         name: "description",
         content: "Calendario mensual con fases, iluminación y eventos lunares mayores.",
       },
-      { property: "og:title", content: "Calendario lunar — Proyecto Astral" },
+      { property: "og:title", content: "Calendario lunar — Creovision" },
       {
         property: "og:description",
         content: "Calendario mensual con fases y eventos lunares mayores.",

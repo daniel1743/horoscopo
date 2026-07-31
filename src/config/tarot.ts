@@ -42,14 +42,14 @@ export const tarotSpreads: Record<TarotSpreadKey, TarotSpreadDefinition> = {
     key: "daily",
     routeKey: "tarotDaily",
     label: "Carta del día",
-    description: "Una idea simbólica para observar durante el día.",
+    description: "Una carta para abrir una reflexión breve sobre el presente.",
     numberOfCards: 1,
     icon: "sun",
     positions: [
       {
         key: "daily_message",
         label: "Mensaje para hoy",
-        description: "Una idea simbólica para observar durante el día.",
+        description: "Una lectura breve para mirar el día con más atención.",
       },
     ],
   },

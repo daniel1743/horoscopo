@@ -28,7 +28,7 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     const name = sign?.name ?? "Signo";
     const m = buildMeta({
-      title: `${name} — Horóscopo · Proyecto Astral`,
+      title: `${name} — Horóscopo · Creovision`,
       description: `Horóscopo diario, semanal y mensual para ${name}, con foco, ánimo y energía.`,
     });
     return { meta: m.meta, links: m.links };

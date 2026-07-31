@@ -31,10 +31,10 @@ export const Route = createFileRoute("/luna/fases/$slug")({
   },
   head: ({ params }) => {
     const meta = params?.phaseKey ? MOON_PHASE_REGISTRY[params.phaseKey] : null;
-    const title = meta ? `${meta.label} — Proyecto Astral` : "Fase lunar";
+    const title = meta ? `${meta.label} — Creovision` : "Fase lunar";
     const desc = meta
-      ? `${meta.label}: astronomía y lectura simbólica en Proyecto Astral.`
-      : "Fase lunar en Proyecto Astral.";
+      ? `${meta.label}: astronomía y lectura simbólica en Creovision.`
+      : "Fase lunar en Creovision.";
     return {
       meta: [
         { title },

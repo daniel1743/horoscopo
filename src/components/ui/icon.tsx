@@ -13,6 +13,12 @@ export interface IconProps extends Omit<React.SVGAttributes<SVGSVGElement>, "nam
 export const Icon = React.forwardRef<SVGSVGElement, IconProps>(
   ({ name, size = "md", decorative = false, label, className, ...props }, ref) => {
     const Component = iconRegistry[name];
+    if (!Component) {
+      if (import.meta.env.DEV) {
+        console.error(`Icono no registrado: ${name as string}`);
+      }
+      return null;
+    }
     const px = typeof size === "number" ? size : iconSizes[size];
     return (
       <Component

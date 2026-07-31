@@ -1,0 +1,182 @@
+[
+  {
+    "label": "mercury_2024-12-06",
+    "body": "mercury",
+    "iso": "2024-12-06T00:00:00",
+    "phase": "estacion_retrograda",
+    "statusCode": 200,
+    "eclLon": 254.5829832,
+    "hash": "bd0ee6257744",
+    "downloaded_at": "2026-07-29T01:31:19.213Z"
+  },
+  {
+    "label": "mercury_2024-12-15",
+    "body": "mercury",
+    "iso": "2024-12-15T21:00:00",
+    "phase": "post_estacion_directa",
+    "statusCode": 200,
+    "eclLon": 246.3959959,
+    "hash": "47480b7bb395",
+    "downloaded_at": "2026-07-29T01:31:19.617Z"
+  },
+  {
+    "label": "mercury_2024-12-25",
+    "body": "mercury",
+    "iso": "2024-12-25T00:00:00",
+    "phase": "post_estacion_directa_estable",
+    "statusCode": 200,
+    "eclLon": 251.7221504,
+    "hash": "4a6953d8b5ea",
+    "downloaded_at": "2026-07-29T01:31:20.099Z"
+  },
+  {
+    "label": "mercury_2024-11-25",
+    "body": "mercury",
+    "iso": "2024-11-25T23:42:00",
+    "phase": "estacion_retrograda_inicio",
+    "statusCode": 200,
+    "eclLon": 262.6704676,
+    "hash": "e873ed133558",
+    "downloaded_at": "2026-07-29T01:31:20.620Z"
+  },
+  {
+    "label": "venus_2024-06-21",
+    "body": "venus",
+    "iso": "2024-06-21T12:00:00",
+    "phase": "snapshot_referencia",
+    "statusCode": 200,
+    "eclLon": 99.67292,
+    "hash": "75bab3c487cf",
+    "downloaded_at": "2026-07-29T01:31:21.118Z"
+  },
+  {
+    "label": "venus_2024-01-01",
+    "body": "venus",
+    "iso": "2024-01-01T00:00:00",
+    "phase": "inicio_2024",
+    "statusCode": 200,
+    "eclLon": 242.6122975,
+    "hash": "e4503b0dc744",
+    "downloaded_at": "2026-07-29T01:31:21.520Z"
+  },
+  {
+    "label": "mars_2022-12-08",
+    "body": "mars",
+    "iso": "2022-12-08T05:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 75.766,
+    "hash": "0d2dbdca93c9",
+    "downloaded_at": "2026-07-29T01:31:22.076Z"
+  },
+  {
+    "label": "mars_2025-01-15",
+    "body": "mars",
+    "iso": "2025-01-15T00:00:00",
+    "phase": "oposicion_retrogrado_2025",
+    "statusCode": 200,
+    "eclLon": 115.3523,
+    "hash": "5910f154e07d",
+    "downloaded_at": "2026-07-29T01:31:22.480Z"
+  },
+  {
+    "label": "jupiter_2024-12-07",
+    "body": "jupiter",
+    "iso": "2024-12-07T21:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 75.9046,
+    "hash": "c3af8bf53d69",
+    "downloaded_at": "2026-07-29T01:31:22.954Z"
+  },
+  {
+    "label": "jupiter_2024-06-21",
+    "body": "jupiter",
+    "iso": "2024-06-21T12:00:00",
+    "phase": "snapshot_referencia",
+    "statusCode": 200,
+    "eclLon": 60.9785,
+    "hash": "d56dc9d2af30",
+    "downloaded_at": "2026-07-29T01:31:23.354Z"
+  },
+  {
+    "label": "saturn_2024-09-08",
+    "body": "saturn",
+    "iso": "2024-09-08T04:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 345.6778,
+    "hash": "52339175aa79",
+    "downloaded_at": "2026-07-29T01:31:23.764Z"
+  },
+  {
+    "label": "saturn_2024-06-21",
+    "body": "saturn",
+    "iso": "2024-06-21T12:00:00",
+    "phase": "snapshot_referencia",
+    "statusCode": 200,
+    "eclLon": 349.3705412,
+    "hash": "86bc163a9c9a",
+    "downloaded_at": "2026-07-29T01:31:24.313Z"
+  },
+  {
+    "label": "uranus_2024-11-17",
+    "body": "uranus",
+    "iso": "2024-11-17T00:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 55.5,
+    "hash": "1ead8c766a00",
+    "downloaded_at": "2026-07-29T01:31:24.784Z"
+  },
+  {
+    "label": "uranus_2024-06-21",
+    "body": "uranus",
+    "iso": "2024-06-21T12:00:00",
+    "phase": "snapshot_referencia",
+    "statusCode": 200,
+    "eclLon": 57.69,
+    "hash": "a38783b5092f",
+    "downloaded_at": "2026-07-29T01:31:25.195Z"
+  },
+  {
+    "label": "neptune_2024-09-21",
+    "body": "neptune",
+    "iso": "2024-09-21T00:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 358.165,
+    "hash": "17e1be6f47b2",
+    "downloaded_at": "2026-07-29T01:31:25.609Z"
+  },
+  {
+    "label": "neptune_2024-06-21",
+    "body": "neptune",
+    "iso": "2024-06-21T12:00:00",
+    "phase": "snapshot_referencia",
+    "statusCode": 200,
+    "eclLon": 357.6104,
+    "hash": "fe66dd5ee038",
+    "downloaded_at": "2026-07-29T01:31:26.463Z"
+  },
+  {
+    "label": "pluto_2024-07-23",
+    "body": "pluto",
+    "iso": "2024-07-23T00:00:00",
+    "phase": "oposicion_retrogrado",
+    "statusCode": 200,
+    "eclLon": 300.5213,
+    "hash": "dcbb831dbeec",
+    "downloaded_at": "2026-07-29T01:31:26.858Z"
+  },
+  {
+    "label": "pluto_2024-11-19",
+    "body": "pluto",
+    "iso": "2024-11-19T20:00:00",
+    "phase": "entrada_acuario",
+    "statusCode": 200,
+    "eclLon": 301.0802,
+    "hash": "f7b0bc31e02f",
+    "downloaded_at": "2026-07-29T01:31:27.328Z"
+  }
+]

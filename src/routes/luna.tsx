@@ -19,13 +19,13 @@ import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
 export const Route = createFileRoute("/luna")({
   head: () => ({
     meta: [
-      { title: "Luna hoy, calendario y fases — Proyecto Astral" },
+      { title: "Luna hoy, calendario y fases — Creovision" },
       {
         name: "description",
         content:
           "Fase lunar de hoy, calendario mensual y las ocho fases del ciclo, calculadas con un motor astronómico validado.",
       },
-      { property: "og:title", content: "Luna — Proyecto Astral" },
+      { property: "og:title", content: "Luna — Creovision" },
       {
         property: "og:description",
         content:

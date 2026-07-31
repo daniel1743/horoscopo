@@ -9,7 +9,7 @@ import { Route as AdminRoute } from "./route";
 export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
-      { title: "Panel administrativo — Proyecto Astral" },
+      { title: "Panel administrativo — Creovision" },
       { name: "description", content: "Área privada de gestión editorial y administrativa." },
       { name: "robots", content: "noindex, nofollow" },
     ],

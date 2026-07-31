@@ -14,7 +14,7 @@ export const Route = createFileRoute("/guias")({
   },
   head: () => {
     const m = buildMeta({
-      title: "Guías — Proyecto Astral",
+      title: "Guías — Creovision",
       description:
         "Ensayos y artículos editoriales sobre astrología, tarot, luna y compatibilidad, con una mirada clara y contemporánea.",
     });

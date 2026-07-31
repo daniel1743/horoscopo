@@ -53,6 +53,14 @@ function parseTendency(raw: string): TarotYesNoTendency {
   return "open";
 }
 
+function sanitizeEditorialText(text: string | null): string | null {
+  if (!text) return text;
+  if (text.includes("Frase genérica de prueba editorial")) {
+    return "Una revelación aguarda ser descubierta.";
+  }
+  return text;
+}
+
 export function mapTarotCardRow(row: TarotCardRow): TarotCard {
   return {
     id: row.id,
@@ -63,11 +71,11 @@ export function mapTarotCardRow(row: TarotCardRow): TarotCard {
     number: row.number,
     suit: parseSuit(row.suit),
     rank: row.rank,
-    summary: row.summary,
-    uprightMeaning: row.upright_meaning,
-    reversedMeaning: row.reversed_meaning,
+    summary: sanitizeEditorialText(row.summary) || "",
+    uprightMeaning: sanitizeEditorialText(row.upright_meaning) || "",
+    reversedMeaning: sanitizeEditorialText(row.reversed_meaning),
     keywords: parseKeywords(row.keywords),
-    reflectionQuestion: row.reflection_question,
+    reflectionQuestion: sanitizeEditorialText(row.reflection_question),
     yesNoTendency: parseTendency(row.yes_no_tendency),
     imageKey: row.image_key,
     displayOrder: row.display_order,

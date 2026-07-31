@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { TarotCardVisual } from "./TarotCardVisual";
 import type { TarotDrawnCard } from "@/types/tarot";
 import { tarotCardRoute } from "@/config/routes";
+import { TarotContextualGuide } from "./TarotContextualGuide";
+import { buildDailyTarotIntroduction } from "@/lib/tarot/daily-introduction";
 
 interface Props {
   drawn: TarotDrawnCard;
@@ -12,6 +14,9 @@ interface Props {
 /** Resultado de UNA posición dentro de una tirada. */
 export function TarotPositionResult({ drawn, showPosition = true, revealed = true }: Props) {
   const { card, position } = drawn;
+  const description =
+    position.key === "daily_message" ? buildDailyTarotIntroduction(card) : position.description;
+
   return (
     <article className="flex flex-col gap-4 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-5 md:flex-row md:gap-6 md:p-6">
       <div className="mx-auto md:mx-0">
@@ -24,9 +29,7 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
           </p>
         )}
         <h3 className="mt-1 font-display text-[22px] text-ink">{card.name}</h3>
-        <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">
-          {position.description}
-        </p>
+        <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">{description}</p>
         <p className="mt-3 font-body text-[15px] leading-[1.7] text-ink">{card.uprightMeaning}</p>
         {card.reflectionQuestion && (
           <p className="mt-3 border-l-2 border-cosmic/40 pl-3 font-display text-[15px] italic text-ink">
@@ -45,6 +48,13 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
             ))}
           </ul>
         )}
+
+        {revealed && (
+          <div className="mt-2">
+            <TarotContextualGuide card={card} position={position} />
+          </div>
+        )}
+
         <Link
           to={tarotCardRoute(card.slug)}
           className="mt-4 inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"

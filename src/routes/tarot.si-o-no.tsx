@@ -5,7 +5,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/tarot/si-o-no")({
   head: () => {
     const m = buildMeta({
-      title: "Tarot sí o no · Proyecto Astral",
+      title: "Tarot sí o no · Creovision",
       description:
         "Una consulta orientativa del tarot que sugiere avance, cautela o la necesidad de observar más antes de decidir.",
     });

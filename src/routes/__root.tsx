@@ -78,14 +78,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Proyecto Astral — Astrología editorial contemporánea" },
+      { title: "Creovision — Astrología editorial contemporánea" },
       {
         name: "description",
         content:
           "Horóscopo, tarot, compatibilidad y ciclos lunares con una mirada editorial clara, íntima y visualmente cuidada.",
       },
-      { name: "author", content: "Proyecto Astral" },
-      { property: "og:title", content: "Proyecto Astral" },
+      { name: "author", content: "Creovision" },
+      { property: "og:title", content: "Creovision" },
       {
         property: "og:description",
         content: "Astrología, tarot y luna con una voz editorial serena.",

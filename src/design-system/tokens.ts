@@ -1,5 +1,5 @@
 /**
- * Proyecto Astral — Tokens de diseño (TypeScript)
+ * Creovision — Tokens de diseño (TypeScript)
  * ------------------------------------------------------------
  * Espejo tipado de los tokens definidos en `src/styles.css`.
  * NO redefinir valores en componentes: importar desde aquí o

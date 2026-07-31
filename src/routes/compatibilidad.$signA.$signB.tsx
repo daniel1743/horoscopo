@@ -39,7 +39,7 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
     const nameA = a?.name ?? params.signA;
     const nameB = b?.name ?? params.signB;
     const m = buildMeta({
-      title: `${nameA} y ${nameB}: compatibilidad simbólica · Proyecto Astral`,
+      title: `${nameA} y ${nameB}: compatibilidad simbólica · Creovision`,
       description: `Lectura editorial de la dinámica entre ${nameA} y ${nameB}: comunicación, ritmo emocional y áreas de crecimiento.`,
     });
     return { meta: m.meta, links: m.links };

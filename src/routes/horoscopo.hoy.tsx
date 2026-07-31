@@ -10,7 +10,7 @@ export const Route = createFileRoute("/horoscopo/hoy")({
   },
   head: () => {
     const m = buildMeta({
-      title: "Horóscopo de hoy — Proyecto Astral",
+      title: "Horóscopo de hoy — Creovision",
       description: "Tendencia diaria por signo, con foco, ánimo y energía.",
     });
     return { meta: m.meta, links: m.links };

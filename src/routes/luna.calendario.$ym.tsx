@@ -33,7 +33,7 @@ export const Route = createFileRoute("/luna/calendario/$ym")({
     const label = params ? formatMonthYear(params.year, params.month) : "Calendario";
     return {
       meta: [
-        { title: `Calendario lunar · ${label} — Proyecto Astral` },
+        { title: `Calendario lunar · ${label} — Creovision` },
         {
           name: "description",
           content: `Fases lunares y eventos mayores en ${label}. Cálculos astronómicos validados.`,

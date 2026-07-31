@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,15 +8,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { routes } from "@/config/routes";
+import {
+  exchangeRecoveryCode,
+  RECOVERY_LINK_ERROR,
+  updateRecoveryPassword,
+} from "@/lib/account/auth-profile";
 import { toast } from "sonner";
 
-/**
- * Página pública para completar el reseteo. Requiere que Supabase haya
- * cargado la sesión de recovery a partir del enlace (hash type=recovery).
- */
+type RecoveryState = "checking" | "ready" | "invalid" | "success";
+
 export function ResetPasswordPage() {
   const navigate = useNavigate();
-  const [ready, setReady] = useState(false);
+  const exchangedCodeRef = useRef<string | null>(null);
+  const exchangePromiseRef = useRef<ReturnType<typeof exchangeRecoveryCode> | null>(null);
+  const [recoveryState, setRecoveryState] = useState<RecoveryState>("checking");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -24,44 +29,83 @@ export function ResetPasswordPage() {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setReady(Boolean(data.session));
-    });
+    let mounted = true;
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("code");
+
+    const removeRecoveryCode = () => {
+      url.searchParams.delete("code");
+      const nextUrl = `${url.pathname}${url.search}${url.hash}`;
+      window.history.replaceState(window.history.state, "", nextUrl);
+    };
+
+    if (code) {
+      const exchangedCode = exchangedCodeRef.current;
+      const exchangePromise =
+        exchangedCode === code && exchangePromiseRef.current
+          ? exchangePromiseRef.current
+          : exchangeRecoveryCode({
+              code,
+              exchangedCode,
+              exchangeCodeForSession: (value) => supabase.auth.exchangeCodeForSession(value),
+            });
+
+      exchangedCodeRef.current = code;
+      exchangePromiseRef.current = exchangePromise;
+      exchangePromise
+        .then((result) => {
+          if (!mounted) return;
+          removeRecoveryCode();
+          setRecoveryState(result.status === "ready" ? "ready" : "invalid");
+        })
+        .catch(() => {
+          if (!mounted) return;
+          removeRecoveryCode();
+          setRecoveryState("invalid");
+        });
+    } else {
+      setRecoveryState("invalid");
+    }
+
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") setReady(true);
+      if (event === "PASSWORD_RECOVERY") setRecoveryState("ready");
     });
-    return () => sub.subscription.unsubscribe();
+
+    return () => {
+      mounted = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (busy) return;
+    if (busy || recoveryState !== "ready") return;
 
-    const nextErrors: Record<string, string> = {};
-    if (!password) nextErrors.password = "Ingresa tu nueva contraseña.";
-    else if (password.length < 8) {
-      nextErrors.password = "La contraseña debe tener al menos 8 caracteres.";
-    }
-    if (!confirmPassword) nextErrors.confirmPassword = "Confirma tu nueva contraseña.";
-    else if (password !== confirmPassword) {
-      nextErrors.confirmPassword = "Las contraseñas no coinciden.";
-    }
-
-    setErrors(nextErrors);
     setFormError(null);
-    if (Object.keys(nextErrors).length > 0) return;
-
     setBusy(true);
-    const { error } = await supabase.auth.updateUser({ password });
+    const result = await updateRecoveryPassword({
+      password,
+      confirmPassword,
+      updateUser: (attributes) => supabase.auth.updateUser(attributes),
+    });
+    setErrors(result.errors);
     setBusy(false);
-    if (error) {
-      setFormError("No pudimos actualizar tu contraseña. Inténtalo nuevamente.");
+
+    if (!result.ok) {
+      if (result.message) setFormError(result.message);
       return;
     }
-    toast.success("Tu contraseña fue actualizada correctamente.");
-    navigate({ to: routes.account, replace: true });
+
+    const message = result.message ?? "Tu contraseña fue actualizada correctamente";
+    setSuccessMessage(message);
+    setRecoveryState("success");
+    toast.success(message);
+    window.setTimeout(() => {
+      navigate({ to: routes.account, replace: true });
+    }, 1400);
   };
 
   return (
@@ -72,18 +116,35 @@ export function ResetPasswordPage() {
           Elige una contraseña segura que puedas recordar.
         </p>
 
-        {!ready ? (
+        {recoveryState === "checking" && (
+          <Alert className="mt-6">
+            <AlertDescription>Verificando el enlace de recuperación.</AlertDescription>
+          </Alert>
+        )}
+
+        {recoveryState === "invalid" && (
+          <Alert className="mt-6" variant="destructive">
+            <AlertDescription>{RECOVERY_LINK_ERROR}</AlertDescription>
+            <Button
+              type="button"
+              className="mt-3"
+              variant="secondary"
+              onClick={() => navigate({ to: routes.signIn, search: { mode: "forgot" } })}
+            >
+              Solicitar otro enlace
+            </Button>
+          </Alert>
+        )}
+
+        {recoveryState === "success" && (
           <Alert className="mt-6">
             <AlertDescription>
-              Abre este enlace desde el correo de recuperación. Si el enlace expiró, solicita uno
-              nuevo desde{" "}
-              <a href={routes.signIn + "?mode=forgot"} className="underline">
-                Iniciar sesión
-              </a>
-              .
+              {successMessage ?? "Tu contraseña fue actualizada correctamente"}
             </AlertDescription>
           </Alert>
-        ) : (
+        )}
+
+        {recoveryState === "ready" && (
           <form onSubmit={submit} className="mt-6 space-y-4" noValidate>
             {formError && (
               <Alert variant="destructive">
@@ -109,7 +170,7 @@ export function ResetPasswordPage() {
               error={errors.confirmPassword}
             />
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? "Guardando…" : "Actualizar contraseña"}
+              {busy ? "Guardando..." : "Actualizar contraseña"}
             </Button>
           </form>
         )}

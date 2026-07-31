@@ -9,13 +9,13 @@ import { routes } from "@/config/routes";
 export const Route = createFileRoute("/luna/fases")({
   head: () => ({
     meta: [
-      { title: "Las 8 fases lunares — Proyecto Astral" },
+      { title: "Las 8 fases lunares — Creovision" },
       {
         name: "description",
         content:
           "Índice completo de las ocho fases del ciclo lunar: astronomía y lectura simbólica.",
       },
-      { property: "og:title", content: "Las 8 fases lunares — Proyecto Astral" },
+      { property: "og:title", content: "Las 8 fases lunares — Creovision" },
       {
         property: "og:description",
         content: "Astronomía y lectura simbólica de las ocho fases del ciclo lunar.",

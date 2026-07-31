@@ -19,7 +19,7 @@ export const Route = createFileRoute("/temas/$category")({
     }
     const { category } = loaderData;
     const m = buildMeta({
-      title: `${category.label} | Proyecto Astral`,
+      title: `${category.label} | Creovision`,
       description: category.description ?? undefined,
       canonical: categoryRoute(category.slug),
     });

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { Eye, EyeOff } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getSupabaseClientDiagnostics, supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -25,6 +25,54 @@ import { toast } from "sonner";
 
 type Mode = "signin" | "signup" | "forgot";
 type FieldErrors = Record<string, string>;
+type AuthMessage = { kind: "error" | "info"; text: string; action?: "resend-confirmation" };
+
+function getAuthDebugError(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return { message: String(error) };
+  }
+
+  const record = error as Record<string, unknown>;
+  return {
+    name: record.name,
+    message: record.message,
+    status: record.status,
+    code: record.code,
+    cause: record.cause,
+  };
+}
+
+function getEmailDebug(email: string) {
+  const trimmed = email.trim();
+  const [, domain] = trimmed.split("@");
+  return {
+    hasEmail: Boolean(trimmed),
+    emailDomain: domain || "",
+  };
+}
+
+function getSignUpDebugData(data: Awaited<ReturnType<typeof supabase.auth.signUp>>["data"]) {
+  return {
+    hasSession: Boolean(data.session),
+    userCreated: Boolean(data.user),
+    confirmationSentAt: data.user?.confirmation_sent_at ?? null,
+    emailConfirmedAt: data.user?.email_confirmed_at ?? null,
+    identitiesCount: data.user?.identities?.length ?? null,
+  };
+}
+
+function authDebug(action: string, phase: string, details: Record<string, unknown> = {}) {
+  if (typeof window === "undefined") return;
+
+  console.groupCollapsed(`[Auth Debug] ${action}: ${phase}`);
+  console.info("Supabase", getSupabaseClientDiagnostics());
+  console.info("Details", {
+    timestamp: new Date().toISOString(),
+    location: window.location.href,
+    ...details,
+  });
+  console.groupEnd();
+}
 
 export function AuthPage() {
   const navigate = useNavigate();
@@ -43,12 +91,40 @@ export function AuthPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [busy, setBusy] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [message, setMessage] = useState<{ kind: "error" | "info"; text: string } | null>(null);
+  const [message, setMessage] = useState<AuthMessage | null>(null);
+  const [confirmationEmail, setConfirmationEmail] = useState("");
 
   useEffect(() => {
     setFieldErrors({});
     setMessage(null);
   }, [mode]);
+
+  useEffect(() => {
+    const onError = (event: ErrorEvent) => {
+      authDebug("window", "error", {
+        message: event.message,
+        source: event.filename,
+        line: event.lineno,
+        column: event.colno,
+        error: getAuthDebugError(event.error),
+      });
+    };
+
+    const onUnhandledRejection = (event: PromiseRejectionEvent) => {
+      authDebug("window", "unhandledrejection", {
+        reason: getAuthDebugError(event.reason),
+      });
+    };
+
+    window.addEventListener("error", onError);
+    window.addEventListener("unhandledrejection", onUnhandledRejection);
+    authDebug("page", "loaded");
+
+    return () => {
+      window.removeEventListener("error", onError);
+      window.removeEventListener("unhandledrejection", onUnhandledRejection);
+    };
+  }, []);
 
   const title = useMemo(() => {
     if (mode === "signup") return "Crear cuenta";
@@ -69,17 +145,32 @@ export function AuthPage() {
 
     setBusy(true);
     setMessage(null);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
-    setBusy(false);
-    if (error) {
-      setMessage({ kind: "error", text: authErrorMessage(error.message) });
-      return;
+    authDebug("signInWithPassword", "start", getEmailDebug(email));
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) {
+        authDebug("signInWithPassword", "supabase-error", {
+          ...getEmailDebug(email),
+          error: getAuthDebugError(error),
+        });
+        setMessage({ kind: "error", text: authErrorMessage(error.message) });
+        return;
+      }
+      authDebug("signInWithPassword", "success", getEmailDebug(email));
+      toast.success("Sesión iniciada correctamente.");
+      navigate({ to: redirectTo });
+    } catch (error) {
+      authDebug("signInWithPassword", "unexpected-error", {
+        ...getEmailDebug(email),
+        error: getAuthDebugError(error),
+      });
+      setMessage({ kind: "error", text: "No pudimos iniciar sesión. Inténtalo nuevamente." });
+    } finally {
+      setBusy(false);
     }
-    toast.success("Sesión iniciada correctamente.");
-    navigate({ to: redirectTo });
   };
 
   const signUp = async (event: React.FormEvent) => {
@@ -97,28 +188,100 @@ export function AuthPage() {
 
     setBusy(true);
     setMessage(null);
-    const { data, error } = await supabase.auth.signUp({
-      email: email.trim(),
-      password,
-      options: {
-        emailRedirectTo: AUTH_CALLBACK_URL,
-        data: {
-          display_name: normalizeDisplayName(displayName),
-        },
-      },
+    authDebug("signUp", "start", {
+      ...getEmailDebug(email),
+      emailRedirectTo: AUTH_CALLBACK_URL,
     });
-    setBusy(false);
-    if (error) {
-      setMessage({ kind: "error", text: authErrorMessage(error.message) });
-      return;
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: email.trim(),
+        password,
+        options: {
+          emailRedirectTo: AUTH_CALLBACK_URL,
+          data: {
+            display_name: normalizeDisplayName(displayName),
+          },
+        },
+      });
+      if (error) {
+        authDebug("signUp", "supabase-error", {
+          ...getEmailDebug(email),
+          error: getAuthDebugError(error),
+        });
+        setMessage({ kind: "error", text: authErrorMessage(error.message) });
+        return;
+      }
+      authDebug("signUp", "success", {
+        ...getEmailDebug(email),
+        ...getSignUpDebugData(data),
+      });
+      if (data.session) {
+        toast.success("Cuenta creada.");
+        navigate({ to: routes.account });
+        return;
+      }
+      setConfirmationEmail(email.trim());
+      toast.success("Cuenta creada. Revisa tu correo para confirmarla.");
+      setMessage({
+        kind: "info",
+        text: "Revisa tu correo para confirmar tu cuenta.",
+        action: "resend-confirmation",
+      });
+    } catch (error) {
+      authDebug("signUp", "unexpected-error", {
+        ...getEmailDebug(email),
+        error: getAuthDebugError(error),
+      });
+      setMessage({ kind: "error", text: "No pudimos crear la cuenta. Inténtalo nuevamente." });
+    } finally {
+      setBusy(false);
     }
-    if (data.session) {
-      toast.success("Cuenta creada.");
-      navigate({ to: routes.account });
-      return;
+  };
+
+  const resendConfirmation = async () => {
+    if (busy) return;
+    const targetEmail = confirmationEmail || email.trim();
+    const emailError = validateEmail(targetEmail);
+    setFieldErrors(emailError ? { email: emailError } : {});
+    if (emailError) return;
+
+    setBusy(true);
+    authDebug("resend", "start", {
+      ...getEmailDebug(targetEmail),
+      type: "signup",
+      emailRedirectTo: AUTH_CALLBACK_URL,
+    });
+    try {
+      const { error } = await supabase.auth.resend({
+        type: "signup",
+        email: targetEmail,
+        options: {
+          emailRedirectTo: AUTH_CALLBACK_URL,
+        },
+      });
+      if (error) {
+        authDebug("resend", "supabase-error", {
+          ...getEmailDebug(targetEmail),
+          error: getAuthDebugError(error),
+        });
+        setMessage({ kind: "error", text: authErrorMessage(error.message) });
+        return;
+      }
+      authDebug("resend", "success", getEmailDebug(targetEmail));
+      toast.success("Te reenviamos el correo de confirmación.");
+      setMessage({ kind: "info", text: "Te reenviamos el correo de confirmación." });
+    } catch (error) {
+      authDebug("resend", "unexpected-error", {
+        ...getEmailDebug(targetEmail),
+        error: getAuthDebugError(error),
+      });
+      setMessage({
+        kind: "error",
+        text: "No pudimos reenviar el correo. Inténtalo nuevamente.",
+      });
+    } finally {
+      setBusy(false);
     }
-    toast.success("Cuenta creada. Revisa tu correo para confirmarla.");
-    setMessage({ kind: "info", text: "Revisa tu correo para confirmar tu cuenta." });
   };
 
   const recover = async (event: React.FormEvent) => {
@@ -130,27 +293,69 @@ export function AuthPage() {
 
     setBusy(true);
     setMessage(null);
-    await supabase.auth.resetPasswordForEmail(email.trim(), {
+    authDebug("resetPasswordForEmail", "start", {
+      ...getEmailDebug(email),
       redirectTo: PASSWORD_RECOVERY_URL,
     });
-    setBusy(false);
-    toast.success("Te enviamos un enlace para restablecer tu contraseña.");
-    setMessage({
-      kind: "info",
-      text: "Si el correo existe, recibirás un enlace para restablecer tu contraseña.",
-    });
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: PASSWORD_RECOVERY_URL,
+      });
+      if (error) {
+        authDebug("resetPasswordForEmail", "supabase-error", {
+          ...getEmailDebug(email),
+          error: getAuthDebugError(error),
+        });
+        setMessage({ kind: "error", text: authErrorMessage(error.message) });
+        return;
+      }
+      authDebug("resetPasswordForEmail", "success", getEmailDebug(email));
+      toast.success("Te enviamos un enlace para restablecer tu contraseña.");
+      setMessage({
+        kind: "info",
+        text: "Si el correo existe, recibirás un enlace para restablecer tu contraseña.",
+      });
+    } catch (error) {
+      authDebug("resetPasswordForEmail", "unexpected-error", {
+        ...getEmailDebug(email),
+        error: getAuthDebugError(error),
+      });
+      setMessage({
+        kind: "error",
+        text: "No pudimos enviar el correo de recuperación. Inténtalo nuevamente.",
+      });
+    } finally {
+      setBusy(false);
+    }
   };
 
   const google = async () => {
     if (busy) return;
     setBusy(true);
     setMessage(null);
-    const { error } = await supabase.auth.signInWithOAuth({
+    authDebug("signInWithOAuth", "start", {
       provider: "google",
-      options: { redirectTo: AUTH_CALLBACK_URL },
+      redirectTo: AUTH_CALLBACK_URL,
     });
-    setBusy(false);
-    if (error) setMessage({ kind: "error", text: authErrorMessage(error.message) });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: AUTH_CALLBACK_URL },
+      });
+      if (error) {
+        authDebug("signInWithOAuth", "supabase-error", {
+          error: getAuthDebugError(error),
+        });
+        setMessage({ kind: "error", text: authErrorMessage(error.message) });
+      }
+    } catch (error) {
+      authDebug("signInWithOAuth", "unexpected-error", {
+        error: getAuthDebugError(error),
+      });
+      setMessage({ kind: "error", text: "No pudimos conectar con Google." });
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -201,6 +406,17 @@ export function AuthPage() {
           {message && (
             <Alert className="mt-5" variant={message.kind === "error" ? "destructive" : "default"}>
               <AlertDescription>{message.text}</AlertDescription>
+              {message.action === "resend-confirmation" && (
+                <Button
+                  type="button"
+                  variant="link"
+                  className="mt-2 h-auto p-0"
+                  disabled={busy}
+                  onClick={resendConfirmation}
+                >
+                  Reenviar correo de confirmación
+                </Button>
+              )}
             </Alert>
           )}
 

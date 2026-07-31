@@ -6,6 +6,8 @@ import { routes } from "@/config/routes";
 import { tarotService } from "@/services/tarot.service";
 import type { TarotDrawnCard } from "@/types/tarot";
 import { TarotCardVisual } from "@/components/tarot/TarotCardVisual";
+import { TarotContextualGuide } from "@/components/tarot/TarotContextualGuide";
+import { buildDailyTarotIntroduction } from "@/lib/tarot/daily-introduction";
 
 /** Tarjeta de tarot para la Home. Consume el servicio real; la misma carta se mantiene todo el día. */
 export function DailyTarotCard() {
@@ -56,13 +58,17 @@ export function DailyTarotCard() {
             {status === "empty"
               ? "Estamos completando la baraja."
               : revealed && drawn
-                ? drawn.card.summary
+                ? buildDailyTarotIntroduction(drawn.card)
                 : "Revélala cuando estés en calma para observar su símbolo."}
           </p>
           {revealed && drawn?.card.reflectionQuestion && (
             <p className="mt-3 border-l-2 border-gold/60 pl-4 font-display text-[15px] italic text-ink-inverse">
               {drawn.card.reflectionQuestion}
             </p>
+          )}
+
+          {revealed && drawn && (
+            <TarotContextualGuide card={drawn.card} readingContext="Carta del Día" />
           )}
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

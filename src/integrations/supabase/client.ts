@@ -6,8 +6,51 @@ function isNewSupabaseApiKey(value: string): boolean {
   return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }
 
+function normalizeSupabaseUrl(value: string): string {
+  const url = new URL(value);
+  url.pathname = url.pathname.replace(/\/(?:rest|auth|storage|functions)\/v1\/?$/, "");
+  return url.toString().replace(/\/$/, "");
+}
+
+function normalizeSupabaseRequestInput(input: RequestInfo | URL): RequestInfo | URL {
+  const normalizeUrl = (value: string) => value.replace("/rest/v1/auth/v1/", "/auth/v1/");
+
+  if (typeof input === "string") {
+    return normalizeUrl(input);
+  }
+
+  if (input instanceof URL) {
+    return new URL(normalizeUrl(input.toString()));
+  }
+
+  const normalizedUrl = normalizeUrl(input.url);
+  if (normalizedUrl === input.url) return input;
+
+  return new Request(normalizedUrl, input);
+}
+
+export function getSupabaseClientDiagnostics() {
+  const rawUrl = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || "";
+  const normalizedUrl = rawUrl ? normalizeSupabaseUrl(rawUrl) : "";
+  const publishableKey =
+    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || "";
+
+  return {
+    rawUrl,
+    normalizedUrl,
+    authEndpoint: normalizedUrl ? `${normalizedUrl}/auth/v1` : "",
+    projectRef: normalizedUrl ? new URL(normalizedUrl).hostname.split(".")[0] : "",
+    keyKind: publishableKey.startsWith("sb_publishable_")
+      ? "sb_publishable"
+      : publishableKey.split(".").length === 3
+        ? "jwt"
+        : "unknown",
+    hasPublishableKey: Boolean(publishableKey),
+  };
+}
+
 function createSupabaseFetch(supabaseKey: string): typeof fetch {
-  return (input, init) => {
+  return async (input, init) => {
     const headers = new Headers(
       typeof Request !== "undefined" && input instanceof Request ? input.headers : undefined,
     );
@@ -25,7 +68,32 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
     }
 
     headers.set("apikey", supabaseKey);
-    return fetch(input, { ...init, headers });
+    const normalizedInput = normalizeSupabaseRequestInput(input);
+    const response = await fetch(normalizedInput, { ...init, headers });
+    let requestUrl: string;
+    if (typeof normalizedInput === "string") {
+      requestUrl = normalizedInput;
+    } else if (normalizedInput instanceof URL) {
+      requestUrl = normalizedInput.toString();
+    } else {
+      requestUrl = normalizedInput.url;
+    }
+
+    if (!response.ok && requestUrl.includes("/auth/v1/")) {
+      const body = await response
+        .clone()
+        .json()
+        .catch(() => null);
+
+      console.error("[Supabase Auth HTTP Error]", {
+        status: response.status,
+        statusText: response.statusText,
+        url: requestUrl,
+        body,
+      });
+    }
+
+    return response;
   };
 }
 
@@ -46,7 +114,7 @@ function createSupabaseClient() {
     throw new Error(message);
   }
 
-  return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  return createClient<Database>(normalizeSupabaseUrl(SUPABASE_URL), SUPABASE_PUBLISHABLE_KEY, {
     global: {
       fetch: createSupabaseFetch(SUPABASE_PUBLISHABLE_KEY),
     },

@@ -9,7 +9,7 @@ export const Route = createFileRoute("/compatibilidad/")({
     context.queryClient.ensureQueryData(compatibilityQueries.featured(6)),
   head: () => {
     const m = buildMeta({
-      title: `Compatibilidad entre signos · Proyecto Astral`,
+      title: `Compatibilidad entre signos · Creovision`,
       description: COMPATIBILITY_COPY.hubDescription,
     });
     return { meta: m.meta, links: m.links };

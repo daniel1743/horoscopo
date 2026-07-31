@@ -10,7 +10,7 @@ export const Route = createFileRoute("/horoscopo/mes")({
   },
   head: () => {
     const m = buildMeta({
-      title: "Horóscopo del mes — Proyecto Astral",
+      title: "Horóscopo del mes — Creovision",
       description: "Lectura mensual con los tránsitos más relevantes.",
     });
     return { meta: m.meta, links: m.links };

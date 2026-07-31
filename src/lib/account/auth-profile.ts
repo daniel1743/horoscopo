@@ -10,6 +10,15 @@ export interface AuthValidationResult {
   errors: Record<string, string>;
 }
 
+export interface PasswordUpdateResult {
+  ok: boolean;
+  errors: Record<string, string>;
+  message?: string;
+}
+
+export const RECOVERY_LINK_ERROR =
+  "Este enlace de recuperación expiró o ya fue utilizado. Solicita uno nuevo.";
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MIN_BIRTH_DATE = "1900-01-01";
 
@@ -27,6 +36,65 @@ export function validatePassword(password: string): string | null {
   if (!password) return "Ingresa tu contraseña.";
   if (password.length < 8) return "La contraseña debe tener al menos 8 caracteres.";
   return null;
+}
+
+export function validateNewPassword(input: {
+  password: string;
+  confirmPassword: string;
+}): AuthValidationResult {
+  const errors: Record<string, string> = {};
+
+  if (!input.password) errors.password = "Ingresa tu nueva contraseña.";
+  else if (input.password.length < 8) {
+    errors.password = "La contraseña debe tener al menos 8 caracteres.";
+  }
+
+  if (!input.confirmPassword) errors.confirmPassword = "Confirma tu nueva contraseña.";
+  else if (input.password !== input.confirmPassword) {
+    errors.confirmPassword = "Las contraseñas no coinciden.";
+  }
+
+  return { valid: Object.keys(errors).length === 0, errors };
+}
+
+export async function exchangeRecoveryCode(input: {
+  code: string | null;
+  exchangedCode: string | null;
+  exchangeCodeForSession: (code: string) => Promise<{ error: { message?: string } | null }>;
+}): Promise<{ status: "ready" | "invalid" | "duplicate" }> {
+  if (!input.code) return { status: "invalid" };
+  if (input.exchangedCode === input.code) return { status: "duplicate" };
+
+  const { error } = await input.exchangeCodeForSession(input.code);
+  if (error) return { status: "invalid" };
+
+  return { status: "ready" };
+}
+
+export async function updateRecoveryPassword(input: {
+  password: string;
+  confirmPassword: string;
+  updateUser: (attributes: { password: string }) => Promise<{ error: { message?: string } | null }>;
+}): Promise<PasswordUpdateResult> {
+  const validation = validateNewPassword({
+    password: input.password,
+    confirmPassword: input.confirmPassword,
+  });
+
+  if (!validation.valid) {
+    return { ok: false, errors: validation.errors };
+  }
+
+  const { error } = await input.updateUser({ password: input.password });
+  if (error) {
+    return {
+      ok: false,
+      errors: {},
+      message: "No pudimos actualizar tu contraseña. Inténtalo nuevamente.",
+    };
+  }
+
+  return { ok: true, errors: {}, message: "Tu contraseña fue actualizada correctamente" };
 }
 
 export function isSafeInternalRedirect(value: string | null): boolean {

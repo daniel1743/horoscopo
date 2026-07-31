@@ -13,7 +13,7 @@ export function EditorialMethodPage() {
     >
       <PageHeader
         eyebrow="Cómo trabajamos"
-        title="Método editorial de Proyecto Astral"
+        title="Método editorial de Creovision"
         description="Un compromiso con la claridad, el respeto por el lector y una mirada contemporánea sobre la astrología y el tarot."
       />
 

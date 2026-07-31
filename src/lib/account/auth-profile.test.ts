@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
+  exchangeRecoveryCode,
   isSafeInternalRedirect,
   isAstralProfileComplete,
   normalizeDisplayName,
+  updateRecoveryPassword,
   validateAstralProfile,
   validateEmail,
+  validateNewPassword,
   validateSignUp,
 } from "./auth-profile";
 
@@ -130,5 +133,92 @@ describe("auth profile validation", () => {
         profile_completed_at: "2026-07-30T00:00:00.000Z",
       }),
     ).toBe(true);
+  });
+
+  it("exchanges a valid recovery code", async () => {
+    const calls: string[] = [];
+    const result = await exchangeRecoveryCode({
+      code: "valid-code",
+      exchangedCode: null,
+      exchangeCodeForSession: async (code) => {
+        calls.push(code);
+        return { error: null };
+      },
+    });
+
+    expect(result.status).toBe("ready");
+    expect(calls).toEqual(["valid-code"]);
+  });
+
+  it("marks expired recovery links as invalid", async () => {
+    const result = await exchangeRecoveryCode({
+      code: "expired-code",
+      exchangedCode: null,
+      exchangeCodeForSession: async () => ({ error: { message: "expired" } }),
+    });
+
+    expect(result.status).toBe("invalid");
+  });
+
+  it("avoids exchanging the same recovery code twice", async () => {
+    let calls = 0;
+    const result = await exchangeRecoveryCode({
+      code: "same-code",
+      exchangedCode: "same-code",
+      exchangeCodeForSession: async () => {
+        calls += 1;
+        return { error: null };
+      },
+    });
+
+    expect(result.status).toBe("duplicate");
+    expect(calls).toBe(0);
+  });
+
+  it("rejects different recovery passwords", () => {
+    const result = validateNewPassword({
+      password: "password123",
+      confirmPassword: "password456",
+    });
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.confirmPassword).toBe("Las contraseñas no coinciden.");
+  });
+
+  it("rejects short recovery passwords", () => {
+    const result = validateNewPassword({
+      password: "short",
+      confirmPassword: "short",
+    });
+
+    expect(result.valid).toBe(false);
+    expect(result.errors.password).toContain("8 caracteres");
+  });
+
+  it("updates recovery password successfully", async () => {
+    const calls: Array<{ password: string }> = [];
+    const result = await updateRecoveryPassword({
+      password: "password123",
+      confirmPassword: "password123",
+      updateUser: async (attributes) => {
+        calls.push(attributes);
+        return { error: null };
+      },
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.message).toBe("Tu contraseña fue actualizada correctamente");
+    expect(calls).toEqual([{ password: "password123" }]);
+  });
+
+  it("returns a clear message when updateUser fails", async () => {
+    const result = await updateRecoveryPassword({
+      password: "password123",
+      confirmPassword: "password123",
+      updateUser: async () => ({ error: { message: "Auth session missing" } }),
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.message).toBe("No pudimos actualizar tu contraseña. Inténtalo nuevamente.");
   });
 });

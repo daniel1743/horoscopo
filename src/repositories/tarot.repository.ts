@@ -10,4 +10,6 @@ export interface TarotRepository {
   getCardByKey(cardKey: string): Promise<TarotCard | null>;
   getPublishedCardCount(): Promise<number>;
   getLibrary(opts?: { arcana?: TarotArcana; suit?: TarotSuit }): Promise<TarotCard[]>;
+  getPreviewCards?(opts?: { arcana?: TarotArcana; suit?: TarotSuit }): Promise<TarotCard[]>;
+  getPreviewCardBySlug?(slug: string): Promise<TarotCard | null>;
 }

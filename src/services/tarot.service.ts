@@ -2,7 +2,10 @@
  * Servicio de tarot. Consume el repositorio; nunca guarda preguntas ni resultados.
  */
 import type { TarotCard, TarotDrawnCard, TarotReading, TarotSpreadKey } from "@/types/tarot";
-import { supabaseTarotRepository } from "@/repositories/supabase-tarot.repository";
+import {
+  supabaseTarotRepository,
+  isTarotDraftPreviewEnabled,
+} from "@/repositories/supabase-tarot.repository";
 import type { TarotRepository } from "@/repositories/tarot.repository";
 import {
   drawOneCard,
@@ -41,9 +44,16 @@ function sanitizeQuestion(raw: string | undefined): string | undefined {
 export class TarotService {
   constructor(private readonly repo: TarotRepository = supabaseTarotRepository) {}
 
-  /** Devuelve la baraja publicada ordenada por display_order. */
+  private shouldUseTarotPreview(): boolean {
+    return isTarotDraftPreviewEnabled();
+  }
+
+  /** Devuelve la baraja correspondiente ordenada por display_order. */
   loadDeck(): Promise<TarotCard[]> {
-    return this.repo.getPublishedCards({ arcana: "major" });
+    if (this.shouldUseTarotPreview()) {
+      return this.repo.getPreviewCards?.() ?? Promise.resolve([]);
+    }
+    return this.repo.getPublishedCards();
   }
 
   /** Carta del día estable. Persiste en localStorage y renueva al cambiar la fecha. */
@@ -110,11 +120,27 @@ export class TarotService {
   }
 
   getCardBySlug(slug: string) {
+    if (this.shouldUseTarotPreview()) {
+      return this.repo.getPreviewCardBySlug?.(slug) ?? Promise.resolve(null);
+    }
     return this.repo.getCardBySlug(slug);
   }
+
   getLibrary(opts?: Parameters<TarotRepository["getLibrary"]>[0]) {
+    if (this.shouldUseTarotPreview()) {
+      return this.repo.getPreviewCards?.(opts) ?? Promise.resolve([]);
+    }
     return this.repo.getLibrary(opts);
   }
+
+  getPreviewCards(opts?: Parameters<NonNullable<TarotRepository["getPreviewCards"]>>[0]) {
+    return this.repo.getPreviewCards?.(opts) ?? Promise.resolve([]);
+  }
+
+  getPreviewCardBySlug(slug: string) {
+    return this.repo.getPreviewCardBySlug?.(slug) ?? Promise.resolve(null);
+  }
+
   getPublishedCardCount() {
     return this.repo.getPublishedCardCount();
   }

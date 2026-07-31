@@ -15,10 +15,10 @@ export function AccountShell({ title, description, children }: Props) {
     <PageShell>
       <PageHeader eyebrow="Mi espacio" title={title} description={description} />
       <div className="mt-8 grid gap-6 lg:grid-cols-[260px_1fr]">
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+        <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <AccountSidebar />
         </aside>
-        <div>{children}</div>
+        <div className="min-w-0">{children}</div>
       </div>
     </PageShell>
   );

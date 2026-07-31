@@ -4,12 +4,12 @@ import { ResetPasswordPage } from "@/pages/account/ResetPasswordPage";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Restablecer contraseña — Proyecto Astral" },
+      { title: "Restablecer contraseña — Creovision" },
       {
         name: "description",
         content: "Elige una nueva contraseña para tu cuenta.",
       },
-      { property: "og:title", content: "Restablecer contraseña — Proyecto Astral" },
+      { property: "og:title", content: "Restablecer contraseña — Creovision" },
       { property: "og:description", content: "Elige una nueva contraseña para tu cuenta." },
       { name: "robots", content: "noindex,nofollow" },
     ],

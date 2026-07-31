@@ -4,9 +4,9 @@ import { Placeholder } from "@/components/layout/Placeholder";
 export const Route = createFileRoute("/aviso-de-responsabilidad")({
   head: () => ({
     meta: [
-      { title: "Aviso de responsabilidad — Proyecto Astral" },
+      { title: "Aviso de responsabilidad — Creovision" },
       { name: "description", content: "El alcance del contenido editorial." },
-      { property: "og:title", content: "Aviso de responsabilidad — Proyecto Astral" },
+      { property: "og:title", content: "Aviso de responsabilidad — Creovision" },
       { property: "og:description", content: "El alcance del contenido editorial." },
     ],
   }),

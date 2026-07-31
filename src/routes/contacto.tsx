@@ -4,9 +4,9 @@ import { Placeholder } from "@/components/layout/Placeholder";
 export const Route = createFileRoute("/contacto")({
   head: () => ({
     meta: [
-      { title: "Contacto — Proyecto Astral" },
+      { title: "Contacto — Creovision" },
       { name: "description", content: "Escríbenos para dudas, colaboraciones o prensa." },
-      { property: "og:title", content: "Contacto — Proyecto Astral" },
+      { property: "og:title", content: "Contacto — Creovision" },
       { property: "og:description", content: "Escríbenos para dudas, colaboraciones o prensa." },
     ],
   }),

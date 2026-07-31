@@ -4,7 +4,7 @@ import { AuthCallbackPage } from "@/pages/account/AuthCallbackPage";
 export const Route = createFileRoute("/auth/callback")({
   head: () => ({
     meta: [
-      { title: "Verificando… — Proyecto Astral" },
+      { title: "Verificando… — Creovision" },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
