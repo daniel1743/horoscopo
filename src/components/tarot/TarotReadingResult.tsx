@@ -1,7 +1,12 @@
+import { useEffect, useRef } from "react";
 import { TarotPositionResult } from "./TarotPositionResult";
+import { TarotInterpretationLoading } from "./TarotInterpretationLoading";
+import { ThreeCardSynthesisResult } from "./ThreeCardSynthesisResult";
+import { ThreeCardReadingGuide } from "./ThreeCardReadingGuide";
 import { TarotReadingDisclaimer } from "./TarotReadingDisclaimer";
 import { tarotThreeCardsSynthesis, yesNoLabels } from "@/config/tarot";
-import type { TarotReading } from "@/types/tarot";
+import { useThreeCardInterpretation } from "@/hooks/useThreeCardInterpretation";
+import type { TarotReading, ThreeCardReadingConfig } from "@/types/tarot";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
@@ -9,14 +14,60 @@ import { isFeatureEnabled } from "@/config/features";
 
 interface Props {
   reading: TarotReading;
+  readingConfig?: ThreeCardReadingConfig;
+  userContext?: string;
   onDrawAgain?: () => void;
   showSynthesis?: boolean;
 }
 
 /** Resultado agregado de una tirada (1 o 3 cartas). */
-export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Props) {
+export function TarotReadingResult({
+  reading,
+  readingConfig,
+  userContext,
+  onDrawAgain,
+  showSynthesis,
+}: Props) {
   const yesNo =
     reading.spread === "yes_no" ? yesNoLabels[reading.drawn[0].card.yesNoTendency] : null;
+
+  const shouldInterpret =
+    reading.spread === "three_cards" && readingConfig && reading.drawn.length === 3;
+
+  const { interpretation, isLoading, interpret } = useThreeCardInterpretation(
+    shouldInterpret
+      ? {
+          config: readingConfig,
+          cardSlugs: [
+            reading.drawn[0].card.slug,
+            reading.drawn[1].card.slug,
+            reading.drawn[2].card.slug,
+          ] as [string, string, string],
+          userContext,
+        }
+      : {
+          config: readingConfig!,
+          cardSlugs: ["", "", ""] as [string, string, string],
+          userContext: undefined,
+        },
+  );
+
+  // Controlar que solo se ejecute una vez por reading
+  const interpretedReadingId = useRef<string | null>(null);
+  const currentReadingId = reading.drawn.map((d) => d.card.id).join("-");
+
+  // Interpretar automáticamente al cargar (solo una vez por reading)
+  useEffect(() => {
+    if (
+      shouldInterpret &&
+      !interpretation &&
+      !isLoading &&
+      interpretedReadingId.current !== currentReadingId
+    ) {
+      interpretedReadingId.current = currentReadingId;
+      interpret();
+    }
+  }, [shouldInterpret, interpretation, isLoading, currentReadingId, interpret]);
 
   return (
     <section aria-label="Resultado de la lectura" className="mt-8 flex flex-col gap-4">
@@ -32,17 +83,27 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
         </div>
       )}
 
+      {isLoading && <TarotInterpretationLoading compact />}
+
       <div className="grid gap-4">
         {reading.drawn.map((d, i) => (
           <TarotPositionResult
             key={`${d.card.id}-${i}`}
             drawn={d}
+            positionConfig={readingConfig?.positions[i]}
+            userContext={userContext}
+            theme={readingConfig?.slug}
+            interpretation={interpretation?.positions?.[i]}
             showPosition={reading.spread !== "yes_no"}
           />
         ))}
       </div>
 
-      {showSynthesis && reading.spread === "three_cards" && (
+      {interpretation?.synthesis && readingConfig && (
+        <ThreeCardSynthesisResult synthesis={interpretation.synthesis} config={readingConfig} />
+      )}
+
+      {showSynthesis && reading.spread === "three_cards" && !readingConfig && (
         <div className="rounded-[var(--radius-card-md)] border border-line-soft bg-parchment p-5">
           <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
             Cómo integrar la lectura
@@ -51,6 +112,11 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
             {tarotThreeCardsSynthesis}
           </p>
         </div>
+      )}
+
+      {/* Preguntar sobre esta lectura completa */}
+      {interpretation && readingConfig && reading.spread === "three_cards" && (
+        <ThreeCardReadingGuide reading={reading} config={readingConfig} userContext={userContext} />
       )}
 
       {onDrawAgain && (

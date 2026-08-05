@@ -1,21 +1,43 @@
 import { Link } from "@tanstack/react-router";
 import { TarotCardVisual } from "./TarotCardVisual";
-import type { TarotDrawnCard } from "@/types/tarot";
+import type { TarotDrawnCard, ThreeCardPositionConfig } from "@/types/tarot";
 import { tarotCardRoute } from "@/config/routes";
 import { TarotContextualGuide } from "./TarotContextualGuide";
 import { buildDailyTarotIntroduction } from "@/lib/tarot/daily-introduction";
 
 interface Props {
   drawn: TarotDrawnCard;
+  positionConfig?: ThreeCardPositionConfig;
+  userContext?: string;
+  theme?: string;
+  interpretation?: {
+    interpretation: string;
+    positiveValue: string;
+    caution: string;
+    practicalFocus: string;
+  };
   showPosition?: boolean;
   revealed?: boolean;
 }
 
 /** Resultado de UNA posición dentro de una tirada. */
-export function TarotPositionResult({ drawn, showPosition = true, revealed = true }: Props) {
+export function TarotPositionResult({
+  drawn,
+  positionConfig,
+  userContext,
+  theme,
+  interpretation,
+  showPosition = true,
+  revealed = true,
+}: Props) {
   const { card, position } = drawn;
-  const description =
-    position.key === "daily_message" ? buildDailyTarotIntroduction(card) : position.description;
+
+  const positionLabel = positionConfig?.label ?? position.label;
+  const positionDescription = positionConfig
+    ? positionConfig.description
+    : position.key === "daily_message"
+      ? buildDailyTarotIntroduction(card)
+      : position.description;
 
   return (
     <article className="flex flex-col gap-4 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-5 md:flex-row md:gap-6 md:p-6">
@@ -25,12 +47,24 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
       <div className="flex flex-1 flex-col">
         {showPosition && (
           <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
-            {position.label}
+            {positionLabel}
           </p>
         )}
         <h3 className="mt-1 font-display text-[22px] text-ink">{card.name}</h3>
-        <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">{description}</p>
-        <p className="mt-3 font-body text-[15px] leading-[1.7] text-ink">{card.uprightMeaning}</p>
+        <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">
+          {positionDescription}
+        </p>
+
+        {interpretation ? (
+          <div className="mt-3">
+            <p className="font-body text-[15px] leading-[1.8] text-ink whitespace-pre-line">
+              {interpretation.interpretation}
+            </p>
+          </div>
+        ) : (
+          <p className="mt-3 font-body text-[15px] leading-[1.7] text-ink">{card.uprightMeaning}</p>
+        )}
+
         {card.reflectionQuestion && (
           <p className="mt-3 border-l-2 border-cosmic/40 pl-3 font-display text-[15px] italic text-ink">
             {card.reflectionQuestion}
@@ -51,7 +85,14 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
 
         {revealed && (
           <div className="mt-2">
-            <TarotContextualGuide card={card} position={position} />
+            <TarotContextualGuide
+              card={card}
+              position={position}
+              userContext={userContext}
+              theme={theme}
+              positionKey={positionConfig?.key}
+              interpretationFocus={positionConfig?.interpretationFocus}
+            />
           </div>
         )}
 

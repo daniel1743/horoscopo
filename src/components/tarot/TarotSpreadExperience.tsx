@@ -7,14 +7,15 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useTarotDeck } from "@/hooks/useTarotDeck";
 import { tarotService } from "@/services/tarot.service";
-import type { TarotReading } from "@/types/tarot";
+import type { TarotReading, ThreeCardReadingConfig } from "@/types/tarot";
 import { detectSensitiveTopic, sensitiveMessages } from "@/lib/tarot/sensitive-question";
 
 interface Props {
   mode: "yes_no" | "three_cards";
+  readingConfig?: ThreeCardReadingConfig;
 }
 
-export function TarotSpreadExperience({ mode }: Props) {
+export function TarotSpreadExperience({ mode, readingConfig }: Props) {
   const deckQuery = useTarotDeck();
   const [question, setQuestion] = useState("");
   const [reading, setReading] = useState<TarotReading | null>(null);
@@ -62,7 +63,23 @@ export function TarotSpreadExperience({ mode }: Props) {
     <div className="flex flex-col gap-6">
       {!reading && (
         <div className="flex flex-col gap-5 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-6">
-          <TarotQuestionInput value={question} onChange={setQuestion} disabled={drawing} />
+          {readingConfig && (
+            <div>
+              <label className="block font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic mb-2">
+                {readingConfig.userContextLabel}
+              </label>
+              <p className="font-body text-[14px] text-ink-soft mb-3">
+                {readingConfig.intro}
+              </p>
+            </div>
+          )}
+          {/* Campo de pregunta comentado - auditoría reveló texto privacidad inexacto */}
+          {/* <TarotQuestionInput
+            value={question}
+            onChange={setQuestion}
+            disabled={drawing}
+            placeholder={readingConfig?.userContextPlaceholder}
+          /> */}
           <div>
             <Button type="button" variant="primary" onClick={handleDraw} disabled={drawing}>
               <Icon name="premium" />
@@ -88,6 +105,8 @@ export function TarotSpreadExperience({ mode }: Props) {
       {reading && (
         <TarotReadingResult
           reading={reading}
+          readingConfig={readingConfig}
+          userContext={question}
           onDrawAgain={handleReset}
           showSynthesis={mode === "three_cards"}
         />

@@ -33,12 +33,14 @@ const searchSchema = z.object({
   [SEARCH_QUERY_PARAMS.page]: fallback(z.number().int(), 1).default(1),
 });
 
+type SearchRouteState = z.infer<typeof searchSchema>;
+
 export const Route = createFileRoute("/buscar")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
       { title: "Buscar — Creovision" },
-      { name: "description", content: "Encuentra guías, signos, cartas, horóscopos, fases lunares y compatibilidades." },
+      { name: "description", content: "Encuentra guías, cartas de tarot y fases lunares." },
       { name: "robots", content: "noindex, follow" },
       { property: "og:title", content: "Buscar — Creovision" },
       { property: "og:description", content: "Buscador unificado de la plataforma." },
@@ -62,14 +64,13 @@ function useDebounced<T>(value: T, delay: number): T {
 function SearchRoute() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
-  const rawQ = (search as any)[SEARCH_QUERY_PARAMS.query] as string;
-  const rawType = (search as any)[SEARCH_QUERY_PARAMS.type] as string;
-  const rawPage = (search as any)[SEARCH_QUERY_PARAMS.page] as number;
+  const rawQ = search[SEARCH_QUERY_PARAMS.query];
+  const rawType = search[SEARCH_QUERY_PARAMS.type];
+  const rawPage = search[SEARCH_QUERY_PARAMS.page];
 
   const q = normalizeSearchQuery(rawQ ?? "");
   const type = (SEARCH_FILTER_OPTIONS.some((o) => o.key === rawType) ? rawType : "all") as
-    | "all"
-    | SearchSourceType;
+    "all" | SearchSourceType;
   const page = Math.max(1, Math.min(Number(rawPage) || 1, SEARCH_LIMITS.maxPage));
 
   const [inputValue, setInputValue] = React.useState(rawQ ?? "");
@@ -81,7 +82,7 @@ function SearchRoute() {
     const clean = normalizeSearchQuery(debounced);
     if (clean === q) return;
     navigate({
-      search: (prev: any) => ({
+      search: (prev: SearchRouteState) => ({
         ...prev,
         [SEARCH_QUERY_PARAMS.query]: clean,
         [SEARCH_QUERY_PARAMS.page]: 1,
@@ -95,27 +96,35 @@ function SearchRoute() {
     if (q.length >= SEARCH_LIMITS.minQueryLength) push(q);
   }, [q, push]);
 
-  const filters =
-    type === "all"
-      ? undefined
-      : { sourceTypes: [type] as SearchSourceType[] };
+  const filters = type === "all" ? undefined : { sourceTypes: [type] as SearchSourceType[] };
 
   const enabled = q.length >= SEARCH_LIMITS.minQueryLength;
 
   const { data, isFetching, isError, refetch } = useQuery({
     queryKey: ["search-all", q, type, page],
-    queryFn: ({ signal }) => searchService.searchAll({ query: q, filters, page, pageSize: SEARCH_LIMITS.pageSize, signal }),
+    queryFn: ({ signal }) =>
+      searchService.searchAll({
+        query: q,
+        filters,
+        page,
+        pageSize: SEARCH_LIMITS.pageSize,
+        signal,
+      }),
     enabled,
     placeholderData: keepPreviousData,
     staleTime: 30_000,
   });
 
-  const results: SearchResult[] = data?.results ?? [];
+  const results: SearchResult[] = React.useMemo(() => data?.results ?? [], [data?.results]);
   const groups = React.useMemo(() => searchService.groupResults(results), [results]);
 
   const setType = (next: "all" | SearchSourceType) => {
     navigate({
-      search: (prev: any) => ({ ...prev, [SEARCH_QUERY_PARAMS.type]: next, [SEARCH_QUERY_PARAMS.page]: 1 }),
+      search: (prev: SearchRouteState) => ({
+        ...prev,
+        [SEARCH_QUERY_PARAMS.type]: next,
+        [SEARCH_QUERY_PARAMS.page]: 1,
+      }),
       replace: true,
     });
   };
@@ -133,7 +142,7 @@ function SearchRoute() {
           e.preventDefault();
           const clean = normalizeSearchQuery(inputValue);
           navigate({
-            search: (prev: any) => ({
+            search: (prev: SearchRouteState) => ({
               ...prev,
               [SEARCH_QUERY_PARAMS.query]: clean,
               [SEARCH_QUERY_PARAMS.page]: 1,
@@ -149,7 +158,11 @@ function SearchRoute() {
           onValueChange={setInputValue}
           onClear={() =>
             navigate({
-              search: (prev: any) => ({ ...prev, [SEARCH_QUERY_PARAMS.query]: "", [SEARCH_QUERY_PARAMS.page]: 1 }),
+              search: (prev: SearchRouteState) => ({
+                ...prev,
+                [SEARCH_QUERY_PARAMS.query]: "",
+                [SEARCH_QUERY_PARAMS.page]: 1,
+              }),
               replace: true,
             })
           }
@@ -184,7 +197,9 @@ function SearchRoute() {
       </nav>
 
       <div className="mx-auto mt-10 max-w-4xl">
-        {!enabled && <DiscoveryState recent={recent} onClearRecent={clear} onRemoveRecent={remove} />}
+        {!enabled && (
+          <DiscoveryState recent={recent} onClearRecent={clear} onRemoveRecent={remove} />
+        )}
 
         {enabled && isError && (
           <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6 text-center">
@@ -233,32 +248,39 @@ function SearchRoute() {
               </div>
             )}
 
-            {(data?.results?.length ?? 0) >= SEARCH_LIMITS.pageSize && page < SEARCH_LIMITS.maxPage && (
-              <div className="mt-8 flex items-center justify-center gap-3">
-                {page > 1 && (
+            {(data?.results?.length ?? 0) >= SEARCH_LIMITS.pageSize &&
+              page < SEARCH_LIMITS.maxPage && (
+                <div className="mt-8 flex items-center justify-center gap-3">
+                  {page > 1 && (
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        navigate({
+                          search: (prev: SearchRouteState) => ({
+                            ...prev,
+                            [SEARCH_QUERY_PARAMS.page]: page - 1,
+                          }),
+                        })
+                      }
+                    >
+                      Anterior
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     onClick={() =>
                       navigate({
-                        search: (prev: any) => ({ ...prev, [SEARCH_QUERY_PARAMS.page]: page - 1 }),
+                        search: (prev: SearchRouteState) => ({
+                          ...prev,
+                          [SEARCH_QUERY_PARAMS.page]: page + 1,
+                        }),
                       })
                     }
                   >
-                    Anterior
+                    Siguiente
                   </Button>
-                )}
-                <Button
-                  variant="outline"
-                  onClick={() =>
-                    navigate({
-                      search: (prev: any) => ({ ...prev, [SEARCH_QUERY_PARAMS.page]: page + 1 }),
-                    })
-                  }
-                >
-                  Siguiente
-                </Button>
-              </div>
-            )}
+                </div>
+              )}
           </>
         )}
       </div>
@@ -282,19 +304,33 @@ function DiscoveryState({
       {recent.length > 0 && (
         <section aria-labelledby="recent-title">
           <div className="mb-3 flex items-center justify-between px-1">
-            <h3 id="recent-title" className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+            <h3
+              id="recent-title"
+              className="text-sm font-medium uppercase tracking-wider text-muted-foreground"
+            >
               {SEARCH_COPY.recentTitle}
             </h3>
-            <button type="button" onClick={onClearRecent} className="text-xs text-muted-foreground underline-offset-4 hover:underline">
+            <button
+              type="button"
+              onClick={onClearRecent}
+              className="text-xs text-muted-foreground underline-offset-4 hover:underline"
+            >
               {SEARCH_COPY.recentClear}
             </button>
           </div>
           <ul className="flex flex-wrap gap-2">
             {recent.map((r) => (
-              <li key={r} className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1 text-sm">
+              <li
+                key={r}
+                className="inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1 text-sm"
+              >
                 <Link
                   to={routes.search}
-                  search={{ [SEARCH_QUERY_PARAMS.query]: r } as any}
+                  search={{
+                    [SEARCH_QUERY_PARAMS.query]: r,
+                    [SEARCH_QUERY_PARAMS.type]: "all",
+                    [SEARCH_QUERY_PARAMS.page]: 1,
+                  }}
                   className="inline-flex items-center gap-1"
                 >
                   <Icon name="history" size="sm" decorative />
@@ -314,27 +350,35 @@ function DiscoveryState({
         </section>
       )}
 
-      <section aria-labelledby="signs-title">
-        <h3 id="signs-title" className="mb-3 px-1 text-sm font-medium uppercase tracking-wider text-muted-foreground">
-          {SEARCH_COPY.discoverSigns}
-        </h3>
-        <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-          {zodiac.map((z) => (
-            <li key={z.id}>
-              <Link
-                to={z.routePath}
-                className="flex items-center gap-2 rounded-2xl border border-border/60 bg-card px-3 py-2 text-sm hover:border-primary/50"
-              >
-                <Icon name="sun" size="sm" decorative />
-                {z.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {zodiac.length > 0 && (
+        <section aria-labelledby="signs-title">
+          <h3
+            id="signs-title"
+            className="mb-3 px-1 text-sm font-medium uppercase tracking-wider text-muted-foreground"
+          >
+            {SEARCH_COPY.discoverSigns}
+          </h3>
+          <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+            {zodiac.map((z) => (
+              <li key={z.id}>
+                <Link
+                  to={z.routePath}
+                  className="flex items-center gap-2 rounded-2xl border border-border/60 bg-card px-3 py-2 text-sm hover:border-primary/50"
+                >
+                  <Icon name="sun" size="sm" decorative />
+                  {z.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section aria-labelledby="tools-title">
-        <h3 id="tools-title" className="mb-3 px-1 text-sm font-medium uppercase tracking-wider text-muted-foreground">
+        <h3
+          id="tools-title"
+          className="mb-3 px-1 text-sm font-medium uppercase tracking-wider text-muted-foreground"
+        >
           {SEARCH_COPY.discoverTools}
         </h3>
         <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -346,7 +390,9 @@ function DiscoveryState({
               >
                 <span className="block font-medium">{t.title}</span>
                 {t.description && (
-                  <span className="mt-0.5 block text-xs text-muted-foreground">{t.description}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">
+                    {t.description}
+                  </span>
                 )}
               </Link>
             </li>

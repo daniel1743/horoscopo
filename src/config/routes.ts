@@ -16,6 +16,7 @@ export const routes = {
   tarotDaily: "/tarot/carta-del-dia",
   tarotYesNo: "/tarot/si-o-no",
   tarotThreeCards: "/tarot/tres-cartas",
+  tarotThreeCardsAmor: "/tarot/tres-cartas/amor",
   tarotLibrary: "/tarot/cartas",
 
   astrology: "/astrologia",

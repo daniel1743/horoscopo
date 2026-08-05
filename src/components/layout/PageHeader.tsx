@@ -56,8 +56,8 @@ export function PageHeader({
       )}
       <h1
         className={cn(
-          "font-display font-semibold tracking-[-0.02em]",
-          "text-[32px] leading-[1.12] md:text-[44px]",
+          "max-w-[13ch] break-words font-display font-semibold tracking-normal sm:max-w-full md:tracking-[-0.02em]",
+          "text-[30px] leading-[1.14] md:text-[44px]",
         )}
       >
         {title}
@@ -65,7 +65,7 @@ export function PageHeader({
       {description && (
         <p
           className={cn(
-            "mt-4 max-w-[62ch] font-body text-[16px] leading-[1.65] md:text-[18px]",
+            "mt-4 max-w-full break-words font-body text-[16px] leading-[1.65] md:max-w-[62ch] md:text-[18px]",
             variant === "dark" ? "text-ink-inverse-soft" : "text-ink-soft",
             alignment === "center" && "mx-auto",
           )}

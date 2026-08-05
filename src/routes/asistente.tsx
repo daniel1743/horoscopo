@@ -1,7 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { AssistantPage } from "@/pages/ai/AssistantPage";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/asistente")({
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("assistant")) throw notFound();
+  },
   head: () => ({
     meta: [
       { title: "Asistente — Creovision" },

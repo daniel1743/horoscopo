@@ -1,7 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Placeholder } from "@/components/layout/Placeholder";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/astrologia")({
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("astrology")) throw notFound();
+  },
   head: () => ({
     meta: [
       { title: "Astrología — Creovision" },

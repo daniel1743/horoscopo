@@ -1,12 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { CompatibilityHubPage } from "@/pages/compatibility/CompatibilityHubPage";
 import { compatibilityQueries } from "@/services/compatibility.service";
 import { buildMeta } from "@/config/seo";
 import { COMPATIBILITY_COPY } from "@/config/compatibility";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/compatibilidad/")({
-  loader: ({ context }) =>
-    context.queryClient.ensureQueryData(compatibilityQueries.featured(6)),
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("compatibility")) throw notFound();
+  },
+  loader: ({ context }) => context.queryClient.ensureQueryData(compatibilityQueries.featured(6)),
   head: () => {
     const m = buildMeta({
       title: `Compatibilidad entre signos · Creovision`,

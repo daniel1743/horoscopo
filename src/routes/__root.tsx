@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/layout/AppShell";
+import { siteConfig } from "@/config/site";
 
 function NotFoundComponent() {
   return (
@@ -78,17 +79,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Creovision — Astrología editorial contemporánea" },
+      { title: "Creovision — Tarot, luna y guías simbólicas" },
       {
         name: "description",
         content:
-          "Horóscopo, tarot, compatibilidad y ciclos lunares con una mirada editorial clara, íntima y visualmente cuidada.",
+          "Tarot, ciclos lunares y guías simbólicas con una mirada editorial clara, íntima y visualmente cuidada.",
       },
       { name: "author", content: "Creovision" },
       { property: "og:title", content: "Creovision" },
       {
         property: "og:description",
-        content: "Astrología, tarot y luna con una voz editorial serena.",
+        content: "Tarot y luna con una voz editorial serena.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -116,7 +117,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang={siteConfig.locale}>
       <head>
         <HeadContent />
       </head>

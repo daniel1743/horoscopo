@@ -1,7 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Placeholder } from "@/components/layout/Placeholder";
+import { isRoutePubliclyEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/nosotros")({
+  beforeLoad: () => {
+    if (!isRoutePubliclyEnabled("about")) throw notFound();
+  },
   head: () => ({
     meta: [
       { title: "Sobre nosotros — Creovision" },

@@ -4,6 +4,7 @@
  */
 import type { RouteKey } from "./routes";
 import { siteConfig } from "./site";
+import { isRoutePubliclyEnabled } from "./public-features";
 
 export interface FooterLink {
   label: string;
@@ -20,17 +21,14 @@ export const footerConfig = {
   brand: {
     name: siteConfig.name,
     description:
-      "Astrología, tarot y ciclos lunares explicados con claridad para acompañarte en tu proceso de autoconocimiento.",
+      "Tarot y ciclos lunares explicados con claridad para acompañarte en tu proceso de autoconocimiento.",
   },
   columns: [
     {
       id: "explore",
       title: "Explorar",
       links: [
-        { label: "Horóscopo", routeKey: "horoscope" },
         { label: "Tarot", routeKey: "tarot" },
-        { label: "Astrología", routeKey: "astrology" },
-        { label: "Compatibilidad", routeKey: "compatibility" },
         { label: "Luna", routeKey: "moon" },
       ],
     },
@@ -64,7 +62,12 @@ export const footerConfig = {
         { label: "Aviso de responsabilidad", routeKey: "disclaimer" },
       ],
     },
-  ] satisfies FooterColumn[],
+  ]
+    .map((column) => ({
+      ...column,
+      links: column.links.filter((link) => isRoutePubliclyEnabled(link.routeKey)),
+    }))
+    .filter((column) => column.links.length > 0) satisfies FooterColumn[],
   newsletter: {
     enabled: true,
     title: "Recibe tu guía semanal",

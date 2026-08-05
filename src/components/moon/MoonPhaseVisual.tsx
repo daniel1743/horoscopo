@@ -10,8 +10,8 @@ interface Props {
 }
 
 export function MoonPhaseVisual({ fraction, waxing, size = 200, className, title }: Props) {
-  // Limitar fraction explícitamente entre 0 y 1
-  const clamped = Math.max(0, Math.min(1, fraction));
+  // Redondear estabiliza el SVG entre SSR y cliente cuando la Luna se recalcula por milisegundos.
+  const clamped = Math.round(Math.max(0, Math.min(1, fraction)) * 1000) / 1000;
   const r = 80;
   const cx = 100;
   const cy = 100;
@@ -60,7 +60,9 @@ export function MoonPhaseVisual({ fraction, waxing, size = 200, className, title
       <circle cx={cx} cy={cy} r={r} fill="var(--bg-deep-night)" opacity="0.88" />
 
       {/* Trazado iluminado astronómico (crecientes, menguantes, etc.) */}
-      {moonPath && <path d={moonPath} fill="var(--bg-lunar-ivory)" opacity="0.94" />}
+      {moonPath && (
+        <path suppressHydrationWarning d={moonPath} fill="var(--bg-lunar-ivory)" opacity="0.94" />
+      )}
 
       {/* Aro sutil decorativo */}
       <circle

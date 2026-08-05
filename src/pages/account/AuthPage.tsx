@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { Link, useNavigate, useSearch } from "@tanstack/react-router";
-import { Eye, EyeOff } from "lucide-react";
 import { getSupabaseClientDiagnostics, supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/layout/PageShell";
 import { Button } from "@/components/ui/button";
@@ -63,6 +62,7 @@ function getSignUpDebugData(data: Awaited<ReturnType<typeof supabase.auth.signUp
 
 function authDebug(action: string, phase: string, details: Record<string, unknown> = {}) {
   if (typeof window === "undefined") return;
+  if (!import.meta.env.DEV) return;
 
   console.groupCollapsed(`[Auth Debug] ${action}: ${phase}`);
   console.info("Supabase", getSupabaseClientDiagnostics());
@@ -622,9 +622,9 @@ function PasswordField(props: {
           onClick={() => props.setShown(!props.shown)}
         >
           {props.shown ? (
-            <EyeOff aria-hidden className="h-4 w-4" />
+            <Icon name="eyeOff" size="sm" aria-hidden />
           ) : (
-            <Eye aria-hidden className="h-4 w-4" />
+            <Icon name="eye" size="sm" aria-hidden />
           )}
         </button>
       </div>

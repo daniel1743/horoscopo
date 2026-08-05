@@ -1,6 +1,7 @@
 /** Navegación centralizada. Toda la app debe leer los menús desde aquí. */
 import type { IconName } from "./icons";
 import type { RouteKey } from "./routes";
+import { statusForRoute } from "./public-features";
 
 export interface NavItem {
   label: string;
@@ -15,6 +16,7 @@ export interface NavLink {
   routeKey: RouteKey;
   icon?: IconName;
   description?: string;
+  status?: "enabled" | "coming_soon" | "hidden";
 }
 
 export interface NavGroup {
@@ -22,10 +24,26 @@ export interface NavGroup {
   routeKey: RouteKey;
   icon?: IconName;
   children?: NavLink[];
+  status?: "enabled" | "coming_soon" | "hidden";
+}
+
+function visibleGroups(groups: readonly NavGroup[]): NavGroup[] {
+  return groups
+    .filter((group) => (group.status ?? statusForRoute(group.routeKey)) !== "hidden")
+    .map((group) => ({
+      ...group,
+      children: group.children?.filter(
+        (child) => (child.status ?? statusForRoute(child.routeKey)) !== "hidden",
+      ),
+    }));
+}
+
+function visibleLinks(items: readonly NavLink[]): NavLink[] {
+  return items.filter((item) => (item.status ?? statusForRoute(item.routeKey)) !== "hidden");
 }
 
 /** Navegación primaria de escritorio con dropdowns opcionales. */
-export const desktopPrimary: NavGroup[] = [
+const desktopPrimaryConfig: NavGroup[] = [
   {
     label: "Horóscopo",
     routeKey: "horoscope",
@@ -44,6 +62,7 @@ export const desktopPrimary: NavGroup[] = [
       { label: "Carta del día", routeKey: "tarotDaily" },
       { label: "Sí o no", routeKey: "tarotYesNo" },
       { label: "Tres cartas", routeKey: "tarotThreeCards" },
+      { label: "Tirada de Amor", routeKey: "tarotThreeCardsAmor" },
     ],
   },
   {
@@ -69,8 +88,10 @@ export const desktopPrimary: NavGroup[] = [
   { label: "Guías", routeKey: "guides", icon: "article" },
 ];
 
+export const desktopPrimary: NavGroup[] = visibleGroups(desktopPrimaryConfig);
+
 /** Cinco destinos de la barra inferior móvil. */
-export const mobileBottomPrimary: NavLink[] = [
+const mobileBottomPrimaryConfig: NavLink[] = [
   { label: "Inicio", routeKey: "home", icon: "menu" },
   { label: "Horóscopo", routeKey: "horoscope", icon: "sun" },
   { label: "Tarot", routeKey: "tarot", icon: "tarot" },
@@ -78,8 +99,10 @@ export const mobileBottomPrimary: NavLink[] = [
   { label: "Yo", routeKey: "account", icon: "user" },
 ];
 
+export const mobileBottomPrimary: NavLink[] = visibleLinks(mobileBottomPrimaryConfig);
+
 /** Grupos del drawer móvil secundario. */
-export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = [
+const drawerGroupsConfig: { id: string; title: string; items: NavLink[] }[] = [
   {
     id: "explore",
     title: "Explorar",
@@ -126,21 +149,21 @@ export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = [
   },
 ];
 
+export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = drawerGroupsConfig
+  .map((group) => ({ ...group, items: visibleLinks(group.items) }))
+  .filter((group) => group.items.length > 0);
+
 /** Legacy — mantener para no romper consumidores previos. */
 export const primaryNav: NavItem[] = [
-  { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
-  { label: "Compatibilidad", href: "/compatibilidad", icon: "compatibility" },
   { label: "Luna", href: "/luna", icon: "moon" },
   { label: "Guías", href: "/guias", icon: "article" },
 ];
 
 export const mobileBottomNav: NavItem[] = [
   { label: "Inicio", href: "/", icon: "menu" },
-  { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
   { label: "Luna", href: "/luna", icon: "moon" },
-  { label: "Yo", href: "/mi-espacio", icon: "user" },
 ];
 
 export const footerNav: { title: string; items: NavItem[] }[] = [

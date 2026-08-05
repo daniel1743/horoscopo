@@ -17,6 +17,8 @@ const sizeMap: Record<NonNullable<Props["size"]>, string> = {
   lg: "aspect-[7/12] w-full max-w-[240px]",
 };
 
+const TAROT_CARD_BACK_SRC = "/carta%20trasera.png";
+
 export function TarotCardVisual({ card, revealed = true, size = "md", className }: Props) {
   const showFace = revealed && !!card;
   const [imageFailed, setImageFailed] = useState(false);
@@ -79,6 +81,17 @@ export function TarotCardVisual({ card, revealed = true, size = "md", className 
 }
 
 function TarotCardFallback({ showFace }: { showFace: boolean }) {
+  if (!showFace) {
+    return (
+      <img
+        src={TAROT_CARD_BACK_SRC}
+        alt="Reverso de carta de Tarot"
+        className="h-full w-full object-cover"
+        loading="lazy"
+      />
+    );
+  }
+
   return (
     <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-night-elevated via-night to-night-elevated">
       <div className={cn("rounded-full border border-gold/40 p-3", showFace && "bg-night/60")}>

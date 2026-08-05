@@ -6,11 +6,12 @@ import { siteConfig } from "./site";
 const site = {
   name: siteConfig.name,
   description: siteConfig.description,
+  url: siteConfig.url.replace(/\/$/, ""),
 };
 
 export const seoDefaults = {
   titleTemplate: `%s | ${site.name}`,
-  defaultTitle: `${site.name} — Astrología, tarot y horóscopo`,
+  defaultTitle: `${site.name} — Tarot, luna y guías simbólicas`,
   defaultDescription: site.description,
   locale: "es_ES",
   type: "website",
@@ -38,6 +39,12 @@ export const seoTemplates = {
   }),
 } as const;
 
+export function absoluteUrl(pathOrUrl: string): string {
+  if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
+  const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
+  return `${site.url}${path}`;
+}
+
 /** Genera meta tags TanStack Router a partir de título y descripción. */
 export function buildMeta(input: {
   title: string;
@@ -47,6 +54,8 @@ export function buildMeta(input: {
 }) {
   const title = input.title;
   const description = input.description ?? seoDefaults.defaultDescription;
+  const canonical = input.canonical ? absoluteUrl(input.canonical) : undefined;
+  const image = input.image ? absoluteUrl(input.image) : undefined;
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },
@@ -58,12 +67,15 @@ export function buildMeta(input: {
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
   ];
-  if (input.image) {
-    meta.push({ property: "og:image", content: input.image });
-    meta.push({ name: "twitter:image", content: input.image });
+  if (canonical) {
+    meta.push({ property: "og:url", content: canonical });
+  }
+  if (image) {
+    meta.push({ property: "og:image", content: image });
+    meta.push({ name: "twitter:image", content: image });
   }
   const links: Array<Record<string, string>> = [];
-  if (input.canonical) links.push({ rel: "canonical", href: input.canonical });
+  if (canonical) links.push({ rel: "canonical", href: canonical });
   return { meta, links };
 }
 
@@ -74,12 +86,14 @@ export const schemaOrg = {
     "@type": "Organization",
     name: site.name,
     description: site.description,
+    url: site.url,
   }),
   website: () => ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: site.name,
     description: site.description,
+    url: site.url,
   }),
   breadcrumb: (items: { name: string; url: string }[]) => ({
     "@context": "https://schema.org",

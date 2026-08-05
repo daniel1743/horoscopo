@@ -10,6 +10,7 @@ import { MobileTopbar } from "./MobileTopbar";
 import { MobileNavigationDrawer } from "./MobileNavigationDrawer";
 import { SearchTrigger } from "@/components/search/SearchTrigger";
 import { useSession } from "@/hooks/useSession";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 import { cn } from "@/lib/utils";
 
 /** Header global. Controla el único estado del drawer móvil. */
@@ -19,6 +20,7 @@ export function SiteHeader() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useSession();
   const isAuthed = !!user;
+  const showAccountAccess = isPublicFeatureEnabled("account");
   const accountHref = isAuthed ? routes.account : routes.signIn;
   const accountLabel = isAuthed ? "Mi espacio" : copy.actions.account;
 
@@ -68,12 +70,14 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <SearchTrigger className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-ink" />
 
-            <Button asChild variant="default">
-              <Link to={accountHref}>
-                <Icon name="account" size="sm" className="mr-2" />
-                {accountLabel}
-              </Link>
-            </Button>
+            {showAccountAccess && (
+              <Button asChild variant="default">
+                <Link to={accountHref}>
+                  <Icon name="account" size="sm" className="mr-2" />
+                  {accountLabel}
+                </Link>
+              </Button>
+            )}
           </div>
         </div>
 

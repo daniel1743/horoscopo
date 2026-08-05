@@ -29,6 +29,36 @@ export default tseslint.config(
               message:
                 "TanStack Start does not use the Next.js `server-only` package. Rename the module to `*.server.ts` or mark it with `@tanstack/react-start/server-only`.",
             },
+            {
+              name: "lucide-react",
+              message:
+                "La iconografía de Creovision debe consumirse desde @/components/ui/icon. No se permiten imports directos de lucide-react.",
+            },
+            {
+              name: "react-icons",
+              message:
+                "La iconografía de Creovision debe consumirse desde @/components/ui/icon. No se permiten imports directos de react-icons.",
+            },
+            {
+              name: "@heroicons/react",
+              message:
+                "La iconografía de Creovision debe consumirse desde @/components/ui/icon. No se permiten imports directos de @heroicons/react.",
+            },
+            {
+              name: "@fortawesome/react-fontawesome",
+              message:
+                "La iconografía de Creovision debe consumirse desde @/components/ui/icon. No se permiten imports directos de Font Awesome.",
+            },
+            {
+              name: "@radix-ui/react-icons",
+              message:
+                "La iconografía de Creovision debe consumirse desde @/components/ui/icon. No se permiten imports directos de @radix-ui/react-icons.",
+            },
+            {
+              name: "hugeicons-react",
+              message:
+                "Versión obsoleta. Usa @hugeicons/react solo en src/config/icons.ts y src/components/ui/icon.tsx.",
+            },
           ],
         },
       ],

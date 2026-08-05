@@ -2,12 +2,12 @@
 export const siteConfig = {
   name: "Creovision",
   shortName: "Astral",
-  tagline: "Astrología editorial contemporánea",
+  tagline: "Tarot editorial contemporáneo",
   description:
-    "Plataforma editorial de astrología, horóscopo, tarot, compatibilidad y ciclos lunares. Contenido claro, íntimo y visualmente cuidado.",
+    "Plataforma editorial de tarot, ciclos lunares y guías simbólicas. Contenido claro, íntimo y visualmente cuidado.",
   locale: "es-ES",
   timezone: "Europe/Madrid",
-  url: "",
+  url: "https://www.creovision.io",
   email: "hola@creovision.io",
   social: {
     instagram: "",

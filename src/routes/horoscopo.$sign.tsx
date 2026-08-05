@@ -4,6 +4,7 @@ import { getLatestHoroscope } from "@/lib/horoscope/repository";
 import { getPeriodBySlug } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { buildMeta } from "@/config/seo";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 import type { HoroscopePeriod } from "@/types/horoscope";
 
 interface Search {
@@ -17,6 +18,9 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     return {};
   },
   loaderDeps: ({ search }) => ({ periodo: search.periodo ?? "hoy" }),
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("horoscope")) throw notFound();
+  },
   loader: async ({ params, deps }) => {
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     if (!sign) throw notFound();

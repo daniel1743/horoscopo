@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Container } from "./Container";
-import { AppBreadcrumbs, type BreadcrumbItem } from "./AppBreadcrumbs";
+import { AppBreadcrumbs } from "./AppBreadcrumbs";
+import type { BreadcrumbItem } from "./breadcrumb-utils";
 import { cn } from "@/lib/utils";
 
 type Width = "default" | "narrow" | "reading" | "full";
@@ -47,8 +48,15 @@ export function PageShell({
   className,
 }: Props) {
   return (
-    <div className={cn(backgroundClass[background], spacingClass[spacing], className)}>
-      <Container className={cn("mx-auto w-full", widthClass[width])}>
+    <div
+      className={cn(
+        backgroundClass[background],
+        spacingClass[spacing],
+        "overflow-x-clip",
+        className,
+      )}
+    >
+      <Container className={cn("mx-auto min-w-0", widthClass[width])}>
         {!hideBreadcrumbs && <AppBreadcrumbs items={breadcrumbs} />}
         {children}
       </Container>

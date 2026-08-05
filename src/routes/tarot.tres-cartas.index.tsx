@@ -1,8 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TarotThreeCardsPage } from "@/pages/tarot/TarotThreeCardsPage";
 import { buildMeta } from "@/config/seo";
+import { tarotDeckQueryOptions } from "@/hooks/useTarotDeck";
 
-export const Route = createFileRoute("/tarot/tres-cartas")({
+export const Route = createFileRoute("/tarot/tres-cartas/")({
+  beforeLoad: ({ context }) => {
+    void context.queryClient.prefetchQuery(tarotDeckQueryOptions());
+  },
   head: () => {
     const m = buildMeta({
       title: "Tirada de tres cartas · Tarot · Creovision",

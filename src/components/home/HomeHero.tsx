@@ -15,24 +15,23 @@ export function HomeHero() {
   return (
     <section
       aria-labelledby="home-hero-title"
-      className="relative overflow-hidden bg-night text-ink-inverse"
+      className="relative overflow-x-clip bg-night text-ink-inverse"
     >
       <HeroBackdrop />
       <Container className="relative py-16 md:py-24 lg:py-28">
-        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
+        <div className="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16">
           {/* Texto + acciones */}
-          <div className="max-w-[62ch]">
+          <div className="min-w-0 max-w-[62ch]">
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.18em] text-gold">
               {hero.eyebrow}
             </p>
             <h1
               id="home-hero-title"
-              className="mt-5 font-display text-[36px] font-semibold leading-[1.06] tracking-[-0.03em] text-ink-inverse md:text-[52px] lg:text-[64px]"
-              style={{ maxWidth: "18ch" }}
+              className="mt-5 max-w-[12ch] break-words font-display text-[31px] font-semibold leading-[1.1] tracking-normal text-ink-inverse sm:max-w-[16ch] sm:text-[38px] md:max-w-[18ch] md:text-[52px] md:leading-[1.06] md:tracking-[-0.02em] lg:text-[64px]"
             >
               {hero.title}
             </h1>
-            <p className="mt-5 max-w-[52ch] font-body text-[16px] leading-[1.7] text-ink-inverse-soft md:text-[18px]">
+            <p className="mt-5 max-w-full break-words font-body text-[16px] leading-[1.7] text-ink-inverse-soft md:max-w-[52ch] md:text-[18px]">
               {hero.description}
             </p>
 
@@ -85,7 +84,7 @@ export function HomeHero() {
           {/* Ilustración decorativa */}
           <div
             aria-hidden
-            className="relative order-first h-56 w-full max-w-md justify-self-center sm:h-72 lg:order-none lg:h-[440px]"
+            className="relative order-first h-56 w-full max-w-md min-w-0 justify-self-center sm:h-72 lg:order-none lg:h-[440px]"
           >
             <HeroIllustration />
             <span className="sr-only">{hero.imageAlt}</span>

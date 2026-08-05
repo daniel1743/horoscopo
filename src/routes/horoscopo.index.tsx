@@ -1,8 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { HoroscopeHubPage } from "@/pages/horoscope/HoroscopeHubPage";
 import { buildMeta } from "@/config/seo";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/horoscopo/")({
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("horoscope")) throw notFound();
+  },
   head: () => {
     const m = buildMeta({
       title: "Horóscopo — Creovision",

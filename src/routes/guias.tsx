@@ -16,7 +16,7 @@ export const Route = createFileRoute("/guias")({
     const m = buildMeta({
       title: "Guías — Creovision",
       description:
-        "Ensayos y artículos editoriales sobre astrología, tarot, luna y compatibilidad, con una mirada clara y contemporánea.",
+        "Ensayos y artículos editoriales sobre tarot, luna y símbolos, con una mirada clara y contemporánea.",
     });
     return { meta: m.meta, links: m.links };
   },

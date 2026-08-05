@@ -4,6 +4,7 @@ import { drawerGroups } from "@/config/navigation";
 import { routes } from "@/config/routes";
 import { copy } from "@/config/copy";
 import { siteConfig } from "@/config/site";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 
@@ -82,18 +83,19 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 py-6">
-          {/* Account summary */}
-          <div className="mb-6 rounded-[var(--radius-card)] border border-line-subtle bg-ivory p-4">
-            <p className="font-display text-[16px] font-semibold text-ink">Tu espacio personal</p>
-            <p className="mt-1 font-body text-[13px] text-ink-soft">
-              Guarda lecturas y contenido para consultarlos después.
-            </p>
-            <Button asChild variant="default" className="mt-3 w-full">
-              <Link to={routes.account} onClick={onClose}>
-                {copy.actions.createAccount}
-              </Link>
-            </Button>
-          </div>
+          {showAccountAccess && (
+            <div className="mb-6 rounded-[var(--radius-card)] border border-line-subtle bg-ivory p-4">
+              <p className="font-display text-[16px] font-semibold text-ink">Tu espacio personal</p>
+              <p className="mt-1 font-body text-[13px] text-ink-soft">
+                Guarda lecturas y contenido para consultarlos después.
+              </p>
+              <Button asChild variant="default" className="mt-3 w-full">
+                <Link to={routes.account} onClick={onClose}>
+                  {copy.actions.createAccount}
+                </Link>
+              </Button>
+            </div>
+          )}
 
           {drawerGroups.map((group, idx) => (
             <div key={group.id} className={idx > 0 ? "mt-6 border-t border-line-subtle pt-6" : ""}>
@@ -127,3 +129,4 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
     </div>
   );
 }
+const showAccountAccess = isPublicFeatureEnabled("account");

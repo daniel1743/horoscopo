@@ -5,17 +5,17 @@
 
 export const featureFlags = {
   // Activadas (MVP)
-  horoscope: true,
+  horoscope: false,
   tarotDaily: true,
   tarotYesNo: true,
   tarotThreeCards: true,
-  compatibilityBasic: true,
+  compatibilityBasic: false,
   moonToday: true,
   moonCalendar: true,
   articles: true,
   search: true,
   newsletter: true,
-  accountBasic: true,
+  accountBasic: false,
 
   // Panel administrativo (YAML 13 — Fase A)
   adminPanel: true,
@@ -23,7 +23,7 @@ export const featureFlags = {
   scheduledPublication: false,
 
   // IA (YAML 08)
-  aiAssistant: true,
+  aiAssistant: false,
   aiTarotInterpretation: true,
   aiHoroscopeExplanation: true,
   aiArticleQuestions: true,

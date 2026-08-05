@@ -4,6 +4,7 @@
  */
 import type { SearchSourceType } from "@/types/search";
 import type { IconName } from "./icons";
+import { isPublicFeatureEnabled } from "./public-features";
 
 export const SEARCH_LIMITS = {
   minQueryLength: 2,
@@ -55,12 +56,18 @@ export interface SearchFilterOption {
 export const SEARCH_FILTER_OPTIONS: readonly SearchFilterOption[] = [
   { key: "all", label: "Todo" },
   { key: "article", label: "Guías" },
-  { key: "horoscope", label: "Horóscopos" },
   { key: "tarot_card", label: "Tarot" },
   { key: "moon_phase", label: "Luna" },
-  { key: "compatibility", label: "Compatibilidad" },
-  { key: "zodiac_sign", label: "Signos" },
-] as const;
+  ...(isPublicFeatureEnabled("horoscope")
+    ? ([{ key: "horoscope", label: "Horóscopos" }] as const)
+    : []),
+  ...(isPublicFeatureEnabled("compatibility")
+    ? ([{ key: "compatibility", label: "Compatibilidad" }] as const)
+    : []),
+  ...(isPublicFeatureEnabled("astrology")
+    ? ([{ key: "zodiac_sign", label: "Signos" }] as const)
+    : []),
+] satisfies readonly SearchFilterOption[];
 
 /** Tipos indexables desde Supabase (excluye estáticos). */
 export const INDEXABLE_SOURCE_TYPES: readonly Exclude<
@@ -91,7 +98,7 @@ export const SEARCH_COPY = {
   triggerLabel: "Buscar",
   triggerShortcut: "Ctrl/⌘ K",
   inputLabel: "Buscar en la plataforma",
-  inputPlaceholder: "Guías, signos, cartas, fases…",
+  inputPlaceholder: "Guías, cartas, fases lunares...",
   clearLabel: "Borrar búsqueda",
   submitLabel: "Buscar",
   recentTitle: "Búsquedas recientes",
@@ -110,6 +117,5 @@ export const SEARCH_COPY = {
   seePrefix: "Ver todos en",
   headingEyebrow: "Explorar",
   headingTitle: "Busca en toda la plataforma",
-  headingDescription:
-    "Encuentra guías, signos, cartas, horóscopos, fases lunares y compatibilidades desde un solo lugar.",
+  headingDescription: "Encuentra guías, cartas de tarot y fases lunares desde un solo lugar.",
 } as const;

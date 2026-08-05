@@ -2,7 +2,7 @@ import type { AiModuleMode } from "@/types/ai";
 
 /**
  * Alias de modelo por modo. El servidor traduce el alias a un id concreto de
- * proveedor leyendo variables de entorno (AI_MODEL_FAST / AI_MODEL_REASONING).
+ * proveedor leyendo variables de entorno server-only.
  */
 export type AiModelAlias = "fast" | "reasoning" | "safety";
 

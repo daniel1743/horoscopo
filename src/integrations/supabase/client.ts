@@ -79,7 +79,7 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
       requestUrl = normalizedInput.url;
     }
 
-    if (!response.ok && requestUrl.includes("/auth/v1/")) {
+    if (import.meta.env.DEV && !response.ok && requestUrl.includes("/auth/v1/")) {
       const body = await response
         .clone()
         .json()

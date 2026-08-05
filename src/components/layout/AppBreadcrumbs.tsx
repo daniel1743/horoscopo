@@ -2,11 +2,7 @@ import { Fragment } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { routes } from "@/config/routes";
 import { Icon } from "@/components/ui/icon";
-
-export interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
+import { buildBreadcrumbTrail, type BreadcrumbItem } from "./breadcrumb-utils";
 
 interface Props {
   items?: BreadcrumbItem[];
@@ -27,7 +23,7 @@ export function AppBreadcrumbs({ items }: Props) {
         href: "/" + arr.slice(0, i + 1).join("/"),
       }));
 
-  const trail: BreadcrumbItem[] = [{ label: "Inicio", href: routes.home }, ...auto];
+  const trail = buildBreadcrumbTrail(auto);
 
   return (
     <nav aria-label="Migas de pan" className="mb-6">

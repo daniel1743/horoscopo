@@ -1,9 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { HoroscopePeriodPage } from "@/pages/horoscope/HoroscopePeriodPage";
 import { listHoroscopesForCurrentPeriod } from "@/lib/horoscope/repository";
 import { buildMeta } from "@/config/seo";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export const Route = createFileRoute("/horoscopo/hoy")({
+  beforeLoad: () => {
+    if (!isPublicFeatureEnabled("horoscope")) throw notFound();
+  },
   loader: async () => {
     const entries = await listHoroscopesForCurrentPeriod("daily");
     return { entries };

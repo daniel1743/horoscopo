@@ -5,6 +5,7 @@
  */
 import { routes, zodiacRoute } from "@/config/routes";
 import { featureFlags } from "@/config/features";
+import { isRoutePubliclyEnabled } from "@/config/public-features";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import type { SearchStaticDocument } from "@/types/search";
 
@@ -32,7 +33,7 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
   {
     routeKey: "home",
     title: "Inicio",
-    description: "Astrología, tarot, horóscopo y luna en un solo lugar.",
+    description: "Tarot, ciclos lunares y guías simbólicas en un solo lugar.",
     keywords: ["inicio", "home", "astrología"],
   },
   {
@@ -47,7 +48,8 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
     title: "Tarot",
     description: "Carta del día, tirada de tres cartas, sí o no.",
     keywords: ["tarot", "cartas", "arcanos"],
-    enabledIf: () => featureFlags.tarotDaily || featureFlags.tarotYesNo || featureFlags.tarotThreeCards,
+    enabledIf: () =>
+      featureFlags.tarotDaily || featureFlags.tarotYesNo || featureFlags.tarotThreeCards,
   },
   {
     routeKey: "moon",
@@ -86,7 +88,9 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
 ];
 
 function buildStaticPageDocs(): SearchStaticDocument[] {
-  return STATIC_PAGES.filter((p) => (p.enabledIf ? p.enabledIf() : true)).map((p) => ({
+  return STATIC_PAGES.filter(
+    (p) => isRoutePubliclyEnabled(p.routeKey) && (p.enabledIf ? p.enabledIf() : true),
+  ).map((p) => ({
     id: `page:${p.routeKey}`,
     sourceType: "static_page",
     title: p.title,
@@ -99,6 +103,6 @@ function buildStaticPageDocs(): SearchStaticDocument[] {
 
 /** Registro estático combinado. Se recalcula por build (feature flags). */
 export const STATIC_SEARCH_DOCUMENTS: readonly SearchStaticDocument[] = [
-  ...buildZodiacDocs(),
+  ...(featureFlags.horoscope ? buildZodiacDocs() : []),
   ...buildStaticPageDocs(),
 ];

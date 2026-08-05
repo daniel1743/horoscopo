@@ -3,9 +3,9 @@ import { HomePage } from "@/pages/HomePage";
 import { buildMeta } from "@/config/seo";
 
 const meta = buildMeta({
-  title: "Astrología, tarot y horóscopo con claridad | Creovision",
+  title: "Tarot, luna y guías simbólicas | Creovision",
   description:
-    "Explora tu horóscopo, tarot, compatibilidad y ciclos lunares mediante una experiencia editorial clara y contemporánea.",
+    "Explora tarot, ciclos lunares y guías simbólicas mediante una experiencia editorial clara y contemporánea.",
 });
 
 export const Route = createFileRoute("/")({

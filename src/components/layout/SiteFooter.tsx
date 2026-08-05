@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { footerConfig } from "@/config/footer";
 import { routes } from "@/config/routes";
 import { featureFlags } from "@/config/features";
+import { isRoutePubliclyEnabled } from "@/config/public-features";
 import { Container } from "@/components/layout/Container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -138,12 +139,14 @@ export function SiteFooter() {
           <p className="font-body text-[13px] text-ink-inverse-soft">
             {footerConfig.copyright.render()}
           </p>
-          <Link
-            to={routes.contact}
-            className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
-          >
-            Contacto
-          </Link>
+          {isRoutePubliclyEnabled("contact") && (
+            <Link
+              to={routes.contact}
+              className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
+            >
+              Contacto
+            </Link>
+          )}
         </div>
       </Container>
     </footer>

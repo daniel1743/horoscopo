@@ -6,11 +6,13 @@
  */
 import type { IconName } from "@/config/icons";
 import type { RouteKey } from "@/config/routes";
+import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export type HomeSectionId =
   | "hero"
   | "zodiac_selector"
   | "daily_insight"
+  | "featured_tarot"
   | "moon_today"
   | "compatibility"
   | "featured_guides"
@@ -31,6 +33,7 @@ export const homeConfig = {
     "hero",
     "zodiac_selector",
     "daily_insight",
+    "featured_tarot",
     "moon_today",
     "compatibility",
     "featured_guides",
@@ -41,41 +44,42 @@ export const homeConfig = {
 
   enabled: {
     hero: true,
-    zodiac_selector: true,
-    daily_insight: true,
-    moon_today: true,
-    compatibility: true,
+    zodiac_selector: false,
+    daily_insight: false,
+    featured_tarot: true,
+    moon_today: isPublicFeatureEnabled("moonToday"),
+    compatibility: isPublicFeatureEnabled("compatibility"),
     featured_guides: true,
     topics: true,
-    personal_space: true,
+    personal_space: isPublicFeatureEnabled("account"),
     newsletter: true,
   } as const satisfies Record<HomeSectionId, boolean>,
 
   hero: {
-    eyebrow: "Astrología para comprenderte",
-    title: "Lo que el cielo puede ayudarte a comprender hoy",
+    eyebrow: "Tarot y ciclos lunares",
+    title: "Tarot, luna y guías para comprender tu momento",
     description:
-      "Horóscopos, tarot y astrología explicados con claridad para acompañar tus decisiones y conocerte mejor.",
+      "Cartas de tarot, ciclos lunares y guías editoriales para observar tu momento con claridad.",
     primaryAction: {
-      label: "Ver mi horóscopo",
-      routeKey: "horoscopeToday",
-      icon: "sun",
-      variant: "primary",
-    } satisfies HomeAction,
-    secondaryAction: {
       label: "Sacar una carta",
       routeKey: "tarotDaily",
       icon: "tarot",
+      variant: "primary",
+    } satisfies HomeAction,
+    secondaryAction: {
+      label: "Explorar tiradas",
+      routeKey: "tarot",
+      icon: "premium",
       variant: "secondary_on_dark",
     } satisfies HomeAction,
-    showZodiacQuickSelect: true,
+    showZodiacQuickSelect: false,
     quickSelectLabel: "Selecciona tu signo",
     imageAlt: "Ilustración editorial celestial con luna, constelaciones y geometría astral.",
   },
 
   zodiacSelector: {
     title: "Elige tu signo",
-    description: "Consulta tu horóscopo de hoy y descubre las principales tendencias de tu signo.",
+    description: "Sección reservada para horóscopos cuando exista contenido publicado suficiente.",
     showDates: true,
   },
 
@@ -151,6 +155,50 @@ export const homeConfig = {
     privacyHelper:
       "Al suscribirte aceptas recibir contenido editorial. Puedes darte de baja en cualquier momento.",
     privacyRouteKey: "privacy" as RouteKey,
+  },
+
+  featuredTarot: {
+    eyebrow: "Tiradas destacadas",
+    title:
+      "Elige un tema, conecta con tu situación y descubre una orientación simbólica a través de tres cartas.",
+    action: {
+      label: "Ver tarot",
+      href: "/tarot",
+      variant: "secondary",
+    } satisfies HomeAction,
+    items: [
+      {
+        slug: "amor",
+        title: "Tarot del Amor",
+        description:
+          "Explora tu mundo emocional, la dinámica afectiva y una orientación para avanzar.",
+        status: "enabled",
+        badge: "Disponible",
+        ctaLabel: "Comenzar tirada",
+        href: "/tarot/tres-cartas/amor",
+        icon: "heart",
+      },
+      {
+        slug: "trabajo",
+        title: "Tarot del Trabajo",
+        description:
+          "Observa tu situación laboral, los desafíos presentes y el próximo paso práctico.",
+        status: "hidden",
+        badge: "Próximamente",
+        ctaLabel: "Ver detalles",
+        icon: "briefcase",
+      },
+      {
+        slug: "decision",
+        title: "Tarot de Decisiones",
+        description:
+          "Comprende qué impulsa tu elección, qué debes considerar y desde dónde decidir.",
+        status: "hidden",
+        badge: "Próximamente",
+        ctaLabel: "Ver detalles",
+        icon: "compass",
+      },
+    ],
   },
 } as const;
 
