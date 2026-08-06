@@ -1,5 +1,6 @@
 /**
- * Plantillas SEO compartidas. Cada route head() debería consumir estas.
+ * Configuración SEO avanzada y competitiva para 2026.
+ * Optimizado para Core Web Vitals, búsqueda semántica y AI search engines.
  */
 import { siteConfig } from "./site";
 
@@ -9,30 +10,135 @@ const site = {
   url: siteConfig.url.replace(/\/$/, ""),
 };
 
+// Keywords estratégicas 2026 - Búsqueda conversacional y semántica
+export const strategicKeywords = {
+  primary: [
+    "horóscopo diario personalizado",
+    "tarot online gratis",
+    "fases lunares hoy",
+    "carta astral completa",
+    "compatibilidad zodiacal",
+  ],
+  secondary: [
+    "horóscopo del día",
+    "lectura de tarot gratis",
+    "calendario lunar",
+    "signos zodiacales",
+    "ascendente astrológico",
+    "carta natal",
+    "tarot amor",
+    "horóscopo semanal",
+  ],
+  longTail: [
+    "qué dice mi horóscopo hoy",
+    "cómo hacer una tirada de tarot",
+    "en qué fase está la luna hoy",
+    "calcular ascendente gratis",
+    "compatibilidad entre signos",
+  ],
+} as const;
+
 export const seoDefaults = {
   titleTemplate: `%s | ${site.name}`,
-  defaultTitle: `${site.name} — Tarot, luna y guías simbólicas`,
-  defaultDescription: site.description,
+  defaultTitle: `${site.name} — Horóscopo Diario, Tarot Online y Fases Lunares 2026`,
+  defaultDescription: `${site.description} Descubre tu horóscopo personalizado, lecturas de tarot gratis y el calendario lunar actualizado. Herramientas de autoconocimiento y reflexión.`,
   locale: "es_ES",
   type: "website",
   twitterCard: "summary_large_image",
   robots: { index: true, follow: true },
+
+  // Nuevos campos SEO 2026
+  author: "Equipo Creovision",
+  publisher: site.name,
+  language: "es",
+  region: "ES",
+  themeColor: "#6B46C1", // Color cosmic del brand
 } as const;
 
+// Templates SEO optimizados para búsqueda conversacional 2026
 export const seoTemplates = {
+  // Horóscopo - Optimizado para "qué dice mi horóscopo hoy"
   horoscope: (sign: string) => ({
-    title: `Horóscopo de ${sign} hoy`,
-    description: `Descubre el horóscopo de ${sign} para hoy con orientación sobre relaciones, trabajo, emociones y crecimiento personal.`,
+    title: `Horóscopo de ${sign} Hoy ${new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })} - Predicciones Diarias`,
+    description: `Tu horóscopo de ${sign} para hoy. Descubre qué te deparan los astros en amor, trabajo y bienestar. Lectura personalizada actualizada diariamente.`,
+    keywords: `horóscopo ${sign.toLowerCase()}, horóscopo ${sign.toLowerCase()} hoy, predicciones ${sign.toLowerCase()}, ${sign.toLowerCase()} horóscopo diario`,
   }),
+
+  horoscopeWeekly: (sign: string) => ({
+    title: `Horóscopo Semanal de ${sign} - Predicciones para Esta Semana`,
+    description: `Horóscopo semanal de ${sign}. Planifica tu semana con las predicciones astrológicas más precisas. Amor, trabajo y oportunidades.`,
+    keywords: `horóscopo semanal ${sign.toLowerCase()}, ${sign.toLowerCase()} semana, predicciones semanales ${sign.toLowerCase()}`,
+  }),
+
+  horoscopeMonthly: (sign: string) => ({
+    title: `Horóscopo Mensual de ${sign} ${new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}`,
+    description: `Horóscopo mensual completo de ${sign}. Tendencias, oportunidades y desafíos para este mes. Planifica con astrología profesional.`,
+    keywords: `horóscopo mensual ${sign.toLowerCase()}, ${sign.toLowerCase()} mes, predicciones mensuales ${sign.toLowerCase()}`,
+  }),
+
+  // Zodiac - Optimizado para "características de [signo]"
   zodiac: (sign: string) => ({
-    title: `${sign}: personalidad, compatibilidad y horóscopo`,
-    description: `Conoce las características de ${sign}, su compatibilidad y sus principales tendencias astrológicas.`,
+    title: `${sign}: Personalidad, Compatibilidad y Características del Signo Zodiacal`,
+    description: `Todo sobre ${sign}: rasgos de personalidad, compatibilidad amorosa, fortalezas, debilidades y qué esperar en relaciones. Guía completa del signo zodiacal.`,
+    keywords: `${sign.toLowerCase()} personalidad, características ${sign.toLowerCase()}, compatibilidad ${sign.toLowerCase()}, signo ${sign.toLowerCase()}`,
   }),
+
+  // Tarot - Optimizado para "tirada de tarot gratis"
   tarot: (readingName: string) => ({
-    title: `${readingName} — Lectura de tarot`,
-    description:
-      "Realiza una lectura de tarot como herramienta de reflexión sobre tu situación actual.",
+    title: `${readingName} — Lectura de Tarot Online Gratis`,
+    description: `${readingName} de tarot gratis. Realiza tu consulta y recibe orientación sobre tu situación. Lectura interactiva y reflexiva.`,
+    keywords: `${readingName.toLowerCase()}, tarot gratis, lectura tarot online, consulta tarot`,
   }),
+
+  tarotCard: (cardName: string) => ({
+    title: `${cardName} en el Tarot - Significado, Interpretación y Simbología`,
+    description: `Descubre el significado completo de ${cardName}: interpretación en lectura, simbología, aspectos positivos y negativos. Guía completa de esta carta del tarot.`,
+    keywords: `${cardName.toLowerCase()} tarot, significado ${cardName.toLowerCase()}, carta ${cardName.toLowerCase()}`,
+  }),
+
+  // Luna - Optimizado para "en qué fase está la luna"
+  moon: () => ({
+    title: `Calendario Lunar ${new Date().getFullYear()} - Fases de la Luna Hoy y Este Mes`,
+    description: `Calendario lunar actualizado. Consulta en qué fase está la luna hoy, próximas lunas llenas y nuevas. Influencias lunares y mejores días del mes.`,
+    keywords: `calendario lunar ${new Date().getFullYear()}, fases lunares hoy, en qué fase está la luna, luna llena, luna nueva`,
+  }),
+
+  moonPhase: (phaseName: string) => ({
+    title: `${phaseName} - Significado, Influencias y Rituales de Esta Fase Lunar`,
+    description: `Todo sobre la ${phaseName}: qué representa, influencias astrológicas, mejores actividades y rituales. Aprovecha la energía lunar.`,
+    keywords: `${phaseName.toLowerCase()}, fase lunar ${phaseName.toLowerCase()}, energía ${phaseName.toLowerCase()}`,
+  }),
+
+  // Astrología - Optimizado para "calcular ascendente"
+  birthChart: () => ({
+    title: `Carta Astral Gratis - Calcula tu Carta Natal Completa Online`,
+    description: `Calcula tu carta astral gratis con fecha, hora y lugar de nacimiento. Descubre tu ascendente, posiciones planetarias y casas astrológicas. Carta natal completa.`,
+    keywords: `carta astral gratis, calcular carta natal, carta natal online, horóscopo personalizado`,
+  }),
+
+  ascendant: () => ({
+    title: `Calcular Ascendente Astrológico Gratis - Tu Signo Ascendente`,
+    description: `Calcula tu ascendente astrológico gratis. Descubre cómo te perciben los demás y qué influencia tiene en tu personalidad. Cálculo preciso con hora de nacimiento.`,
+    keywords: `calcular ascendente gratis, signo ascendente, ascendente astrológico, qué es el ascendente`,
+  }),
+
+  // Compatibilidad - Optimizado para "compatibilidad entre signos"
+  compatibility: (sign1?: string, sign2?: string) => {
+    if (sign1 && sign2) {
+      return {
+        title: `Compatibilidad ${sign1} y ${sign2} - ¿Son Compatibles Estos Signos?`,
+        description: `Descubre la compatibilidad entre ${sign1} y ${sign2} en amor y relaciones. Análisis completo de fortalezas, desafíos y consejos para la pareja.`,
+        keywords: `compatibilidad ${sign1.toLowerCase()} ${sign2.toLowerCase()}, ${sign1.toLowerCase()} con ${sign2.toLowerCase()}, pareja ${sign1.toLowerCase()} ${sign2.toLowerCase()}`,
+      };
+    }
+    return {
+      title: `Compatibilidad entre Signos del Zodiaco - Calcula tu Compatibilidad Amorosa`,
+      description: `Descubre la compatibilidad astrológica entre todos los signos del zodiaco. Analiza tu relación de pareja según los astros. Compatibilidad completa.`,
+      keywords: `compatibilidad signos, compatibilidad amorosa, compatibilidad zodiacal, signos compatibles`,
+    };
+  },
+
+  // Artículos/Guías - SEO para contenido editorial
   article: (articleTitle: string, articleExcerpt: string) => ({
     title: articleTitle,
     description: articleExcerpt,
@@ -45,56 +151,118 @@ export function absoluteUrl(pathOrUrl: string): string {
   return `${site.url}${path}`;
 }
 
-/** Genera meta tags TanStack Router a partir de título y descripción. */
+/**
+ * Genera meta tags TanStack Router optimizados para 2026.
+ * Incluye Open Graph, Twitter Cards, y structured data hints.
+ */
 export function buildMeta(input: {
   title: string;
   description?: string;
+  keywords?: string;
   image?: string;
   canonical?: string;
+  noindex?: boolean;
+  type?: "website" | "article";
 }) {
   const title = input.title;
   const description = input.description ?? seoDefaults.defaultDescription;
   const canonical = input.canonical ? absoluteUrl(input.canonical) : undefined;
-  const image = input.image ? absoluteUrl(input.image) : undefined;
+  const image = input.image ? absoluteUrl(input.image) : `${site.url}/og-image.jpg`;
+  const type = input.type ?? seoDefaults.type;
+
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },
+
+    // Open Graph (Facebook, LinkedIn, WhatsApp)
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:type", content: seoDefaults.type },
+    { property: "og:type", content: type },
     { property: "og:locale", content: seoDefaults.locale },
-    { name: "twitter:card", content: seoDefaults.twitterCard },
+    { property: "og:url", content: canonical || site.url },
+    { property: "og:site_name", content: site.name },
+    { property: "og:image", content: image },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+
+    // Twitter Cards
+    { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
+    { name: "twitter:image", content: image },
+
+    // SEO Avanzado 2026
+    { name: "author", content: seoDefaults.author },
+    { name: "publisher", content: seoDefaults.publisher },
+    { name: "theme-color", content: seoDefaults.themeColor },
+
+    // Accesibilidad y móvil
+    { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
+    { name: "format-detection", content: "telephone=no" },
   ];
-  if (canonical) {
-    meta.push({ property: "og:url", content: canonical });
+
+  // Keywords si se proveen (uso moderado, no spam)
+  if (input.keywords) {
+    meta.push({ name: "keywords", content: input.keywords });
   }
-  if (image) {
-    meta.push({ property: "og:image", content: image });
-    meta.push({ name: "twitter:image", content: image });
+
+  // Robots
+  if (input.noindex) {
+    meta.push({ name: "robots", content: "noindex, nofollow" });
+  } else {
+    meta.push({ name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" });
   }
+
   const links: Array<Record<string, string>> = [];
-  if (canonical) links.push({ rel: "canonical", href: canonical });
+
+  if (canonical) {
+    links.push({ rel: "canonical", href: canonical });
+  }
+
+  // Preconnect para performance
+  links.push(
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+  );
+
   return { meta, links };
 }
 
-/** JSON-LD helpers para schema.org. */
-export const schemaOrg = {
+/**
+ * JSON-LD Structured Data para SEO avanzado.
+ * Google usa esto para rich snippets y featured snippets.
+ */
+export const structuredData = {
   organization: () => ({
     "@context": "https://schema.org",
     "@type": "Organization",
     name: site.name,
     description: site.description,
     url: site.url,
+    logo: `${site.url}/logo.png`,
+    sameAs: [
+      // Agregar redes sociales cuando existan
+      // "https://www.facebook.com/creovision",
+      // "https://www.instagram.com/creovision",
+    ],
   }),
+
   website: () => ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: site.name,
     description: site.description,
     url: site.url,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${site.url}/buscar?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   }),
+
   breadcrumb: (items: { name: string; url: string }[]) => ({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -102,20 +270,67 @@ export const schemaOrg = {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: item.url,
+      item: absoluteUrl(item.url),
     })),
   }),
+
   article: (input: {
     headline: string;
     description: string;
     datePublished?: string;
+    dateModified?: string;
     author?: string;
+    image?: string;
   }) => ({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: input.headline,
     description: input.description,
     datePublished: input.datePublished,
-    author: input.author ? { "@type": "Person", name: input.author } : undefined,
+    dateModified: input.dateModified || input.datePublished,
+    author: input.author
+      ? { "@type": "Person", name: input.author }
+      : { "@type": "Organization", name: site.name },
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      logo: {
+        "@type": "ImageObject",
+        url: `${site.url}/logo.png`,
+      },
+    },
+    image: input.image ? absoluteUrl(input.image) : `${site.url}/og-image.jpg`,
+  }),
+
+  // FAQ Schema para rich snippets
+  faq: (questions: Array<{ question: string; answer: string }>) => ({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions.map((q) => ({
+      "@type": "Question",
+      name: q.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: q.answer,
+      },
+    })),
+  }),
+
+  // HowTo Schema para guías
+  howTo: (input: {
+    name: string;
+    description: string;
+    steps: Array<{ name: string; text: string }>;
+  }) => ({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: input.name,
+    description: input.description,
+    step: input.steps.map((step, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: step.name,
+      text: step.text,
+    })),
   }),
 };

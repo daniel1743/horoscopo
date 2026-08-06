@@ -93,6 +93,7 @@
   --color-brand: var(--brand-violet);
   --color-brand-hover: var(--brand-violet-hover);
   --color-brand-soft: var(--brand-violet-soft);
+  --color-cosmic: var(--brand-violet);
 
   --color-ivory: var(--bg-lunar-ivory);
   --color-warm-white: var(--bg-warm-white);

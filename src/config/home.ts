@@ -44,7 +44,7 @@ export const homeConfig = {
 
   enabled: {
     hero: true,
-    zodiac_selector: false,
+    zodiac_selector: true,
     daily_insight: false,
     featured_tarot: true,
     moon_today: isPublicFeatureEnabled("moonToday"),
@@ -79,7 +79,7 @@ export const homeConfig = {
 
   zodiacSelector: {
     title: "Elige tu signo",
-    description: "Sección reservada para horóscopos cuando exista contenido publicado suficiente.",
+    description: "Conoce tu horóscopo y descubre lo que los astros deparan para ti.",
     showDates: true,
   },
 

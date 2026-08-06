@@ -41,6 +41,7 @@ import { Route as HoroscopoSignRouteImport } from './routes/horoscopo.$sign'
 import { Route as HoroscopoHoyRouteImport } from './routes/horoscopo.hoy'
 import { Route as HoroscopoMesRouteImport } from './routes/horoscopo.mes'
 import { Route as HoroscopoSemanaRouteImport } from './routes/horoscopo.semana'
+import { Route as LunaIndexRouteImport } from './routes/luna.index'
 import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
 import { Route as LunaHoyRouteImport } from './routes/luna.hoy'
@@ -65,7 +66,9 @@ import { Route as ApiSearchSuggestionsRouteImport } from './routes/api/search/su
 import { Route as ApiTarotInterpretRouteImport } from './routes/api/tarot/interpret'
 import { Route as ApiTarotInterpretReadingRouteImport } from './routes/api/tarot/interpret-reading'
 import { Route as CompatibilidadSignASignBRouteImport } from './routes/compatibilidad.$signA.$signB'
+import { Route as LunaCalendarioIndexRouteImport } from './routes/luna.calendario.index'
 import { Route as LunaCalendarioYmRouteImport } from './routes/luna.calendario.$ym'
+import { Route as LunaFasesIndexRouteImport } from './routes/luna.fases.index'
 import { Route as LunaFasesSlugRouteImport } from './routes/luna.fases.$slug'
 import { Route as TarotCartasIndexRouteImport } from './routes/tarot.cartas.index'
 import { Route as TarotCartasCardRouteImport } from './routes/tarot.cartas.$card'
@@ -234,6 +237,11 @@ const HoroscopoSemanaRoute = HoroscopoSemanaRouteImport.update({
   path: '/horoscopo/semana',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LunaIndexRoute = LunaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LunaRoute,
+} as any)
 const LunaCalendarioRoute = LunaCalendarioRouteImport.update({
   id: '/calendario',
   path: '/calendario',
@@ -366,10 +374,20 @@ const CompatibilidadSignASignBRoute =
     path: '/compatibilidad/$signA/$signB',
     getParentRoute: () => rootRouteImport,
   } as any)
+const LunaCalendarioIndexRoute = LunaCalendarioIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LunaCalendarioRoute,
+} as any)
 const LunaCalendarioYmRoute = LunaCalendarioYmRouteImport.update({
   id: '/$ym',
   path: '/$ym',
   getParentRoute: () => LunaCalendarioRoute,
+} as any)
+const LunaFasesIndexRoute = LunaFasesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LunaFasesRoute,
 } as any)
 const LunaFasesSlugRoute = LunaFasesSlugRouteImport.update({
   id: '/$slug',
@@ -453,6 +471,7 @@ export interface FileRoutesByFullPath {
   '/temas/$category': typeof TemasCategoryRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
+  '/luna/': typeof LunaIndexRoute
   '/tarot/': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
@@ -475,6 +494,8 @@ export interface FileRoutesByFullPath {
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/luna/calendario/': typeof LunaCalendarioIndexRoute
+  '/luna/fases/': typeof LunaFasesIndexRoute
   '/tarot/cartas/': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas/': typeof TarotTresCartasIndexRoute
   '/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
@@ -493,7 +514,6 @@ export interface FileRoutesByTo {
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
   '/guias': typeof GuiasRouteWithChildren
-  '/luna': typeof LunaRouteWithChildren
   '/metodo': typeof MetodoRoute
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
@@ -510,14 +530,13 @@ export interface FileRoutesByTo {
   '/horoscopo/hoy': typeof HoroscopoHoyRoute
   '/horoscopo/mes': typeof HoroscopoMesRoute
   '/horoscopo/semana': typeof HoroscopoSemanaRoute
-  '/luna/calendario': typeof LunaCalendarioRouteWithChildren
-  '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
   '/compatibilidad': typeof CompatibilidadIndexRoute
   '/horoscopo': typeof HoroscopoIndexRoute
+  '/luna': typeof LunaIndexRoute
   '/tarot': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
@@ -540,6 +559,8 @@ export interface FileRoutesByTo {
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/luna/calendario': typeof LunaCalendarioIndexRoute
+  '/luna/fases': typeof LunaFasesIndexRoute
   '/tarot/cartas': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas': typeof TarotTresCartasIndexRoute
   '/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
@@ -586,6 +607,7 @@ export interface FileRoutesById {
   '/temas/$category': typeof TemasCategoryRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
+  '/luna/': typeof LunaIndexRoute
   '/tarot/': typeof TarotIndexRoute
   '/_authenticated/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/_authenticated/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
@@ -608,6 +630,8 @@ export interface FileRoutesById {
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/luna/calendario/': typeof LunaCalendarioIndexRoute
+  '/luna/fases/': typeof LunaFasesIndexRoute
   '/tarot/cartas/': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas/': typeof TarotTresCartasIndexRoute
   '/_authenticated/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
@@ -654,6 +678,7 @@ export interface FileRouteTypes {
     | '/temas/$category'
     | '/compatibilidad/'
     | '/horoscopo/'
+    | '/luna/'
     | '/tarot/'
     | '/admin/articulos'
     | '/admin/auditoria'
@@ -676,6 +701,8 @@ export interface FileRouteTypes {
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
     | '/admin/'
+    | '/luna/calendario/'
+    | '/luna/fases/'
     | '/tarot/cartas/'
     | '/tarot/tres-cartas/'
     | '/admin/articulos/$id'
@@ -694,7 +721,6 @@ export interface FileRouteTypes {
     | '/cookies'
     | '/design-system'
     | '/guias'
-    | '/luna'
     | '/metodo'
     | '/nosotros'
     | '/privacidad'
@@ -711,14 +737,13 @@ export interface FileRouteTypes {
     | '/horoscopo/hoy'
     | '/horoscopo/mes'
     | '/horoscopo/semana'
-    | '/luna/calendario'
-    | '/luna/fases'
     | '/luna/hoy'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
     | '/compatibilidad'
     | '/horoscopo'
+    | '/luna'
     | '/tarot'
     | '/admin/articulos'
     | '/admin/auditoria'
@@ -741,6 +766,8 @@ export interface FileRouteTypes {
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
     | '/admin'
+    | '/luna/calendario'
+    | '/luna/fases'
     | '/tarot/cartas'
     | '/tarot/tres-cartas'
     | '/admin/articulos/$id'
@@ -786,6 +813,7 @@ export interface FileRouteTypes {
     | '/temas/$category'
     | '/compatibilidad/'
     | '/horoscopo/'
+    | '/luna/'
     | '/tarot/'
     | '/_authenticated/admin/articulos'
     | '/_authenticated/admin/auditoria'
@@ -808,6 +836,8 @@ export interface FileRouteTypes {
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
     | '/_authenticated/admin/'
+    | '/luna/calendario/'
+    | '/luna/fases/'
     | '/tarot/cartas/'
     | '/tarot/tres-cartas/'
     | '/_authenticated/admin/articulos/$id'
@@ -1085,6 +1115,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HoroscopoSemanaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/luna/': {
+      id: '/luna/'
+      path: '/'
+      fullPath: '/luna/'
+      preLoaderRoute: typeof LunaIndexRouteImport
+      parentRoute: typeof LunaRoute
+    }
     '/luna/calendario': {
       id: '/luna/calendario'
       path: '/calendario'
@@ -1253,12 +1290,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompatibilidadSignASignBRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/luna/calendario/': {
+      id: '/luna/calendario/'
+      path: '/'
+      fullPath: '/luna/calendario/'
+      preLoaderRoute: typeof LunaCalendarioIndexRouteImport
+      parentRoute: typeof LunaCalendarioRoute
+    }
     '/luna/calendario/$ym': {
       id: '/luna/calendario/$ym'
       path: '/$ym'
       fullPath: '/luna/calendario/$ym'
       preLoaderRoute: typeof LunaCalendarioYmRouteImport
       parentRoute: typeof LunaCalendarioRoute
+    }
+    '/luna/fases/': {
+      id: '/luna/fases/'
+      path: '/'
+      fullPath: '/luna/fases/'
+      preLoaderRoute: typeof LunaFasesIndexRouteImport
+      parentRoute: typeof LunaFasesRoute
     }
     '/luna/fases/$slug': {
       id: '/luna/fases/$slug'
@@ -1436,10 +1487,12 @@ const GuiasRouteWithChildren = GuiasRoute._addFileChildren(GuiasRouteChildren)
 
 interface LunaCalendarioRouteChildren {
   LunaCalendarioYmRoute: typeof LunaCalendarioYmRoute
+  LunaCalendarioIndexRoute: typeof LunaCalendarioIndexRoute
 }
 
 const LunaCalendarioRouteChildren: LunaCalendarioRouteChildren = {
   LunaCalendarioYmRoute: LunaCalendarioYmRoute,
+  LunaCalendarioIndexRoute: LunaCalendarioIndexRoute,
 }
 
 const LunaCalendarioRouteWithChildren = LunaCalendarioRoute._addFileChildren(
@@ -1448,10 +1501,12 @@ const LunaCalendarioRouteWithChildren = LunaCalendarioRoute._addFileChildren(
 
 interface LunaFasesRouteChildren {
   LunaFasesSlugRoute: typeof LunaFasesSlugRoute
+  LunaFasesIndexRoute: typeof LunaFasesIndexRoute
 }
 
 const LunaFasesRouteChildren: LunaFasesRouteChildren = {
   LunaFasesSlugRoute: LunaFasesSlugRoute,
+  LunaFasesIndexRoute: LunaFasesIndexRoute,
 }
 
 const LunaFasesRouteWithChildren = LunaFasesRoute._addFileChildren(
@@ -1462,12 +1517,14 @@ interface LunaRouteChildren {
   LunaCalendarioRoute: typeof LunaCalendarioRouteWithChildren
   LunaFasesRoute: typeof LunaFasesRouteWithChildren
   LunaHoyRoute: typeof LunaHoyRoute
+  LunaIndexRoute: typeof LunaIndexRoute
 }
 
 const LunaRouteChildren: LunaRouteChildren = {
   LunaCalendarioRoute: LunaCalendarioRouteWithChildren,
   LunaFasesRoute: LunaFasesRouteWithChildren,
   LunaHoyRoute: LunaHoyRoute,
+  LunaIndexRoute: LunaIndexRoute,
 }
 
 const LunaRouteWithChildren = LunaRoute._addFileChildren(LunaRouteChildren)

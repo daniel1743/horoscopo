@@ -106,7 +106,8 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
                   </p>
                 )}
                 <Link
-                  to={moonPhaseRoute(MOON_PHASE_REGISTRY[selected.phase_key].slug)}
+                  to="/luna/fases/$slug"
+                  params={{ slug: MOON_PHASE_REGISTRY[selected.phase_key].slug, phaseKey: selected.phase_key }}
                   onClick={() => setSelected(null)}
                   className="inline-flex items-center gap-1 font-body text-[14px] text-cosmic hover:underline"
                 >

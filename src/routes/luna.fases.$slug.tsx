@@ -119,14 +119,14 @@ function MoonPhasePage() {
       >
         <Link
           to="/luna/fases/$slug"
-          params={{ slug: MOON_PHASE_REGISTRY[prevKey].slug }}
+          params={{ slug: MOON_PHASE_REGISTRY[prevKey].slug, phaseKey: prevKey }}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           <Icon name="back" size="sm" /> {MOON_PHASE_REGISTRY[prevKey].label}
         </Link>
         <Link
           to="/luna/fases/$slug"
-          params={{ slug: MOON_PHASE_REGISTRY[nextKey].slug }}
+          params={{ slug: MOON_PHASE_REGISTRY[nextKey].slug, phaseKey: nextKey }}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           {MOON_PHASE_REGISTRY[nextKey].label} <Icon name="forward" size="sm" />

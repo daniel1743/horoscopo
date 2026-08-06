@@ -14,7 +14,7 @@ export function MoonPhaseGrid() {
           <li key={key}>
             <Link
               to="/luna/fases/$slug"
-              params={{ slug: meta.slug }}
+              params={{ slug: meta.slug, phaseKey: meta.key }}
               className="group block h-full focus-visible:outline-none"
             >
               <Card className="flex h-full flex-col gap-3 p-5 transition group-hover:border-cosmic group-focus-visible:border-cosmic">
