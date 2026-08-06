@@ -11,10 +11,7 @@ import { z } from "zod";
 import { streamChatCompletion } from "@/lib/ai/gateway.server";
 import { checkAndConsumeQuota, hashAnonymousKey } from "@/lib/ai/rate-limit.server";
 import { readOptionalAuth } from "@/lib/ai/optional-auth.server";
-import {
-  buildThreeCardSynthesisFallback,
-  sanitizeTarotUserFacingText,
-} from "@/lib/tarot/synthesis-generator";
+import { buildThreeCardSynthesisFallback } from "@/lib/tarot/synthesis-generator";
 import { checkSafety, buildSafetyResponse } from "@/server/tarot/safety-check";
 import type { Database } from "@/integrations/supabase/types";
 import type { TarotCard, ThreeCardReadingConfig } from "@/types/tarot";
@@ -277,13 +274,11 @@ function parseAIResponse(
       positions: parsed.positions.map((p, i) => ({
         positionKey: config.positions[i].key,
         cardSlug: cards[i].slug,
-        interpretation: sanitizeTarotUserFacingText(String(p.interpretation ?? "")),
+        interpretation: String(p.interpretation ?? ""),
       })),
       synthesis: {
-        text: sanitizeTarotUserFacingText(String(parsed.synthesis.text ?? "")),
-        reflectionQuestion: sanitizeTarotUserFacingText(
-          String(parsed.synthesis.reflectionQuestion ?? ""),
-        ),
+        text: String(parsed.synthesis.text ?? ""),
+        reflectionQuestion: String(parsed.synthesis.reflectionQuestion ?? ""),
       },
       meta: {
         source: "ai",
@@ -308,9 +303,7 @@ function buildFallbackReading(
     positions: cards.map((card, i) => ({
       positionKey: config.positions[i].key,
       cardSlug: card.slug,
-      interpretation: sanitizeTarotUserFacingText(
-        `${card.name} en ${config.positions[i].shortLabel}: ${card.uprightMeaning}`,
-      ),
+      interpretation: `${card.name} en ${config.positions[i].shortLabel}: ${card.uprightMeaning}`,
     })),
     synthesis,
     meta: {

@@ -8,7 +8,6 @@ import { useTarotDeck } from "@/hooks/useTarotDeck";
 import { drawUniqueCards } from "@/lib/tarot/card-selection";
 import { getTarotImagePublicUrl } from "@/lib/tarot/image-url";
 import { isPublicFeatureEnabled } from "@/config/public-features";
-import type { InterpretReadingResponse } from "@/routes/api/tarot/interpret-reading";
 import type { TarotCard, ThreeCardReadingConfig } from "@/types/tarot";
 import { InteractiveThreeCardResult } from "./InteractiveThreeCardResult";
 import { ThreeCardPositionSlots } from "./ThreeCardPositionSlots";
@@ -16,6 +15,7 @@ import { TarotCardPicker } from "./TarotCardPicker";
 import { TarotDeckVisual } from "./TarotDeckVisual";
 import { TarotSelectionProgress } from "./TarotSelectionProgress";
 import { ThreeCardReadingActions } from "./ThreeCardReadingActions";
+import { buildSynthesisText } from "./synthesis-text";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import type {
@@ -52,16 +52,6 @@ function toRevealedCard(selected: SelectedTarotCard): RevealedTarotCard {
     name: selected.card.name,
     image: image.ok ? image.publicUrl : "",
   };
-}
-
-function buildSynthesisText(synthesis: InterpretReadingResponse["synthesis"]): string {
-  return [
-    synthesis.mainPattern,
-    synthesis.relationshipBetweenCards,
-    synthesis.emotionalTensionOrResource,
-    synthesis.guidance,
-    synthesis.reflectionQuestion,
-  ].join(" ");
 }
 
 /** TODO: Reactivar la pregunta opcional únicamente cuando el contenido escrito

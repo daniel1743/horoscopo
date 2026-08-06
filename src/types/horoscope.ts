@@ -12,6 +12,8 @@ export interface HoroscopeEntry {
   period: HoroscopePeriod;
   /** Fecha ISO (YYYY-MM-DD) de referencia del periodo. */
   dateFor: string;
+  /** ID de variante (1-4) para sistema de personalización. */
+  variantId?: 1 | 2 | 3 | 4;
   summary: string;
   focus: string;
   mood: string;
@@ -24,4 +26,6 @@ export interface HoroscopeEntry {
   isDemo: boolean;
   publishedAt: string | null;
   updatedAt: string;
+  /** Metadata de generación IA (modelo, tokens, calidad, etc.) */
+  generationMetadata?: Record<string, unknown>;
 }

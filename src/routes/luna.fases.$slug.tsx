@@ -118,13 +118,15 @@ function MoonPhasePage() {
         className="mt-12 flex items-center justify-between gap-4 border-t border-ink/10 pt-6"
       >
         <Link
-          to={moonPhaseRoute(MOON_PHASE_REGISTRY[prevKey].slug)}
+          to="/luna/fases/$slug"
+          params={{ slug: MOON_PHASE_REGISTRY[prevKey].slug }}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           <Icon name="back" size="sm" /> {MOON_PHASE_REGISTRY[prevKey].label}
         </Link>
         <Link
-          to={moonPhaseRoute(MOON_PHASE_REGISTRY[nextKey].slug)}
+          to="/luna/fases/$slug"
+          params={{ slug: MOON_PHASE_REGISTRY[nextKey].slug }}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           {MOON_PHASE_REGISTRY[nextKey].label} <Icon name="forward" size="sm" />

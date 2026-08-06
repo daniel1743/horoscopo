@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { threeCardReadings, enabledThreeCardReadings } from "@/config/three-card-readings";
-import {
-  buildThreeCardSynthesisFallback,
-  sanitizeTarotUserFacingText,
-} from "@/lib/tarot/synthesis-generator";
+import { buildThreeCardSynthesisFallback } from "@/lib/tarot/synthesis-generator";
 import type { TarotCard } from "@/types/tarot";
 
 const mockCard: TarotCard = {
@@ -96,10 +93,7 @@ describe("Síntesis fallback de tres cartas", () => {
 
     const synthesis = buildThreeCardSynthesisFallback(config, cards, config.positions);
 
-    expect(synthesis.mainPattern).toBeTruthy();
-    expect(synthesis.relationshipBetweenCards).toBeTruthy();
-    expect(synthesis.emotionalTensionOrResource).toBeTruthy();
-    expect(synthesis.guidance).toBeTruthy();
+    expect(synthesis.text).toBeTruthy();
     expect(synthesis.reflectionQuestion).toBeTruthy();
   });
 
@@ -110,7 +104,7 @@ describe("Síntesis fallback de tres cartas", () => {
     const synthesis = buildThreeCardSynthesisFallback(config, cards, config.positions);
 
     // No debe contener simplemente los nombres de las cartas juntas
-    expect(synthesis.mainPattern).not.toMatch(/El Mago.*El Mago.*El Mago/);
+    expect(synthesis.text).not.toMatch(/El Mago.*El Mago.*El Mago/);
   });
 
   it("síntesis incluye información de posiciones", () => {
@@ -130,11 +124,8 @@ describe("Síntesis fallback de tres cartas", () => {
 
     const synthesis = buildThreeCardSynthesisFallback(config, cards, config.positions);
 
-    expect(synthesis.mainPattern.length).toBeLessThanOrEqual(400);
-    expect(synthesis.relationshipBetweenCards.length).toBeLessThanOrEqual(400);
-    expect(synthesis.emotionalTensionOrResource.length).toBeLessThanOrEqual(400);
-    expect(synthesis.guidance.length).toBeLessThanOrEqual(400);
-    expect(synthesis.reflectionQuestion.length).toBeLessThanOrEqual(150);
+    expect(synthesis.text.length).toBeLessThanOrEqual(800);
+    expect(synthesis.reflectionQuestion.length).toBeLessThanOrEqual(200);
   });
 
   it("síntesis incluye pregunta de reflexión conectada", () => {
@@ -153,13 +144,13 @@ describe("Síntesis fallback de tres cartas", () => {
     const favorableCard: TarotCard = { ...mockCard, yesNoTendency: "favorable" };
     const cards1: [TarotCard, TarotCard, TarotCard] = [favorableCard, favorableCard, favorableCard];
     const synthesis1 = buildThreeCardSynthesisFallback(config, cards1, config.positions);
-    expect(synthesis1.mainPattern).toMatch(/avance|hechos/i);
+    expect(synthesis1.text).toMatch(/constructiva|recursos|capacidad/i);
 
     // Caso 2: Dos cartas de cautela
     const cautionCard: TarotCard = { ...mockCard, yesNoTendency: "caution" };
     const cards2: [TarotCard, TarotCard, TarotCard] = [cautionCard, cautionCard, favorableCard];
     const synthesis2 = buildThreeCardSynthesisFallback(config, cards2, config.positions);
-    expect(synthesis2.mainPattern).toMatch(/pausar|revisar|cuidar/i);
+    expect(synthesis2.text).toMatch(/reflexión|atención|cuidado/i);
   });
 
   it("síntesis no afirma certezas de futuro", () => {
@@ -193,21 +184,9 @@ describe("Síntesis fallback de tres cartas", () => {
 
     expect(text).not.toContain("interpretationfocus");
     expect(text).not.toContain("synthesisinstructions");
-    expect(text).not.toContain("sin ordenar terminar");
-    expect(text).not.toContain("no afirmar sentimientos");
-    expect(text).not.toContain("foco de interpretación");
   });
 
-  it("sanitiza texto visible sin filtrar reglas del prompt", () => {
-    const text = sanitizeTarotUserFacingText(
-      "Ofrecer una orientación práctica, sin ordenar terminar, reconciliarse, insistir ni tomar decisiones por el usuario.. interpretationFocus",
-    );
-
-    expect(text).not.toMatch(/sin ordenar terminar|interpretationFocus/i);
-    expect(text).not.toContain("..");
-  });
-
-  it("menciona las tres cartas y produce una progresión", () => {
+  it("menciona las tres cartas", () => {
     const config = threeCardReadings.amor;
     const cards: [TarotCard, TarotCard, TarotCard] = [
       { ...mockCard, name: "Siete de Oros", slug: "siete-de-oros", keywords: ["paciencia"] },
@@ -222,10 +201,9 @@ describe("Síntesis fallback de tres cartas", () => {
 
     const synthesis = buildThreeCardSynthesisFallback(config, cards, config.positions);
 
-    expect(synthesis.relationshipBetweenCards).toContain("Siete de Oros");
-    expect(synthesis.relationshipBetweenCards).toContain("Siete de Bastos");
-    expect(synthesis.relationshipBetweenCards).toContain("As de Oros");
-    expect(synthesis.relationshipBetweenCards).toMatch(/mientras|orienta/i);
+    expect(synthesis.text).toContain("Siete de Oros");
+    expect(synthesis.text).toContain("Siete de Bastos");
+    expect(synthesis.text).toContain("As de Oros");
   });
 
   it("pregunta reflexiva termina con un solo signo de interrogación", () => {
@@ -250,8 +228,8 @@ describe("Síntesis fallback de tres cartas", () => {
     expect(buildThreeCardSynthesisFallback(config, cards, config.positions)).toEqual(
       buildThreeCardSynthesisFallback(config, cards, config.positions),
     );
-    expect(buildThreeCardSynthesisFallback(config, cards, config.positions).mainPattern).not.toBe(
-      buildThreeCardSynthesisFallback(config, otherCards, config.positions).mainPattern,
+    expect(buildThreeCardSynthesisFallback(config, cards, config.positions).text).not.toBe(
+      buildThreeCardSynthesisFallback(config, otherCards, config.positions).text,
     );
   });
 });

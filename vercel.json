@@ -1,0 +1,19 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/generate?period=daily",
+      "schedule": "0 1 * * *",
+      "description": "Generación diaria de horóscopos (1:00 AM)"
+    },
+    {
+      "path": "/api/cron/generate?period=weekly",
+      "schedule": "0 1 * * 1",
+      "description": "Generación semanal de horóscopos (Lunes 1:00 AM)"
+    },
+    {
+      "path": "/api/cron/generate?period=monthly",
+      "schedule": "0 1 1 * *",
+      "description": "Generación mensual de horóscopos (Día 1, 1:00 AM)"
+    }
+  ]
+}

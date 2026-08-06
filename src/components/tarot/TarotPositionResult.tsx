@@ -12,9 +12,6 @@ interface Props {
   theme?: string;
   interpretation?: {
     interpretation: string;
-    positiveValue: string;
-    caution: string;
-    practicalFocus: string;
   };
   showPosition?: boolean;
   revealed?: boolean;

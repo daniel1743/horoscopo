@@ -96,7 +96,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           />
         </form>
 
-        <div className="max-h-[60vh] overflow-y-auto p-4">
+        <div className="max-h-[60vh] overflow-y-auto scrollbar-hide p-4">
           {!enabled && recent.length > 0 && (
             <section aria-labelledby="recent-title">
               <div className="mb-2 flex items-center justify-between px-1">

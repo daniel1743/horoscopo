@@ -47,7 +47,7 @@ export const publicFeatureVisibility: Record<PublicFeatureKey, PublicFeatureStat
   search: "enabled",
   account: "hidden",
   assistant: "hidden",
-  horoscope: "hidden",
+  horoscope: "enabled",
   astrology: "hidden",
   compatibility: "hidden",
   informational: "hidden",

@@ -141,37 +141,24 @@ describe("Endpoint interpret-reading", () => {
           {
             positionKey: "emotional_world",
             cardSlug: "el-mago",
-            interpretation: "El Mago en tu mundo emocional sugiere recursos internos disponibles para manifestar.",
-            positiveValue: "Capacidad de materializar lo que deseas en amor.",
-            caution: "No dispersar energía en múltiples direcciones simultáneas.",
-            practicalFocus: "Identifica qué recursos emocionales tienes ahora mismo.",
+            interpretation:
+              "El Mago en tu mundo emocional sugiere recursos internos disponibles para manifestar lo que deseas en esta situación.",
           },
           {
             positionKey: "relationship_dynamic",
             cardSlug: "la-emperatriz",
-            interpretation: "La Emperatriz describe una dinámica de cuidado y nutrición mutua en el vínculo.",
-            positiveValue: "Fertilidad emocional y crecimiento conjunto.",
-            caution: "No descuidar tus propias necesidades por cuidar.",
-            practicalFocus: "Observa cómo cuidas y eres cuidado en esta relación.",
+            interpretation:
+              "La Emperatriz describe una dinámica de cuidado y nutrición mutua en el vínculo. Hay fertilidad emocional y crecimiento conjunto.",
           },
           {
             positionKey: "guidance_forward",
             cardSlug: "el-sol",
-            interpretation: "El Sol ofrece claridad y optimismo como orientación para avanzar en amor.",
-            positiveValue: "Luz y claridad en el camino afectivo.",
-            caution: "No ignorar aspectos que requieren maduración o paciencia.",
-            practicalFocus: "Permite que la situación se ilumine naturalmente con tiempo.",
+            interpretation:
+              "El Sol ofrece claridad y optimismo como orientación para avanzar en amor. Permite que la situación se ilumine naturalmente con tiempo.",
           },
         ],
         synthesis: {
-          mainPattern:
-            "Las tres cartas sugieren un camino de recursos internos hacia claridad externa en amor.",
-          relationshipBetweenCards:
-            "El Mago activa, La Emperatriz nutre, El Sol ilumina. Hay una progresión natural.",
-          emotionalTensionOrResource:
-            "Un recurso: tienes capacidad interna que puede florecer hacia claridad afectiva.",
-          guidance:
-            "Confía en tus recursos, nutre la relación con paciencia y permite que la claridad llegue.",
+          text: "Las tres cartas sugieren un camino de recursos internos hacia claridad externa en amor. El Mago activa, La Emperatriz nutre, El Sol ilumina. Hay una progresión natural y un recurso: tienes capacidad interna que puede florecer hacia claridad afectiva.",
           reflectionQuestion:
             "¿Cómo puedo usar mis recursos internos para nutrir esta situación hacia la claridad?",
         },
@@ -197,18 +184,10 @@ describe("Endpoint interpret-reading", () => {
             positionKey: "emotional_world",
             cardSlug: "el-mago",
             interpretation: "Interpretación válida con más de cincuenta caracteres aquí.",
-            positiveValue: "Valor positivo con más de treinta caracteres.",
-            caution: "Cautela con más de treinta caracteres también.",
-            practicalFocus: "Enfoque práctico con más de treinta caracteres.",
           },
         ],
         synthesis: {
-          mainPattern: "Patrón con más de cincuenta caracteres en esta descripción.",
-          relationshipBetweenCards:
-            "Relación entre cartas con más de cincuenta caracteres descritos.",
-          emotionalTensionOrResource:
-            "Tensión o recurso con más de cincuenta caracteres en descripción.",
-          guidance: "Orientación con más de cincuenta caracteres descritos aquí.",
+          text: "Texto de síntesis con más de cien caracteres en esta descripción para que sea válido según el schema definido en la aplicación.",
           reflectionQuestion: "¿Pregunta reflexiva?",
         },
         meta: {
@@ -229,34 +208,20 @@ describe("Endpoint interpret-reading", () => {
             positionKey: "p1",
             cardSlug: "el-mago",
             interpretation: "Interpretación válida con más de cincuenta caracteres aquí.",
-            positiveValue: "Valor positivo con más de treinta caracteres.",
-            caution: "Cautela con más de treinta caracteres también.",
-            practicalFocus: "Enfoque práctico con más de treinta caracteres.",
           },
           {
             positionKey: "p2",
             cardSlug: "la-emperatriz",
             interpretation: "Interpretación válida con más de cincuenta caracteres aquí.",
-            positiveValue: "Valor positivo con más de treinta caracteres.",
-            caution: "Cautela con más de treinta caracteres también.",
-            practicalFocus: "Enfoque práctico con más de treinta caracteres.",
           },
           {
             positionKey: "p3",
             cardSlug: "el-sol",
             interpretation: "Interpretación válida con más de cincuenta caracteres aquí.",
-            positiveValue: "Valor positivo con más de treinta caracteres.",
-            caution: "Cautela con más de treinta caracteres también.",
-            practicalFocus: "Enfoque práctico con más de treinta caracteres.",
           },
         ],
         synthesis: {
-          mainPattern: "Patrón con más de cincuenta caracteres en esta descripción completa.",
-          relationshipBetweenCards:
-            "Relación entre cartas con más de cincuenta caracteres descritos aquí.",
-          emotionalTensionOrResource:
-            "Tensión o recurso con más de cincuenta caracteres en descripción completa.",
-          guidance: "Orientación con más de cincuenta caracteres descritos aquí en detalle.",
+          text: "Texto de síntesis con más de cien caracteres en esta descripción para que sea válido según el schema definido en la aplicación.",
           reflectionQuestion: "¿Pregunta reflexiva?",
         },
         meta: {
@@ -274,10 +239,7 @@ describe("Endpoint interpret-reading", () => {
         requestId: "test-123",
         positions: [],
         synthesis: {
-          mainPattern: "Patrón",
-          relationshipBetweenCards: "Relación",
-          emotionalTensionOrResource: "Tensión",
-          guidance: "Orientación",
+          text: "Texto con más de cien caracteres",
           reflectionQuestion: "¿Pregunta?",
         },
         meta: {

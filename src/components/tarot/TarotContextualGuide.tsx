@@ -214,12 +214,15 @@ export function TarotContextualGuide({
       </SheetTrigger>
 
       <SheetContent className="w-full sm:max-w-md overflow-hidden bg-night border-line-dark text-ink-inverse flex flex-col p-0">
-        <div className="flex-1 overflow-y-auto flex flex-col p-6 pb-2">
+        <div className="flex-1 overflow-y-auto scrollbar-hide flex flex-col p-6 pb-2">
           <SheetHeader className="mb-4 shrink-0">
             <div className="flex items-start gap-3">
-              <div className="w-14 h-20 shrink-0 rounded-[var(--radius-card-sm)] overflow-hidden border border-line-dark/50">
-                <TarotCardVisual card={card} revealed size="sm" />
-              </div>
+              <TarotCardVisual 
+                card={card} 
+                revealed 
+                size="sm" 
+                className="w-14 shrink-0 shadow-none" 
+              />
               <div className="flex-1 min-w-0">
                 <SheetTitle className="font-display text-xl text-ink-inverse text-left">
                   {card.name}
@@ -364,7 +367,7 @@ export function TarotContextualGuide({
               }}
               placeholder="Ej. ¿Cómo se relaciona esta carta con mis preocupaciones actuales?"
               maxLength={500}
-              className="min-h-[80px] resize-none bg-night-elevated border-line-dark text-ink-inverse placeholder:text-ink-inverse-soft/50 focus-visible:ring-cosmic text-sm"
+              className="min-h-[80px] resize-none bg-night-elevated border-line-dark text-ink-inverse placeholder:text-ink-inverse-soft/50 focus-visible:ring-cosmic text-sm scrollbar-hide"
               disabled={isLoading}
             />
             <div className="flex items-center justify-between text-xs text-ink-inverse-soft/70">

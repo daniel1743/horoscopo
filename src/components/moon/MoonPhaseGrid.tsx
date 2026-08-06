@@ -13,7 +13,8 @@ export function MoonPhaseGrid() {
         return (
           <li key={key}>
             <Link
-              to={moonPhaseRoute(meta.slug)}
+              to="/luna/fases/$slug"
+              params={{ slug: meta.slug }}
               className="group block h-full focus-visible:outline-none"
             >
               <Card className="flex h-full flex-col gap-3 p-5 transition group-hover:border-cosmic group-focus-visible:border-cosmic">

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useTarotDeck } from "@/hooks/useTarotDeck";
 import { tarotService } from "@/services/tarot.service";
+import { TarotDailyInteraction } from "@/components/tarot/TarotDailyInteraction";
 import type { TarotDrawnCard } from "@/types/tarot";
 
 /** Carta del día — estable, se guarda solo por fecha en localStorage. */
@@ -54,19 +55,8 @@ export function TarotDailyExperience() {
   return (
     <section aria-label="Carta del día" className="flex flex-col gap-6">
       {!revealed ? (
-        <div className="rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-8 text-center">
-          <p className="font-body text-[13px] uppercase tracking-[0.16em] text-cosmic">
-            Carta del día
-          </p>
-          <h2 className="mt-2 font-display text-[26px] text-ink">Una carta te espera</h2>
-          <p className="mx-auto mt-3 max-w-md font-body text-[15px] leading-[1.6] text-ink-soft">
-            La misma carta te acompañará durante todo el día. Revélala cuando estés en calma para
-            observar su símbolo.
-          </p>
-          <Button type="button" variant="premium" className="mt-6" onClick={onReveal}>
-            <Icon name="premium" />
-            Revelar carta
-          </Button>
+        <div className="rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-4 sm:p-8">
+          <TarotDailyInteraction onRevealComplete={onReveal} card={drawn?.card ?? null} />
         </div>
       ) : (
         <TarotPositionResult drawn={drawn} showPosition={false} />

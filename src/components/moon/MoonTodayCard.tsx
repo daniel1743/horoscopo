@@ -86,7 +86,9 @@ export function MoonTodayCard({ snapshot, compact = false }: Props) {
           )}
           <div className="mt-7 flex flex-wrap gap-3">
             <Button asChild variant="dark" size="lg">
-              <Link to={moonPhaseRoute(meta.slug)}>Leer sobre {meta.label.toLowerCase()}</Link>
+              <Link to="/luna/fases/$slug" params={{ slug: meta.slug }}>
+                Leer sobre {meta.label.toLowerCase()}
+              </Link>
             </Button>
             {compact && (
               <Button asChild variant="link" className="text-gold">

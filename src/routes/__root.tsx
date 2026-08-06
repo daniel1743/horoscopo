@@ -117,11 +117,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang={siteConfig.locale}>
+    <html lang={siteConfig.locale} className="scrollbar-hide">
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body className="scrollbar-hide">
         {children}
         <Scripts />
       </body>

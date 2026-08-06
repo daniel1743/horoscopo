@@ -59,6 +59,8 @@ import { Route as AuthenticatedMiEspacioMemoriaRouteImport } from './routes/_aut
 import { Route as AuthenticatedMiEspacioPerfilRouteImport } from './routes/_authenticated/mi-espacio.perfil'
 import { Route as AuthenticatedMiEspacioPrivacidadRouteImport } from './routes/_authenticated/mi-espacio.privacidad'
 import { Route as ApiAiRespondRouteImport } from './routes/api/ai/respond'
+import { Route as ApiCronGenerateRouteImport } from './routes/api/cron/generate'
+import { Route as ApiHoroscopeAssignVariantRouteImport } from './routes/api/horoscope/assign-variant'
 import { Route as ApiSearchSuggestionsRouteImport } from './routes/api/search/suggestions'
 import { Route as ApiTarotInterpretRouteImport } from './routes/api/tarot/interpret'
 import { Route as ApiTarotInterpretReadingRouteImport } from './routes/api/tarot/interpret-reading'
@@ -331,6 +333,17 @@ const ApiAiRespondRoute = ApiAiRespondRouteImport.update({
   path: '/api/ai/respond',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCronGenerateRoute = ApiCronGenerateRouteImport.update({
+  id: '/api/cron/generate',
+  path: '/api/cron/generate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHoroscopeAssignVariantRoute =
+  ApiHoroscopeAssignVariantRouteImport.update({
+    id: '/api/horoscope/assign-variant',
+    path: '/api/horoscope/assign-variant',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiSearchSuggestionsRoute = ApiSearchSuggestionsRouteImport.update({
   id: '/suggestions',
   path: '/suggestions',
@@ -451,6 +464,8 @@ export interface FileRoutesByFullPath {
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
+  '/api/cron/generate': typeof ApiCronGenerateRoute
+  '/api/horoscope/assign-variant': typeof ApiHoroscopeAssignVariantRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/api/tarot/interpret': typeof ApiTarotInterpretRoute
   '/api/tarot/interpret-reading': typeof ApiTarotInterpretReadingRoute
@@ -514,6 +529,8 @@ export interface FileRoutesByTo {
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
+  '/api/cron/generate': typeof ApiCronGenerateRoute
+  '/api/horoscope/assign-variant': typeof ApiHoroscopeAssignVariantRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/api/tarot/interpret': typeof ApiTarotInterpretRoute
   '/api/tarot/interpret-reading': typeof ApiTarotInterpretReadingRoute
@@ -580,6 +597,8 @@ export interface FileRoutesById {
   '/_authenticated/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/_authenticated/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
+  '/api/cron/generate': typeof ApiCronGenerateRoute
+  '/api/horoscope/assign-variant': typeof ApiHoroscopeAssignVariantRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/api/tarot/interpret': typeof ApiTarotInterpretRoute
   '/api/tarot/interpret-reading': typeof ApiTarotInterpretReadingRoute
@@ -646,6 +665,8 @@ export interface FileRouteTypes {
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
     | '/api/ai/respond'
+    | '/api/cron/generate'
+    | '/api/horoscope/assign-variant'
     | '/api/search/suggestions'
     | '/api/tarot/interpret'
     | '/api/tarot/interpret-reading'
@@ -709,6 +730,8 @@ export interface FileRouteTypes {
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
     | '/api/ai/respond'
+    | '/api/cron/generate'
+    | '/api/horoscope/assign-variant'
     | '/api/search/suggestions'
     | '/api/tarot/interpret'
     | '/api/tarot/interpret-reading'
@@ -774,6 +797,8 @@ export interface FileRouteTypes {
     | '/_authenticated/mi-espacio/perfil'
     | '/_authenticated/mi-espacio/privacidad'
     | '/api/ai/respond'
+    | '/api/cron/generate'
+    | '/api/horoscope/assign-variant'
     | '/api/search/suggestions'
     | '/api/tarot/interpret'
     | '/api/tarot/interpret-reading'
@@ -823,6 +848,8 @@ export interface RootRouteChildren {
   HoroscopoIndexRoute: typeof HoroscopoIndexRoute
   TarotIndexRoute: typeof TarotIndexRoute
   ApiAiRespondRoute: typeof ApiAiRespondRoute
+  ApiCronGenerateRoute: typeof ApiCronGenerateRoute
+  ApiHoroscopeAssignVariantRoute: typeof ApiHoroscopeAssignVariantRoute
   ApiTarotInterpretRoute: typeof ApiTarotInterpretRoute
   ApiTarotInterpretReadingRoute: typeof ApiTarotInterpretReadingRoute
   CompatibilidadSignASignBRoute: typeof CompatibilidadSignASignBRoute
@@ -1184,6 +1211,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAiRespondRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cron/generate': {
+      id: '/api/cron/generate'
+      path: '/api/cron/generate'
+      fullPath: '/api/cron/generate'
+      preLoaderRoute: typeof ApiCronGenerateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/horoscope/assign-variant': {
+      id: '/api/horoscope/assign-variant'
+      path: '/api/horoscope/assign-variant'
+      fullPath: '/api/horoscope/assign-variant'
+      preLoaderRoute: typeof ApiHoroscopeAssignVariantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/search/suggestions': {
       id: '/api/search/suggestions'
       path: '/suggestions'
@@ -1476,6 +1517,8 @@ const rootRouteChildren: RootRouteChildren = {
   HoroscopoIndexRoute: HoroscopoIndexRoute,
   TarotIndexRoute: TarotIndexRoute,
   ApiAiRespondRoute: ApiAiRespondRoute,
+  ApiCronGenerateRoute: ApiCronGenerateRoute,
+  ApiHoroscopeAssignVariantRoute: ApiHoroscopeAssignVariantRoute,
   ApiTarotInterpretRoute: ApiTarotInterpretRoute,
   ApiTarotInterpretReadingRoute: ApiTarotInterpretReadingRoute,
   CompatibilidadSignASignBRoute: CompatibilidadSignASignBRoute,

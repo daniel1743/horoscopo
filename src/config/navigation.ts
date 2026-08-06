@@ -155,6 +155,7 @@ export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = d
 
 /** Legacy — mantener para no romper consumidores previos. */
 export const primaryNav: NavItem[] = [
+  { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
   { label: "Luna", href: "/luna", icon: "moon" },
   { label: "Guías", href: "/guias", icon: "article" },
@@ -162,6 +163,7 @@ export const primaryNav: NavItem[] = [
 
 export const mobileBottomNav: NavItem[] = [
   { label: "Inicio", href: "/", icon: "menu" },
+  { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
   { label: "Luna", href: "/luna", icon: "moon" },
 ];

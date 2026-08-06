@@ -82,7 +82,7 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-5 py-6">
+        <div className="flex-1 overflow-y-auto scrollbar-hide px-5 py-6">
           {showAccountAccess && (
             <div className="mb-6 rounded-[var(--radius-card)] border border-line-subtle bg-ivory p-4">
               <p className="font-display text-[16px] font-semibold text-ink">Tu espacio personal</p>

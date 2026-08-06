@@ -38,7 +38,8 @@ export function NextMoonPhases({ events, limit = 4 }: Props) {
                 </p>
               </div>
               <Link
-                to={moonPhaseRoute(meta.slug)}
+                to="/luna/fases/$slug"
+                params={{ slug: meta.slug }}
                 className="text-[13px] font-body text-cosmic hover:underline focus-visible:underline"
                 aria-label={`Leer sobre ${meta.label}`}
               >

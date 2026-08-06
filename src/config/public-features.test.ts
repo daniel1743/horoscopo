@@ -17,7 +17,6 @@ describe("public feature visibility", () => {
   });
 
   it("hides incomplete public functions", () => {
-    expect(statusForRoute("horoscope")).toBe("hidden");
     expect(statusForRoute("astrology")).toBe("hidden");
     expect(statusForRoute("compatibility")).toBe("hidden");
     expect(statusForRoute("account")).toBe("hidden");
@@ -37,7 +36,8 @@ describe("public feature visibility", () => {
     ];
 
     expect(routeKeys.every(isRoutePubliclyEnabled)).toBe(true);
-    expect(primaryNav.map((item) => item.href)).not.toContain("/horoscopo");
+    // Horóscopo está ahora activado
+    expect(primaryNav.map((item) => item.href)).toContain("/horoscopo");
     expect(primaryNav.map((item) => item.href)).not.toContain("/compatibilidad");
   });
 });
