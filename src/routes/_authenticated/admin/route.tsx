@@ -42,7 +42,7 @@ function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-canvas">
+    <div className="min-h-[calc(100vh-4rem)] bg-background">
       <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 lg:flex-row lg:gap-8 lg:px-6">
         <aside className="lg:w-64 lg:shrink-0">
           <div className="rounded-[var(--radius-card)] border border-line bg-warm-white p-4">

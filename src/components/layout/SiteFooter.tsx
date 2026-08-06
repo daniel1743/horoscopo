@@ -139,14 +139,34 @@ export function SiteFooter() {
           <p className="font-body text-[13px] text-ink-inverse-soft">
             {footerConfig.copyright.render()}
           </p>
-          {isRoutePubliclyEnabled("contact") && (
+          <div className="flex flex-wrap items-center gap-4">
+            {isRoutePubliclyEnabled("contact") && (
+              <Link
+                to={routes.contact}
+                className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
+              >
+                Contacto
+              </Link>
+            )}
             <Link
-              to={routes.contact}
+              to="/legal/privacidad"
               className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
             >
-              Contacto
+              Privacidad
             </Link>
-          )}
+            <Link
+              to="/legal/cookies"
+              className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
+            >
+              Cookies
+            </Link>
+            <Link
+              to="/legal/terminos"
+              className="font-body text-[13px] text-ink-inverse-soft hover:text-ink-inverse"
+            >
+              Términos
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>

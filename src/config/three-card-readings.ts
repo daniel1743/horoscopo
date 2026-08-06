@@ -163,7 +163,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
       canonical: "/tarot/tres-cartas/trabajo",
     },
     access: "free",
-    enabled: false,
+    enabled: true,
   },
 
   decision: {
@@ -217,7 +217,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
       canonical: "/tarot/tres-cartas/decision",
     },
     access: "free",
-    enabled: false,
+    enabled: true,
   },
 };
 

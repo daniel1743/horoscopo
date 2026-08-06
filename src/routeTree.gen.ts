@@ -16,6 +16,7 @@ import { Route as AstrologiaRouteImport } from './routes/astrologia'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisoDeResponsabilidadRouteImport } from './routes/aviso-de-responsabilidad'
 import { Route as AyudaRouteImport } from './routes/ayuda'
+import { Route as BrandTestRouteImport } from './routes/brand-test'
 import { Route as BuscarRouteImport } from './routes/buscar'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
@@ -41,6 +42,9 @@ import { Route as HoroscopoSignRouteImport } from './routes/horoscopo.$sign'
 import { Route as HoroscopoHoyRouteImport } from './routes/horoscopo.hoy'
 import { Route as HoroscopoMesRouteImport } from './routes/horoscopo.mes'
 import { Route as HoroscopoSemanaRouteImport } from './routes/horoscopo.semana'
+import { Route as LegalCookiesRouteImport } from './routes/legal.cookies'
+import { Route as LegalPrivacidadRouteImport } from './routes/legal.privacidad'
+import { Route as LegalTerminosRouteImport } from './routes/legal.terminos'
 import { Route as LunaIndexRouteImport } from './routes/luna.index'
 import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
@@ -74,6 +78,8 @@ import { Route as TarotCartasIndexRouteImport } from './routes/tarot.cartas.inde
 import { Route as TarotCartasCardRouteImport } from './routes/tarot.cartas.$card'
 import { Route as TarotTresCartasIndexRouteImport } from './routes/tarot.tres-cartas.index'
 import { Route as TarotTresCartasAmorRouteImport } from './routes/tarot.tres-cartas.amor'
+import { Route as TarotTresCartasDecisionRouteImport } from './routes/tarot.tres-cartas.decision'
+import { Route as TarotTresCartasTrabajoRouteImport } from './routes/tarot.tres-cartas.trabajo'
 import { Route as AuthenticatedAdminArticulosIdRouteImport } from './routes/_authenticated/admin/articulos.$id'
 import { Route as AuthenticatedAdminArticulosNuevoRouteImport } from './routes/_authenticated/admin/articulos.nuevo'
 import { Route as AuthenticatedAdminArticulosIdPreviewRouteImport } from './routes/_authenticated/admin/articulos.$id.preview'
@@ -110,6 +116,11 @@ const AvisoDeResponsabilidadRoute = AvisoDeResponsabilidadRouteImport.update({
 const AyudaRoute = AyudaRouteImport.update({
   id: '/ayuda',
   path: '/ayuda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrandTestRoute = BrandTestRouteImport.update({
+  id: '/brand-test',
+  path: '/brand-test',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BuscarRoute = BuscarRouteImport.update({
@@ -235,6 +246,21 @@ const HoroscopoMesRoute = HoroscopoMesRouteImport.update({
 const HoroscopoSemanaRoute = HoroscopoSemanaRouteImport.update({
   id: '/horoscopo/semana',
   path: '/horoscopo/semana',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalCookiesRoute = LegalCookiesRouteImport.update({
+  id: '/legal/cookies',
+  path: '/legal/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacidadRoute = LegalPrivacidadRouteImport.update({
+  id: '/legal/privacidad',
+  path: '/legal/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalTerminosRoute = LegalTerminosRouteImport.update({
+  id: '/legal/terminos',
+  path: '/legal/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LunaIndexRoute = LunaIndexRouteImport.update({
@@ -414,6 +440,16 @@ const TarotTresCartasAmorRoute = TarotTresCartasAmorRouteImport.update({
   path: '/tarot/tres-cartas/amor',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TarotTresCartasDecisionRoute = TarotTresCartasDecisionRouteImport.update({
+  id: '/tarot/tres-cartas/decision',
+  path: '/tarot/tres-cartas/decision',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TarotTresCartasTrabajoRoute = TarotTresCartasTrabajoRouteImport.update({
+  id: '/tarot/tres-cartas/trabajo',
+  path: '/tarot/tres-cartas/trabajo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminArticulosIdRoute =
   AuthenticatedAdminArticulosIdRouteImport.update({
     id: '/$id',
@@ -440,6 +476,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteWithChildren
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
+  '/brand-test': typeof BrandTestRoute
   '/buscar': typeof BuscarRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
@@ -463,6 +500,9 @@ export interface FileRoutesByFullPath {
   '/horoscopo/hoy': typeof HoroscopoHoyRoute
   '/horoscopo/mes': typeof HoroscopoMesRoute
   '/horoscopo/semana': typeof HoroscopoSemanaRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacidad': typeof LegalPrivacidadRoute
+  '/legal/terminos': typeof LegalTerminosRoute
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
@@ -493,6 +533,8 @@ export interface FileRoutesByFullPath {
   '/luna/fases/$slug': typeof LunaFasesSlugRoute
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
+  '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
+  '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/luna/calendario/': typeof LunaCalendarioIndexRoute
   '/luna/fases/': typeof LunaFasesIndexRoute
@@ -509,6 +551,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRouteWithChildren
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
+  '/brand-test': typeof BrandTestRoute
   '/buscar': typeof BuscarRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
@@ -530,6 +573,9 @@ export interface FileRoutesByTo {
   '/horoscopo/hoy': typeof HoroscopoHoyRoute
   '/horoscopo/mes': typeof HoroscopoMesRoute
   '/horoscopo/semana': typeof HoroscopoSemanaRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacidad': typeof LegalPrivacidadRoute
+  '/legal/terminos': typeof LegalTerminosRoute
   '/luna/hoy': typeof LunaHoyRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
@@ -558,6 +604,8 @@ export interface FileRoutesByTo {
   '/luna/fases/$slug': typeof LunaFasesSlugRoute
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
+  '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
+  '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/luna/calendario': typeof LunaCalendarioIndexRoute
   '/luna/fases': typeof LunaFasesIndexRoute
@@ -576,6 +624,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
+  '/brand-test': typeof BrandTestRoute
   '/buscar': typeof BuscarRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
@@ -599,6 +648,9 @@ export interface FileRoutesById {
   '/horoscopo/hoy': typeof HoroscopoHoyRoute
   '/horoscopo/mes': typeof HoroscopoMesRoute
   '/horoscopo/semana': typeof HoroscopoSemanaRoute
+  '/legal/cookies': typeof LegalCookiesRoute
+  '/legal/privacidad': typeof LegalPrivacidadRoute
+  '/legal/terminos': typeof LegalTerminosRoute
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
@@ -629,6 +681,8 @@ export interface FileRoutesById {
   '/luna/fases/$slug': typeof LunaFasesSlugRoute
   '/tarot/cartas/$card': typeof TarotCartasCardRoute
   '/tarot/tres-cartas/amor': typeof TarotTresCartasAmorRoute
+  '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
+  '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/luna/calendario/': typeof LunaCalendarioIndexRoute
   '/luna/fases/': typeof LunaFasesIndexRoute
@@ -647,6 +701,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/aviso-de-responsabilidad'
     | '/ayuda'
+    | '/brand-test'
     | '/buscar'
     | '/contacto'
     | '/cookies'
@@ -670,6 +725,9 @@ export interface FileRouteTypes {
     | '/horoscopo/hoy'
     | '/horoscopo/mes'
     | '/horoscopo/semana'
+    | '/legal/cookies'
+    | '/legal/privacidad'
+    | '/legal/terminos'
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
@@ -700,6 +758,8 @@ export interface FileRouteTypes {
     | '/luna/fases/$slug'
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
+    | '/tarot/tres-cartas/decision'
+    | '/tarot/tres-cartas/trabajo'
     | '/admin/'
     | '/luna/calendario/'
     | '/luna/fases/'
@@ -716,6 +776,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/aviso-de-responsabilidad'
     | '/ayuda'
+    | '/brand-test'
     | '/buscar'
     | '/contacto'
     | '/cookies'
@@ -737,6 +798,9 @@ export interface FileRouteTypes {
     | '/horoscopo/hoy'
     | '/horoscopo/mes'
     | '/horoscopo/semana'
+    | '/legal/cookies'
+    | '/legal/privacidad'
+    | '/legal/terminos'
     | '/luna/hoy'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
@@ -765,6 +829,8 @@ export interface FileRouteTypes {
     | '/luna/fases/$slug'
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
+    | '/tarot/tres-cartas/decision'
+    | '/tarot/tres-cartas/trabajo'
     | '/admin'
     | '/luna/calendario'
     | '/luna/fases'
@@ -782,6 +848,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/aviso-de-responsabilidad'
     | '/ayuda'
+    | '/brand-test'
     | '/buscar'
     | '/contacto'
     | '/cookies'
@@ -805,6 +872,9 @@ export interface FileRouteTypes {
     | '/horoscopo/hoy'
     | '/horoscopo/mes'
     | '/horoscopo/semana'
+    | '/legal/cookies'
+    | '/legal/privacidad'
+    | '/legal/terminos'
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
@@ -835,6 +905,8 @@ export interface FileRouteTypes {
     | '/luna/fases/$slug'
     | '/tarot/cartas/$card'
     | '/tarot/tres-cartas/amor'
+    | '/tarot/tres-cartas/decision'
+    | '/tarot/tres-cartas/trabajo'
     | '/_authenticated/admin/'
     | '/luna/calendario/'
     | '/luna/fases/'
@@ -853,6 +925,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   AvisoDeResponsabilidadRoute: typeof AvisoDeResponsabilidadRoute
   AyudaRoute: typeof AyudaRoute
+  BrandTestRoute: typeof BrandTestRoute
   BuscarRoute: typeof BuscarRoute
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
@@ -871,6 +944,9 @@ export interface RootRouteChildren {
   HoroscopoHoyRoute: typeof HoroscopoHoyRoute
   HoroscopoMesRoute: typeof HoroscopoMesRoute
   HoroscopoSemanaRoute: typeof HoroscopoSemanaRoute
+  LegalCookiesRoute: typeof LegalCookiesRoute
+  LegalPrivacidadRoute: typeof LegalPrivacidadRoute
+  LegalTerminosRoute: typeof LegalTerminosRoute
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
   TemasCategoryRoute: typeof TemasCategoryRoute
@@ -885,6 +961,8 @@ export interface RootRouteChildren {
   CompatibilidadSignASignBRoute: typeof CompatibilidadSignASignBRoute
   TarotCartasCardRoute: typeof TarotCartasCardRoute
   TarotTresCartasAmorRoute: typeof TarotTresCartasAmorRoute
+  TarotTresCartasDecisionRoute: typeof TarotTresCartasDecisionRoute
+  TarotTresCartasTrabajoRoute: typeof TarotTresCartasTrabajoRoute
   TarotCartasIndexRoute: typeof TarotCartasIndexRoute
   TarotTresCartasIndexRoute: typeof TarotTresCartasIndexRoute
 }
@@ -938,6 +1016,13 @@ declare module '@tanstack/react-router' {
       path: '/ayuda'
       fullPath: '/ayuda'
       preLoaderRoute: typeof AyudaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/brand-test': {
+      id: '/brand-test'
+      path: '/brand-test'
+      fullPath: '/brand-test'
+      preLoaderRoute: typeof BrandTestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/buscar': {
@@ -1113,6 +1198,27 @@ declare module '@tanstack/react-router' {
       path: '/horoscopo/semana'
       fullPath: '/horoscopo/semana'
       preLoaderRoute: typeof HoroscopoSemanaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/cookies': {
+      id: '/legal/cookies'
+      path: '/legal/cookies'
+      fullPath: '/legal/cookies'
+      preLoaderRoute: typeof LegalCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacidad': {
+      id: '/legal/privacidad'
+      path: '/legal/privacidad'
+      fullPath: '/legal/privacidad'
+      preLoaderRoute: typeof LegalPrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terminos': {
+      id: '/legal/terminos'
+      path: '/legal/terminos'
+      fullPath: '/legal/terminos'
+      preLoaderRoute: typeof LegalTerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/luna/': {
@@ -1346,6 +1452,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TarotTresCartasAmorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tarot/tres-cartas/decision': {
+      id: '/tarot/tres-cartas/decision'
+      path: '/tarot/tres-cartas/decision'
+      fullPath: '/tarot/tres-cartas/decision'
+      preLoaderRoute: typeof TarotTresCartasDecisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tarot/tres-cartas/trabajo': {
+      id: '/tarot/tres-cartas/trabajo'
+      path: '/tarot/tres-cartas/trabajo'
+      fullPath: '/tarot/tres-cartas/trabajo'
+      preLoaderRoute: typeof TarotTresCartasTrabajoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/articulos/$id': {
       id: '/_authenticated/admin/articulos/$id'
       path: '/$id'
@@ -1549,6 +1669,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   AvisoDeResponsabilidadRoute: AvisoDeResponsabilidadRoute,
   AyudaRoute: AyudaRoute,
+  BrandTestRoute: BrandTestRoute,
   BuscarRoute: BuscarRoute,
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
@@ -1567,6 +1688,9 @@ const rootRouteChildren: RootRouteChildren = {
   HoroscopoHoyRoute: HoroscopoHoyRoute,
   HoroscopoMesRoute: HoroscopoMesRoute,
   HoroscopoSemanaRoute: HoroscopoSemanaRoute,
+  LegalCookiesRoute: LegalCookiesRoute,
+  LegalPrivacidadRoute: LegalPrivacidadRoute,
+  LegalTerminosRoute: LegalTerminosRoute,
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
   TarotSiONoRoute: TarotSiONoRoute,
   TemasCategoryRoute: TemasCategoryRoute,
@@ -1581,6 +1705,8 @@ const rootRouteChildren: RootRouteChildren = {
   CompatibilidadSignASignBRoute: CompatibilidadSignASignBRoute,
   TarotCartasCardRoute: TarotCartasCardRoute,
   TarotTresCartasAmorRoute: TarotTresCartasAmorRoute,
+  TarotTresCartasDecisionRoute: TarotTresCartasDecisionRoute,
+  TarotTresCartasTrabajoRoute: TarotTresCartasTrabajoRoute,
   TarotCartasIndexRoute: TarotCartasIndexRoute,
   TarotTresCartasIndexRoute: TarotTresCartasIndexRoute,
 }

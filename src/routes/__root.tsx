@@ -13,6 +13,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/layout/AppShell";
 import { siteConfig } from "@/config/site";
+import { CookieConsentBanner } from "@/components/cookies/CookieConsentBanner";
+import { initCookieManager } from "@/lib/cookies/cookie-manager";
 
 function NotFoundComponent() {
   return (
@@ -93,10 +95,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#FF7F73" },
+      { name: "application-name", content: "Creovision" },
+      { name: "apple-mobile-web-app-title", content: "Creovision" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "default" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "icon", href: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
         rel: "preconnect",
@@ -132,11 +144,18 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // Inicializar sistema de cookies
+  useEffect(() => {
+    initCookieManager();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AppShell>
         <Outlet />
       </AppShell>
+      {/* Banner de consentimiento de cookies */}
+      <CookieConsentBanner />
     </QueryClientProvider>
   );
 }

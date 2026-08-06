@@ -6,9 +6,9 @@ interface FeaturedReadingCardProps {
   slug: string;
   title: string;
   description: string;
-  icon: IconName;
+  icon?: IconName;
+  image?: string;
   status: "enabled" | "coming_soon" | "hidden";
-  badge: string;
   href?: string;
   ctaLabel: string;
 }
@@ -17,8 +17,8 @@ export function FeaturedReadingCard({
   title,
   description,
   icon,
+  image,
   status,
-  badge,
   href,
   ctaLabel,
 }: FeaturedReadingCardProps) {
@@ -27,35 +27,24 @@ export function FeaturedReadingCard({
   const content = (
     <div
       className={cn(
-        "relative flex h-full flex-col items-center text-center p-8 rounded-[24px]",
+        "relative flex h-full flex-col items-center text-center px-5 py-6 md:px-6 md:pb-8 md:pt-6 rounded-[24px]",
         "border transition-all duration-500",
         isEnabled
           ? "bg-parchment-elevated border-cosmic/25 shadow-elevated hover:border-cosmic/55 hover:shadow-[0_18px_48px_rgba(99,63,178,0.18)]"
           : "bg-parchment border-line-soft cursor-default",
       )}
     >
-      {/* Badge */}
-      <div
-        className={cn(
-          "absolute -top-3 px-4 py-1 rounded-full text-[11px] font-bold uppercase tracking-widest",
-          isEnabled
-            ? "bg-cosmic text-white shadow-[0_0_18px_rgba(99,63,178,0.35)]"
-            : "bg-parchment-elevated text-ink-soft border border-line-soft",
-        )}
-      >
-        {badge}
-      </div>
-
-      {/* Icon Area */}
-      <div
-        className={cn(
-          "flex h-16 w-16 items-center justify-center rounded-full mb-6 mt-2",
-          isEnabled
-            ? "bg-cosmic/10 text-cosmic border border-cosmic/25 shadow-[0_10px_28px_rgba(99,63,178,0.12)]"
-            : "bg-parchment-elevated text-ink-soft border border-line-soft",
-        )}
-      >
-        <Icon name={icon} className="h-8 w-8" />
+      {/* Icon or Image Area */}
+      <div className="flex h-[200px] md:h-[250px] w-full items-center justify-center mb-6 shrink-0">
+        {image ? (
+          <img
+            src={image}
+            alt={title}
+            className="h-full w-full max-w-[210px] md:max-w-[276px] lg:max-w-[322px] object-contain"
+          />
+        ) : icon ? (
+          <Icon name={icon} className="h-24 w-24 sm:h-32 sm:w-32 text-cosmic/40" />
+        ) : null}
       </div>
 
       {/* Text Content */}
@@ -69,7 +58,7 @@ export function FeaturedReadingCard({
       {/* Action */}
       <div className="mt-auto w-full">
         {isEnabled ? (
-          <Button variant="primary" className="w-full group">
+          <Button variant="primary" className="min-h-[48px] w-full group">
             {ctaLabel}
             <Icon
               name="arrow-right"
@@ -77,7 +66,7 @@ export function FeaturedReadingCard({
             />
           </Button>
         ) : (
-          <Button variant="outline" className="w-full pointer-events-none" tabIndex={-1}>
+          <Button variant="outline" className="min-h-[48px] w-full pointer-events-none" tabIndex={-1}>
             {ctaLabel}
           </Button>
         )}
@@ -89,7 +78,8 @@ export function FeaturedReadingCard({
     return (
       <a
         href={href}
-        className="block h-full outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-[24px]"
+        aria-label={`Comenzar tirada de ${title}`}
+        className="block h-full w-full outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-[24px]"
       >
         {content}
       </a>

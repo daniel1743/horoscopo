@@ -57,12 +57,14 @@ export function SiteHeader() {
         >
           <Link
             to={routes.home}
-            aria-label="Ir al inicio"
-            className="inline-flex items-center gap-2"
+            aria-label="Ir al inicio de Creovision"
+            className="inline-flex items-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-md"
           >
-            <span className="font-display text-[22px] font-semibold text-ink">
-              {siteConfig.name}
-            </span>
+            <img
+              src="/brand/creovision-logo.png"
+              alt="Creovision"
+              className="h-[40px] w-auto max-w-[180px] object-contain block"
+            />
           </Link>
 
           <DesktopNavigation />

@@ -1,30 +1,17 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Container, Section, SectionHeading } from "@/components/layout/Container";
-import { EditorialCard } from "@/components/editorial/EditorialCard";
 import { homeConfig } from "@/config/home";
 import { routes } from "@/config/routes";
-import { listCategories, listPublishedArticles } from "@/lib/editorial/repository";
 
 /** Guías destacadas: obtiene los artículos publicados (home_featured) desde Supabase. */
 export function FeaturedGuidesSection() {
   const { featuredGuides: cfg } = homeConfig;
 
-  const { data } = useQuery({
-    queryKey: ["home", "featured-guides", cfg.maxItems],
-    queryFn: async () => {
-      const [articles, categories] = await Promise.all([
-        listPublishedArticles({ limit: cfg.maxItems }),
-        listCategories(),
-      ]);
-      return { articles, categories };
-    },
-    staleTime: 5 * 60 * 1000,
-  });
+  // El backend query se mantiene comentado/removido hasta que haya artículos reales
+  // para evitar errores de variables sin usar (TS).
 
-  const articles = data?.articles ?? [];
-  const byId = new Map((data?.categories ?? []).map((c) => [c.id, c]));
+  const placeholders = [0, 1, 2, 3];
 
   return (
     <Section tone="ivory" aria-labelledby="guides-title">
@@ -46,38 +33,32 @@ export function FeaturedGuidesSection() {
           {cfg.title}
         </h2>
 
-        {articles.length === 0 ? (
-          <p className="mt-8 rounded-[var(--radius-card)] border border-dashed border-line bg-warm-white p-6 font-body text-ink-soft">
-            Estamos preparando nuestros primeros artículos. Vuelve pronto.
-          </p>
-        ) : (
-          <>
-            {/* Móvil */}
-            <ul
-              className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:hidden"
-              role="list"
-            >
-              {articles.map((a) => (
-                <li
-                  key={a.id}
-                  className="snap-start shrink-0"
-                  style={{ width: "82vw", maxWidth: 320 }}
-                >
-                  <EditorialCard article={a} category={byId.get(a.categoryId)} />
-                </li>
-              ))}
-            </ul>
+        <>
+          {/* Móvil */}
+          <ul
+            className="-mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:hidden"
+            role="list"
+          >
+            {placeholders.map((i) => (
+              <li
+                key={`mobile-placeholder-${i}`}
+                className="snap-start shrink-0"
+                style={{ width: "82vw", maxWidth: 320 }}
+              >
+                <PlaceholderGuideCard />
+              </li>
+            ))}
+          </ul>
 
-            {/* Tablet/Desktop */}
-            <ul className="mt-10 hidden grid-cols-2 gap-6 md:grid lg:grid-cols-4" role="list">
-              {articles.map((a) => (
-                <li key={a.id}>
-                  <EditorialCard article={a} category={byId.get(a.categoryId)} />
-                </li>
-              ))}
-            </ul>
-          </>
-        )}
+          {/* Tablet/Desktop */}
+          <ul className="mt-10 hidden grid-cols-2 gap-6 md:grid lg:grid-cols-4" role="list">
+            {placeholders.map((i) => (
+              <li key={`desktop-placeholder-${i}`}>
+                <PlaceholderGuideCard />
+              </li>
+            ))}
+          </ul>
+        </>
 
         <div className="mt-8 md:hidden">
           <Button asChild variant="secondary" fullWidth>
@@ -88,3 +69,39 @@ export function FeaturedGuidesSection() {
     </Section>
   );
 }
+
+function PlaceholderGuideCard() {
+  return (
+    <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card-lg)] border border-line bg-warm-white transition-all opacity-90">
+      <div
+        className="relative aspect-[16/10] w-full overflow-hidden"
+        style={{
+          backgroundImage: "url(/PROXIMAMENTE.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div
+          aria-hidden
+          className="absolute inset-0 opacity-30"
+          style={{
+            background:
+              "radial-gradient(60% 60% at 70% 30%, rgba(255,255,255,0.25) 0%, transparent 65%)",
+          }}
+        />
+      </div>
+      <div className="flex flex-1 flex-col p-5">
+        <span className="inline-flex w-fit items-center rounded-full bg-brand-soft px-3 py-1 font-body text-[11px] font-medium uppercase tracking-[0.06em] text-brand">
+          Próximamente
+        </span>
+        <h3 className="mt-3 line-clamp-2 font-display text-[19px] font-semibold leading-[1.25] text-ink-soft">
+          Nueva guía en desarrollo
+        </h3>
+        <p className="mt-2 line-clamp-3 font-body text-[14px] leading-[1.6] text-ink-muted">
+          Estamos preparando nuevos artículos para ayudarte a comprender mejor los astros y el tarot.
+        </p>
+      </div>
+    </div>
+  );
+}
+

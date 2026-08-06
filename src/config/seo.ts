@@ -222,7 +222,7 @@ export function buildMeta(input: {
   // Preconnect para performance
   links.push(
     { rel: "preconnect", href: "https://fonts.googleapis.com" },
-    { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "anonymous" },
+    { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   );
 
   return { meta, links };

@@ -35,10 +35,10 @@ const SELECTION_SETTLE_MS = 500;
 const REVEAL_STEP_MS = 800;
 
 function candidateCountForViewport(): number {
-  if (typeof window === "undefined") return 10;
-  if (window.matchMedia("(max-width: 639px)").matches) return 6;
-  if (window.matchMedia("(max-width: 1023px)").matches) return 8;
-  return 10;
+  if (typeof window === "undefined") return 22;
+  if (window.matchMedia("(max-width: 639px)").matches) return 10;
+  if (window.matchMedia("(max-width: 1023px)").matches) return 14;
+  return 22;
 }
 
 function toCandidate(card: TarotCard): TarotCardCandidate {
@@ -266,116 +266,118 @@ export function ThreeCardLoveExperienceShell({
     : "La lectura se está integrando con las tres cartas seleccionadas.";
 
   return (
-    <div className="flex flex-col gap-10 w-full max-w-5xl mx-auto items-center min-h-[60vh]">
+    <div className="flex flex-col w-full max-w-5xl mx-auto items-center min-h-[60vh] pb-[calc(96px+env(safe-area-inset-bottom))]">
       {state !== "completed" && (
-        <div className="w-full">
-          <ThreeCardPositionSlots
-            config={config}
-            state={state}
-            selectedCards={selectedCards}
-            revealedCards={revealedCards}
-            nextPositionId={nextPositionId}
-            cardBackSrc={cardBackSrc}
-          />
-        </div>
-      )}
-
-      {state !== "completed" && (
-        <div className="w-full flex flex-col items-center justify-center min-h-[250px]">
-          {/* TODO: Reactivar la pregunta opcional únicamente cuando el contenido escrito
-           *  influya realmente en la interpretación o personalización de la tirada.
-           *  Flag: tarotOptionalQuestion en public-features.ts */}
-          {state === "preparing" && ENABLE_TAROT_OPTIONAL_QUESTION && (
-            <div className="flex flex-col gap-5 rounded-[var(--radius-card-lg)] border border-cosmic/15 bg-parchment-elevated p-6 w-full max-w-lg shadow-lg">
-              <div className="text-center mb-2">
-                <p className="font-body text-[14px] text-ink-soft">{config.intro}</p>
-              </div>
-              <TarotQuestionInput
-                value={question}
-                onChange={setQuestion}
-                placeholder={config.userContextPlaceholder}
+        <div className="w-full flex flex-col gap-6 md:gap-10">
+          
+          {/* Progreso en móvil (y escritorio) va arriba */}
+          {(state === "selecting" || state === "selected" || state === "revealing") && (
+            <div className="px-4 md:px-0">
+              <TarotSelectionProgress
+                currentSelectionCount={selectedCards.length}
+                maxSelectionCount={config.positions.length}
+                nextPositionLabel={nextPositionLabel}
               />
-              <div className="flex justify-center mt-2">
-                <ThreeCardReadingActions
-                  state={state}
-                  onShuffle={handleShuffle}
-                  onReveal={handleReveal}
-                  onReset={handleReset}
+            </div>
+          )}
+
+          <div className="px-4 md:px-0">
+            <ThreeCardPositionSlots
+              config={config}
+              state={state}
+              selectedCards={selectedCards}
+              revealedCards={revealedCards}
+              nextPositionId={nextPositionId}
+              cardBackSrc={cardBackSrc}
+            />
+          </div>
+
+          <div className="w-full flex flex-col items-center justify-center">
+            {state === "preparing" && ENABLE_TAROT_OPTIONAL_QUESTION && (
+              <div className="flex flex-col gap-5 rounded-[var(--radius-card-lg)] border border-cosmic/15 bg-parchment-elevated p-6 w-full max-w-lg shadow-lg mx-4 md:mx-auto">
+                <div className="text-center mb-2">
+                  <p className="font-body text-[14px] text-ink-soft">{config.intro}</p>
+                </div>
+                <TarotQuestionInput
+                  value={question}
+                  onChange={setQuestion}
+                  placeholder={config.userContextPlaceholder}
                 />
-              </div>
-            </div>
-          )}
-
-          {(state === "shuffling" ||
-            state === "selecting" ||
-            state === "selected" ||
-            state === "revealing") && (
-            <div className="flex flex-col items-center gap-6 w-full animate-in fade-in zoom-in-95 duration-500">
-              {state === "shuffling" ? (
-                <TarotDeckVisual isShuffling cardBackSrc={cardBackSrc} />
-              ) : state === "revealing" ? (
-                <div className="h-10" /> // Espaciador durante la animación de revelado
-              ) : (
-                <>
-                  <TarotSelectionProgress
-                    currentSelectionCount={selectedCards.length}
-                    maxSelectionCount={config.positions.length}
-                    nextPositionLabel={nextPositionLabel}
+                <div className="flex justify-center mt-2">
+                  <ThreeCardReadingActions
+                    state={state}
+                    onShuffle={handleShuffle}
+                    onReveal={handleReveal}
+                    onReset={handleReset}
                   />
-
-                  {state === "selecting" && (
-                    <>
-                      <TarotCardPicker
-                        candidateCards={candidateCards}
-                        selectedIds={selectedCards.map((card) => card.id)}
-                        onSelectCard={handleSelectCard}
-                        cardBackSrc={cardBackSrc}
-                      />
-                      {/* Botón de re-barajar accesible debajo de las cartas candidatas */}
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={handleShuffle}
-                        className="mt-4"
-                        aria-label="Barajar cartas"
-                      >
-                        <Icon name="premium" />
-                        Barajar cartas
-                      </Button>
-                    </>
-                  )}
-
-                  {state === "selected" && (
-                    <ThreeCardReadingActions
-                      state={state}
-                      onShuffle={handleShuffle}
-                      onReveal={handleReveal}
-                      onReset={handleReset}
-                    />
-                  )}
-                </>
-              )}
-            </div>
-          )}
-
-          {state === "interpreting" && <TarotInterpretationLoading />}
-
-          {state === "error" && (
-            <div role="alert" className="flex flex-col items-center gap-4">
-              <p className="font-body text-[15px] text-error">
-                {interpretationError ?? "No se pudo completar la interpretación."}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button type="button" variant="primary" onClick={handleRetryInterpretation}>
-                  <Icon name="sparkles" />
-                  Reintentar
-                </Button>
-                <Button type="button" variant="outline" onClick={handleReset}>
-                  Barajar cartas nuevas
-                </Button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+
+            {(state === "shuffling" ||
+              state === "selecting" ||
+              state === "selected" ||
+              state === "revealing") && (
+              <div className="flex flex-col items-center gap-6 w-full animate-in fade-in zoom-in-95 duration-500 mt-2 md:mt-4">
+                {state === "shuffling" ? (
+                  <TarotDeckVisual isShuffling cardBackSrc={cardBackSrc} />
+                ) : state === "revealing" ? (
+                  <div className="h-10" /> 
+                ) : (
+                  <>
+                    {state === "selecting" && (
+                      <>
+                        <TarotCardPicker
+                          candidateCards={candidateCards}
+                          selectedIds={selectedCards.map((card) => card.id)}
+                          onSelectCard={handleSelectCard}
+                          cardBackSrc={cardBackSrc}
+                        />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleShuffle}
+                          className="mt-2 md:mt-4"
+                          aria-label="Barajar cartas"
+                        >
+                          <Icon name="premium" />
+                          Barajar cartas
+                        </Button>
+                      </>
+                    )}
+
+                    {state === "selected" && (
+                      <ThreeCardReadingActions
+                        state={state}
+                        onShuffle={handleShuffle}
+                        onReveal={handleReveal}
+                        onReset={handleReset}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+
+            {state === "interpreting" && <TarotInterpretationLoading />}
+
+            {state === "error" && (
+              <div role="alert" className="flex flex-col items-center gap-4 mt-8 px-4">
+                <p className="font-body text-[15px] text-error text-center">
+                  {interpretationError ?? "No se pudo completar la interpretación."}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button type="button" variant="primary" onClick={handleRetryInterpretation}>
+                    <Icon name="sparkles" />
+                    Reintentar
+                  </Button>
+                  <Button type="button" variant="outline" onClick={handleReset}>
+                    Barajar cartas nuevas
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
