@@ -15,6 +15,7 @@ export interface Profile {
   cover_url: string | null;
   sun_sign: string | null;
   moon_sign: string | null;
+  favorite_signs: string[] | null;
   bio: string | null;
   preferred_sign: string | null;
   city: string | null;
@@ -39,6 +40,9 @@ export interface PrivacySettings {
   save_readings_allowed: boolean;
   ai_personalization_enabled: boolean;
   newsletter_opt_in: boolean;
+  show_sun_sign: boolean;
+  show_moon_sign: boolean;
+  show_favorite_signs: boolean;
 }
 
 export type FavoriteType = "article" | "tarot_card" | "zodiac_sign" | "guide" | "horoscope";
@@ -121,6 +125,7 @@ export async function upsertProfile(
     "cover_url",
     "sun_sign",
     "moon_sign",
+    "favorite_signs",
     "bio",
     "preferred_sign",
     "city",
@@ -153,6 +158,17 @@ export async function upsertProfile(
 
   await Promise.all(promises);
   return fetchProfile(userId) as Promise<Profile>;
+}
+
+export async function isUsernameAvailable(username: string, excludeUserId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("username", username.toLowerCase())
+    .neq("id", excludeUserId)
+    .maybeSingle();
+  if (error) throw error;
+  return !data;
 }
 
 // ---------- Privacy ----------

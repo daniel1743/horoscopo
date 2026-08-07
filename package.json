@@ -58,6 +58,7 @@
     "imagetracerjs": "^1.2.6",
     "input-otp": "^1.4.2",
     "lucide-react": "^1.28.0",
+    "motion": "^13.0.0",
     "potrace": "^2.1.8",
     "react": "^19.2.0",
     "react-day-picker": "^9.14.0",

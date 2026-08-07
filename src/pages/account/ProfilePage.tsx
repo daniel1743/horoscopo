@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
 import { useSession } from "@/hooks/useSession";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AccountShell } from "@/components/account/AccountShell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -12,61 +23,106 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { fetchProfile, upsertProfile, type Profile } from "@/lib/account/repository";
-import { calculateAstralIdentityFn } from "@/lib/social/identity.functions";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import {
-  normalizeDisplayName,
-  validateAstralProfile,
-  type BirthTimeStatus,
-} from "@/lib/account/auth-profile";
+import { fetchProfile, upsertProfile, fetchPrivacySettings, updatePrivacySettings, isUsernameAvailable } from "@/lib/account/repository";
+import { calculateAstralIdentityFn } from "@/lib/social/identity.functions";
+import { normalizeDisplayName } from "@/lib/account/auth-profile";
+import { profileFormSchema, type ProfileFormValues } from "@/lib/account/profile.schema";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { toast } from "sonner";
 import { ImageUpload } from "@/components/profile/ImageUpload";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
-/** Edición de perfil. Se guarda en public.profiles (RLS). */
 export function ProfilePage() {
   const { user } = useSession();
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
-  const [form, setForm] = useState<Partial<Profile>>({});
+
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      username: "",
+      display_name: "",
+      bio: "",
+      avatar_url: "",
+      cover_url: "",
+      preferred_sign: "",
+      favorite_signs: [],
+      show_sun_sign: true,
+      show_moon_sign: false,
+      show_favorite_signs: true,
+      birth_date: "",
+      birth_time_status: "unknown",
+      birth_time: "",
+      birth_place_label: "",
+      birth_city: "",
+      birth_region: "",
+      birth_country: "",
+      birth_country_code: "",
+      birth_timezone: "",
+      birth_latitude: 0,
+      birth_longitude: 0,
+      city: "",
+    },
+  });
 
   useEffect(() => {
     if (!user) return;
-    fetchProfile(user.id)
-      .then((p) => setForm(p ?? { id: user.id }))
+    Promise.all([fetchProfile(user.id), fetchPrivacySettings(user.id)])
+      .then(([p, privacy]) => {
+        if (p) {
+          form.reset({
+            username: p.username ?? "",
+            display_name: p.display_name ?? "",
+            bio: p.bio ?? "",
+            avatar_url: p.avatar_url ?? "",
+            cover_url: p.cover_url ?? "",
+            preferred_sign: p.preferred_sign ?? "",
+            favorite_signs: p.favorite_signs ?? [],
+            show_sun_sign: privacy?.show_sun_sign ?? true,
+            show_moon_sign: privacy?.show_moon_sign ?? false,
+            show_favorite_signs: privacy?.show_favorite_signs ?? true,
+            birth_date: p.birth_date ?? "",
+            birth_time_status: p.birth_time_status ?? "unknown",
+            birth_time: p.birth_time ?? "",
+            birth_place_label: p.birth_place_label ?? "",
+            birth_city: p.birth_city ?? "",
+            birth_region: p.birth_region ?? "",
+            birth_country: p.birth_country ?? "",
+            birth_country_code: p.birth_country_code ?? "",
+            birth_timezone: p.birth_timezone ?? "",
+            birth_latitude: p.birth_latitude ?? 0,
+            birth_longitude: p.birth_longitude ?? 0,
+            city: p.city ?? "",
+          });
+        }
+      })
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user, form]);
 
-  const submit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const onSubmit = async (data: ProfileFormValues) => {
     if (!user) return;
-    const validation = validateAstralProfile({
-      username: form.username,
-      displayName: form.display_name,
-      birthDate: form.birth_date,
-      birthTime: form.birth_time,
-      birthTimeStatus: form.birth_time_status,
-      birthPlaceLabel: form.birth_place_label,
-      birthTimezone: form.birth_timezone,
-      birthLatitude: form.birth_latitude,
-      birthLongitude: form.birth_longitude,
-    });
-    if (!validation.valid) {
-      toast.error(Object.values(validation.errors)[0] ?? "Revisa los datos del perfil astral.");
-      return;
-    }
     setBusy(true);
+    
     try {
+      if (data.username) {
+        const available = await isUsernameAvailable(data.username, user.id);
+        if (!available) {
+          form.setError("username", { type: "manual", message: "Este nombre de usuario ya está en uso." });
+          setBusy(false);
+          return;
+        }
+      }
+
       let sun_sign: string | null = null;
       let moon_sign: string | null = null;
 
-      if (form.birth_date) {
+      if (data.birth_date) {
         try {
           const signs = await calculateAstralIdentityFn({
-            birthDate: form.birth_date,
-            birthTime: form.birth_time_status === "unknown" ? null : (form.birth_time ?? null),
-            timezoneOffset: 0, // In a real app we'd map timezone string to offset, assuming 0 for now as fallback if unparsed
+            birthDate: data.birth_date,
+            birthTime: data.birth_time_status === "unknown" ? null : (data.birth_time ?? null),
+            timezoneOffset: 0, // Placeholder
           });
           sun_sign = signs.sun_sign;
           moon_sign = signs.moon_sign;
@@ -75,28 +131,37 @@ export function ProfilePage() {
         }
       }
 
-      await upsertProfile(user.id, {
-        username: form.username?.toLowerCase() ?? null,
-        display_name: normalizeDisplayName(form.display_name ?? "") || null,
-        avatar_url: form.avatar_url ?? null,
-        cover_url: form.cover_url ?? null,
-        sun_sign,
-        moon_sign,
-        bio: form.bio ?? null,
-        preferred_sign: form.preferred_sign ?? null,
-        city: form.city ?? null,
-        birth_date: form.birth_date ?? null,
-        birth_time: form.birth_time_status === "unknown" ? null : (form.birth_time ?? null),
-        birth_time_status: form.birth_time_status ?? "unknown",
-        birth_place_label: form.birth_place_label ?? null,
-        birth_city: form.birth_city ?? null,
-        birth_region: form.birth_region ?? null,
-        birth_country: form.birth_country ?? null,
-        birth_country_code: form.birth_country_code?.toUpperCase() ?? null,
-        birth_timezone: form.birth_timezone ?? null,
-        birth_latitude: form.birth_latitude ?? null,
-        birth_longitude: form.birth_longitude ?? null,
-      });
+      await Promise.all([
+        upsertProfile(user.id, {
+          username: data.username?.toLowerCase() || null,
+          display_name: normalizeDisplayName(data.display_name ?? "") || null,
+          avatar_url: data.avatar_url || null,
+          cover_url: data.cover_url || null,
+          sun_sign,
+          moon_sign,
+          bio: data.bio || null,
+          preferred_sign: data.preferred_sign || null,
+          favorite_signs: data.favorite_signs,
+          city: data.city || null,
+          birth_date: data.birth_date || null,
+          birth_time: data.birth_time_status === "unknown" ? null : (data.birth_time || null),
+          birth_time_status: data.birth_time_status || "unknown",
+          birth_place_label: data.birth_place_label || null,
+          birth_city: data.birth_city || null,
+          birth_region: data.birth_region || null,
+          birth_country: data.birth_country || null,
+          birth_country_code: data.birth_country_code?.toUpperCase() || null,
+          birth_timezone: data.birth_timezone || null,
+          birth_latitude: data.birth_latitude,
+          birth_longitude: data.birth_longitude,
+        }),
+        updatePrivacySettings(user.id, {
+          show_sun_sign: data.show_sun_sign,
+          show_moon_sign: data.show_moon_sign,
+          show_favorite_signs: data.show_favorite_signs,
+        })
+      ]);
+
       toast.success("Perfil astral guardado.");
     } catch {
       toast.error("No pudimos guardar. Intenta nuevamente.");
@@ -105,258 +170,371 @@ export function ProfilePage() {
     }
   };
 
+  if (loading || !user) {
+    return (
+      <AccountShell title="Completa tu perfil astral" description="Cargando perfil...">
+        <p className="text-ink-soft">Cargando…</p>
+      </AccountShell>
+    );
+  }
+
   return (
     <AccountShell
       title="Completa tu perfil astral"
-      description="Estos datos permiten calcular tu carta y ofrecer resultados adaptados a tu nacimiento."
+      description="Edita tu identidad pública, configuraciones de privacidad y datos natales privados."
     >
-      {loading ? (
-        <p className="text-ink-soft">Cargando…</p>
-      ) : (
-        <form onSubmit={submit} className="max-w-2xl space-y-6">
-          <div className="rounded-[var(--radius-card)] border border-line bg-warm-white p-4 text-sm text-ink-soft shadow-card">
-            Usaremos estos datos únicamente para personalizar tus cálculos y consultas.
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="username">Nombre de usuario (público)</Label>
-            <Input
-              id="username"
-              value={form.username ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, username: e.target.value.toLowerCase() }))}
-              maxLength={30}
-              placeholder="ej. daniel_astral"
-            />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="display_name">Nombre visible</Label>
-            <Input
-              id="display_name"
-              value={form.display_name ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, display_name: e.target.value }))}
-              maxLength={80}
-            />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_date">Fecha de nacimiento</Label>
-              <Input
-                id="birth_date"
-                type="date"
-                required
-                value={form.birth_date ?? ""}
-                onChange={(e) => setForm((f) => ({ ...f, birth_date: e.target.value || null }))}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl space-y-10">
+          
+          {/* SECCIÓN: Tu Identidad Pública */}
+          <section className="space-y-6">
+            <h3 className="text-lg font-medium">Tu perfil público</h3>
+            <p className="text-sm text-ink-muted">Esta información será visible en tu perfil social.</p>
+            
+            <div className="grid gap-6 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="avatar_url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Avatar</FormLabel>
+                    <ImageUpload
+                      userId={user.id}
+                      type="avatar"
+                      currentUrl={field.value}
+                      onUploadSuccess={(url) => field.onChange(url)}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <p className="text-xs text-ink-muted">
-                Necesaria para calcular la posición del Sol, la Luna y los planetas.
-              </p>
+              <FormField
+                control={form.control}
+                name="cover_url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Portada</FormLabel>
+                    <ImageUpload
+                      userId={user.id}
+                      type="cover"
+                      currentUrl={field.value}
+                      onUploadSuccess={(url) => field.onChange(url)}
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-            <div className="space-y-1.5">
-              <Label>Hora de nacimiento</Label>
-              <RadioGroup
-                value={form.birth_time_status ?? "unknown"}
-                onValueChange={(value) =>
-                  setForm((f) => ({
-                    ...f,
-                    birth_time_status: value as BirthTimeStatus,
-                    birth_time: value === "unknown" ? null : f.birth_time,
-                  }))
-                }
-                className="grid gap-2 rounded-[var(--radius-control)] border border-line-subtle p-3"
-              >
-                <TimeOption value="exact" label="Exacta" />
-                <TimeOption value="approximate" label="Aproximada" />
-                <TimeOption value="unknown" label="Desconocida" />
-              </RadioGroup>
-              {(form.birth_time_status === "exact" || form.birth_time_status === "approximate") && (
-                <Input
-                  id="birth_time"
-                  type="time"
-                  value={form.birth_time ?? ""}
-                  onChange={(e) => setForm((f) => ({ ...f, birth_time: e.target.value || null }))}
-                />
+
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre de usuario</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="ej. daniel_astral" />
+                  </FormControl>
+                  <FormDescription>Único y en minúsculas (ej: mi_usuario)</FormDescription>
+                  <FormMessage />
+                </FormItem>
               )}
-              <p className="text-xs text-ink-muted">
-                Permite calcular ascendente y casas. Si no la conoces, puedes indicarlo.
-              </p>
-            </div>
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="birth_place_label">Lugar de nacimiento</Label>
-            <Input
-              id="birth_place_label"
-              required
-              value={form.birth_place_label ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, birth_place_label: e.target.value }))}
-              maxLength={160}
             />
-            <p className="text-xs text-ink-muted">
-              Se usa para obtener coordenadas y zona horaria del momento de nacimiento.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_city">Ciudad</Label>
-              <Input
-                id="birth_city"
-                value={form.birth_city ?? ""}
-                onChange={(e) => setForm((f) => ({ ...f, birth_city: e.target.value || null }))}
-                maxLength={80}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_region">Región</Label>
-              <Input
-                id="birth_region"
-                value={form.birth_region ?? ""}
-                onChange={(e) => setForm((f) => ({ ...f, birth_region: e.target.value || null }))}
-                maxLength={80}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_country">País</Label>
-              <Input
-                id="birth_country"
-                value={form.birth_country ?? ""}
-                onChange={(e) => setForm((f) => ({ ...f, birth_country: e.target.value || null }))}
-                maxLength={80}
-              />
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-4">
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_country_code">Código país</Label>
-              <Input
-                id="birth_country_code"
-                value={form.birth_country_code ?? ""}
-                onChange={(e) =>
-                  setForm((f) => ({
-                    ...f,
-                    birth_country_code: e.target.value.toUpperCase() || null,
-                  }))
-                }
-                maxLength={2}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_timezone">Zona horaria</Label>
-              <Input
-                id="birth_timezone"
-                required
-                value={form.birth_timezone ?? ""}
-                onChange={(e) => setForm((f) => ({ ...f, birth_timezone: e.target.value }))}
-                placeholder="America/Santiago"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_latitude">Latitud</Label>
-              <Input
-                id="birth_latitude"
-                type="number"
-                step="any"
-                min={-90}
-                max={90}
-                required
-                value={form.birth_latitude ?? ""}
-                onChange={(e) =>
-                  setForm((f) => ({
-                    ...f,
-                    birth_latitude: e.target.value === "" ? null : Number(e.target.value),
-                  }))
-                }
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="birth_longitude">Longitud</Label>
-              <Input
-                id="birth_longitude"
-                type="number"
-                step="any"
-                min={-180}
-                max={180}
-                required
-                value={form.birth_longitude ?? ""}
-                onChange={(e) =>
-                  setForm((f) => ({
-                    ...f,
-                    birth_longitude: e.target.value === "" ? null : Number(e.target.value),
-                  }))
-                }
-              />
-            </div>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label>Avatar (opcional)</Label>
-              <ImageUpload
-                userId={user.id}
-                type="avatar"
-                currentUrl={form.avatar_url}
-                onUploadSuccess={(url) => setForm((f) => ({ ...f, avatar_url: url }))}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>Portada (opcional)</Label>
-              <ImageUpload
-                userId={user.id}
-                type="cover"
-                currentUrl={form.cover_url}
-                onUploadSuccess={(url) => setForm((f) => ({ ...f, cover_url: url }))}
-              />
-            </div>
-          </div>
-          <div className="space-y-1.5">
-            <Label>Signo preferido</Label>
-            <Select
-              value={form.preferred_sign ?? ""}
-              onValueChange={(v) => setForm((f) => ({ ...f, preferred_sign: v || null }))}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona tu signo" />
-              </SelectTrigger>
-              <SelectContent>
-                {zodiacSigns.map((s) => (
-                  <SelectItem key={s.slug} value={s.slug}>
-                    {s.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="city">Ciudad (opcional)</Label>
-            <Input
-              id="city"
-              value={form.city ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, city: e.target.value }))}
-              maxLength={80}
+
+            <FormField
+              control={form.control}
+              name="display_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nombre visible</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Cómo quieres que te llamen" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="bio">Biografía corta</Label>
-            <Textarea
-              id="bio"
-              rows={4}
-              maxLength={400}
-              value={form.bio ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value }))}
+
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Biografía corta</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} rows={4} maxLength={400} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <Button type="submit" disabled={busy}>
-            {busy ? "Guardando…" : "Guardar cambios"}
+
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ciudad actual (opcional)</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Ej. Madrid" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
+
+          {/* SECCIÓN: Tu Identidad Astral */}
+          <section className="space-y-6">
+            <h3 className="text-lg font-medium">Tu identidad astral</h3>
+            <p className="text-sm text-ink-muted">Tus signos y afinidades.</p>
+            
+            <FormField
+              control={form.control}
+              name="preferred_sign"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Signo preferido</FormLabel>
+                  <Select value={field.value || ""} onValueChange={field.onChange}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona tu signo" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {zodiacSigns.map((s) => (
+                        <SelectItem key={s.slug} value={s.slug}>
+                          {s.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>El signo con el que más te identificas.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="favorite_signs"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Signos Favoritos (Máximo 3)</FormLabel>
+                  <FormControl>
+                    <ToggleGroup
+                      type="multiple"
+                      value={field.value}
+                      onValueChange={(val) => {
+                        if (val.length <= 3) field.onChange(val);
+                      }}
+                      className="flex-wrap justify-start gap-2"
+                    >
+                      {zodiacSigns.map((s) => (
+                        <ToggleGroupItem
+                          key={s.slug}
+                          value={s.slug}
+                          className="rounded-full px-4 py-1 border data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                        >
+                          {s.name}
+                        </ToggleGroupItem>
+                      ))}
+                    </ToggleGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </section>
+
+          {/* SECCIÓN: Privacidad */}
+          <section className="space-y-6">
+            <h3 className="text-lg font-medium">Privacidad del Perfil Público</h3>
+            <p className="text-sm text-ink-muted">Controla qué información astral muestras en tu perfil público.</p>
+
+            <FormField
+              control={form.control}
+              name="show_sun_sign"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Mostrar Signo Solar</FormLabel>
+                    <FormDescription>Tu signo solar aparecerá en tu perfil.</FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="show_moon_sign"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Mostrar Signo Lunar</FormLabel>
+                    <FormDescription>Tu signo lunar aparecerá en tu perfil (si tienes hora de nacimiento).</FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="show_favorite_signs"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">Mostrar Signos Favoritos</FormLabel>
+                    <FormDescription>Tus signos favoritos aparecerán en tu perfil.</FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </section>
+
+          {/* SECCIÓN: Datos Natales (Privados) */}
+          <section className="space-y-6 rounded-[var(--radius-card)] border border-line bg-warm-white p-6 shadow-card">
+            <h3 className="text-lg font-medium">Datos Natales Privados</h3>
+            <p className="text-sm text-ink-muted">Estos datos <strong>nunca</strong> son públicos. Se usan exclusivamente para calcular tu carta astral (Signo Solar, Lunar, etc.).</p>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="birth_date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fecha de nacimiento</FormLabel>
+                    <FormControl>
+                      <Input type="date" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="birth_time_status"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Hora de nacimiento</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="exact" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Exacta</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="approximate" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Aproximada</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="unknown" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Desconocida</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {form.watch("birth_time_status") !== "unknown" && (
+              <FormField
+                control={form.control}
+                name="birth_time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Hora exacta o aproximada</FormLabel>
+                    <FormControl>
+                      <Input type="time" {...field} value={field.value || ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+
+            <FormField
+              control={form.control}
+              name="birth_place_label"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Lugar de nacimiento</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormDescription>Busca y selecciona tu ciudad de nacimiento.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              <FormField control={form.control} name="birth_city" render={({ field }) => (
+                <FormItem><FormLabel>Ciudad</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
+              )} />
+              <FormField control={form.control} name="birth_region" render={({ field }) => (
+                <FormItem><FormLabel>Región</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
+              )} />
+              <FormField control={form.control} name="birth_country" render={({ field }) => (
+                <FormItem><FormLabel>País</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
+              )} />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-4">
+              <FormField control={form.control} name="birth_country_code" render={({ field }) => (
+                <FormItem><FormLabel>Cód. País</FormLabel><FormControl><Input {...field} value={field.value || ""} maxLength={2} /></FormControl></FormItem>
+              )} />
+              <FormField control={form.control} name="birth_timezone" render={({ field }) => (
+                <FormItem><FormLabel>Zona horaria</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
+              )} />
+              <FormField control={form.control} name="birth_latitude" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Latitud</FormLabel>
+                  <FormControl>
+                    <Input type="number" step="any" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+              <FormField control={form.control} name="birth_longitude" render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Longitud</FormLabel>
+                  <FormControl>
+                    <Input type="number" step="any" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )} />
+            </div>
+          </section>
+
+          <Button type="submit" size="lg" disabled={busy} className="w-full sm:w-auto">
+            {busy ? "Guardando..." : "Guardar cambios"}
           </Button>
         </form>
-      )}
+      </Form>
     </AccountShell>
-  );
-}
-
-function TimeOption({ value, label }: { value: BirthTimeStatus; label: string }) {
-  return (
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id={`time-${value}`} value={value} />
-      <Label htmlFor={`time-${value}`} className="font-normal">
-        {label}
-      </Label>
-    </div>
   );
 }

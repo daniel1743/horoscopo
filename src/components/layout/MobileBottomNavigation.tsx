@@ -11,7 +11,7 @@ export function MobileBottomNavigation() {
   return (
     <nav
       aria-label="Navegación principal móvil"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-warm-white lg:hidden"
+      className="sticky bottom-0 mt-auto z-40 w-full border-t border-line bg-warm-white lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto flex h-16 max-w-md items-stretch justify-between px-2">

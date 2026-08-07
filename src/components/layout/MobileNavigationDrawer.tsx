@@ -51,13 +51,12 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
   // Pero mejor lo renderizamos condicionalmente si el usuario no tiene la animación,
   // o lo renderizamos siempre con tabindex=-1 si está cerrado.
   // Para hacerlo sencillo y mantener la estructura:
-  if (!open) return null;
-
   return (
     <div
       className="fixed inset-y-0 left-0 z-0 flex h-full w-[82vw] max-w-[340px] flex-col bg-ivory outline-none lg:hidden"
       role="dialog"
       aria-modal="true"
+      aria-hidden={!open}
       aria-label="Menú"
       id="mobile-navigation-drawer"
       ref={panelRef}
@@ -69,14 +68,6 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
     >
         <div className="flex items-center justify-between px-6 py-5">
           <span className="font-display text-[18px] font-semibold text-ink">Menú</span>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Cerrar menú"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-ink"
-          >
-            <Icon name="close" size="md" />
-          </button>
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">

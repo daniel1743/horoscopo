@@ -92,7 +92,7 @@ export const desktopPrimary: NavGroup[] = visibleGroups(desktopPrimaryConfig);
 
 /** Cinco destinos de la barra inferior móvil. */
 const mobileBottomPrimaryConfig: NavLink[] = [
-  { label: "Inicio", routeKey: "home", icon: "menu" },
+  { label: "Inicio", routeKey: "home", icon: "home" },
   { label: "Horóscopo", routeKey: "horoscope", icon: "sun" },
   { label: "Tarot", routeKey: "tarot", icon: "tarot" },
   { label: "Luna", routeKey: "moon", icon: "moon" },
@@ -162,7 +162,7 @@ export const primaryNav: NavItem[] = [
 ];
 
 export const mobileBottomNav: NavItem[] = [
-  { label: "Inicio", href: "/", icon: "menu" },
+  { label: "Inicio", href: "/", icon: "home" },
   { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
   { label: "Luna", href: "/luna", icon: "moon" },

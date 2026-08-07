@@ -79,19 +79,39 @@ export function SocialHeader({ profile, isOwner }: SocialHeaderProps) {
             </p>
           )}
 
-          {/* Astral Identity */}
-          {(profile.sun_sign || profile.moon_sign) && (
-            <div className="flex flex-wrap gap-3 pt-2">
-              {profile.sun_sign && (
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warm-white rounded-full text-sm font-medium text-ink shadow-sm border border-line-subtle">
-                  <Sun className="w-4 h-4 text-amber-500" />
-                  <span className="capitalize">Sol en {profile.sun_sign}</span>
+        {/* Astral Identity */}
+          {(profile.sun_sign || profile.moon_sign || (profile.favorite_signs && profile.favorite_signs.length > 0)) && (
+            <div className="flex flex-col gap-4 pt-4 border-t border-line-subtle mt-4">
+              
+              {/* Sun and Moon */}
+              {(profile.sun_sign || profile.moon_sign) && (
+                <div className="flex flex-wrap gap-3">
+                  {profile.sun_sign && (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warm-white rounded-full text-sm font-medium text-ink shadow-sm border border-line-subtle">
+                      <Sun className="w-4 h-4 text-amber-500" />
+                      <span className="capitalize">Sol en {profile.sun_sign}</span>
+                    </div>
+                  )}
+                  {profile.moon_sign && (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warm-white rounded-full text-sm font-medium text-ink shadow-sm border border-line-subtle">
+                      <Moon className="w-4 h-4 text-slate-400" />
+                      <span className="capitalize">Luna en {profile.moon_sign}</span>
+                    </div>
+                  )}
                 </div>
               )}
-              {profile.moon_sign && (
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warm-white rounded-full text-sm font-medium text-ink shadow-sm border border-line-subtle">
-                  <Moon className="w-4 h-4 text-slate-400" />
-                  <span className="capitalize">Luna en {profile.moon_sign}</span>
+
+              {/* Favorite Signs */}
+              {profile.favorite_signs && profile.favorite_signs.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-sm font-medium text-ink-soft">Signos Favoritos</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {profile.favorite_signs.map(sign => (
+                      <div key={sign} className="inline-flex items-center px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold capitalize border border-primary/20">
+                        {sign}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>

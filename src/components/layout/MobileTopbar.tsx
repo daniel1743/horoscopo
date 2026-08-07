@@ -27,22 +27,7 @@ export function MobileTopbar({ drawerOpen, onToggleDrawer }: Props) {
       </Link>
 
       <div className="flex items-center gap-1">
-        <Link
-          to={routes.search}
-          aria-label="Buscar"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-ink"
-        >
-          <Icon name="search" size="md" />
-        </Link>
-        {showAccountAccess && (
-          <Link
-            to={routes.account}
-            aria-label="Abrir mi espacio"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-ink-soft hover:bg-brand-soft hover:text-ink"
-          >
-            <Icon name="account" size="md" />
-          </Link>
-        )}
+
         <button
           type="button"
           onClick={onToggleDrawer}
