@@ -6,7 +6,7 @@ import { uploadProfileImage } from "@/lib/storage/upload";
 import { supabase } from "@/integrations/supabase/client";
 import { upsertProfile } from "@/lib/account/repository";
 import { toast } from "sonner";
-import { Loader2, Camera } from "lucide-react";
+import { Loader2, Camera, Heart, Sparkles, Users } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
@@ -136,6 +136,24 @@ export function EspectroHero({ profile, email }: Props) {
           </div>
         )}
         
+        {/* Floating Badges (2026 UI/UX Spatial Design)
+            Colocados en vertical a la derecha para evitar superposición con el avatar en pantallas pequeñas (estilo Reels/TikTok side actions, altamente inmersivo).
+        */}
+        <div className="absolute bottom-12 right-4 md:right-6 z-20 flex flex-col gap-2 pointer-events-none">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white shadow-sm">
+            <Heart className="w-[14px] h-[14px]" />
+            <span className="font-display text-[12px] font-medium tracking-wide mt-0.5">1.2k</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white shadow-sm">
+            <Sparkles className="w-[14px] h-[14px]" />
+            <span className="font-display text-[12px] font-medium tracking-wide mt-0.5">340</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/20 backdrop-blur-md border border-white/10 text-white shadow-sm">
+            <Users className="w-[14px] h-[14px]" />
+            <span className="font-display text-[12px] font-medium tracking-wide mt-0.5">328</span>
+          </div>
+        </div>
+
         {/* Curva Orgánica Inferior para transición al body claro */}
         <svg 
           viewBox="0 0 100 24" 
