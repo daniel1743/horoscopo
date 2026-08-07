@@ -1,4 +1,4 @@
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, useEffect, useLayoutEffect, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { SkipLink } from "./SkipLink";
 import { SiteHeader } from "./SiteHeader";
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [savedScrollY, setSavedScrollY] = useState(0);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   // Cerrar drawer al cambiar de ruta
@@ -20,20 +21,22 @@ export function AppShell({ children }: { children: ReactNode }) {
     setDrawerOpen(false);
   }, [pathname]);
 
-  // Bloquear scroll de la página
-  useEffect(() => {
+  // Bloquear scroll de la página y mantener la posición visual
+  useLayoutEffect(() => {
     if (drawerOpen) {
+      const currentScroll = window.scrollY;
+      setSavedScrollY(currentScroll);
       document.body.style.overflow = "hidden";
       document.body.style.overscrollBehavior = "none";
     } else {
       document.body.style.overflow = "";
       document.body.style.overscrollBehavior = "";
+      if (savedScrollY > 0) {
+        window.scrollTo(0, savedScrollY);
+      }
     }
-    return () => {
-      document.body.style.overflow = "";
-      document.body.style.overscrollBehavior = "";
-    };
-  }, [drawerOpen]);
+  }, [drawerOpen]); // Solo dependemos de drawerOpen para no sobreescribir el scroll
+
 
   return (
     <>
@@ -43,11 +46,20 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div 
         className={cn(
-          "flex min-h-screen flex-col bg-background text-ink relative z-10",
-          "transition-transform duration-[280ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-          drawerOpen && "translate-x-[82vw] rounded-l-[28px] shadow-[-14px_0_34px_rgba(20,16,30,0.16)] overflow-hidden isolate border-l-0 outline-none ring-0 touch-none motion-reduce:transition-none motion-reduce:transform-none lg:translate-x-0 lg:rounded-none lg:shadow-none"
+          "bg-background text-ink z-10 w-full",
+          "transition-[transform,border-radius,box-shadow] duration-[280ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+          drawerOpen 
+            ? "fixed inset-0 translate-x-[82vw] rounded-l-[28px] shadow-[-14px_0_34px_rgba(20,16,30,0.16)] overflow-hidden isolate border-l-0 outline-none ring-0 touch-none lg:relative lg:translate-x-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen" 
+            : "relative min-h-screen translate-x-0 rounded-none shadow-none"
         )}
       >
+        <div
+          className="flex flex-col min-h-screen w-full bg-background"
+          style={{
+            transform: drawerOpen ? `translateY(-${savedScrollY}px)` : "none",
+            transition: "none", // Prevent animating the scroll restoration to avoid jumping
+          }}
+        >
         <div 
           className={cn(
             "absolute inset-0 z-50 lg:hidden transition-colors duration-[280ms]",
@@ -67,6 +79,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </main>
         <SiteFooter />
         <MobileBottomNavigation />
+        </div>
       </div>
     </>
   );

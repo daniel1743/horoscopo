@@ -9,8 +9,12 @@ import type { BirthTimeStatus } from "@/lib/account/auth-profile";
 // ---------- Tipos ----------
 export interface Profile {
   id: string;
+  username: string | null;
   display_name: string | null;
   avatar_url: string | null;
+  cover_url: string | null;
+  sun_sign: string | null;
+  moon_sign: string | null;
   bio: string | null;
   preferred_sign: string | null;
   city: string | null;
@@ -25,7 +29,6 @@ export interface Profile {
   birth_timezone: string | null;
   birth_latitude: number | null;
   birth_longitude: number | null;
-  profile_completed_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -91,26 +94,65 @@ export interface ActivityEntry {
 
 // ---------- Profile ----------
 export async function fetchProfile(userId: string): Promise<Profile | null> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", userId)
-    .maybeSingle();
-  if (error) throw error;
-  return data as Profile | null;
+  const [profileRes, natalRes] = await Promise.all([
+    supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
+    supabase.from("natal_profiles").select("*").eq("user_id", userId).maybeSingle(),
+  ]);
+
+  if (profileRes.error) throw profileRes.error;
+  if (natalRes.error) throw natalRes.error;
+
+  if (!profileRes.data) return null;
+
+  return {
+    ...profileRes.data,
+    ...(natalRes.data ?? {}),
+  } as Profile;
 }
 
 export async function upsertProfile(
   userId: string,
   patch: Partial<Omit<Profile, "id" | "created_at" | "updated_at">>,
 ): Promise<Profile> {
-  const { data, error } = await supabase
-    .from("profiles")
-    .upsert({ id: userId, ...patch }, { onConflict: "id" })
-    .select("*")
-    .single();
-  if (error) throw error;
-  return data as Profile;
+  const profileFields = [
+    "username",
+    "display_name",
+    "avatar_url",
+    "cover_url",
+    "sun_sign",
+    "moon_sign",
+    "bio",
+    "preferred_sign",
+    "city",
+  ];
+  
+  const profilePatch: Record<string, unknown> = {};
+  const natalPatch: Record<string, unknown> = {};
+
+  for (const [key, value] of Object.entries(patch)) {
+    if (profileFields.includes(key)) {
+      profilePatch[key] = value;
+    } else {
+      natalPatch[key] = value;
+    }
+  }
+
+  const promises: Promise<unknown>[] = [];
+
+  if (Object.keys(profilePatch).length > 0) {
+    promises.push(
+      supabase.from("profiles").upsert({ id: userId, ...profilePatch }, { onConflict: "id" })
+    );
+  }
+
+  if (Object.keys(natalPatch).length > 0) {
+    promises.push(
+      supabase.from("natal_profiles").upsert({ user_id: userId, ...natalPatch }, { onConflict: "user_id" })
+    );
+  }
+
+  await Promise.all(promises);
+  return fetchProfile(userId) as Promise<Profile>;
 }
 
 // ---------- Privacy ----------

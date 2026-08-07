@@ -128,7 +128,22 @@ export function validateSignUp(input: {
   return { valid: Object.keys(errors).length === 0, errors };
 }
 
+export function validateUsername(username: string): string | null {
+  if (!username) return "El nombre de usuario es obligatorio.";
+  if (username.length < 3) return "El nombre de usuario debe tener al menos 3 caracteres.";
+  if (username.length > 30) return "El nombre de usuario debe tener máximo 30 caracteres.";
+  if (!/^[a-z0-9._]+$/.test(username)) {
+    return "Solo se permiten letras en minúscula, números, puntos y guiones bajos.";
+  }
+  const reserved = ["admin", "creovision", "support", "api", "auth", "mi-espacio"];
+  if (reserved.includes(username)) {
+    return "Este nombre de usuario no está disponible.";
+  }
+  return null;
+}
+
 export function validateAstralProfile(input: {
+  username?: string | null;
   displayName?: string | null;
   birthDate?: string | null;
   birthTime?: string | null;
@@ -144,6 +159,11 @@ export function validateAstralProfile(input: {
   const timeStatus = input.birthTimeStatus ?? "unknown";
   const lat = Number(input.birthLatitude);
   const lng = Number(input.birthLongitude);
+
+  if (input.username !== undefined) {
+    const userErr = validateUsername(input.username ?? "");
+    if (userErr) errors.username = userErr;
+  }
 
   if (
     input.displayName !== undefined &&
@@ -186,8 +206,7 @@ export function isAstralProfileComplete(profile: Partial<Profile> | null | undef
     profile.birth_latitude !== null &&
     profile.birth_latitude !== undefined &&
     profile.birth_longitude !== null &&
-    profile.birth_longitude !== undefined &&
-    profile.profile_completed_at,
+    profile.birth_longitude !== undefined
   );
 }
 

@@ -53,6 +53,7 @@ import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
 import { Route as TarotSiONoRouteImport } from './routes/tarot.si-o-no'
 import { Route as TemasCategoryRouteImport } from './routes/temas.$category'
+import { Route as UUsernameRouteImport } from './routes/u.$username'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminArticulosRouteImport } from './routes/_authenticated/admin/articulos'
 import { Route as AuthenticatedAdminAuditoriaRouteImport } from './routes/_authenticated/admin/auditoria'
@@ -306,6 +307,11 @@ const TemasCategoryRoute = TemasCategoryRouteImport.update({
   path: '/temas/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UUsernameRoute = UUsernameRouteImport.update({
+  id: '/u/$username',
+  path: '/u/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -530,6 +536,7 @@ export interface FileRoutesByFullPath {
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
+  '/u/$username': typeof UUsernameRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
   '/luna/': typeof LunaIndexRoute
@@ -604,6 +611,7 @@ export interface FileRoutesByTo {
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
+  '/u/$username': typeof UUsernameRoute
   '/compatibilidad': typeof CompatibilidadIndexRoute
   '/horoscopo': typeof HoroscopoIndexRoute
   '/luna': typeof LunaIndexRoute
@@ -684,6 +692,7 @@ export interface FileRoutesById {
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
+  '/u/$username': typeof UUsernameRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
   '/luna/': typeof LunaIndexRoute
@@ -764,6 +773,7 @@ export interface FileRouteTypes {
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
+    | '/u/$username'
     | '/compatibilidad/'
     | '/horoscopo/'
     | '/luna/'
@@ -838,6 +848,7 @@ export interface FileRouteTypes {
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
+    | '/u/$username'
     | '/compatibilidad'
     | '/horoscopo'
     | '/luna'
@@ -917,6 +928,7 @@ export interface FileRouteTypes {
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
+    | '/u/$username'
     | '/compatibilidad/'
     | '/horoscopo/'
     | '/luna/'
@@ -989,6 +1001,7 @@ export interface RootRouteChildren {
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
   TemasCategoryRoute: typeof TemasCategoryRoute
+  UUsernameRoute: typeof UUsernameRoute
   CompatibilidadIndexRoute: typeof CompatibilidadIndexRoute
   HoroscopoIndexRoute: typeof HoroscopoIndexRoute
   TarotIndexRoute: typeof TarotIndexRoute
@@ -1314,6 +1327,13 @@ declare module '@tanstack/react-router' {
       path: '/temas/$category'
       fullPath: '/temas/$category'
       preLoaderRoute: typeof TemasCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/u/$username': {
+      id: '/u/$username'
+      path: '/u/$username'
+      fullPath: '/u/$username'
+      preLoaderRoute: typeof UUsernameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin/': {
@@ -1761,6 +1781,7 @@ const rootRouteChildren: RootRouteChildren = {
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
   TarotSiONoRoute: TarotSiONoRoute,
   TemasCategoryRoute: TemasCategoryRoute,
+  UUsernameRoute: UUsernameRoute,
   CompatibilidadIndexRoute: CompatibilidadIndexRoute,
   HoroscopoIndexRoute: HoroscopoIndexRoute,
   TarotIndexRoute: TarotIndexRoute,

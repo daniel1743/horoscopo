@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { fetchProfile, upsertProfile, type Profile } from "@/lib/account/repository";
+import { calculateAstralIdentityFn } from "@/lib/social/identity.functions";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   normalizeDisplayName,
@@ -21,6 +22,7 @@ import {
 } from "@/lib/account/auth-profile";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { toast } from "sonner";
+import { ImageUpload } from "@/components/profile/ImageUpload";
 
 /** Edición de perfil. Se guarda en public.profiles (RLS). */
 export function ProfilePage() {
@@ -40,6 +42,7 @@ export function ProfilePage() {
     e.preventDefault();
     if (!user) return;
     const validation = validateAstralProfile({
+      username: form.username,
       displayName: form.display_name,
       birthDate: form.birth_date,
       birthTime: form.birth_time,
@@ -55,9 +58,30 @@ export function ProfilePage() {
     }
     setBusy(true);
     try {
+      let sun_sign: string | null = null;
+      let moon_sign: string | null = null;
+
+      if (form.birth_date) {
+        try {
+          const signs = await calculateAstralIdentityFn({
+            birthDate: form.birth_date,
+            birthTime: form.birth_time_status === "unknown" ? null : (form.birth_time ?? null),
+            timezoneOffset: 0, // In a real app we'd map timezone string to offset, assuming 0 for now as fallback if unparsed
+          });
+          sun_sign = signs.sun_sign;
+          moon_sign = signs.moon_sign;
+        } catch (e) {
+          console.error("Error calculating astral identity:", e);
+        }
+      }
+
       await upsertProfile(user.id, {
+        username: form.username?.toLowerCase() ?? null,
         display_name: normalizeDisplayName(form.display_name ?? "") || null,
         avatar_url: form.avatar_url ?? null,
+        cover_url: form.cover_url ?? null,
+        sun_sign,
+        moon_sign,
         bio: form.bio ?? null,
         preferred_sign: form.preferred_sign ?? null,
         city: form.city ?? null,
@@ -72,7 +96,6 @@ export function ProfilePage() {
         birth_timezone: form.birth_timezone ?? null,
         birth_latitude: form.birth_latitude ?? null,
         birth_longitude: form.birth_longitude ?? null,
-        profile_completed_at: new Date().toISOString(),
       });
       toast.success("Perfil astral guardado.");
     } catch {
@@ -93,6 +116,16 @@ export function ProfilePage() {
         <form onSubmit={submit} className="max-w-2xl space-y-6">
           <div className="rounded-[var(--radius-card)] border border-line bg-warm-white p-4 text-sm text-ink-soft shadow-card">
             Usaremos estos datos únicamente para personalizar tus cálculos y consultas.
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="username">Nombre de usuario (público)</Label>
+            <Input
+              id="username"
+              value={form.username ?? ""}
+              onChange={(e) => setForm((f) => ({ ...f, username: e.target.value.toLowerCase() }))}
+              maxLength={30}
+              placeholder="ej. daniel_astral"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="display_name">Nombre visible</Label>
@@ -251,14 +284,25 @@ export function ProfilePage() {
               />
             </div>
           </div>
-          <div className="space-y-1.5">
-            <Label htmlFor="avatar_url">URL de avatar (opcional)</Label>
-            <Input
-              id="avatar_url"
-              type="url"
-              value={form.avatar_url ?? ""}
-              onChange={(e) => setForm((f) => ({ ...f, avatar_url: e.target.value }))}
-            />
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="space-y-1.5">
+              <Label>Avatar (opcional)</Label>
+              <ImageUpload
+                userId={user.id}
+                type="avatar"
+                currentUrl={form.avatar_url}
+                onUploadSuccess={(url) => setForm((f) => ({ ...f, avatar_url: url }))}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Portada (opcional)</Label>
+              <ImageUpload
+                userId={user.id}
+                type="cover"
+                currentUrl={form.cover_url}
+                onUploadSuccess={(url) => setForm((f) => ({ ...f, cover_url: url }))}
+              />
+            </div>
           </div>
           <div className="space-y-1.5">
             <Label>Signo preferido</Label>
