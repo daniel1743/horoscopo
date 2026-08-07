@@ -30,7 +30,6 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
-import { Route as AuthenticatedMiEspacioRouteImport } from './routes/_authenticated/mi-espacio'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthUpdatePasswordRouteImport } from './routes/auth.update-password'
@@ -49,6 +48,7 @@ import { Route as LunaIndexRouteImport } from './routes/luna.index'
 import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
 import { Route as LunaHoyRouteImport } from './routes/luna.hoy'
+import { Route as LunaTuLunaDeHoyRouteImport } from './routes/luna.tu-luna-de-hoy'
 import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
 import { Route as TarotSiONoRouteImport } from './routes/tarot.si-o-no'
@@ -56,10 +56,12 @@ import { Route as TemasCategoryRouteImport } from './routes/temas.$category'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminArticulosRouteImport } from './routes/_authenticated/admin/articulos'
 import { Route as AuthenticatedAdminAuditoriaRouteImport } from './routes/_authenticated/admin/auditoria'
+import { Route as AuthenticatedMiEspacioIndexRouteImport } from './routes/_authenticated/mi-espacio.index'
 import { Route as AuthenticatedMiEspacioConfiguracionRouteImport } from './routes/_authenticated/mi-espacio.configuracion'
 import { Route as AuthenticatedMiEspacioFavoritosRouteImport } from './routes/_authenticated/mi-espacio.favoritos'
 import { Route as AuthenticatedMiEspacioHistorialRouteImport } from './routes/_authenticated/mi-espacio.historial'
 import { Route as AuthenticatedMiEspacioLecturasRouteImport } from './routes/_authenticated/mi-espacio.lecturas'
+import { Route as AuthenticatedMiEspacioLecturasLunaresRouteImport } from './routes/_authenticated/mi-espacio.lecturas-lunares'
 import { Route as AuthenticatedMiEspacioMemoriaRouteImport } from './routes/_authenticated/mi-espacio.memoria'
 import { Route as AuthenticatedMiEspacioPerfilRouteImport } from './routes/_authenticated/mi-espacio.perfil'
 import { Route as AuthenticatedMiEspacioPrivacidadRouteImport } from './routes/_authenticated/mi-espacio.privacidad'
@@ -82,6 +84,7 @@ import { Route as TarotTresCartasDecisionRouteImport } from './routes/tarot.tres
 import { Route as TarotTresCartasTrabajoRouteImport } from './routes/tarot.tres-cartas.trabajo'
 import { Route as AuthenticatedAdminArticulosIdRouteImport } from './routes/_authenticated/admin/articulos.$id'
 import { Route as AuthenticatedAdminArticulosNuevoRouteImport } from './routes/_authenticated/admin/articulos.nuevo'
+import { Route as AuthenticatedMiEspacioLecturasLunaresIdRouteImport } from './routes/_authenticated/mi-espacio.lecturas-lunares.$id'
 import { Route as AuthenticatedAdminArticulosIdPreviewRouteImport } from './routes/_authenticated/admin/articulos.$id.preview'
 
 const IndexRoute = IndexRouteImport.update({
@@ -188,11 +191,6 @@ const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedMiEspacioRoute = AuthenticatedMiEspacioRouteImport.update({
-  id: '/mi-espacio',
-  path: '/mi-espacio',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const ApiSearchRoute = ApiSearchRouteImport.update({
   id: '/api/search',
   path: '/api/search',
@@ -283,6 +281,11 @@ const LunaHoyRoute = LunaHoyRouteImport.update({
   path: '/hoy',
   getParentRoute: () => LunaRoute,
 } as any)
+const LunaTuLunaDeHoyRoute = LunaTuLunaDeHoyRouteImport.update({
+  id: '/tu-luna-de-hoy',
+  path: '/tu-luna-de-hoy',
+  getParentRoute: () => LunaRoute,
+} as any)
 const TarotIndexRoute = TarotIndexRouteImport.update({
   id: '/tarot/',
   path: '/tarot/',
@@ -320,47 +323,59 @@ const AuthenticatedAdminAuditoriaRoute =
     path: '/auditoria',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedMiEspacioIndexRoute =
+  AuthenticatedMiEspacioIndexRouteImport.update({
+    id: '/mi-espacio/',
+    path: '/mi-espacio/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedMiEspacioConfiguracionRoute =
   AuthenticatedMiEspacioConfiguracionRouteImport.update({
-    id: '/configuracion',
-    path: '/configuracion',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/configuracion',
+    path: '/mi-espacio/configuracion',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioFavoritosRoute =
   AuthenticatedMiEspacioFavoritosRouteImport.update({
-    id: '/favoritos',
-    path: '/favoritos',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/favoritos',
+    path: '/mi-espacio/favoritos',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioHistorialRoute =
   AuthenticatedMiEspacioHistorialRouteImport.update({
-    id: '/historial',
-    path: '/historial',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/historial',
+    path: '/mi-espacio/historial',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioLecturasRoute =
   AuthenticatedMiEspacioLecturasRouteImport.update({
-    id: '/lecturas',
-    path: '/lecturas',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/lecturas',
+    path: '/mi-espacio/lecturas',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMiEspacioLecturasLunaresRoute =
+  AuthenticatedMiEspacioLecturasLunaresRouteImport.update({
+    id: '/mi-espacio/lecturas-lunares',
+    path: '/mi-espacio/lecturas-lunares',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioMemoriaRoute =
   AuthenticatedMiEspacioMemoriaRouteImport.update({
-    id: '/memoria',
-    path: '/memoria',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/memoria',
+    path: '/mi-espacio/memoria',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioPerfilRoute =
   AuthenticatedMiEspacioPerfilRouteImport.update({
-    id: '/perfil',
-    path: '/perfil',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/perfil',
+    path: '/mi-espacio/perfil',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedMiEspacioPrivacidadRoute =
   AuthenticatedMiEspacioPrivacidadRouteImport.update({
-    id: '/privacidad',
-    path: '/privacidad',
-    getParentRoute: () => AuthenticatedMiEspacioRoute,
+    id: '/mi-espacio/privacidad',
+    path: '/mi-espacio/privacidad',
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const ApiAiRespondRoute = ApiAiRespondRouteImport.update({
   id: '/api/ai/respond',
@@ -462,6 +477,12 @@ const AuthenticatedAdminArticulosNuevoRoute =
     path: '/nuevo',
     getParentRoute: () => AuthenticatedAdminArticulosRoute,
   } as any)
+const AuthenticatedMiEspacioLecturasLunaresIdRoute =
+  AuthenticatedMiEspacioLecturasLunaresIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedMiEspacioLecturasLunaresRoute,
+  } as any)
 const AuthenticatedAdminArticulosIdPreviewRoute =
   AuthenticatedAdminArticulosIdPreviewRouteImport.update({
     id: '/preview',
@@ -490,7 +511,6 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
-  '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/update-password': typeof AuthUpdatePasswordRoute
@@ -506,6 +526,7 @@ export interface FileRoutesByFullPath {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/luna/tu-luna-de-hoy': typeof LunaTuLunaDeHoyRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -519,6 +540,7 @@ export interface FileRoutesByFullPath {
   '/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
   '/mi-espacio/lecturas': typeof AuthenticatedMiEspacioLecturasRoute
+  '/mi-espacio/lecturas-lunares': typeof AuthenticatedMiEspacioLecturasLunaresRouteWithChildren
   '/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
@@ -536,12 +558,14 @@ export interface FileRoutesByFullPath {
   '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
   '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
+  '/mi-espacio/': typeof AuthenticatedMiEspacioIndexRoute
   '/luna/calendario/': typeof LunaCalendarioIndexRoute
   '/luna/fases/': typeof LunaFasesIndexRoute
   '/tarot/cartas/': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas/': typeof TarotTresCartasIndexRoute
   '/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
   '/admin/articulos/nuevo': typeof AuthenticatedAdminArticulosNuevoRoute
+  '/mi-espacio/lecturas-lunares/$id': typeof AuthenticatedMiEspacioLecturasLunaresIdRoute
   '/admin/articulos/$id/preview': typeof AuthenticatedAdminArticulosIdPreviewRoute
 }
 export interface FileRoutesByTo {
@@ -563,7 +587,6 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
-  '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/update-password': typeof AuthUpdatePasswordRoute
@@ -577,6 +600,7 @@ export interface FileRoutesByTo {
   '/legal/privacidad': typeof LegalPrivacidadRoute
   '/legal/terminos': typeof LegalTerminosRoute
   '/luna/hoy': typeof LunaHoyRoute
+  '/luna/tu-luna-de-hoy': typeof LunaTuLunaDeHoyRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -590,6 +614,7 @@ export interface FileRoutesByTo {
   '/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
   '/mi-espacio/lecturas': typeof AuthenticatedMiEspacioLecturasRoute
+  '/mi-espacio/lecturas-lunares': typeof AuthenticatedMiEspacioLecturasLunaresRouteWithChildren
   '/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
@@ -607,12 +632,14 @@ export interface FileRoutesByTo {
   '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
   '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
+  '/mi-espacio': typeof AuthenticatedMiEspacioIndexRoute
   '/luna/calendario': typeof LunaCalendarioIndexRoute
   '/luna/fases': typeof LunaFasesIndexRoute
   '/tarot/cartas': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas': typeof TarotTresCartasIndexRoute
   '/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
   '/admin/articulos/nuevo': typeof AuthenticatedAdminArticulosNuevoRoute
+  '/mi-espacio/lecturas-lunares/$id': typeof AuthenticatedMiEspacioLecturasLunaresIdRoute
   '/admin/articulos/$id/preview': typeof AuthenticatedAdminArticulosIdPreviewRoute
 }
 export interface FileRoutesById {
@@ -638,7 +665,6 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terminos': typeof TerminosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
-  '/_authenticated/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/update-password': typeof AuthUpdatePasswordRoute
@@ -654,6 +680,7 @@ export interface FileRoutesById {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/luna/tu-luna-de-hoy': typeof LunaTuLunaDeHoyRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -667,6 +694,7 @@ export interface FileRoutesById {
   '/_authenticated/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/_authenticated/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
   '/_authenticated/mi-espacio/lecturas': typeof AuthenticatedMiEspacioLecturasRoute
+  '/_authenticated/mi-espacio/lecturas-lunares': typeof AuthenticatedMiEspacioLecturasLunaresRouteWithChildren
   '/_authenticated/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/_authenticated/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/_authenticated/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
@@ -684,12 +712,14 @@ export interface FileRoutesById {
   '/tarot/tres-cartas/decision': typeof TarotTresCartasDecisionRoute
   '/tarot/tres-cartas/trabajo': typeof TarotTresCartasTrabajoRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
+  '/_authenticated/mi-espacio/': typeof AuthenticatedMiEspacioIndexRoute
   '/luna/calendario/': typeof LunaCalendarioIndexRoute
   '/luna/fases/': typeof LunaFasesIndexRoute
   '/tarot/cartas/': typeof TarotCartasIndexRoute
   '/tarot/tres-cartas/': typeof TarotTresCartasIndexRoute
   '/_authenticated/admin/articulos/$id': typeof AuthenticatedAdminArticulosIdRouteWithChildren
   '/_authenticated/admin/articulos/nuevo': typeof AuthenticatedAdminArticulosNuevoRoute
+  '/_authenticated/mi-espacio/lecturas-lunares/$id': typeof AuthenticatedMiEspacioLecturasLunaresIdRoute
   '/_authenticated/admin/articulos/$id/preview': typeof AuthenticatedAdminArticulosIdPreviewRoute
 }
 export interface FileRouteTypes {
@@ -715,7 +745,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terminos'
     | '/admin'
-    | '/mi-espacio'
     | '/api/search'
     | '/auth/callback'
     | '/auth/update-password'
@@ -731,6 +760,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/luna/tu-luna-de-hoy'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
@@ -744,6 +774,7 @@ export interface FileRouteTypes {
     | '/mi-espacio/favoritos'
     | '/mi-espacio/historial'
     | '/mi-espacio/lecturas'
+    | '/mi-espacio/lecturas-lunares'
     | '/mi-espacio/memoria'
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
@@ -761,12 +792,14 @@ export interface FileRouteTypes {
     | '/tarot/tres-cartas/decision'
     | '/tarot/tres-cartas/trabajo'
     | '/admin/'
+    | '/mi-espacio/'
     | '/luna/calendario/'
     | '/luna/fases/'
     | '/tarot/cartas/'
     | '/tarot/tres-cartas/'
     | '/admin/articulos/$id'
     | '/admin/articulos/nuevo'
+    | '/mi-espacio/lecturas-lunares/$id'
     | '/admin/articulos/$id/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -788,7 +821,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/terminos'
-    | '/mi-espacio'
     | '/api/search'
     | '/auth/callback'
     | '/auth/update-password'
@@ -802,6 +834,7 @@ export interface FileRouteTypes {
     | '/legal/privacidad'
     | '/legal/terminos'
     | '/luna/hoy'
+    | '/luna/tu-luna-de-hoy'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
@@ -815,6 +848,7 @@ export interface FileRouteTypes {
     | '/mi-espacio/favoritos'
     | '/mi-espacio/historial'
     | '/mi-espacio/lecturas'
+    | '/mi-espacio/lecturas-lunares'
     | '/mi-espacio/memoria'
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
@@ -832,12 +866,14 @@ export interface FileRouteTypes {
     | '/tarot/tres-cartas/decision'
     | '/tarot/tres-cartas/trabajo'
     | '/admin'
+    | '/mi-espacio'
     | '/luna/calendario'
     | '/luna/fases'
     | '/tarot/cartas'
     | '/tarot/tres-cartas'
     | '/admin/articulos/$id'
     | '/admin/articulos/nuevo'
+    | '/mi-espacio/lecturas-lunares/$id'
     | '/admin/articulos/$id/preview'
   id:
     | '__root__'
@@ -862,7 +898,6 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terminos'
     | '/_authenticated/admin'
-    | '/_authenticated/mi-espacio'
     | '/api/search'
     | '/auth/callback'
     | '/auth/update-password'
@@ -878,6 +913,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/luna/tu-luna-de-hoy'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/temas/$category'
@@ -891,6 +927,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mi-espacio/favoritos'
     | '/_authenticated/mi-espacio/historial'
     | '/_authenticated/mi-espacio/lecturas'
+    | '/_authenticated/mi-espacio/lecturas-lunares'
     | '/_authenticated/mi-espacio/memoria'
     | '/_authenticated/mi-espacio/perfil'
     | '/_authenticated/mi-espacio/privacidad'
@@ -908,12 +945,14 @@ export interface FileRouteTypes {
     | '/tarot/tres-cartas/decision'
     | '/tarot/tres-cartas/trabajo'
     | '/_authenticated/admin/'
+    | '/_authenticated/mi-espacio/'
     | '/luna/calendario/'
     | '/luna/fases/'
     | '/tarot/cartas/'
     | '/tarot/tres-cartas/'
     | '/_authenticated/admin/articulos/$id'
     | '/_authenticated/admin/articulos/nuevo'
+    | '/_authenticated/mi-espacio/lecturas-lunares/$id'
     | '/_authenticated/admin/articulos/$id/preview'
   fileRoutesById: FileRoutesById
 }
@@ -1116,13 +1155,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/mi-espacio': {
-      id: '/_authenticated/mi-espacio'
-      path: '/mi-espacio'
-      fullPath: '/mi-espacio'
-      preLoaderRoute: typeof AuthenticatedMiEspacioRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/api/search': {
       id: '/api/search'
       path: '/api/search'
@@ -1249,6 +1281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LunaHoyRouteImport
       parentRoute: typeof LunaRoute
     }
+    '/luna/tu-luna-de-hoy': {
+      id: '/luna/tu-luna-de-hoy'
+      path: '/tu-luna-de-hoy'
+      fullPath: '/luna/tu-luna-de-hoy'
+      preLoaderRoute: typeof LunaTuLunaDeHoyRouteImport
+      parentRoute: typeof LunaRoute
+    }
     '/tarot/': {
       id: '/tarot/'
       path: '/tarot'
@@ -1298,54 +1337,68 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditoriaRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/mi-espacio/': {
+      id: '/_authenticated/mi-espacio/'
+      path: '/mi-espacio'
+      fullPath: '/mi-espacio/'
+      preLoaderRoute: typeof AuthenticatedMiEspacioIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/mi-espacio/configuracion': {
       id: '/_authenticated/mi-espacio/configuracion'
-      path: '/configuracion'
+      path: '/mi-espacio/configuracion'
       fullPath: '/mi-espacio/configuracion'
       preLoaderRoute: typeof AuthenticatedMiEspacioConfiguracionRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/favoritos': {
       id: '/_authenticated/mi-espacio/favoritos'
-      path: '/favoritos'
+      path: '/mi-espacio/favoritos'
       fullPath: '/mi-espacio/favoritos'
       preLoaderRoute: typeof AuthenticatedMiEspacioFavoritosRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/historial': {
       id: '/_authenticated/mi-espacio/historial'
-      path: '/historial'
+      path: '/mi-espacio/historial'
       fullPath: '/mi-espacio/historial'
       preLoaderRoute: typeof AuthenticatedMiEspacioHistorialRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/lecturas': {
       id: '/_authenticated/mi-espacio/lecturas'
-      path: '/lecturas'
+      path: '/mi-espacio/lecturas'
       fullPath: '/mi-espacio/lecturas'
       preLoaderRoute: typeof AuthenticatedMiEspacioLecturasRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mi-espacio/lecturas-lunares': {
+      id: '/_authenticated/mi-espacio/lecturas-lunares'
+      path: '/mi-espacio/lecturas-lunares'
+      fullPath: '/mi-espacio/lecturas-lunares'
+      preLoaderRoute: typeof AuthenticatedMiEspacioLecturasLunaresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/memoria': {
       id: '/_authenticated/mi-espacio/memoria'
-      path: '/memoria'
+      path: '/mi-espacio/memoria'
       fullPath: '/mi-espacio/memoria'
       preLoaderRoute: typeof AuthenticatedMiEspacioMemoriaRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/perfil': {
       id: '/_authenticated/mi-espacio/perfil'
-      path: '/perfil'
+      path: '/mi-espacio/perfil'
       fullPath: '/mi-espacio/perfil'
       preLoaderRoute: typeof AuthenticatedMiEspacioPerfilRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/mi-espacio/privacidad': {
       id: '/_authenticated/mi-espacio/privacidad'
-      path: '/privacidad'
+      path: '/mi-espacio/privacidad'
       fullPath: '/mi-espacio/privacidad'
       preLoaderRoute: typeof AuthenticatedMiEspacioPrivacidadRouteImport
-      parentRoute: typeof AuthenticatedMiEspacioRoute
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/ai/respond': {
       id: '/api/ai/respond'
@@ -1480,6 +1533,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminArticulosNuevoRouteImport
       parentRoute: typeof AuthenticatedAdminArticulosRoute
     }
+    '/_authenticated/mi-espacio/lecturas-lunares/$id': {
+      id: '/_authenticated/mi-espacio/lecturas-lunares/$id'
+      path: '/$id'
+      fullPath: '/mi-espacio/lecturas-lunares/$id'
+      preLoaderRoute: typeof AuthenticatedMiEspacioLecturasLunaresIdRouteImport
+      parentRoute: typeof AuthenticatedMiEspacioLecturasLunaresRoute
+    }
     '/_authenticated/admin/articulos/$id/preview': {
       id: '/_authenticated/admin/articulos/$id/preview'
       path: '/preview'
@@ -1542,42 +1602,47 @@ const AuthenticatedAdminRouteRouteWithChildren =
     AuthenticatedAdminRouteRouteChildren,
   )
 
-interface AuthenticatedMiEspacioRouteChildren {
-  AuthenticatedMiEspacioConfiguracionRoute: typeof AuthenticatedMiEspacioConfiguracionRoute
-  AuthenticatedMiEspacioFavoritosRoute: typeof AuthenticatedMiEspacioFavoritosRoute
-  AuthenticatedMiEspacioHistorialRoute: typeof AuthenticatedMiEspacioHistorialRoute
-  AuthenticatedMiEspacioLecturasRoute: typeof AuthenticatedMiEspacioLecturasRoute
-  AuthenticatedMiEspacioMemoriaRoute: typeof AuthenticatedMiEspacioMemoriaRoute
-  AuthenticatedMiEspacioPerfilRoute: typeof AuthenticatedMiEspacioPerfilRoute
-  AuthenticatedMiEspacioPrivacidadRoute: typeof AuthenticatedMiEspacioPrivacidadRoute
+interface AuthenticatedMiEspacioLecturasLunaresRouteChildren {
+  AuthenticatedMiEspacioLecturasLunaresIdRoute: typeof AuthenticatedMiEspacioLecturasLunaresIdRoute
 }
 
-const AuthenticatedMiEspacioRouteChildren: AuthenticatedMiEspacioRouteChildren =
+const AuthenticatedMiEspacioLecturasLunaresRouteChildren: AuthenticatedMiEspacioLecturasLunaresRouteChildren =
   {
-    AuthenticatedMiEspacioConfiguracionRoute:
-      AuthenticatedMiEspacioConfiguracionRoute,
-    AuthenticatedMiEspacioFavoritosRoute: AuthenticatedMiEspacioFavoritosRoute,
-    AuthenticatedMiEspacioHistorialRoute: AuthenticatedMiEspacioHistorialRoute,
-    AuthenticatedMiEspacioLecturasRoute: AuthenticatedMiEspacioLecturasRoute,
-    AuthenticatedMiEspacioMemoriaRoute: AuthenticatedMiEspacioMemoriaRoute,
-    AuthenticatedMiEspacioPerfilRoute: AuthenticatedMiEspacioPerfilRoute,
-    AuthenticatedMiEspacioPrivacidadRoute:
-      AuthenticatedMiEspacioPrivacidadRoute,
+    AuthenticatedMiEspacioLecturasLunaresIdRoute:
+      AuthenticatedMiEspacioLecturasLunaresIdRoute,
   }
 
-const AuthenticatedMiEspacioRouteWithChildren =
-  AuthenticatedMiEspacioRoute._addFileChildren(
-    AuthenticatedMiEspacioRouteChildren,
+const AuthenticatedMiEspacioLecturasLunaresRouteWithChildren =
+  AuthenticatedMiEspacioLecturasLunaresRoute._addFileChildren(
+    AuthenticatedMiEspacioLecturasLunaresRouteChildren,
   )
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
-  AuthenticatedMiEspacioRoute: typeof AuthenticatedMiEspacioRouteWithChildren
+  AuthenticatedMiEspacioConfiguracionRoute: typeof AuthenticatedMiEspacioConfiguracionRoute
+  AuthenticatedMiEspacioFavoritosRoute: typeof AuthenticatedMiEspacioFavoritosRoute
+  AuthenticatedMiEspacioHistorialRoute: typeof AuthenticatedMiEspacioHistorialRoute
+  AuthenticatedMiEspacioLecturasRoute: typeof AuthenticatedMiEspacioLecturasRoute
+  AuthenticatedMiEspacioLecturasLunaresRoute: typeof AuthenticatedMiEspacioLecturasLunaresRouteWithChildren
+  AuthenticatedMiEspacioMemoriaRoute: typeof AuthenticatedMiEspacioMemoriaRoute
+  AuthenticatedMiEspacioPerfilRoute: typeof AuthenticatedMiEspacioPerfilRoute
+  AuthenticatedMiEspacioPrivacidadRoute: typeof AuthenticatedMiEspacioPrivacidadRoute
+  AuthenticatedMiEspacioIndexRoute: typeof AuthenticatedMiEspacioIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
-  AuthenticatedMiEspacioRoute: AuthenticatedMiEspacioRouteWithChildren,
+  AuthenticatedMiEspacioConfiguracionRoute:
+    AuthenticatedMiEspacioConfiguracionRoute,
+  AuthenticatedMiEspacioFavoritosRoute: AuthenticatedMiEspacioFavoritosRoute,
+  AuthenticatedMiEspacioHistorialRoute: AuthenticatedMiEspacioHistorialRoute,
+  AuthenticatedMiEspacioLecturasRoute: AuthenticatedMiEspacioLecturasRoute,
+  AuthenticatedMiEspacioLecturasLunaresRoute:
+    AuthenticatedMiEspacioLecturasLunaresRouteWithChildren,
+  AuthenticatedMiEspacioMemoriaRoute: AuthenticatedMiEspacioMemoriaRoute,
+  AuthenticatedMiEspacioPerfilRoute: AuthenticatedMiEspacioPerfilRoute,
+  AuthenticatedMiEspacioPrivacidadRoute: AuthenticatedMiEspacioPrivacidadRoute,
+  AuthenticatedMiEspacioIndexRoute: AuthenticatedMiEspacioIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -1637,6 +1702,7 @@ interface LunaRouteChildren {
   LunaCalendarioRoute: typeof LunaCalendarioRouteWithChildren
   LunaFasesRoute: typeof LunaFasesRouteWithChildren
   LunaHoyRoute: typeof LunaHoyRoute
+  LunaTuLunaDeHoyRoute: typeof LunaTuLunaDeHoyRoute
   LunaIndexRoute: typeof LunaIndexRoute
 }
 
@@ -1644,6 +1710,7 @@ const LunaRouteChildren: LunaRouteChildren = {
   LunaCalendarioRoute: LunaCalendarioRouteWithChildren,
   LunaFasesRoute: LunaFasesRouteWithChildren,
   LunaHoyRoute: LunaHoyRoute,
+  LunaTuLunaDeHoyRoute: LunaTuLunaDeHoyRoute,
   LunaIndexRoute: LunaIndexRoute,
 }
 

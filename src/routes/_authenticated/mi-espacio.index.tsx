@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AccountDashboardPage } from "@/pages/account/AccountDashboardPage";
 
-export const Route = createFileRoute("/_authenticated/mi-espacio")({
+export const Route = createFileRoute("/_authenticated/mi-espacio/")({
   head: () => ({
     meta: [
       { title: "Mi espacio — Creovision" },

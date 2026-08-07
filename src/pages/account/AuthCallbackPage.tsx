@@ -1,15 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/layout/PageShell";
 import { routes } from "@/config/routes";
 import { toast } from "sonner";
 
-/** Landing tras confirmación de email. */
+/** Landing tras confirmación de email o login con OAuth. */
 export function AuthCallbackPage() {
   const navigate = useNavigate();
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const completeCallback = async () => {
       const url = new URL(window.location.href);
       const code = url.searchParams.get("code");

@@ -31,7 +31,13 @@ export const accountNav: AccountNavItem[] = [
     description: "Artículos, cartas y guías que guardaste.",
   },
   {
-    label: "Lecturas guardadas",
+    label: "Mis lecturas",
+    routeKey: "savedLunarReadings",
+    icon: "moon",
+    description: "Tu historial de lecturas lunares guardadas.",
+  },
+  {
+    label: "Tarot guardado",
     routeKey: "savedReadings",
     icon: "tarot",
     description: "Solo las lecturas que decidiste conservar.",

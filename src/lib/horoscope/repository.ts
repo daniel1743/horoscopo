@@ -99,6 +99,8 @@ export async function getHoroscopeForDate(
   return data ? mapRow(data as HoroscopeRow) : null;
 }
 
+import { dailyHoroscopes } from "@/data/home-content";
+
 /** Todas las entradas publicadas del periodo en su fecha de referencia (para vistas globales). */
 export async function listHoroscopesForCurrentPeriod(
   period: HoroscopePeriod,
@@ -112,7 +114,32 @@ export async function listHoroscopesForCurrentPeriod(
     .not("published_at", "is", null)
     .lte("published_at", new Date().toISOString());
   if (error) throw error;
-  return (data as HoroscopeRow[]).map(mapRow);
+  
+  const entries = (data as HoroscopeRow[]).map(mapRow);
+  
+  // Fallback a datos de prueba si la base de datos está vacía
+  if (entries.length === 0) {
+    return dailyHoroscopes.map((h, i) => ({
+      id: `mock-${i}`,
+      signSlug: h.signSlug,
+      period,
+      dateFor,
+      summary: h.summary,
+      focus: h.focus,
+      mood: h.mood,
+      energy: h.energy,
+      love: null,
+      work: null,
+      wellbeing: null,
+      luckyNumber: null,
+      luckyColor: null,
+      isDemo: true,
+      publishedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }));
+  }
+  
+  return entries;
 }
 
 /** Historial reciente de un signo para navegación anterior/siguiente. */

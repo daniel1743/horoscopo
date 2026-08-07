@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { routes } from "@/config/routes";
 import { siteConfig } from "@/config/site";
 import { copy } from "@/config/copy";
@@ -7,17 +7,19 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { MobileTopbar } from "./MobileTopbar";
-import { MobileNavigationDrawer } from "./MobileNavigationDrawer";
 import { SearchTrigger } from "@/components/search/SearchTrigger";
 import { useSession } from "@/hooks/useSession";
 import { isPublicFeatureEnabled } from "@/config/public-features";
 import { cn } from "@/lib/utils";
 
-/** Header global. Controla el único estado del drawer móvil. */
-export function SiteHeader() {
+interface SiteHeaderProps {
+  drawerOpen?: boolean;
+  onToggleDrawer?: () => void;
+}
+
+/** Header global. El estado del drawer móvil ahora es manejado por AppShell. */
+export function SiteHeader({ drawerOpen = false, onToggleDrawer = () => {} }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
   const { user } = useSession();
   const isAuthed = !!user;
   const showAccountAccess = isPublicFeatureEnabled("account");
@@ -31,11 +33,6 @@ export function SiteHeader() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  // Cerrar drawer al cambiar de ruta
-  useEffect(() => {
-    setDrawerOpen(false);
-  }, [pathname]);
 
   return (
     <>
@@ -85,11 +82,9 @@ export function SiteHeader() {
 
         {/* Mobile */}
         <div className="lg:hidden">
-          <MobileTopbar drawerOpen={drawerOpen} onToggleDrawer={() => setDrawerOpen((v) => !v)} />
+          <MobileTopbar drawerOpen={drawerOpen} onToggleDrawer={onToggleDrawer} />
         </div>
       </header>
-
-      <MobileNavigationDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </>
   );
 }

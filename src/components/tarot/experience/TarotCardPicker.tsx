@@ -60,10 +60,12 @@ export function TarotCardPicker({
           transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
-        /* Estado seleccionado: vuela al centro */
+        /* Estado seleccionado: vuela al centro y desaparece gradualmente */
         .desktop-tarot-card.is-selected {
           z-index: 200 !important;
-          transform: translate(-50%, -180px) rotate(0deg) scale(1.3) !important;
+          transform: translate(-50%, -200px) rotate(0deg) scale(1.3) !important;
+          opacity: 0 !important;
+          pointer-events: none;
         }
         
         /* Estado silenciado: el resto de cartas cuando hay una seleccionada */

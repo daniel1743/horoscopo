@@ -57,6 +57,7 @@ export const routes = {
   profile: "/mi-espacio/perfil",
   favorites: "/mi-espacio/favoritos",
   savedReadings: "/mi-espacio/lecturas",
+  savedLunarReadings: "/mi-espacio/lecturas-lunares",
   history: "/mi-espacio/historial",
   settings: "/mi-espacio/configuracion",
   privacySettings: "/mi-espacio/privacidad",

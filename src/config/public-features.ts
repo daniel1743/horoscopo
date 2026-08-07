@@ -45,7 +45,7 @@ export const publicFeatureVisibility: Record<PublicFeatureKey, PublicFeatureStat
   moonPhases: "enabled",
   guides: "enabled",
   search: "enabled",
-  account: "hidden",
+  account: "enabled",
   assistant: "hidden",
   horoscope: "enabled",
   astrology: "hidden",
