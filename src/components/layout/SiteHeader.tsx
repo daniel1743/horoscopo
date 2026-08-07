@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 import { routes } from "@/config/routes";
 import { siteConfig } from "@/config/site";
 import { copy } from "@/config/copy";
@@ -20,23 +21,42 @@ interface SiteHeaderProps {
 /** Header global. El estado del drawer móvil ahora es manejado por AppShell. */
 export function SiteHeader({ drawerOpen = false, onToggleDrawer = () => {} }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const { scrollY } = useScroll();
+
   const { user } = useSession();
   const isAuthed = !!user;
   const showAccountAccess = isPublicFeatureEnabled("account");
   const accountHref = isAuthed ? routes.account : routes.signIn;
   const accountLabel = isAuthed ? "Mi espacio" : copy.actions.account;
 
-  // Un solo listener pasivo
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    
+    // Background and shadow logic
+    setScrolled(latest > 16);
+
+    // Hide/show logic (only apply when drawer is closed so we don't hide it mid-interaction)
+    if (!drawerOpen) {
+      if (latest > previous && latest > 150) {
+        setHidden(true); // scrolling down
+      } else if (latest < previous) {
+        setHidden(false); // scrolling up
+      }
+    } else {
+      setHidden(false); // Always show if drawer is open
+    }
+  });
 
   return (
     <>
-      <header
+      <motion.header
+        variants={{
+          visible: { y: 0 },
+          hidden: { y: "-100%" },
+        }}
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
         className={cn(
           "sticky top-0 z-40 w-full border-b transition-[background-color,box-shadow,border-color] duration-200",
           scrolled
@@ -84,7 +104,7 @@ export function SiteHeader({ drawerOpen = false, onToggleDrawer = () => {} }: Si
         <div className="lg:hidden">
           <MobileTopbar drawerOpen={drawerOpen} onToggleDrawer={onToggleDrawer} />
         </div>
-      </header>
+      </motion.header>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useLayoutEffect, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { motion, useMotionValue, useTransform, useDragControls, animate } from "motion/react";
+import { motion, useMotionValue, useTransform, useDragControls, animate, useMotionValueEvent } from "motion/react";
 import { SkipLink } from "./SkipLink";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
@@ -14,12 +14,23 @@ import { cn } from "@/lib/utils";
  */
 export function AppShell({ children }: { children: ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisuallyOpen, setIsVisuallyOpen] = useState(false);
   const [savedScrollY, setSavedScrollY] = useState(0);
   const [drawerWidth, setDrawerWidth] = useState(300);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const x = useMotionValue(0);
   const dragControls = useDragControls();
+
+  // Track visual openness precisely via motion value to prevent scroll bleed during drag
+  useMotionValueEvent(x, "change", (latest) => {
+    if (latest > 0 && !isVisuallyOpen) {
+      setSavedScrollY(window.scrollY);
+      setIsVisuallyOpen(true);
+    } else if (latest === 0 && isVisuallyOpen) {
+      setIsVisuallyOpen(false);
+    }
+  });
 
   // Setup drawer width based on window size
   useLayoutEffect(() => {
@@ -35,6 +46,10 @@ export function AppShell({ children }: { children: ReactNode }) {
   const springConfig = { type: "spring", stiffness: 420, damping: 38 } as const;
 
   const snapOpen = () => {
+    if (x.get() === 0) {
+      setSavedScrollY(window.scrollY);
+      setIsVisuallyOpen(true);
+    }
     animate(x, drawerWidth, springConfig).then(() => setIsMenuOpen(true));
     setIsMenuOpen(true);
   };
@@ -53,9 +68,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   // Body scroll lock
   useLayoutEffect(() => {
-    if (isMenuOpen) {
-      const currentScroll = window.scrollY;
-      setSavedScrollY(currentScroll);
+    if (isVisuallyOpen) {
       document.body.style.overflow = "hidden";
       document.body.style.overscrollBehavior = "none";
     } else {
@@ -65,7 +78,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         window.scrollTo(0, savedScrollY);
       }
     }
-  }, [isMenuOpen]);
+  }, [isVisuallyOpen, savedScrollY]);
 
   const handleDragEnd = (e: any, info: any) => {
     const position = x.get();
@@ -97,6 +110,10 @@ export function AppShell({ children }: { children: ReactNode }) {
         style={{ touchAction: "pan-y" }}
         onPointerDown={(e) => {
           if (!isMenuOpen && window.innerWidth < 1024) {
+            if (x.get() === 0) {
+              setSavedScrollY(window.scrollY);
+              setIsVisuallyOpen(true);
+            }
             dragControls.start(e);
           }
         }}
@@ -108,8 +125,9 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <motion.div
         className={cn(
-          "bg-background text-ink z-10 w-full min-h-screen relative origin-left overflow-hidden isolate",
-          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:opacity-100"
+          "bg-background text-ink z-10 w-full origin-left overflow-hidden isolate",
+          isVisuallyOpen ? "fixed inset-0" : "relative min-h-screen",
+          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:opacity-100 lg:relative"
         )}
         style={{ 
           x, 
@@ -129,12 +147,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div
           className="flex flex-col min-h-screen w-full bg-background relative"
           style={{
-            transform: isMenuOpen ? `translateY(-${savedScrollY}px)` : "none",
+            transform: isVisuallyOpen ? `translateY(-${savedScrollY}px)` : "none",
             transition: "none",
           }}
         >
           {/* Clickable area when menu is open to close it without dragging */}
-          {isMenuOpen && (
+          {isVisuallyOpen && (
             <div
               className="absolute inset-0 z-50 lg:hidden bg-transparent cursor-pointer"
               onClick={snapClosed}
@@ -155,8 +173,22 @@ export function AppShell({ children }: { children: ReactNode }) {
             {children}
           </main>
           <SiteFooter />
-          <MobileBottomNavigation />
         </div>
+      </motion.div>
+
+      {/* Mobile Bottom Navigation - Moved outside to preserve fixed positioning relative to viewport */}
+      <motion.div
+        className={cn(
+          "fixed bottom-0 left-0 right-0 z-40 lg:hidden overflow-hidden isolate",
+          isMenuOpen ? "pointer-events-none" : ""
+        )}
+        style={{ 
+          x, 
+          opacity: appShellOpacity,
+          borderBottomLeftRadius: appShellBorderRadius 
+        }}
+      >
+        <MobileBottomNavigation />
       </motion.div>
     </div>
   );
