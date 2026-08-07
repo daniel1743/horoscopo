@@ -1,15 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { AccountDashboardPage } from "@/pages/account/AccountDashboardPage";
+import { EspectroProfilePage } from "@/pages/social/EspectroProfilePage";
 
 export const Route = createFileRoute("/_authenticated/mi-espacio/")({
   head: () => ({
     meta: [
-      { title: "Mi espacio — Creovision" },
-      { name: "description", content: "Tu área personal en Creovision." },
-      { property: "og:title", content: "Mi espacio — Creovision" },
-      { property: "og:description", content: "Perfil, favoritos, lecturas y privacidad." },
+      { title: "Espectro Astral — Creovision" },
+      { name: "description", content: "Tu perfil astral social." },
+      { property: "og:title", content: "Espectro Astral — Creovision" },
+      { property: "og:description", content: "Tu energía astral del día." },
       { name: "robots", content: "noindex,nofollow" },
     ],
   }),
-  component: AccountDashboardPage,
+  component: EspectroProfilePage,
 });

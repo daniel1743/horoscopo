@@ -107,6 +107,9 @@ export function AppShell({ children }: { children: ReactNode }) {
     ["rgba(24,20,18,0)", "rgba(24,20,18,0.65)"]
   );
   const appShellBorderRadius = useTransform(x, [0, drawerWidth], ["0px", "28px"]);
+  
+  // Hide the drawer when fully closed to prevent it from showing through during overscroll
+  const drawerVisibility = useTransform(x, [0, 1], ["hidden", "visible"]);
 
   return (
     <div className="relative w-full bg-background overflow-hidden">
@@ -125,9 +128,12 @@ export function AppShell({ children }: { children: ReactNode }) {
         }}
       />
 
-      <div className="fixed inset-y-0 left-0 z-0 bg-background lg:hidden">
+      <motion.div 
+        className="fixed inset-y-0 left-0 z-0 bg-background lg:hidden"
+        style={{ visibility: drawerVisibility }}
+      >
         <MobileNavigationDrawer open={isMenuOpen} onClose={snapClosed} />
-      </div>
+      </motion.div>
 
       <motion.div
         className={cn(
