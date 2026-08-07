@@ -104,7 +104,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const dimmingColor = useTransform(
     x,
     [0, drawerWidth],
-    ["rgba(24,20,18,0)", "rgba(24,20,18,0.12)"]
+    ["rgba(24,20,18,0)", "rgba(24,20,18,0.65)"]
   );
   const appShellBorderRadius = useTransform(x, [0, drawerWidth], ["0px", "28px"]);
 
