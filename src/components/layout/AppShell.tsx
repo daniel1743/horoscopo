@@ -99,7 +99,13 @@ export function AppShell({ children }: { children: ReactNode }) {
     }
   };
 
-  const appShellOpacity = useTransform(x, [0, drawerWidth], [1, 0.5]);
+  // El shell permanece 100% opaco. La atenuación se hace con una capa
+  // independiente por encima del contenido (ver dimming overlay más abajo).
+  const dimmingColor = useTransform(
+    x,
+    [0, drawerWidth],
+    ["rgba(24,20,18,0)", "rgba(24,20,18,0.12)"]
+  );
   const appShellBorderRadius = useTransform(x, [0, drawerWidth], ["0px", "28px"]);
 
   return (
@@ -127,12 +133,11 @@ export function AppShell({ children }: { children: ReactNode }) {
         className={cn(
           "bg-background text-ink z-10 w-full origin-left overflow-hidden isolate",
           isVisuallyOpen ? "fixed inset-0" : "relative min-h-screen",
-          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:opacity-100 lg:relative"
+          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:relative"
         )}
-        style={{ 
-          x, 
+        style={{
+          x,
           touchAction: "pan-y",
-          opacity: appShellOpacity,
           borderTopLeftRadius: appShellBorderRadius,
           borderBottomLeftRadius: appShellBorderRadius
         }}
@@ -151,6 +156,14 @@ export function AppShell({ children }: { children: ReactNode }) {
             transition: "none",
           }}
         >
+          {/* Atenuación de la app: capa independiente por encima del contenido.
+              El shell nunca usa opacity, así el menú no se filtra a través. */}
+          <motion.div
+            className="pointer-events-none absolute inset-0 z-[49] lg:hidden"
+            style={{ backgroundColor: dimmingColor }}
+            aria-hidden="true"
+          />
+
           {/* Clickable area when menu is open to close it without dragging */}
           {isVisuallyOpen && (
             <div
@@ -182,10 +195,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           "fixed bottom-0 left-0 right-0 z-40 lg:hidden overflow-hidden isolate",
           isMenuOpen ? "pointer-events-none" : ""
         )}
-        style={{ 
-          x, 
-          opacity: appShellOpacity,
-          borderBottomLeftRadius: appShellBorderRadius 
+        style={{
+          x,
+          borderBottomLeftRadius: appShellBorderRadius
         }}
       >
         <MobileBottomNavigation />
