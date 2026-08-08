@@ -24,8 +24,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
         label: "Tu mundo emocional",
         shortLabel: "Tu emoción",
         displayOrder: 1,
-        description:
-          "Lo que sientes, necesitas o llevas internamente a esta situación.",
+        description: "Lo que sientes, necesitas o llevas internamente a esta situación.",
         interpretationFocus:
           "Interpretar la carta desde emociones, necesidades, expectativas, valores y disposición afectiva del usuario. No afirmar hechos sobre terceros.",
       },
@@ -44,8 +43,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
         label: "Orientación para avanzar",
         shortLabel: "Orientación",
         displayOrder: 3,
-        description:
-          "Lo que conviene comprender, cuidar, expresar o considerar antes de actuar.",
+        description: "Lo que conviene comprender, cuidar, expresar o considerar antes de actuar.",
         interpretationFocus:
           "Ofrecer una orientación práctica y reflexiva, sin ordenar terminar, reconciliarse, insistir ni tomar decisiones por el usuario.",
       },
@@ -64,54 +62,54 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
 
   general: {
     slug: "general",
-    title: "Tres cartas — Lectura general",
-    shortTitle: "General",
+    title: "Tirada de tres cartas",
+    shortTitle: "Tres cartas",
     description:
-      "Una lectura de tres perspectivas: lo que pasó, lo que está sucediendo ahora y la tendencia futura. Una forma simple de observar tu situación desde múltiples ángulos.",
+      "Elige tres cartas para observar una situación desde lo que influye, lo que necesitas mirar y un posible próximo paso.",
     intro:
       "Piensa en una situación o pregunta abierta. No necesitas detalle; una frase basta. Puedes preguntar sobre vida, trabajo, relaciones o cualquier aspecto que te interese reflexionar.",
     userContextLabel: "Tu pregunta o situación",
     userContextPlaceholder: "Ejemplo: ¿Cómo está evolucionando mi situación actual?",
     positions: [
       {
-        key: "past",
-        label: "Pasado",
-        shortLabel: "Pasado",
+        key: "influence",
+        label: "Lo que influye",
+        shortLabel: "Influencia",
         displayOrder: 1,
-        description: "Lo que ha influido o lo que llevaste a este punto.",
+        description: "La energía, patrón o contexto que está actuando sobre esta situación.",
         interpretationFocus:
-          "Contexto y raíces. Qué enseñanzas o patrones han traído a la persona hasta aquí.",
+          "Identificar la energía, patrón o contexto que está influyendo en la situación sin afirmar certezas externas.",
       },
       {
-        key: "present",
-        label: "Presente",
-        shortLabel: "Presente",
+        key: "what_to_look_at",
+        label: "Lo que necesitas mirar",
+        shortLabel: "Mirar",
         displayOrder: 2,
-        description: "La energía, el estado o los recursos disponibles ahora.",
+        description: "El punto que pide atención, honestidad o una mirada más profunda.",
         interpretationFocus:
-          "Lo que está vivo en este momento. Fuerzas, desafíos, oportunidades actuales.",
+          "Mostrar qué aspecto conviene observar con más claridad: recurso, tensión, emoción o decisión pendiente.",
       },
       {
-        key: "future",
-        label: "Tendencia futura",
-        shortLabel: "Futuro",
+        key: "next_step",
+        label: "Próximo paso",
+        shortLabel: "Paso",
         displayOrder: 3,
         description:
-          "La orientación o posible evolución si las cosas continúan así.",
+          "Una orientación práctica para avanzar sin convertir la lectura en una predicción.",
         interpretationFocus:
-          "No predecir certezas. Mostrar una tendencia, un potencial o lo que podría florecer si se cultiva.",
+          "Ofrecer un próximo paso simbólico y práctico. No predecir certezas ni ordenar decisiones.",
       },
     ] as const,
     synthesisInstructions:
-      "Conectar las tres temporalidades como una narrativa. Mostrar cómo el pasado y presente crean la base para el futuro. Identificar qué se está transformando y qué orientación propone el conjunto.",
+      "Conectar influencia, punto de atención y próximo paso como una lectura coherente. Identificar la tensión o recurso principal y cerrar con una orientación práctica.",
     seo: {
-      title: "Tirada de Tarot General de 3 cartas | Creovision",
+      title: "Tirada de Tarot de 3 cartas gratis | Creovision",
       description:
-        "Una lectura de tres perspectivas: pasado, presente y tendencia futura. Una forma simple de observar tu situación desde múltiples ángulos.",
-      canonical: "/tarot/tres-cartas/general",
+        "Baraja y elige tres cartas para una lectura general de tarot: pasado, presente y tendencia futura.",
+      canonical: "/tarot/tres-cartas",
     },
     access: "free",
-    enabled: false,
+    enabled: true,
   },
 
   trabajo: {
@@ -123,8 +121,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
     intro:
       "Piensa en tu situación laboral o profesional. Puedes preguntar sobre un proyecto, una decisión de carrera, un conflicto o simplemente cómo evoluciona tu trayecto.",
     userContextLabel: "Tu situación laboral",
-    userContextPlaceholder:
-      "Ejemplo: Estoy considerando un cambio de trabajo. ¿Qué debo observar?",
+    userContextPlaceholder: "Ejemplo: Estoy considerando un cambio de trabajo. ¿Qué debo observar?",
     positions: [
       {
         key: "situation",
@@ -132,8 +129,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
         shortLabel: "Situación",
         displayOrder: 1,
         description: "El estado presente en tu ámbito laboral o profesional.",
-        interpretationFocus:
-          "Contexto, recursos disponibles y energía del momento profesional.",
+        interpretationFocus: "Contexto, recursos disponibles y energía del momento profesional.",
       },
       {
         key: "challenge_opportunity",
@@ -175,16 +171,14 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
     intro:
       "Piensa en una decisión que necesitas tomar. No es un oráculo que te dirá qué hacer, sino una herramienta para ordenar lo que ya sabes.",
     userContextLabel: "Tu decisión",
-    userContextPlaceholder:
-      "Ejemplo: ¿Debo hacer este cambio? Necesito claridad para decidir.",
+    userContextPlaceholder: "Ejemplo: ¿Debo hacer este cambio? Necesito claridad para decidir.",
     positions: [
       {
         key: "decision_driver",
         label: "Qué impulsa la decisión",
         shortLabel: "Impulso",
         displayOrder: 1,
-        description:
-          "La razón, el deseo o la presión que te lleva a considerar esta decisión.",
+        description: "La razón, el deseo o la presión que te lleva a considerar esta decisión.",
         interpretationFocus:
           "Entender qué está motivando el cambio sin juzgarlo como correcto o incorrecto.",
       },
@@ -202,8 +196,7 @@ export const threeCardReadings: Record<ThreeCardReadingSlug, ThreeCardReadingCon
         label: "Criterio para elegir",
         shortLabel: "Criterio",
         displayOrder: 3,
-        description:
-          "Un principio o valor que puede ayudarte a decidir de forma alineada contigo.",
+        description: "Un principio o valor que puede ayudarte a decidir de forma alineada contigo.",
         interpretationFocus:
           "Ofrecer un valor o pregunta reflexiva que conecte con tus criterios personales.",
       },

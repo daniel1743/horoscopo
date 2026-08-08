@@ -4,7 +4,6 @@ import { compatibilityQueries } from "@/services/compatibility.service";
 import { isZodiacSign, normalizeSignPair } from "@/lib/compatibility/normalize-sign-pair";
 import { buildMeta } from "@/config/seo";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
-import { isPublicFeatureEnabled } from "@/config/public-features";
 import type { ZodiacSignKey } from "@/types/compatibility";
 
 /**
@@ -13,7 +12,6 @@ import type { ZodiacSignKey } from "@/types/compatibility";
  */
 export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
   beforeLoad: ({ params }) => {
-    if (!isPublicFeatureEnabled("compatibility")) throw notFound();
     const { signA, signB } = params;
     if (!isZodiacSign(signA) || !isZodiacSign(signB)) throw notFound();
     const normalized = normalizeSignPair(signA, signB);

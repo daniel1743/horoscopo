@@ -13,10 +13,11 @@ import {
   mapCompatibilityProfileRow,
   type CompatibilityProfileRow,
 } from "@/lib/compatibility/compatibility-mappers";
+import { createPairKey, normalizeSignPair } from "@/lib/compatibility/normalize-sign-pair";
 import {
-  createPairKey,
-  normalizeSignPair,
-} from "@/lib/compatibility/normalize-sign-pair";
+  buildFallbackCompatibilityProfile,
+  buildFeaturedFallbackCompatibilityProfiles,
+} from "@/lib/compatibility/fallback-compatibility";
 import type { CompatibilityRepository } from "./compatibility.repository";
 
 const cli = () => supabase as unknown as import("@supabase/supabase-js").SupabaseClient;
@@ -34,11 +35,14 @@ async function fetchByPairKey(pairKey: string): Promise<CompatibilityProfile | n
 export const supabaseCompatibilityRepository: CompatibilityRepository = {
   async getByPair(signOne, signTwo) {
     const { pair_key } = normalizeSignPair(signOne, signTwo);
-    return fetchByPairKey(pair_key);
+    return (await fetchByPairKey(pair_key)) ?? buildFallbackCompatibilityProfile(signOne, signTwo);
   },
 
   async getByPairKey(pairKey) {
-    return fetchByPairKey(pairKey);
+    const profile = await fetchByPairKey(pairKey);
+    if (profile) return profile;
+    const [signOne, signTwo] = pairKey.split("__");
+    return buildFallbackCompatibilityProfile(signOne, signTwo);
   },
 
   async getPublishedForSign(signKey, limit = 8) {
@@ -49,9 +53,13 @@ export const supabaseCompatibilityRepository: CompatibilityRepository = {
       .order("published_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
-    return (
-      (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? []
-    );
+    const rows = (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? [];
+    if (rows.length >= limit) return rows;
+    const seen = new Set(rows.map((row) => row.pairKey));
+    const fallback = buildFeaturedFallbackCompatibilityProfiles(limit)
+      .filter((row) => !seen.has(row.pairKey))
+      .slice(0, limit - rows.length);
+    return [...rows, ...fallback];
   },
 
   async getPublishedPairs(limit = 6) {
@@ -61,9 +69,7 @@ export const supabaseCompatibilityRepository: CompatibilityRepository = {
       .order("published_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
-    return (
-      (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? []
-    );
+    return (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? [];
   },
 
   async existsPublishedPair(signOne, signTwo) {

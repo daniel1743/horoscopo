@@ -28,6 +28,7 @@ export const routes = {
 
   moon: "/luna",
   moonToday: "/luna/hoy",
+  moonPersonalToday: "/luna/tu-luna-de-hoy",
   moonCalendar: "/luna/calendario",
   moonPhases: "/luna/fases",
 

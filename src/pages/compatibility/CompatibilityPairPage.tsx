@@ -43,6 +43,18 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
 
       {profile ? (
         <div className="mt-2 space-y-12">
+          <section className="grid gap-4 rounded-[var(--radius-card-lg)] border border-brand/10 bg-brand/5 p-5 md:grid-cols-3 md:p-6">
+            <QuickReadItem label="Energía" value={profile.dynamicLabel ?? "Dinámica simbólica"} />
+            <QuickReadItem
+              label="Potencial"
+              value={profile.strengths[0] ?? "Reconocer afinidades sin forzar acuerdos."}
+            />
+            <QuickReadItem
+              label="Cuida"
+              value={profile.challenges[0] ?? "No convertir las diferencias en etiquetas fijas."}
+            />
+          </section>
+
           <section
             aria-labelledby="compat-dynamic"
             className="rounded-[var(--radius-card-lg)] border border-line-subtle bg-warm-white p-6 md:p-8"
@@ -166,9 +178,7 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
                   to={compatibilityRoute(p.signA, p.signB)}
                   className="block rounded-[var(--radius-card)] border border-line-subtle bg-warm-white p-5 transition hover:border-brand focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(108,75,217,0.18)]"
                 >
-                  <h3 className="font-display text-[17px] font-semibold text-ink">
-                    {p.title}
-                  </h3>
+                  <h3 className="font-display text-[17px] font-semibold text-ink">{p.title}</h3>
                   <p className="mt-2 font-body text-[14px] text-ink-soft">{p.summary}</p>
                 </Link>
               </li>
@@ -177,6 +187,17 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
         </section>
       )}
     </PageShell>
+  );
+}
+
+function QuickReadItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <p className="font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-brand">
+        {label}
+      </p>
+      <p className="mt-2 font-body text-[15px] leading-[1.55] text-ink">{value}</p>
+    </div>
   );
 }
 

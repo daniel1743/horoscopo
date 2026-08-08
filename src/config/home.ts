@@ -31,11 +31,11 @@ export interface HomeAction {
 export const homeConfig = {
   sectionOrder: [
     "hero",
-    "zodiac_selector",
-    "daily_insight",
-    "featured_tarot",
     "moon_today",
     "compatibility",
+    "zodiac_selector",
+    "featured_tarot",
+    "daily_insight",
     "featured_guides",
     "topics",
     "personal_space",
@@ -92,20 +92,22 @@ export const homeConfig = {
   },
 
   moonToday: {
-    eyebrow: "Ciclo lunar",
-    title: "La luna de hoy",
+    eyebrow: "Consulta lunar personalizada",
+    title: "Tu luna hoy",
+    description:
+      "Ingresa tu fecha de nacimiento y recibe una lectura del tránsito lunar actual. Si inicias sesión, puedes guardarla en tus lecturas lunares.",
     action: {
-      label: "Descubrir la luna de hoy",
-      routeKey: "moonToday",
+      label: "Consultar mi luna",
+      routeKey: "moonPersonalToday",
       variant: "secondary_on_dark",
     } satisfies HomeAction,
   },
 
   compatibility: {
-    eyebrow: "Relaciones",
-    title: "Explora vuestra compatibilidad",
+    eyebrow: "Compatibilidad entre signos",
+    title: "Compara cualquier pareja zodiacal",
     description:
-      "Selecciona dos signos para conocer una primera aproximación a su dinámica emocional y comunicativa.",
+      "Selecciona dos signos y descubre su dinámica emocional, comunicación, atracción y desafíos. Las 78 combinaciones canónicas están disponibles.",
     firstLabel: "Tu signo",
     secondLabel: "El otro signo",
     action: {

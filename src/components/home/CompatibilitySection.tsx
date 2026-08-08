@@ -42,25 +42,30 @@ export function CompatibilitySection() {
           {cfg.title}
         </h2>
 
-        <form
-          onSubmit={submit}
-          noValidate
-          className="mx-auto flex max-w-[820px] flex-col items-stretch gap-4 md:flex-row md:items-end"
-        >
-          <SignField id="compat-first" label={cfg.firstLabel} value={first} onChange={setFirst} />
-          <div aria-hidden className="hidden shrink-0 items-center justify-center pb-3 md:flex">
-            <Icon name="compatibility" className="text-brand" size="lg" />
-          </div>
-          <SignField
-            id="compat-second"
-            label={cfg.secondLabel}
-            value={second}
-            onChange={setSecond}
-          />
-          <Button type="submit" size="lg" className="md:w-auto" fullWidth>
-            {cfg.action.label}
-          </Button>
-        </form>
+        <div className="mx-auto max-w-[900px] rounded-[var(--radius-card-lg)] border border-line-subtle bg-warm-white p-5 shadow-sm md:p-7">
+          <form
+            onSubmit={submit}
+            noValidate
+            className="flex flex-col items-stretch gap-4 md:flex-row md:items-end"
+          >
+            <SignField id="compat-first" label={cfg.firstLabel} value={first} onChange={setFirst} />
+            <div aria-hidden className="hidden shrink-0 items-center justify-center pb-3 md:flex">
+              <Icon name="compatibility" className="text-brand" size="lg" />
+            </div>
+            <SignField
+              id="compat-second"
+              label={cfg.secondLabel}
+              value={second}
+              onChange={setSecond}
+            />
+            <Button type="submit" size="lg" className="md:w-auto" fullWidth>
+              {cfg.action.label}
+            </Button>
+          </form>
+          <p className="mt-4 text-center font-body text-[13px] text-ink-soft">
+            Disponible para las 78 combinaciones únicas de los 12 signos.
+          </p>
+        </div>
         {error && (
           <p
             role="alert"

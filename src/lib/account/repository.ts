@@ -30,6 +30,14 @@ export interface Profile {
   birth_timezone: string | null;
   birth_latitude: number | null;
   birth_longitude: number | null;
+  // Aura & Energy System
+  aura_enabled: boolean;
+  aura_theme: 'indigo' | 'lunar' | 'emerald' | 'rose' | 'solar' | 'pearl';
+  aura_motion_enabled: boolean;
+  aura_visibility: 'public' | 'connections' | 'private';
+  declared_energy: string | null;
+  declared_energy_text: string | null;
+  declared_energy_updated_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -129,6 +137,13 @@ export async function upsertProfile(
     "bio",
     "preferred_sign",
     "city",
+    "aura_enabled",
+    "aura_theme",
+    "aura_motion_enabled",
+    "aura_visibility",
+    "declared_energy",
+    "declared_energy_text",
+    "declared_energy_updated_at"
   ];
   
   const profilePatch: Record<string, unknown> = {};

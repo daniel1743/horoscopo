@@ -1,6 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { absoluteUrl } from "@/config/seo";
-import { routes, moonCalendarMonthRoute, moonPhaseRoute, tarotCardRoute, zodiacRoute } from "@/config/routes";
+import {
+  routes,
+  compatibilityRoute,
+  moonCalendarMonthRoute,
+  moonPhaseRoute,
+  tarotCardRoute,
+  zodiacRoute,
+} from "@/config/routes";
 import { majorArcana } from "@/data/tarot-cards";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { MOON_PHASE_ORDER, MOON_PHASE_REGISTRY } from "@/config/moon";
@@ -27,8 +34,10 @@ function getSitemapEntries(): SitemapEntry[] {
   entries.push(
     { path: routes.home, priority: "1.0", changefreq: "daily", lastmod: today },
     { path: routes.search, priority: "0.7", changefreq: "weekly" },
-    { path: routes.about, priority: "0.5", changefreq: "monthly" },
   );
+  if (isRoutePubliclyEnabled("about")) {
+    entries.push({ path: routes.about, priority: "0.5", changefreq: "monthly" });
+  }
 
   // 2. HORÓSCOPO (Si está activado)
   if (isRoutePubliclyEnabled("horoscope")) {
@@ -107,12 +116,14 @@ function getSitemapEntries(): SitemapEntry[] {
   }
 
   // 5. ASTROLOGÍA (Herramientas interactivas)
-  entries.push(
-    { path: routes.astrology, priority: "0.8", changefreq: "weekly" },
-    { path: routes.birthChart, priority: "0.85", changefreq: "weekly" },
-    { path: routes.ascendant, priority: "0.85", changefreq: "weekly" },
-    { path: routes.moonSign, priority: "0.80", changefreq: "weekly" },
-  );
+  if (isRoutePubliclyEnabled("astrology")) {
+    entries.push(
+      { path: routes.astrology, priority: "0.8", changefreq: "weekly" },
+      { path: routes.birthChart, priority: "0.85", changefreq: "weekly" },
+      { path: routes.ascendant, priority: "0.85", changefreq: "weekly" },
+      { path: routes.moonSign, priority: "0.80", changefreq: "weekly" },
+    );
+  }
 
   // 6. COMPATIBILIDAD
   entries.push({
@@ -120,6 +131,15 @@ function getSitemapEntries(): SitemapEntry[] {
     priority: "0.85",
     changefreq: "weekly",
   });
+  for (let i = 0; i < zodiacSigns.length; i += 1) {
+    for (let j = i; j < zodiacSigns.length; j += 1) {
+      entries.push({
+        path: compatibilityRoute(zodiacSigns[i].slug, zodiacSigns[j].slug),
+        priority: "0.72",
+        changefreq: "monthly",
+      });
+    }
+  }
 
   // 7. CONTENIDO EDITORIAL (Si hay guías/temas)
   entries.push(

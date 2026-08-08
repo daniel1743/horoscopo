@@ -1,12 +1,21 @@
 import { useState, useEffect, useLayoutEffect, type ReactNode } from "react";
 import { useRouterState } from "@tanstack/react-router";
-import { motion, useMotionValue, useTransform, useDragControls, animate, useMotionValueEvent } from "motion/react";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useDragControls,
+  animate,
+  useMotionValueEvent,
+  type PanInfo,
+} from "motion/react";
 import { SkipLink } from "./SkipLink";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { MobileBottomNavigation } from "./MobileBottomNavigation";
 import { MobileNavigationDrawer } from "./MobileNavigationDrawer";
 import { cn } from "@/lib/utils";
+import { routes } from "@/config/routes";
 
 /**
  * Shell global reutilizable. Envuelve todas las páginas.
@@ -18,6 +27,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [savedScrollY, setSavedScrollY] = useState(0);
   const [drawerWidth, setDrawerWidth] = useState(300);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const hideGlobalHeader = pathname === routes.account;
 
   const x = useMotionValue(0);
   const dragControls = useDragControls();
@@ -80,7 +90,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     }
   }, [isVisuallyOpen, savedScrollY]);
 
-  const handleDragEnd = (e: any, info: any) => {
+  const handleDragEnd = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     const position = x.get();
     const progress = position / drawerWidth;
     const velocity = info.velocity.x;
@@ -104,18 +114,18 @@ export function AppShell({ children }: { children: ReactNode }) {
   const dimmingColor = useTransform(
     x,
     [0, drawerWidth],
-    ["rgba(24,20,18,0)", "rgba(24,20,18,0.65)"]
+    ["rgba(24,20,18,0)", "rgba(24,20,18,0.65)"],
   );
   const appShellBorderRadius = useTransform(x, [0, drawerWidth], ["0px", "28px"]);
-  
+
   // Hide the drawer when fully closed to prevent it from showing through during overscroll
   const drawerVisibility = useTransform(x, [0, 1], ["hidden", "visible"]);
 
   return (
     <div className="relative w-full bg-background overflow-hidden">
       {/* Edge trigger for opening */}
-      <div 
-        className="fixed inset-y-0 left-0 w-6 z-50 lg:hidden" 
+      <div
+        className="fixed inset-y-0 left-0 w-6 z-50 lg:hidden"
         style={{ touchAction: "pan-y" }}
         onPointerDown={(e) => {
           if (!isMenuOpen && window.innerWidth < 1024) {
@@ -128,7 +138,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         }}
       />
 
-      <motion.div 
+      <motion.div
         className="fixed inset-y-0 left-0 z-0 bg-background lg:hidden"
         style={{ visibility: drawerVisibility }}
       >
@@ -139,13 +149,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         className={cn(
           "bg-background text-ink z-10 w-full origin-left overflow-hidden isolate",
           isVisuallyOpen ? "fixed inset-0" : "relative min-h-screen",
-          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:relative"
+          "shadow-[-14px_0_34px_rgba(20,16,30,0.16)] border-l-0 outline-none ring-0 lg:rounded-none lg:shadow-none lg:h-auto lg:min-h-screen lg:relative",
         )}
         style={{
           x,
           touchAction: "pan-y",
           borderTopLeftRadius: appShellBorderRadius,
-          borderBottomLeftRadius: appShellBorderRadius
+          borderBottomLeftRadius: appShellBorderRadius,
         }}
         drag="x"
         dragControls={dragControls}
@@ -180,10 +190,12 @@ export function AppShell({ children }: { children: ReactNode }) {
           )}
 
           <SkipLink />
-          <SiteHeader 
-            drawerOpen={isMenuOpen} 
-            onToggleDrawer={() => (isMenuOpen ? snapClosed() : snapOpen())} 
-          />
+          {!hideGlobalHeader && (
+            <SiteHeader
+              drawerOpen={isMenuOpen}
+              onToggleDrawer={() => (isMenuOpen ? snapClosed() : snapOpen())}
+            />
+          )}
           <main
             id="main-content"
             tabIndex={-1}
@@ -199,11 +211,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       <motion.div
         className={cn(
           "fixed bottom-0 left-0 right-0 z-40 lg:hidden overflow-hidden isolate",
-          isMenuOpen ? "pointer-events-none" : ""
+          isMenuOpen ? "pointer-events-none" : "",
         )}
         style={{
           x,
-          borderBottomLeftRadius: appShellBorderRadius
+          borderBottomLeftRadius: appShellBorderRadius,
         }}
       >
         <MobileBottomNavigation />

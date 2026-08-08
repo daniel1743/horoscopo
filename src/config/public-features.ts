@@ -49,7 +49,7 @@ export const publicFeatureVisibility: Record<PublicFeatureKey, PublicFeatureStat
   assistant: "hidden",
   horoscope: "enabled",
   astrology: "hidden",
-  compatibility: "hidden",
+  compatibility: "enabled",
   informational: "hidden",
   legal: "enabled",
 };

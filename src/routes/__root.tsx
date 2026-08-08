@@ -15,6 +15,7 @@ import { AppShell } from "../components/layout/AppShell";
 import { siteConfig } from "@/config/site";
 import { CookieConsentBanner } from "@/components/cookies/CookieConsentBanner";
 import { initCookieManager } from "@/lib/cookies/cookie-manager";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -103,11 +104,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", sizes: "any" },
-      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "icon", href: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { rel: "icon", href: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", href: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/favicon-48x48.png?v=2", sizes: "48x48", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico?v=2", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png?v=2" },
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
@@ -154,6 +154,7 @@ function RootComponent() {
       <AppShell>
         <Outlet />
       </AppShell>
+      <Toaster />
       {/* Banner de consentimiento de cookies */}
       <CookieConsentBanner />
     </QueryClientProvider>

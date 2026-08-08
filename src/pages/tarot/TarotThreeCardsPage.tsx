@@ -1,7 +1,7 @@
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { routes } from "@/config/routes";
-import { TarotSpreadExperience } from "@/components/tarot/TarotSpreadExperience";
+import { ThreeCardExperienceShell } from "@/components/tarot/experience/ThreeCardExperienceShell";
 
 export function TarotThreeCardsPage() {
   return (
@@ -15,9 +15,14 @@ export function TarotThreeCardsPage() {
       <PageHeader
         eyebrow="Tarot"
         title="Tirada de tres cartas"
-        description="Tres perspectivas para observar una situación: lo que influye, lo que conviene mirar y un posible próximo paso."
+        description="Elige 3 cartas y observa tu situación desde lo que influye, lo que necesitas mirar y un posible próximo paso."
       />
-      <TarotSpreadExperience mode="three_cards" />
+      <section className="mt-2 rounded-[var(--radius-card-lg)] border border-line-subtle bg-warm-white p-4 md:p-8">
+        <p className="mb-6 text-center font-body text-[15px] font-medium text-brand">
+          Elige 3 cartas
+        </p>
+        <ThreeCardExperienceShell readingSlug="general" />
+      </section>
     </PageShell>
   );
 }

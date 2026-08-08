@@ -9,9 +9,9 @@ export const Route = createFileRoute("/tarot/tres-cartas/")({
   },
   head: () => {
     const m = buildMeta({
-      title: "Tirada de tres cartas · Tarot · Creovision",
+      title: "Tirada de Tarot de 3 cartas gratis · Creovision",
       description:
-        "Tres cartas de tarot para observar una situación: lo que influye, lo que conviene mirar y un posible próximo paso.",
+        "Baraja y elige tres cartas para una lectura general de tarot: pasado, presente y tendencia futura.",
     });
     return { meta: m.meta, links: m.links };
   },

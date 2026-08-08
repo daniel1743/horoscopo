@@ -1,7 +1,7 @@
 import { Edit3 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export function PersonalCorner({ isOwnProfile = true }: { isOwnProfile?: boolean }) {
+export function PersonalCorner() {
   // Mock content for now
   const title = "Mi rincón";
   const content = "Hoy elijo soltar el control y dejar que la energía fluya hacia donde debe. Observar sin juzgar.";
@@ -29,14 +29,6 @@ export function PersonalCorner({ isOwnProfile = true }: { isOwnProfile?: boolean
             </p>
           </div>
 
-          {isOwnProfile && (
-            <button 
-              className="shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-sand-light text-ink-soft hover:bg-brand-soft hover:text-brand transition-colors"
-              aria-label="Editar rincón personal"
-            >
-              <Edit3 className="w-4 h-4" />
-            </button>
-          )}
         </div>
       </div>
     </div>

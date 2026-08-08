@@ -26,7 +26,7 @@ export function MoonTodaySection() {
     >
       <Container className="relative py-14 md:py-20">
         <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-          <div>
+          <div className="max-w-[62ch]">
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.16em] text-gold">
               {cfg.eyebrow}
             </p>
@@ -36,6 +36,9 @@ export function MoonTodaySection() {
             >
               {cfg.title}
             </h2>
+            <p className="mt-3 font-body text-[16px] leading-[1.7] text-ink-inverse/78">
+              {cfg.description}
+            </p>
           </div>
           <Button asChild variant="dark">
             <Link to={routes[cfg.action.routeKey!]}>{cfg.action.label}</Link>
