@@ -24,20 +24,27 @@ export function ZodiacSelector() {
         </h2>
 
         {/* Móvil: carrusel horizontal con scroll-snap */}
-        <ul
-          className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:hidden"
-          role="list"
-        >
-          {zodiacSigns.map((s) => (
-            <li key={s.id} className="snap-start shrink-0" style={{ width: 118 }}>
-              <ZodiacTile
-                sign={s}
-                selected={s.slug === selected}
-                onSelect={() => setSlug(s.slug)}
-              />
-            </li>
-          ))}
-        </ul>
+        <div className="relative sm:hidden">
+          <ul
+            className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 pr-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            role="list"
+            aria-label="Signos zodiacales, desliza para ver más"
+          >
+            {zodiacSigns.map((s) => (
+              <li key={s.id} className="snap-start shrink-0" style={{ width: 118 }}>
+                <ZodiacTile
+                  sign={s}
+                  selected={s.slug === selected}
+                  onSelect={() => setSlug(s.slug)}
+                />
+              </li>
+            ))}
+          </ul>
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-ivory to-transparent"
+          />
+        </div>
 
         {/* Tablet/Desktop: grid */}
         <ul className="hidden grid-cols-4 gap-4 sm:grid lg:grid-cols-6" role="list">

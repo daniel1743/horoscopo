@@ -18,8 +18,8 @@ export function HomeHero() {
       className="relative overflow-x-clip bg-night text-ink-inverse"
     >
       <HeroBackdrop />
-      <Container className="relative py-16 md:py-24 lg:py-28">
-        <div className="grid min-w-0 gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16">
+      <Container className="relative py-8 md:py-20 lg:py-28">
+        <div className="grid min-w-0 gap-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center lg:gap-16">
           {/* Texto + acciones */}
           <div className="min-w-0 max-w-[62ch]">
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.18em] text-gold">
@@ -27,22 +27,28 @@ export function HomeHero() {
             </p>
             <h1
               id="home-hero-title"
-              className="mt-5 max-w-[12ch] break-words font-display text-[31px] font-semibold leading-[1.1] tracking-normal text-ink-inverse sm:max-w-[16ch] sm:text-[38px] md:max-w-[18ch] md:text-[52px] md:leading-[1.06] md:tracking-[-0.02em] lg:text-[64px]"
+              className="mt-4 max-w-[15ch] break-words font-display text-[34px] font-semibold leading-[1.08] tracking-normal text-ink-inverse sm:max-w-[16ch] sm:text-[38px] md:max-w-[18ch] md:text-[52px] md:leading-[1.06] md:tracking-[-0.02em] lg:text-[64px]"
             >
               {hero.title}
             </h1>
-            <p className="mt-5 max-w-full break-words font-body text-[16px] leading-[1.7] text-ink-inverse-soft md:max-w-[52ch] md:text-[18px]">
+            <p className="mt-4 max-w-[32ch] break-words font-body text-[16px] leading-[1.55] text-ink-inverse-soft md:max-w-[52ch] md:text-[18px] md:leading-[1.7]">
               {hero.description}
             </p>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-6 flex flex-col gap-2.5 sm:flex-row sm:flex-wrap">
               <Button asChild size="lg" fullWidth className="sm:w-auto">
                 <Link to={routes[hero.primaryAction.routeKey!]}>
                   <Icon name={hero.primaryAction.icon!} />
                   {hero.primaryAction.label}
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="dark" fullWidth className="sm:w-auto">
+              <Button
+                asChild
+                size="lg"
+                variant="ghost"
+                fullWidth
+                className="text-ink-inverse hover:bg-white/10 hover:text-ink-inverse sm:w-auto"
+              >
                 <Link to={routes[hero.secondaryAction.routeKey!]}>
                   <Icon name={hero.secondaryAction.icon!} />
                   {hero.secondaryAction.label}
@@ -84,7 +90,7 @@ export function HomeHero() {
           {/* Ilustración decorativa */}
           <div
             aria-hidden
-            className="relative order-first h-56 w-full max-w-md min-w-0 justify-self-center sm:h-72 lg:order-none lg:h-[440px]"
+            className="relative h-36 w-full max-w-[260px] min-w-0 justify-self-center sm:h-48 sm:max-w-sm md:h-72 lg:h-[440px] lg:max-w-md"
           >
             <HeroIllustration />
             <span className="sr-only">{hero.imageAlt}</span>

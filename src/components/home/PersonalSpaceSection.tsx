@@ -5,10 +5,13 @@ import { Container } from "@/components/layout/Container";
 import { homeConfig } from "@/config/home";
 import { routes } from "@/config/routes";
 import { personalBenefits } from "@/data/home-content";
+import { useSession } from "@/hooks/useSession";
 
 /** Presentación de "Mi espacio" — lenguaje de próxima disponibilidad. */
 export function PersonalSpaceSection() {
   const { personalSpace: cfg } = homeConfig;
+  const { user } = useSession();
+  const isAuthed = !!user;
 
   return (
     <section
@@ -62,13 +65,15 @@ export function PersonalSpaceSection() {
 
             <div className="mt-8">
               <Button asChild variant="premium" size="lg">
-                <Link to={routes[cfg.action.routeKey!]}>
+                <Link to={isAuthed ? routes.account : routes.signIn}>
                   <Icon name="premium" />
-                  {cfg.action.label}
+                  {isAuthed ? "Ir a mi espacio" : "Crear mi espacio"}
                 </Link>
               </Button>
               <p className="mt-3 font-body text-[12px] text-ink-inverse-soft/80">
-                Próximamente disponible. Prepara tu perfil para acceder cuando se abra.
+                {isAuthed
+                  ? "Vuelve a tus lecturas guardadas, favoritos e historial."
+                  : "Crea una cuenta para guardar lecturas y continuar después."}
               </p>
             </div>
           </div>

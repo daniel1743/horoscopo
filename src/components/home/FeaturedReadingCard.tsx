@@ -1,6 +1,7 @@
-import { Icon, type IconName } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import type { IconName } from "@/config/icons";
 
 interface FeaturedReadingCardProps {
   slug: string;
@@ -27,20 +28,20 @@ export function FeaturedReadingCard({
   const content = (
     <div
       className={cn(
-        "relative flex h-full flex-col items-center text-center px-5 py-6 md:px-6 md:pb-8 md:pt-6 rounded-[24px]",
-        "border transition-all duration-500",
+        "relative flex h-full flex-col items-center rounded-[24px] px-5 py-5 text-center md:px-6 md:pb-7 md:pt-6",
+        "border transition-all duration-300 active:scale-[0.985]",
         isEnabled
           ? "bg-parchment-elevated border-cosmic/25 shadow-elevated hover:border-cosmic/55 hover:shadow-[0_18px_48px_rgba(99,63,178,0.18)]"
           : "bg-parchment border-line-soft cursor-default",
       )}
     >
       {/* Icon or Image Area */}
-      <div className="flex h-[200px] md:h-[250px] w-full items-center justify-center mb-6 shrink-0">
+      <div className="mb-5 flex h-[168px] w-full shrink-0 items-center justify-center md:h-[230px]">
         {image ? (
           <img
             src={image}
             alt={title}
-            className="h-full w-full max-w-[210px] md:max-w-[276px] lg:max-w-[322px] object-contain"
+            className="h-full w-full max-w-[210px] object-contain md:max-w-[276px] lg:max-w-[322px]"
           />
         ) : icon ? (
           <Icon name={icon} className="h-24 w-24 sm:h-32 sm:w-32 text-cosmic/40" />
@@ -51,7 +52,7 @@ export function FeaturedReadingCard({
       <h3 className={cn("font-display text-[22px] mb-3", isEnabled ? "text-ink" : "text-ink-soft")}>
         {title}
       </h3>
-      <p className="font-body text-[15px] leading-[1.6] text-ink-soft mb-8 flex-grow">
+      <p className="mb-6 flex-grow font-body text-[15px] leading-[1.6] text-ink-soft">
         {description}
       </p>
 
@@ -66,7 +67,11 @@ export function FeaturedReadingCard({
             />
           </Button>
         ) : (
-          <Button variant="outline" className="min-h-[48px] w-full pointer-events-none" tabIndex={-1}>
+          <Button
+            variant="outline"
+            className="min-h-[48px] w-full pointer-events-none"
+            tabIndex={-1}
+          >
             {ctaLabel}
           </Button>
         )}
@@ -79,7 +84,7 @@ export function FeaturedReadingCard({
       <a
         href={href}
         aria-label={`Comenzar tirada de ${title}`}
-        className="block h-full w-full outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-[24px]"
+        className="block h-full w-full rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-cosmic focus-visible:ring-offset-2"
       >
         {content}
       </a>

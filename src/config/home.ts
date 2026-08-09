@@ -5,7 +5,7 @@
  * los iconos en icons.ts y los signos en data/zodiac-signs.ts.
  */
 import type { IconName } from "@/config/icons";
-import type { RouteKey } from "@/config/routes";
+import { routes, type RouteKey } from "@/config/routes";
 import { isPublicFeatureEnabled } from "@/config/public-features";
 
 export type HomeSectionId =
@@ -31,11 +31,10 @@ export interface HomeAction {
 export const homeConfig = {
   sectionOrder: [
     "hero",
-    "moon_today",
-    "compatibility",
-    "zodiac_selector",
-    "featured_tarot",
     "daily_insight",
+    "featured_tarot",
+    "zodiac_selector",
+    "compatibility",
     "featured_guides",
     "topics",
     "personal_space",
@@ -45,31 +44,30 @@ export const homeConfig = {
   enabled: {
     hero: true,
     zodiac_selector: true,
-    daily_insight: false,
+    daily_insight: true,
     featured_tarot: true,
-    moon_today: isPublicFeatureEnabled("moonToday"),
+    moon_today: false,
     compatibility: isPublicFeatureEnabled("compatibility"),
-    featured_guides: true,
+    featured_guides: false,
     topics: true,
     personal_space: isPublicFeatureEnabled("account"),
-    newsletter: true,
+    newsletter: false,
   } as const satisfies Record<HomeSectionId, boolean>,
 
   hero: {
     eyebrow: "Tarot y ciclos lunares",
-    title: "Tarot, luna y guías para comprender tu momento",
-    description:
-      "Cartas de tarot, ciclos lunares y guías editoriales para observar tu momento con claridad.",
+    title: "Tarot y luna para entender tu momento",
+    description: "Consulta una carta, mira la luna de hoy y vuelve cuando el cielo cambie.",
     primaryAction: {
-      label: "Sacar una carta",
+      label: "Sacar mi carta de hoy",
       routeKey: "tarotDaily",
       icon: "tarot",
       variant: "primary",
     } satisfies HomeAction,
     secondaryAction: {
-      label: "Explorar tiradas",
-      routeKey: "tarot",
-      icon: "premium",
+      label: "Ver mi horóscopo de hoy",
+      routeKey: "horoscopeToday",
+      icon: "sun",
       variant: "secondary_on_dark",
     } satisfies HomeAction,
     showZodiacQuickSelect: false,
@@ -84,9 +82,10 @@ export const homeConfig = {
   },
 
   dailyInsight: {
-    eyebrow: "Tu lectura de hoy",
-    title: "Una mirada para comenzar el día",
-    description: "Explora una orientación breve para tu signo y una carta simbólica de tarot.",
+    eyebrow: "Hoy",
+    title: "Tu momento de hoy",
+    description:
+      "Un resumen vivo para entrar rápido: tu signo guardado, la luna actual y una carta diaria.",
     defaultSignSlug: "aries",
     storageKey: "preferred-zodiac-sign",
   },
@@ -161,11 +160,10 @@ export const homeConfig = {
 
   featuredTarot: {
     eyebrow: "Tiradas destacadas",
-    title:
-      "Elige un tema, conecta con tu situación y descubre una orientación simbólica a través de tres cartas.",
+    title: "Elige una tirada y deja que las cartas hablen primero.",
     action: {
       label: "Ver tarot",
-      href: "/tarot",
+      href: routes.tarot,
       variant: "secondary",
     } satisfies HomeAction,
     items: [
@@ -176,7 +174,7 @@ export const homeConfig = {
           "Explora tu mundo emocional, la dinámica afectiva y una orientación para avanzar.",
         status: "enabled",
         ctaLabel: "Comenzar tirada",
-        href: "/tarot/tres-cartas/amor",
+        href: routes.tarotThreeCardsAmor,
         image: "/amor.webp",
       },
       {
@@ -184,9 +182,9 @@ export const homeConfig = {
         title: "Trabajo",
         description:
           "Observa tu situación laboral, los desafíos presentes y el próximo paso práctico.",
-        status: "enabled",
+        status: isPublicFeatureEnabled("tarotThreeCardsTrabajo") ? "enabled" : "hidden",
         ctaLabel: "Comenzar tirada",
-        href: "/tarot/tres-cartas/trabajo",
+        href: routes.tarotThreeCards,
         image: "/trabajo.webp",
       },
       {
@@ -194,9 +192,9 @@ export const homeConfig = {
         title: "Decisiones",
         description:
           "Comprende qué impulsa tu elección, qué debes considerar y desde dónde decidir.",
-        status: "enabled",
+        status: isPublicFeatureEnabled("tarotThreeCardsDecision") ? "enabled" : "hidden",
         ctaLabel: "Comenzar tirada",
-        href: "/tarot/tres-cartas/decision",
+        href: routes.tarotThreeCards,
         image: "/decision.webp",
       },
     ],
