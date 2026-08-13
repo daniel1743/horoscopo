@@ -4,6 +4,8 @@ import type { TarotDrawnCard, ThreeCardPositionConfig } from "@/types/tarot";
 import { tarotCardRoute } from "@/config/routes";
 import { TarotContextualGuide } from "./TarotContextualGuide";
 import { buildDailyTarotIntroduction } from "@/lib/tarot/daily-introduction";
+import { NextBestAction } from "@/components/layout/NextBestAction";
+import { useSession } from "@/hooks/useSession";
 
 interface Props {
   drawn: TarotDrawnCard;
@@ -27,6 +29,7 @@ export function TarotPositionResult({
   showPosition = true,
   revealed = true,
 }: Props) {
+  const { user } = useSession();
   const { card, position } = drawn;
 
   const positionLabel = positionConfig?.label ?? position.label;
@@ -93,12 +96,25 @@ export function TarotPositionResult({
           </div>
         )}
 
-        <Link
-          to={tarotCardRoute(card.slug)}
-          className="mt-4 inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"
-        >
-          Explorar esta carta →
-        </Link>
+        {position.key === "daily_message" ? (
+          <div className="mt-4 border-t border-line-soft pt-4">
+            <NextBestAction
+              context={{
+                source: "tarot_daily",
+                dynamicCardSlug: card.slug,
+                userSign: user?.sign
+              }}
+              className="mt-0"
+            />
+          </div>
+        ) : (
+          <Link
+            to={tarotCardRoute(card.slug)}
+            className="mt-4 inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"
+          >
+            Explorar esta carta →
+          </Link>
+        )}
       </div>
     </article>
   );

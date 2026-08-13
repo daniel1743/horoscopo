@@ -74,94 +74,61 @@ export function TarotCardPicker({
           pointer-events: none;
         }
       `}</style>
-      
-      <div className="relative w-full overflow-hidden md:overflow-visible py-2 md:py-8">
-        {/* --- VISTA MÓVIL: Carrusel Horizontal --- */}
-        <div 
-          className={cn(
-            "flex md:hidden items-center gap-3 sm:gap-4",
-            "overflow-x-auto pb-4 snap-x snap-mandatory px-4",
-            "scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-          )}
-        >
-          {candidateCards.map((candidate, index) => {
-            const isSelected = selectedIds.includes(candidate.id);
-            
-            return (
-              <div 
-                key={candidate.id} 
-                className="snap-start sm:snap-center shrink-0 transition-transform duration-300"
-                style={{
-                  zIndex: isSelected ? 10 : candidateCards.length - index,
-                }}
-              >
-                <TarotCardBack
-                  cardBackSrc={cardBackSrc}
-                  selected={isSelected}
-                  disabled={disabled || isSelected}
-                  compact
-                  onClick={() => onSelectCard(candidate.id)}
-                  className="w-[70px] h-[120px] sm:w-[90px] sm:h-[150px]"
-                />
-              </div>
-            );
-          })}
-        </div>
-        
-        {/* Indicadores de scroll en móvil sutil */}
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-parchment to-transparent md:hidden pointer-events-none" />
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-parchment to-transparent md:hidden pointer-events-none" />
 
+      <div className="relative w-full overflow-visible py-0 md:py-8">
+        {/* --- VISTA UNIFICADA: Abanico Interactivo --- */}
+        <div className="relative mx-auto mt-0 h-[190px] w-full max-w-[900px] sm:h-[240px] md:mt-8 md:h-[320px]">
+          <div className="absolute bottom-3 left-1/2 h-[320px] w-[900px] origin-bottom -translate-x-1/2 scale-[0.5] sm:scale-[0.66] md:bottom-0 md:scale-90">
+            {candidateCards.map((candidate, index) => {
+              const isSelected = selectedIds.includes(candidate.id);
+              // Desactivamos isMuted para que el mazo siga interactivo para las siguientes selecciones
+              const isMuted = false;
+              const total = candidateCards.length;
 
-        {/* --- VISTA ESCRITORIO: Abanico Interactivo --- */}
-        <div className="hidden md:block relative w-full h-[320px] max-w-[900px] mx-auto mt-4">
-          {candidateCards.map((candidate, index) => {
-            const isSelected = selectedIds.includes(candidate.id);
-            // Desactivamos isMuted para que el mazo siga interactivo para las siguientes selecciones
-            const isMuted = false;
-            const total = candidateCards.length;
-            
-            // Cálculos trigonométricos para el arco
-            const progress = total > 1 ? index / (total - 1) : 0.5;
-            // Un arco de -40 a +40 grados suele verse muy natural
-            const angle = -42 + (progress * 84);
-            const radians = (angle * Math.PI) / 180;
-            const radius = 600; // Radio del círculo imaginario
-            
-            // Calculamos X e Y en base al radio
-            const x = Math.sin(radians) * radius;
-            const y = radius - (Math.cos(radians) * radius);
-            
-            // La transformación final compone el centrado (-50%), la posición en el arco y la rotación.
-            const finalTransform = `translate(-50%, 0) translate(${x}px, ${y}px) rotate(${angle}deg)`;
+              // Cálculos trigonométricos para el arco
+              const progress = total > 1 ? index / (total - 1) : 0.5;
+              // Un arco de -40 a +40 grados suele verse muy natural
+              const angle = -42 + progress * 84;
+              const radians = (angle * Math.PI) / 180;
+              const radius = 600; // Radio del círculo imaginario
 
-            return (
-              <div
-                key={candidate.id}
-                className={cn(
-                  "desktop-tarot-card animate-deal-card",
-                  isSelected && "is-selected",
-                  isMuted && "is-muted"
-                )}
-                style={{
-                  "--delay": `${index * 25}ms`,
-                  "--final-transform": finalTransform,
-                  zIndex: isSelected ? 200 : index,
-                } as React.CSSProperties}
-              >
-                <div className="card-hover-wrapper">
-                  <TarotCardBack
-                    cardBackSrc={cardBackSrc}
-                    selected={isSelected}
-                    disabled={disabled || isSelected || isMuted}
-                    onClick={() => onSelectCard(candidate.id)}
-                    className="w-[110px] h-[180px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] pointer-events-auto hover:!translate-y-0"
-                    // Deshabilitamos el hover interno de TarotCardBack para que no interfiera con card-hover-wrapper
-                  />
+              // Calculamos X e Y en base al radio
+              const x = Math.sin(radians) * radius;
+              const y = radius - Math.cos(radians) * radius;
+
+              // La transformación final compone el centrado (-50%), la posición en el arco y la rotación.
+              const finalTransform = `translate(-50%, 0) translate(${x}px, ${y}px) rotate(${angle}deg)`;
+
+              return (
+                <div
+                  key={candidate.id}
+                  className={cn(
+                    "desktop-tarot-card animate-deal-card",
+                    isSelected && "is-selected",
+                    isMuted && "is-muted",
+                  )}
+                  style={
+                    {
+                      "--delay": `${index * 25}ms`,
+                      "--final-transform": finalTransform,
+                      zIndex: isSelected ? 200 : index,
+                    } as React.CSSProperties
+                  }
+                >
+                  <div className="card-hover-wrapper">
+                    <TarotCardBack
+                      cardBackSrc={cardBackSrc}
+                      selected={isSelected}
+                      disabled={disabled || isSelected || isMuted}
+                      onClick={() => onSelectCard(candidate.id)}
+                      className="w-[110px] h-[180px] shadow-[0_8px_20px_rgba(0,0,0,0.4)] pointer-events-auto hover:!translate-y-0"
+                      // Deshabilitamos el hover interno de TarotCardBack para que no interfiera con card-hover-wrapper
+                    />
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </>

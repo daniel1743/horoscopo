@@ -8,6 +8,7 @@ import { formatPeriodLabel, getPeriodByKey, referenceDateFor } from "@/config/ho
 import { zodiacSigns } from "@/data/zodiac-signs";
 import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import { Icon } from "@/components/ui/icon";
+import { NextBestAction } from "@/components/layout/NextBestAction";
 
 interface Props {
   signSlug: string;
@@ -158,6 +159,14 @@ export function SignHoroscopePage({ signSlug, period, entry }: Props) {
           <Icon name="chevronRight" className="h-4 w-4" aria-hidden />
         </Link>
       </nav>
+
+      <NextBestAction
+        context={{
+          source: "horoscope",
+          sign: sign.slug,
+          horoscopePeriod: period,
+        }}
+      />
 
       <section className="mt-12" aria-labelledby="all-signs-title">
         <h2 id="all-signs-title" className="mb-4 font-display text-[20px] font-semibold text-ink">

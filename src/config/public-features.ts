@@ -34,8 +34,8 @@ export const publicFeatureVisibility: Record<PublicFeatureKey, PublicFeatureStat
   tarotYesNo: "enabled",
   tarotThreeCards: "enabled",
   tarotThreeCardsAmor: "enabled",
-  tarotThreeCardsTrabajo: "hidden",
-  tarotThreeCardsDecision: "hidden",
+  tarotThreeCardsTrabajo: "enabled",
+  tarotThreeCardsDecision: "enabled",
   /** TODO: Reactivar cuando la pregunta influya realmente en la interpretación o personalización de la tirada. */
   tarotOptionalQuestion: "hidden",
   tarotLibrary: "enabled",

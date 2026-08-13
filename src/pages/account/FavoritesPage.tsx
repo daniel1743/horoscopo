@@ -4,15 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { listFavorites, removeFavorite } from "@/lib/account/repository";
 import { toast } from "sonner";
+import { useSession } from "@/hooks/useSession";
 
 export function FavoritesPage() {
+  const { user } = useSession();
   const qc = useQueryClient();
-  const { data, isLoading } = useQuery({ queryKey: ["favorites"], queryFn: listFavorites });
+  const { data, isLoading } = useQuery({ queryKey: ["favorites", user?.id ?? "anon"], queryFn: listFavorites });
 
   const remove = async (itemType: string, itemRef: string) => {
     try {
       await removeFavorite(itemType as never, itemRef);
-      qc.invalidateQueries({ queryKey: ["favorites"] });
+      qc.invalidateQueries({ queryKey: ["favorites", user?.id ?? "anon"] });
       toast.success("Favorito eliminado");
     } catch {
       toast.error("No pudimos eliminar el favorito");

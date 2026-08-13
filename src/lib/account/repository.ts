@@ -32,9 +32,9 @@ export interface Profile {
   birth_longitude: number | null;
   // Aura & Energy System
   aura_enabled: boolean;
-  aura_theme: 'indigo' | 'lunar' | 'emerald' | 'rose' | 'solar' | 'pearl';
+  aura_theme: "indigo" | "lunar" | "emerald" | "rose" | "solar" | "pearl";
   aura_motion_enabled: boolean;
-  aura_visibility: 'public' | 'connections' | 'private';
+  aura_visibility: "public" | "connections" | "private";
   declared_energy: string | null;
   declared_energy_text: string | null;
   declared_energy_updated_at: string | null;
@@ -67,9 +67,15 @@ export interface Favorite {
 
 export type SpreadType = "daily" | "yes_no" | "three_cards";
 
+export const PENDING_TAROT_READING_SAVE_KEY = "creovision:pending-tarot-reading-save";
+export const PENDING_LUNAR_READING_SAVE_KEY = "creovision:pending-lunar-reading-save";
+
 export interface SavedReadingCard {
   slug: string;
+  name?: string;
   position?: string;
+  positionKey?: string;
+  theme?: string;
   reversed?: boolean;
 }
 
@@ -81,6 +87,20 @@ export interface SavedReading {
   interpretation: string | null;
   note: string | null;
   created_at: string;
+}
+
+function tarotIntentFromTheme(theme?: string): string | undefined {
+  if (theme === "amor") return "love";
+  if (theme === "trabajo") return "work";
+  if (theme === "decision") return "decision";
+  if (theme === "general") return "general";
+  return undefined;
+}
+
+function tarotSubtypeFromSpread(spreadType: SpreadType): string {
+  if (spreadType === "daily") return "daily_card";
+  if (spreadType === "yes_no") return "yes_no";
+  return "three_cards";
 }
 
 export type ActivityType =
@@ -143,9 +163,9 @@ export async function upsertProfile(
     "aura_visibility",
     "declared_energy",
     "declared_energy_text",
-    "declared_energy_updated_at"
+    "declared_energy_updated_at",
   ];
-  
+
   const profilePatch: Record<string, unknown> = {};
   const natalPatch: Record<string, unknown> = {};
 
@@ -161,13 +181,15 @@ export async function upsertProfile(
 
   if (Object.keys(profilePatch).length > 0) {
     promises.push(
-      supabase.from("profiles").upsert({ id: userId, ...profilePatch }, { onConflict: "id" })
+      supabase.from("profiles").upsert({ id: userId, ...profilePatch }, { onConflict: "id" }),
     );
   }
 
   if (Object.keys(natalPatch).length > 0) {
     promises.push(
-      supabase.from("natal_profiles").upsert({ user_id: userId, ...natalPatch }, { onConflict: "user_id" })
+      supabase
+        .from("natal_profiles")
+        .upsert({ user_id: userId, ...natalPatch }, { onConflict: "user_id" }),
     );
   }
 
@@ -175,7 +197,10 @@ export async function upsertProfile(
   return fetchProfile(userId) as Promise<Profile>;
 }
 
-export async function isUsernameAvailable(username: string, excludeUserId: string): Promise<boolean> {
+export async function isUsernameAvailable(
+  username: string,
+  excludeUserId: string,
+): Promise<boolean> {
   const { data, error } = await supabase
     .from("profiles")
     .select("id")
@@ -304,7 +329,24 @@ export async function saveTarotReading(input: {
     .select("*")
     .single();
   if (error) throw error;
-  return data as unknown as SavedReading;
+  const saved = data as unknown as SavedReading;
+  const theme = input.cards.find((card) => card.theme)?.theme;
+  await logActivity({
+    userId: input.userId,
+    type: "reading_saved",
+    refType: "tarot_reading",
+    refId: saved.id,
+    metadata: {
+      service: "tarot",
+      subtype: tarotSubtypeFromSpread(input.spreadType),
+      intent: tarotIntentFromTheme(theme),
+      spread_type: input.spreadType,
+      theme,
+      card_slugs: input.cards.map((card) => card.slug),
+      position_keys: input.cards.map((card) => card.positionKey).filter(Boolean),
+    },
+  });
+  return saved;
 }
 
 export async function deleteSavedReading(id: string): Promise<void> {

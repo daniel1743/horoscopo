@@ -29,7 +29,7 @@ export function HistoryPage() {
   const { user } = useSession();
   const qc = useQueryClient();
 
-  const activity = useQuery({ queryKey: ["activity"], queryFn: () => listActivity(100) });
+  const activity = useQuery({ queryKey: ["activity", user?.id ?? "anon"], queryFn: () => listActivity(100) });
   const privacy = useQuery({
     queryKey: ["privacy", user?.id],
     queryFn: () => fetchPrivacySettings(user!.id),
@@ -47,7 +47,7 @@ export function HistoryPage() {
     if (!user) return;
     if (!confirm("¿Borrar todo tu historial de actividad?")) return;
     await clearActivity(user.id);
-    qc.invalidateQueries({ queryKey: ["activity"] });
+    qc.invalidateQueries({ queryKey: ["activity", user?.id ?? "anon"] });
     toast.success("Historial borrado");
   };
 
@@ -94,7 +94,7 @@ export function HistoryPage() {
                 size="sm"
                 onClick={async () => {
                   await deleteActivityEntry(entry.id);
-                  qc.invalidateQueries({ queryKey: ["activity"] });
+                  qc.invalidateQueries({ queryKey: ["activity", user?.id ?? "anon"] });
                 }}
               >
                 Quitar

@@ -17,7 +17,6 @@ export function AuthorPage({ author, articles, categoriesById }: Props) {
       width="default"
       breadcrumbs={[
         { label: "Inicio", href: routes.home },
-        { label: "Autores", href: routes.authors },
         { label: author.name, href: authorRoute(author.slug) },
       ]}
     >

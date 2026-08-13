@@ -14,6 +14,7 @@ export const Route = createFileRoute("/tarot/tres-cartas/amor")({
     const m = buildMeta({
       title: config.seo.title,
       description: config.seo.description,
+      canonical: config.seo.canonical,
     });
     return { meta: m.meta, links: m.links };
   },

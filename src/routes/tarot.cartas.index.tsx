@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TarotLibraryPage } from "@/pages/tarot/TarotLibraryPage";
 import { buildMeta } from "@/config/seo";
+import { routes } from "@/config/routes";
 
 export const Route = createFileRoute("/tarot/cartas/")({
   head: () => {
@@ -8,6 +9,7 @@ export const Route = createFileRoute("/tarot/cartas/")({
       title: "Biblioteca de cartas · Tarot · Creovision",
       description:
         "Explora los Arcanos Mayores publicados con su significado, palabras clave y preguntas para reflexionar.",
+      canonical: routes.tarotLibrary,
     });
     return { meta: m.meta, links: m.links };
   },

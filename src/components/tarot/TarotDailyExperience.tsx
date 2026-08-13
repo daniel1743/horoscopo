@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TarotSkeleton } from "@/components/tarot/TarotSkeleton";
 import { TarotDeckIncompleteState } from "@/components/tarot/TarotDeckIncompleteState";
 import { TarotPositionResult } from "@/components/tarot/TarotPositionResult";
@@ -8,13 +8,17 @@ import { Icon } from "@/components/ui/icon";
 import { useTarotDeck } from "@/hooks/useTarotDeck";
 import { tarotService } from "@/services/tarot.service";
 import { TarotDailyInteraction } from "@/components/tarot/TarotDailyInteraction";
+import { useSession } from "@/hooks/useSession";
+import { logActivity } from "@/lib/account/repository";
 import type { TarotDrawnCard } from "@/types/tarot";
 
 /** Carta del día — estable, se guarda solo por fecha en localStorage. */
 export function TarotDailyExperience() {
   const deckQuery = useTarotDeck();
+  const { user } = useSession();
   const [drawn, setDrawn] = useState<TarotDrawnCard | null>(null);
   const [revealed, setRevealed] = useState(false);
+  const loggedReadingRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!deckQuery.data?.ready) return;
@@ -33,6 +37,26 @@ export function TarotDailyExperience() {
   }, [deckQuery.data]);
 
   const onReveal = useCallback(() => setRevealed(true), []);
+
+  useEffect(() => {
+    if (!user || !revealed || !drawn) return;
+    const logKey = `daily:${drawn.card.cardKey}`;
+    if (loggedReadingRef.current === logKey) return;
+    loggedReadingRef.current = logKey;
+
+    void logActivity({
+      userId: user.id,
+      type: "tarot_reading",
+      refType: "tarot_card",
+      refId: drawn.card.slug,
+      metadata: {
+        service: "tarot",
+        subtype: "daily_card",
+        intent: "daily",
+        card_slug: drawn.card.slug,
+      },
+    });
+  }, [drawn, revealed, user]);
 
   if (deckQuery.isLoading) return <TarotSkeleton label="Consultando la baraja" />;
   if (deckQuery.isError) {

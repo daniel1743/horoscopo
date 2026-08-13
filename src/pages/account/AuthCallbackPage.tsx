@@ -3,6 +3,10 @@ import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { PageShell } from "@/components/layout/PageShell";
 import { routes } from "@/config/routes";
+import {
+  PENDING_TAROT_READING_SAVE_KEY,
+  PENDING_LUNAR_READING_SAVE_KEY,
+} from "@/lib/account/repository";
 import { toast } from "sonner";
 
 /** Landing tras confirmación de email o login con OAuth. */
@@ -28,7 +32,21 @@ export function AuthCallbackPage() {
 
       const { data } = await supabase.auth.getSession();
       if (data.session) {
-        navigate({ to: routes.account, replace: true });
+        const hasPendingTarotSave = Boolean(sessionStorage.getItem(PENDING_TAROT_READING_SAVE_KEY));
+        const hasPendingLunarSave = Boolean(sessionStorage.getItem(PENDING_LUNAR_READING_SAVE_KEY));
+
+        if (hasPendingTarotSave && hasPendingLunarSave) {
+          sessionStorage.setItem("creovision:chain-to-lunar", "1");
+        }
+
+        navigate({
+          to: hasPendingTarotSave
+            ? routes.savedReadings
+            : hasPendingLunarSave
+              ? routes.savedLunarReadings
+              : routes.account,
+          replace: true,
+        });
       } else {
         navigate({ to: routes.signIn, replace: true });
       }

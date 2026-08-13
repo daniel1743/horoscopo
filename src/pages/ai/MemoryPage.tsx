@@ -13,17 +13,19 @@ import {
 } from "@/lib/ai/account.functions";
 import { memoryCategoryLabels, memoryNeverStore } from "@/config/ai/memory";
 import { assistantDisclaimers } from "@/config/ai/assistant";
+import { useSession } from "@/hooks/useSession";
 
 export function MemoryPage() {
+  const { user } = useSession();
   const qc = useQueryClient();
   const list = useServerFn(listMemoriesFn);
   const update = useServerFn(updateMemoryFn);
   const del = useServerFn(deleteMemoryFn);
   const delAll = useServerFn(deleteAllMemoriesFn);
 
-  const memoriesQuery = useQuery({ queryKey: ["ai-memories"], queryFn: () => list() });
+  const memoriesQuery = useQuery({ queryKey: ["ai-memories", user?.id ?? "anon"], queryFn: () => list() });
 
-  const invalidate = () => qc.invalidateQueries({ queryKey: ["ai-memories"] });
+  const invalidate = () => qc.invalidateQueries({ queryKey: ["ai-memories", user?.id ?? "anon"] });
 
   const toggle = useMutation({
     mutationFn: (v: { id: string; active: boolean }) => update({ data: v }),

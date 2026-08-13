@@ -5,9 +5,11 @@
 
 import {
   AlertCircleIcon,
+  ArrowReloadHorizontalIcon,
   ArrowLeft01Icon,
   ArrowRight01Icon,
   BookOpen01Icon,
+  BubbleChatIcon,
   BulbIcon,
   Calendar03Icon,
   CancelCircleIcon,
@@ -65,6 +67,7 @@ export const iconRegistry = {
 
   menu: Menu01Icon,
   back: ArrowLeft01Icon,
+  arrowLeft: ArrowLeft01Icon,
   forward: ArrowRight01Icon,
   "arrow-right": ArrowRight01Icon,
   login: Login01Icon,
@@ -94,6 +97,8 @@ export const iconRegistry = {
   panelLeft: PanelLeftIcon,
   sparkles: SparklesIcon,
   alertCircle: AlertCircleIcon,
+  message: BubbleChatIcon,
+  reset: ArrowReloadHorizontalIcon,
   gitBranch: GitBranchIcon,
   lightbulb: BulbIcon,
 

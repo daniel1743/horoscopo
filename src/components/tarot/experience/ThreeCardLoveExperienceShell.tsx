@@ -188,37 +188,34 @@ export function ThreeCardLoveExperienceShell({
       const currentRunId = runIdRef.current;
       schedule(() => {
         if (runIdRef.current !== currentRunId) return;
-        setState("selected");
+        
+        clearTimers();
+        setRevealedCards([]);
+        setState("revealing");
+
+        newSelected.forEach((selected, index) => {
+          schedule(
+            () => {
+              if (runIdRef.current !== currentRunId) return;
+              setRevealedCards((current) => [...current, toRevealedCard(selected)]);
+            },
+            REVEAL_STEP_MS * (index + 1),
+          );
+        });
+
+        schedule(
+          () => {
+            if (runIdRef.current !== currentRunId) return;
+            setState("interpreting");
+          },
+          REVEAL_STEP_MS * (newSelected.length + 1),
+        );
       }, SELECTION_SETTLE_MS);
     }
   };
 
-  const handleReveal = () => {
-    if (state !== "selected" || selectedCards.length !== config.positions.length) return;
-
-    const currentRunId = runIdRef.current;
-    clearTimers();
-    setRevealedCards([]);
-    setState("revealing");
-
-    selectedCards.forEach((selected, index) => {
-      schedule(
-        () => {
-          if (runIdRef.current !== currentRunId) return;
-          setRevealedCards((current) => [...current, toRevealedCard(selected)]);
-        },
-        REVEAL_STEP_MS * (index + 1),
-      );
-    });
-
-    schedule(
-      () => {
-        if (runIdRef.current !== currentRunId) return;
-        setState("interpreting");
-      },
-      REVEAL_STEP_MS * (selectedCards.length + 1),
-    );
-  };
+  // handleReveal ya no es necesario manualmente
+  const handleReveal = () => {};
 
   const handleReset = () => {
     resetRunState();
@@ -266,10 +263,9 @@ export function ThreeCardLoveExperienceShell({
     : "La lectura se está integrando con las tres cartas seleccionadas.";
 
   return (
-    <div className="flex flex-col w-full max-w-5xl mx-auto items-center min-h-[60vh] pb-[calc(96px+env(safe-area-inset-bottom))]">
+    <div className="mx-auto flex min-h-[460px] w-full max-w-5xl flex-col items-center pb-8 md:min-h-[60vh] md:pb-[calc(96px+env(safe-area-inset-bottom))]">
       {state !== "completed" && (
-        <div className="w-full flex flex-col gap-6 md:gap-10">
-          
+        <div className="flex w-full flex-col gap-3 md:gap-10">
           {/* Progreso en móvil (y escritorio) va arriba */}
           {(state === "selecting" || state === "selected" || state === "revealing") && (
             <div className="px-4 md:px-0">
@@ -281,7 +277,7 @@ export function ThreeCardLoveExperienceShell({
             </div>
           )}
 
-          <div className="px-4 md:px-0">
+          <div className="px-3 md:px-0">
             <ThreeCardPositionSlots
               config={config}
               state={state}
@@ -292,7 +288,7 @@ export function ThreeCardLoveExperienceShell({
             />
           </div>
 
-          <div className="w-full flex flex-col items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center">
             {state === "preparing" && ENABLE_TAROT_OPTIONAL_QUESTION && (
               <div className="flex flex-col gap-5 rounded-[var(--radius-card-lg)] border border-cosmic/15 bg-parchment-elevated p-6 w-full max-w-lg shadow-lg mx-4 md:mx-auto">
                 <div className="text-center mb-2">
@@ -318,11 +314,11 @@ export function ThreeCardLoveExperienceShell({
               state === "selecting" ||
               state === "selected" ||
               state === "revealing") && (
-              <div className="flex flex-col items-center gap-6 w-full animate-in fade-in zoom-in-95 duration-500 mt-2 md:mt-4">
+              <div className="mt-0 flex w-full animate-in flex-col items-center gap-4 fade-in zoom-in-95 duration-500 md:mt-4 md:gap-6">
                 {state === "shuffling" ? (
                   <TarotDeckVisual isShuffling cardBackSrc={cardBackSrc} />
                 ) : state === "revealing" ? (
-                  <div className="h-10" /> 
+                  <div className="h-10" />
                 ) : (
                   <>
                     {state === "selecting" && (
@@ -337,22 +333,13 @@ export function ThreeCardLoveExperienceShell({
                           type="button"
                           variant="outline"
                           onClick={handleShuffle}
-                          className="mt-2 md:mt-4"
+                          className="mt-0 md:mt-4"
                           aria-label="Barajar cartas"
                         >
                           <Icon name="premium" />
                           Barajar cartas
                         </Button>
                       </>
-                    )}
-
-                    {state === "selected" && (
-                      <ThreeCardReadingActions
-                        state={state}
-                        onShuffle={handleShuffle}
-                        onReveal={handleReveal}
-                        onReset={handleReset}
-                      />
                     )}
                   </>
                 )}

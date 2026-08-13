@@ -96,7 +96,7 @@ export function DailyInsightSection() {
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-gold">
               Luna de hoy
             </p>
-            <h3 className="mt-2 font-display text-[24px] font-semibold leading-tight">
+            <h3 className="mt-2 font-display text-[24px] font-semibold leading-tight text-white drop-shadow-sm">
               {moonMeta ? moonMeta.label : moonLoading ? "Calculando luna" : "Luna actual"}
             </h3>
             <p className="mt-4 font-body text-[15px] leading-[1.65] text-ink-inverse-soft">
@@ -115,15 +115,22 @@ export function DailyInsightSection() {
           </article>
 
           <article className="relative overflow-hidden rounded-[var(--radius-card-lg)] border border-gold/30 bg-night-elevated p-5 text-ink-inverse shadow-sm">
-            <div
-              aria-hidden
-              className="absolute right-4 top-4 h-24 w-16 rotate-6 rounded-[var(--radius-card-md)] border border-gold/40 bg-[url('/carta%20trasera.png')] bg-cover opacity-80 shadow-card"
-            />
-            <div className="relative pr-16">
+            <div className="relative pr-20">
+              <div
+                aria-hidden
+                className="absolute right-0 top-[-0.25rem] flex h-24 w-16 rotate-6 items-center justify-center rounded-[var(--radius-card-md)] border border-gold/40 bg-night shadow-card"
+              >
+                <img
+                  src="/carta%20trasera.png"
+                  alt=""
+                  className="h-full w-full rounded-[inherit] object-contain object-center"
+                  loading="lazy"
+                />
+              </div>
               <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-gold">
                 Carta del día
               </p>
-              <h3 className="mt-2 font-display text-[24px] font-semibold leading-tight">
+              <h3 className="mt-2 font-display text-[24px] font-semibold leading-tight text-white drop-shadow-sm">
                 Una carta te espera
               </h3>
               <p className="mt-4 font-body text-[15px] leading-[1.65] text-ink-inverse-soft">

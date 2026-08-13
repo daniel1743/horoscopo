@@ -26,7 +26,7 @@ interface SitemapEntry {
  * Sitemap dinámico y optimizado para SEO 2026.
  * Incluye prioridades estratégicas y frecuencias de actualización reales.
  */
-function getSitemapEntries(): SitemapEntry[] {
+export function getSitemapEntries(): SitemapEntry[] {
   const today = new Date().toISOString().slice(0, 10);
   const entries: SitemapEntry[] = [];
 
@@ -69,6 +69,8 @@ function getSitemapEntries(): SitemapEntry[] {
     { path: routes.tarotYesNo, priority: "0.8", changefreq: "weekly" },
     { path: routes.tarotThreeCards, priority: "0.8", changefreq: "weekly" },
     { path: routes.tarotThreeCardsAmor, priority: "0.85", changefreq: "weekly" },
+    { path: routes.tarotThreeCardsTrabajo, priority: "0.8", changefreq: "weekly" },
+    { path: routes.tarotThreeCardsDecision, priority: "0.8", changefreq: "weekly" },
     { path: routes.tarotLibrary, priority: "0.7", changefreq: "monthly" },
   );
 
@@ -85,6 +87,7 @@ function getSitemapEntries(): SitemapEntry[] {
   entries.push(
     { path: routes.moon, priority: "0.9", changefreq: "daily", lastmod: today },
     { path: routes.moonToday, priority: "0.95", changefreq: "hourly", lastmod: today },
+    { path: routes.moonPersonalToday, priority: "0.85", changefreq: "daily", lastmod: today },
     { path: routes.moonCalendar, priority: "0.85", changefreq: "daily", lastmod: today },
     { path: routes.moonPhases, priority: "0.8", changefreq: "weekly" },
   );
@@ -141,10 +144,9 @@ function getSitemapEntries(): SitemapEntry[] {
     }
   }
 
-  // 7. CONTENIDO EDITORIAL (Si hay guías/temas)
+  // 7. CONTENIDO EDITORIAL (Si hay guías)
   entries.push(
     { path: routes.guides, priority: "0.75", changefreq: "weekly" },
-    { path: routes.topics, priority: "0.70", changefreq: "weekly" },
   );
 
   return entries;
@@ -159,7 +161,7 @@ function escapeXml(unsafe: string): string {
     .replace(/'/g, "&apos;");
 }
 
-function buildSitemapXml(entries: SitemapEntry[]): string {
+export function buildSitemapXml(entries: SitemapEntry[]): string {
   const urls = entries
     .map((entry) => {
       const lastmod = entry.lastmod ? `\n    <lastmod>${entry.lastmod}</lastmod>` : "";

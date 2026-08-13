@@ -61,7 +61,11 @@ export function TarotCardDetailPage({ slug }: Props) {
         { label: card.name },
       ]}
     >
-      <PageHeader eyebrow="Arcano mayor" title={card.name} description={card.summary} />
+      <PageHeader 
+        eyebrow={card.arcana === "major" ? "Arcano Mayor" : "Arcano Menor"} 
+        title={card.name} 
+        description={card.summary} 
+      />
       <div className="grid gap-8 md:grid-cols-[minmax(0,220px)_1fr]">
         <div className="mx-auto md:mx-0 flex flex-col items-center">
           <TarotCardVisual card={card} revealed size="lg" />

@@ -3,6 +3,7 @@ import { CompatibilityPairPage } from "@/pages/compatibility/CompatibilityPairPa
 import { compatibilityQueries } from "@/services/compatibility.service";
 import { isZodiacSign, normalizeSignPair } from "@/lib/compatibility/normalize-sign-pair";
 import { buildMeta } from "@/config/seo";
+import { compatibilityRoute } from "@/config/routes";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import type { ZodiacSignKey } from "@/types/compatibility";
 
@@ -35,6 +36,7 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
     const m = buildMeta({
       title: `${nameA} y ${nameB}: compatibilidad simbólica · Creovision`,
       description: `Lectura editorial de la dinámica entre ${nameA} y ${nameB}: comunicación, ritmo emocional y áreas de crecimiento.`,
+      canonical: compatibilityRoute(params.signA, params.signB),
     });
     return { meta: m.meta, links: m.links };
   },

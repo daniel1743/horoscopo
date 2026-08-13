@@ -1,0 +1,763 @@
+
+> build
+> vite build
+
+[90m[[90mnitro:vercel[90m][39m [36mi[39m Using [36mnodejs24.x[39m runtime.
+[90m[[90mnitro:vercel[90m][39m [36mi[39m Using [36mweb[39m entry format.
+The plugin "vite-tsconfig-paths" is detected. Vite now supports tsconfig paths resolution natively via the resolve.tsconfigPaths option. You can remove the plugin and set resolve.tsconfigPaths: true in your Vite config instead.
+Warning: Route file "C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/routes/api/tarot/interpret-reading.test.ts" does not export a Route. This file will not be included in the route tree.
+
+If this file is not intended to be a route, you can exclude it using one of these options:
+  1. Rename the file to "C:\Users\Lenovo\Desktop\proyectos desplegados importante\horoscopo\src\routes\api\tarot\-interpret-reading.test.ts" (prefix with "-")
+  2. Use 'routeFileIgnorePattern' in your config to match this file
+
+Current configuration:
+  routeFileIgnorePrefix: "-"
+  routeFileIgnorePattern: undefined
+[36mvite v8.1.5 [32mbuilding client environment for production...[36m[39m
+[2K
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/admin.functions.ts:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:48:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:64:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:87:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:128:43 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:144:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:59:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:127:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:153:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:216:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:326:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:383:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:455:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:471:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:486:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:604:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/social/identity.functions.ts:11:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:23:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:43:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:93:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:119:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:159:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:client] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:192:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+transforming...Ô£ô 2894 modules transformed.
+rendering chunks...
+computing gzip size...
+.vercel/output/static/assets/styles-ZWOMCt1u.css                          156.95 kB Ôöé gzip:  25.20 kB
+.vercel/output/static/assets/root-DLTE-HSj.js                               0.03 kB Ôöé gzip:   0.05 kB
+.vercel/output/static/assets/queryOptions-Dfvzj6n2.js                       0.03 kB Ôöé gzip:   0.05 kB
+.vercel/output/static/assets/invariant-DEEwAagU.js                          0.06 kB Ôöé gzip:   0.08 kB
+.vercel/output/static/assets/auth.update-password-Bsak9nxR.js               0.08 kB Ôöé gzip:   0.09 kB
+.vercel/output/static/assets/reset-password-Bsak9nxR.js                     0.08 kB Ôöé gzip:   0.09 kB
+.vercel/output/static/assets/not-found-i5RsCZif.js                          0.11 kB Ôöé gzip:   0.11 kB
+.vercel/output/static/assets/luna-Dnr_87Rp.js                               0.14 kB Ôöé gzip:   0.13 kB
+.vercel/output/static/assets/luna.calendario-Dnr_87Rp.js                    0.14 kB Ôöé gzip:   0.13 kB
+.vercel/output/static/assets/luna.fases-Dnr_87Rp.js                         0.14 kB Ôöé gzip:   0.13 kB
+.vercel/output/static/assets/route-Dnr_87Rp.js                              0.14 kB Ôöé gzip:   0.13 kB
+.vercel/output/static/assets/matchContext-fsezdXHg.js                       0.17 kB Ôöé gzip:   0.14 kB
+.vercel/output/static/assets/useSuspenseQuery-CfhTCILA.js                   0.17 kB Ôöé gzip:   0.16 kB
+.vercel/output/static/assets/useRouter-BZGafYIh.js                          0.17 kB Ôöé gzip:   0.15 kB
+.vercel/output/static/assets/tarot.tres-cartas.trabajo-NQDjLhF3.js          0.18 kB Ôöé gzip:   0.17 kB
+.vercel/output/static/assets/tarot.tres-cartas.decision-vZ_IlTXU.js         0.19 kB Ôöé gzip:   0.17 kB
+.vercel/output/static/assets/privacidad-BnvM2FLi.js                         0.20 kB Ôöé gzip:   0.18 kB
+.vercel/output/static/assets/cookies-CD2x0xJH.js                            0.20 kB Ôöé gzip:   0.18 kB
+.vercel/output/static/assets/terminos-Bu20mffM.js                           0.20 kB Ôöé gzip:   0.18 kB
+.vercel/output/static/assets/nosotros-n656DMIj.js                           0.21 kB Ôöé gzip:   0.19 kB
+.vercel/output/static/assets/ayuda-CG_ouRSe.js                              0.21 kB Ôöé gzip:   0.19 kB
+.vercel/output/static/assets/contacto-CKLhlCH4.js                           0.22 kB Ôöé gzip:   0.20 kB
+.vercel/output/static/assets/aviso-de-responsabilidad-Cp4S1TnP.js           0.22 kB Ôöé gzip:   0.19 kB
+.vercel/output/static/assets/astrologia-C4W2UYwD.js                         0.23 kB Ôöé gzip:   0.20 kB
+.vercel/output/static/assets/horoscopo.hoy-YQl_WsM9.js                      0.26 kB Ôöé gzip:   0.21 kB
+.vercel/output/static/assets/horoscopo.semana-Binv5MaI.js                   0.26 kB Ôöé gzip:   0.21 kB
+.vercel/output/static/assets/horoscopo.mes-DzrepQ3V.js                      0.26 kB Ôöé gzip:   0.21 kB
+.vercel/output/static/assets/compatibilidad.index-DRKCQFJi.js               0.27 kB Ôöé gzip:   0.22 kB
+.vercel/output/static/assets/autores._slug-vWC4FxMZ.js                      0.28 kB Ôöé gzip:   0.22 kB
+.vercel/output/static/assets/temas._category-TcmsDaN4.js                    0.28 kB Ôöé gzip:   0.23 kB
+.vercel/output/static/assets/dist-CSmwsnKc.js                               0.32 kB Ôöé gzip:   0.25 kB
+.vercel/output/static/assets/luna.fases._slug-DbGHCO35.js                   0.32 kB Ôöé gzip:   0.24 kB
+.vercel/output/static/assets/luna.calendario._ym-DJy0wEh0.js                0.33 kB Ôöé gzip:   0.24 kB
+.vercel/output/static/assets/luna.calendario.index-CqJ3KOfX.js              0.33 kB Ôöé gzip:   0.26 kB
+.vercel/output/static/assets/guias-zcuVXiuz.js                              0.37 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/horoscopo._sign-Bld-k9M5.js                    0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/horoscopo.hoy-Bld-k9M5.js                      0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/horoscopo.mes-Bld-k9M5.js                      0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/horoscopo.semana-Bld-k9M5.js                   0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/compatibilidad.index-CEWPiQSY.js               0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/guias._slug-DoeCF-Wq.js                        0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/compatibilidad._signA._signB-Dg_bXa9U.js       0.38 kB Ôöé gzip:   0.27 kB
+.vercel/output/static/assets/useAdminRoles-BE4yilMG.js                      0.39 kB Ôöé gzip:   0.30 kB
+.vercel/output/static/assets/compatibilidad._signA._signB-CX9Dl5Ac.js       0.39 kB Ôöé gzip:   0.29 kB
+.vercel/output/static/assets/qss-CuvTgpZA.js                                0.39 kB Ôöé gzip:   0.26 kB
+.vercel/output/static/assets/horoscopo._sign-DA6vfo5u.js                    0.40 kB Ôöé gzip:   0.28 kB
+.vercel/output/static/assets/luna.calendario._ym-D3tVLKmW.js                0.40 kB Ôöé gzip:   0.29 kB
+.vercel/output/static/assets/guias._slug-dg8FpXL1.js                        0.41 kB Ôöé gzip:   0.30 kB
+.vercel/output/static/assets/workflow-Dhb6qKre.js                           0.42 kB Ôöé gzip:   0.24 kB
+.vercel/output/static/assets/ThreeCardExperienceShell-DAuHfcwj.js           0.43 kB Ôöé gzip:   0.31 kB
+.vercel/output/static/assets/useServerFn-CW6Qt93Z.js                        0.43 kB Ôöé gzip:   0.29 kB
+.vercel/output/static/assets/TarotReadingDisclaimer-BoF-xXMA.js             0.46 kB Ôöé gzip:   0.33 kB
+.vercel/output/static/assets/timezone-C1O-_5ld.js                           0.48 kB Ôöé gzip:   0.29 kB
+.vercel/output/static/assets/SectionErrorBoundary-CAOVKDw2.js               0.49 kB Ôöé gzip:   0.33 kB
+.vercel/output/static/assets/redirect-Dhm19zUi.js                           0.50 kB Ôöé gzip:   0.31 kB
+.vercel/output/static/assets/assistant-sdy1ID2C.js                          0.52 kB Ôöé gzip:   0.37 kB
+.vercel/output/static/assets/textarea-ep2DXuf1.js                           0.54 kB Ôöé gzip:   0.37 kB
+.vercel/output/static/assets/Placeholder-D8jQ6DXr.js                        0.58 kB Ôöé gzip:   0.38 kB
+.vercel/output/static/assets/luna.fases._slug-BrpYKPAj.js                   0.60 kB Ôöé gzip:   0.39 kB
+.vercel/output/static/assets/route-helpers-D5BHewM9.js                      0.61 kB Ôöé gzip:   0.41 kB
+.vercel/output/static/assets/site-BPTPLXay.js                               0.62 kB Ôöé gzip:   0.42 kB
+.vercel/output/static/assets/utils-CjBCTyCn.js                              0.63 kB Ôöé gzip:   0.37 kB
+.vercel/output/static/assets/dist-C1RJhgYD.js                               0.64 kB Ôöé gzip:   0.39 kB
+.vercel/output/static/assets/luna.fases.index-C1wi_xVI.js                   0.65 kB Ôöé gzip:   0.42 kB
+.vercel/output/static/assets/MoonUnavailableState-D6HRvr95.js               0.67 kB Ôöé gzip:   0.42 kB
+.vercel/output/static/assets/dist-BpC0tdWY2.js                              0.67 kB Ôöé gzip:   0.43 kB
+.vercel/output/static/assets/editorial-3gmtwBQ8.js                          0.69 kB Ôöé gzip:   0.40 kB
+.vercel/output/static/assets/asistente-Ddo9lMXM.js                          0.70 kB Ôöé gzip:   0.46 kB
+.vercel/output/static/assets/PageShell-D-sRH1oe.js                          0.70 kB Ôöé gzip:   0.43 kB
+.vercel/output/static/assets/TarotDeckIncompleteState-Q0KYSFEF.js           0.71 kB Ôöé gzip:   0.42 kB
+.vercel/output/static/assets/tarot.tres-cartas.amor-BdIYmOj5.js             0.71 kB Ôöé gzip:   0.42 kB
+.vercel/output/static/assets/useMatch-D7okYcsU.js                           0.72 kB Ôöé gzip:   0.43 kB
+.vercel/output/static/assets/dist-DmpmqL-z.js                               0.73 kB Ôöé gzip:   0.49 kB
+.vercel/output/static/assets/label-DuzpLGiG.js                              0.74 kB Ôöé gzip:   0.47 kB
+.vercel/output/static/assets/MoonSkeleton-zNGBb9pW.js                       0.82 kB Ôöé gzip:   0.40 kB
+.vercel/output/static/assets/tarot.tres-cartas.index-BNUCpgaW.js            0.85 kB Ôöé gzip:   0.52 kB
+.vercel/output/static/assets/jsx-runtime-DGeXAQPT.js                        0.93 kB Ôöé gzip:   0.55 kB
+.vercel/output/static/assets/MoonPhaseVisual-Br-WoWK8.js                    0.96 kB Ôöé gzip:   0.55 kB
+.vercel/output/static/assets/ContextualAiButton-CurAleYd.js                 0.96 kB Ôöé gzip:   0.52 kB
+.vercel/output/static/assets/moon.functions-BVGHkhJ6.js                     0.98 kB Ôöé gzip:   0.52 kB
+.vercel/output/static/assets/MoonPhaseGrid-DkMIYY1v.js                      1.00 kB Ôöé gzip:   0.53 kB
+.vercel/output/static/assets/alert-B5ezMji2.js                              1.04 kB Ôöé gzip:   0.52 kB
+.vercel/output/static/assets/temas._category-BzagyTk5.js                    1.07 kB Ôöé gzip:   0.61 kB
+.vercel/output/static/assets/HoroscopePeriodTabs-CWTcNRgM.js                1.11 kB Ôöé gzip:   0.59 kB
+.vercel/output/static/assets/auth.callback-Rzkc9eOh.js                      1.16 kB Ôöé gzip:   0.68 kB
+.vercel/output/static/assets/NextMoonPhases-dvuINckb.js                     1.18 kB Ôöé gzip:   0.61 kB
+.vercel/output/static/assets/preload-helper-Czpn1I53.js                     1.19 kB Ôöé gzip:   0.67 kB
+.vercel/output/static/assets/AuthorBlock-DYkj0dnb.js                        1.24 kB Ôöé gzip:   0.52 kB
+.vercel/output/static/assets/autores._slug-B9cbSHeo.js                      1.25 kB Ôöé gzip:   0.69 kB
+.vercel/output/static/assets/PageHeader-_kdrzdbq.js                         1.26 kB Ôöé gzip:   0.62 kB
+.vercel/output/static/assets/articles.functions-Bpeb_5Yu.js                 1.41 kB Ôöé gzip:   0.64 kB
+.vercel/output/static/assets/createLucideIcon-2nqidlgm.js                   1.41 kB Ôöé gzip:   0.79 kB
+.vercel/output/static/assets/horoscope-BfoBmu3d.js                          1.44 kB Ôöé gzip:   0.70 kB
+.vercel/output/static/assets/TarotCardVisual-C6Z2yZQt.js                    1.47 kB Ôöé gzip:   0.77 kB
+.vercel/output/static/assets/forms-CSdR487l.js                              1.49 kB Ôöé gzip:   0.64 kB
+.vercel/output/static/assets/luna.hoy-D_TJrBhP.js                           1.50 kB Ôöé gzip:   0.78 kB
+.vercel/output/static/assets/articulos._id.preview-vhNaChtL.js              1.52 kB Ôöé gzip:   0.77 kB
+.vercel/output/static/assets/routes-wKI5XTzs.js                             1.67 kB Ôöé gzip:   0.71 kB
+.vercel/output/static/assets/mi-espacio.favoritos-CIbJ9o1N.js               1.68 kB Ôöé gzip:   0.88 kB
+.vercel/output/static/assets/EditorialCard-DfVsh_mr.js                      1.72 kB Ôöé gzip:   0.89 kB
+.vercel/output/static/assets/guias-Z3d8Lkv3.js                              1.78 kB Ôöé gzip:   0.90 kB
+.vercel/output/static/assets/admin-soDFrLWt.js                              1.83 kB Ôöé gzip:   0.78 kB
+.vercel/output/static/assets/dist-wb6tWep0.js                               1.84 kB Ôöé gzip:   0.82 kB
+.vercel/output/static/assets/mi-espacio.privacidad-DCg_tfzc.js              1.88 kB Ôöé gzip:   1.01 kB
+.vercel/output/static/assets/route-CxiU2e82.js                              1.98 kB Ôöé gzip:   0.89 kB
+.vercel/output/static/assets/zodiac-signs-CXj2Fj-d.js                       2.00 kB Ôöé gzip:   0.67 kB
+.vercel/output/static/assets/CompatibilityPairSelector-CO0MWpti.js          2.00 kB Ôöé gzip:   1.01 kB
+.vercel/output/static/assets/auditoria-C9Kz4ghh.js                          2.17 kB Ôöé gzip:   0.91 kB
+.vercel/output/static/assets/image-url-BWU-zvgE.js                          2.28 kB Ôöé gzip:   1.13 kB
+.vercel/output/static/assets/useMutation-DctCtCSz.js                        2.31 kB Ôöé gzip:   0.97 kB
+.vercel/output/static/assets/compatibilidad.index-CMTkwah9.js               2.40 kB Ôöé gzip:   0.95 kB
+.vercel/output/static/assets/auth-profile-CIp_qHDr.js                       2.43 kB Ôöé gzip:   1.04 kB
+.vercel/output/static/assets/tarot.cartas.index-5Lxg9x83.js                 2.50 kB Ôöé gzip:   1.20 kB
+.vercel/output/static/assets/luna.index-QiG-B__V.js                         2.50 kB Ôöé gzip:   1.12 kB
+.vercel/output/static/assets/dist-BQPJk5bg.js                               2.67 kB Ôöé gzip:   1.22 kB
+.vercel/output/static/assets/horoscopo.index-DvPikq2s.js                    2.75 kB Ôöé gzip:   1.09 kB
+.vercel/output/static/assets/dist-baU1ZCiC.js                               2.77 kB Ôöé gzip:   1.21 kB
+.vercel/output/static/assets/mi-espacio.historial-BQp-650o.js               2.85 kB Ôöé gzip:   1.25 kB
+.vercel/output/static/assets/MoonDisclaimer-8mBh0Rd1.js                     2.85 kB Ôöé gzip:   1.28 kB
+.vercel/output/static/assets/metodo-CFXKV7_M.js                             2.87 kB Ôöé gzip:   1.13 kB
+.vercel/output/static/assets/dist-CEWjkZ39.js                               2.90 kB Ôöé gzip:   1.28 kB
+.vercel/output/static/assets/ArticleContentRenderer-7Xk5YGcI.js             2.95 kB Ôöé gzip:   1.03 kB
+.vercel/output/static/assets/MoonTodayCard-BtJkY5g3.js                      3.07 kB Ôöé gzip:   1.27 kB
+.vercel/output/static/assets/tarot.cartas._card-DlYVjKEA.js                 3.12 kB Ôöé gzip:   1.21 kB
+.vercel/output/static/assets/HoroscopePeriodPage-BVp88hap.js                3.15 kB Ôöé gzip:   1.26 kB
+.vercel/output/static/assets/TarotPositionResult-DDo20Q4v.js                3.42 kB Ôöé gzip:   1.50 kB
+.vercel/output/static/assets/mi-espacio.lecturas-lunares-GzBONXAi.js        3.43 kB Ôöé gzip:   1.66 kB
+.vercel/output/static/assets/AccountShell-Dm7hAIrT.js                       3.47 kB Ôöé gzip:   1.42 kB
+.vercel/output/static/assets/mi-espacio.lecturas-CFzaN75A.js                3.47 kB Ôöé gzip:   1.59 kB
+.vercel/output/static/assets/useThreeCardInterpretation-DW5gkyzg.js         3.47 kB Ôöé gzip:   1.74 kB
+.vercel/output/static/assets/react-dom-D15Ble1V.js                          3.57 kB Ôöé gzip:   1.35 kB
+.vercel/output/static/assets/articulos.nuevo-Y2oKukVB.js                    3.57 kB Ôöé gzip:   1.27 kB
+.vercel/output/static/assets/repository-O0wJT2PB.js                         3.60 kB Ôöé gzip:   1.22 kB
+.vercel/output/static/assets/mi-espacio.lecturas-lunares._id-BRN4tfvM.js    3.60 kB Ôöé gzip:   1.40 kB
+.vercel/output/static/assets/ResetPasswordPage--pWxaXu7.js                  4.09 kB Ôöé gzip:   1.79 kB
+.vercel/output/static/assets/articulos-gKI9t_8q.js                          4.33 kB Ôöé gzip:   1.56 kB
+.vercel/output/static/assets/switch-WCbgtiUI.js                             4.41 kB Ôöé gzip:   1.86 kB
+.vercel/output/static/assets/link--5IqfSat.js                               4.48 kB Ôöé gzip:   2.19 kB
+.vercel/output/static/assets/mi-espacio.memoria-CphwEJao.js                 4.65 kB Ôöé gzip:   2.04 kB
+.vercel/output/static/assets/brand-test-Dr1MvVuE.js                         4.92 kB Ôöé gzip:   1.33 kB
+.vercel/output/static/assets/luna.calendario._ym-DxiVompB.js                5.22 kB Ôöé gzip:   2.16 kB
+.vercel/output/static/assets/tarot.carta-del-dia-Dh8Tji6w.js                5.61 kB Ôöé gzip:   2.15 kB
+.vercel/output/static/assets/luna.fases._slug-CYGPB_zQ.js                   5.62 kB Ôöé gzip:   1.86 kB
+.vercel/output/static/assets/horoscopo._sign-DpGg6H9m.js                    6.30 kB Ôöé gzip:   2.11 kB
+.vercel/output/static/assets/u._username-CYv9mIKa.js                        6.38 kB Ôöé gzip:   2.40 kB
+.vercel/output/static/assets/AssistantChat-BrLHcmQu.js                      6.44 kB Ôöé gzip:   2.67 kB
+.vercel/output/static/assets/guias._slug-DJ6u-i_p.js                        6.57 kB Ôöé gzip:   2.47 kB
+.vercel/output/static/assets/buscar-zNdJtAah.js                             7.00 kB Ôöé gzip:   2.39 kB
+.vercel/output/static/assets/tarot.index-1c93w9Ha.js                        7.50 kB Ôöé gzip:   1.75 kB
+.vercel/output/static/assets/react-BhjfaixL.js                              7.52 kB Ôöé gzip:   2.88 kB
+.vercel/output/static/assets/design-system-DLq0-6Dx.js                      7.56 kB Ôöé gzip:   2.20 kB
+.vercel/output/static/assets/mi-espacio.configuracion-DvZT40OX.js           7.66 kB Ôöé gzip:   2.71 kB
+.vercel/output/static/assets/compatibilidad._signA._signB-DH8w6La1.js       9.15 kB Ôöé gzip:   2.53 kB
+.vercel/output/static/assets/legal.cookies-PfQpHpHf.js                     10.03 kB Ôöé gzip:   2.26 kB
+.vercel/output/static/assets/articulos._id-Dh70B1Rq.js                     10.16 kB Ôöé gzip:   3.10 kB
+.vercel/output/static/assets/legal.terminos-CS1ZmcjQ.js                    11.49 kB Ôöé gzip:   3.09 kB
+.vercel/output/static/assets/legal.privacidad-PbAo7FBz.js                  11.57 kB Ôöé gzip:   2.97 kB
+.vercel/output/static/assets/TarotContextualGuide-ClRLkzoM.js              11.58 kB Ôöé gzip:   4.05 kB
+.vercel/output/static/assets/NextBestAction-5wsh5RhL.js                    13.86 kB Ôöé gzip:   4.15 kB
+.vercel/output/static/assets/tarot.si-o-no-CqE_aMLm.js                     14.22 kB Ôöé gzip:   5.07 kB
+.vercel/output/static/assets/luna.tu-luna-de-hoy-ClwFmgyD.js               16.51 kB Ôöé gzip:   5.73 kB
+.vercel/output/static/assets/auth-DAeZpsnr.js                              17.14 kB Ôöé gzip:   5.85 kB
+.vercel/output/static/assets/useStore-wHTos7Tt.js                          18.57 kB Ôöé gzip:   6.67 kB
+.vercel/output/static/assets/es2015-sCeq2HUI.js                            22.20 kB Ôöé gzip:   7.96 kB
+.vercel/output/static/assets/ThreeCardLoveExperienceShell-DywGSjcf.js      22.41 kB Ôöé gzip:   7.05 kB
+.vercel/output/static/assets/useBaseQuery-CbaSOr25.js                      23.88 kB Ôöé gzip:   7.91 kB
+.vercel/output/static/assets/utils-B6KiDbIe.js                             27.26 kB Ôöé gzip:   8.69 kB
+.vercel/output/static/assets/auth-middleware-DxGGy1pO.js                   36.02 kB Ôöé gzip:  11.70 kB
+.vercel/output/static/assets/routes-BRO9tNTN.js                            38.11 kB Ôöé gzip:   9.80 kB
+.vercel/output/static/assets/mi-espacio.index-EKrTtfVG.js                  58.01 kB Ôöé gzip:  16.51 kB
+.vercel/output/static/assets/dist-oJEuCqy-.js                              59.84 kB Ôöé gzip:  20.70 kB
+.vercel/output/static/assets/mi-espacio.perfil-L8aoJEN3.js                 62.18 kB Ôöé gzip:  19.92 kB
+.vercel/output/static/assets/client-DA0_2nbF.js                           206.30 kB Ôöé gzip:  53.09 kB
+.vercel/output/static/assets/index-D8vUzfGw.js                            677.72 kB Ôöé gzip: 203.73 kB
+
+[PLUGIN_TIMINGS] Your build spent significant time in plugins. Here is a breakdown:
+  - vite-tsconfig-paths (66%)
+  - tanstack-start-core:import-protection (22%)
+  - tanstack-start-core:import-protection-transform-cache (7%)
+  - tanstack-router:code-splitter:compile-reference-file (2%)
+See https://rolldown.rs/reference/InputOptions.checks#plugintimings for more details.
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+[32mÔ£ô built in 15.31s[39m
+[36mvite v8.1.5 [32mbuilding ssr environment for production...[36m[39m
+[2K
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:59:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:127:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:153:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:216:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:326:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:383:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:455:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:471:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:486:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts?tss-serverfn-split:604:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/admin.functions.ts?tss-serverfn-split:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts?tss-serverfn-split:48:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts?tss-serverfn-split:64:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts?tss-serverfn-split:87:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts?tss-serverfn-split:128:43 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts?tss-serverfn-split:144:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/social/identity.functions.ts?tss-serverfn-split:11:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:23:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:43:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:93:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:119:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:159:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts?tss-serverfn-split:192:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/admin.functions.ts:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:48:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:64:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:87:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:128:43 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/moon/moon.functions.ts:144:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:59:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:127:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:153:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:216:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:326:40 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:383:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:455:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:471:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:486:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/admin/articles.functions.ts:604:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:23:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:43:37 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:73:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:93:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:119:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:159:36 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/ai/account.functions.ts:192:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+[plugin tanstack-start-core::server-fn:ssr] C:/Users/Lenovo/Desktop/proyectos desplegados importante/horoscopo/src/lib/social/identity.functions.ts:11:42 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.
+transforming...Ô£ô 500 modules transformed.
+rendering chunks...
+computing gzip size...
+node_modules/.nitro/vite/services/ssr/assets/styles-ZWOMCt1u.css                                156.95 kB Ôöé gzip: 25.20 kB
+node_modules/.nitro/vite/services/ssr/assets/utils-C_uf36nf.js                                    0.18 kB Ôöé gzip:  0.15 kB
+node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-D9UWiqvJ.js                    0.22 kB Ôöé gzip:  0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/reset-password-Ij2MFaZu.js                           0.22 kB Ôöé gzip:  0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/auth.update-password-BLcRNtca.js                     0.23 kB Ôöé gzip:  0.16 kB
+node_modules/.nitro/vite/services/ssr/assets/luna-DPUnJp4f.js                                     0.25 kB Ôöé gzip:  0.19 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases-DMsSW8qk.js                               0.25 kB Ôöé gzip:  0.19 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario-X_RZ9FUl.js                          0.26 kB Ôöé gzip:  0.19 kB
+node_modules/.nitro/vite/services/ssr/assets/privacidad-DPM0V2MR.js                               0.34 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/cookies-j7B3LlwR.js                                  0.34 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/terminos-fuAUDImX.js                                 0.34 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/ayuda-BHhnpUsi.js                                    0.35 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/nosotros-D2w5btR7.js                                 0.35 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/contacto-CEoS7jYo.js                                 0.36 kB Ôöé gzip:  0.26 kB
+node_modules/.nitro/vite/services/ssr/assets/astrologia-cdafyP0m.js                               0.37 kB Ôöé gzip:  0.27 kB
+node_modules/.nitro/vite/services/ssr/assets/aviso-de-responsabilidad-CE09BzKR.js                 0.38 kB Ôöé gzip:  0.26 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.tres-cartas.trabajo-QuDMnNGG.js                0.39 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.tres-cartas.decision-Crur3VZ3.js               0.39 kB Ôöé gzip:  0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/createServerRpc-MBa5GZ-L.js                          0.40 kB Ôöé gzip:  0.27 kB
+node_modules/.nitro/vite/services/ssr/assets/badge-BObZzJqb.js                                    0.41 kB Ôöé gzip:  0.27 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.hoy-DfAJ16XN.js                            0.42 kB Ôöé gzip:  0.27 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.mes-SUQdAmEM.js                            0.43 kB Ôöé gzip:  0.27 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.semana-Bg02xV_r.js                         0.43 kB Ôöé gzip:  0.28 kB
+node_modules/.nitro/vite/services/ssr/assets/route-DtELbX2F.js                                    0.43 kB Ôöé gzip:  0.30 kB
+node_modules/.nitro/vite/services/ssr/assets/autores._slug-SRaF7l10.js                            0.44 kB Ôöé gzip:  0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad.index-BjvjoA-G.js                     0.44 kB Ôöé gzip:  0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/temas._category-Bz2bJeLs.js                          0.44 kB Ôöé gzip:  0.30 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos._id-CawkkuT4.js                            0.51 kB Ôöé gzip:  0.33 kB
+node_modules/.nitro/vite/services/ssr/assets/guias-CxHp4jIc.js                                    0.55 kB Ôöé gzip:  0.34 kB
+node_modules/.nitro/vite/services/ssr/assets/guias._slug-BaP9ww6y.js                              0.56 kB Ôöé gzip:  0.35 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.hoy-Bnvd5Ehg.js                            0.56 kB Ôöé gzip:  0.34 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.mes-CVkQ-Tyj.js                            0.56 kB Ôöé gzip:  0.34 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo._sign-DOYYsQA4.js                          0.56 kB Ôöé gzip:  0.35 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.semana-CGm02f9p.js                         0.56 kB Ôöé gzip:  0.35 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad.index-BwCZQroW.js                     0.57 kB Ôöé gzip:  0.34 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario._ym-BufQXeEO.js                      0.57 kB Ôöé gzip:  0.33 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo._sign-BZQ96-kL.js                          0.59 kB Ôöé gzip:  0.36 kB
+node_modules/.nitro/vite/services/ssr/assets/guias._slug-Ba8bhv5A.js                              0.59 kB Ôöé gzip:  0.37 kB
+node_modules/.nitro/vite/services/ssr/assets/button-KkU18FLL.js                                   0.62 kB Ôöé gzip:  0.37 kB
+node_modules/.nitro/vite/services/ssr/assets/useServerFn-CrZF2pjq.js                              0.63 kB Ôöé gzip:  0.35 kB
+node_modules/.nitro/vite/services/ssr/assets/label-DBD1bRRP.js                                    0.64 kB Ôöé gzip:  0.38 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario._ym-DTBBl-Nv.js                      0.64 kB Ôöé gzip:  0.38 kB
+node_modules/.nitro/vite/services/ssr/assets/limits-CFwCaIvQ.js                                   0.65 kB Ôöé gzip:  0.44 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases._slug-BLVuEecE.js                         0.65 kB Ôöé gzip:  0.39 kB
+node_modules/.nitro/vite/services/ssr/assets/textarea-kko37XEX.js                                 0.66 kB Ôöé gzip:  0.42 kB
+node_modules/.nitro/vite/services/ssr/assets/workflow-C9ey1ZQg.js                                 0.72 kB Ôöé gzip:  0.40 kB
+node_modules/.nitro/vite/services/ssr/assets/TarotReadingDisclaimer-ClJcm77N.js                   0.73 kB Ôöé gzip:  0.43 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad._signA._signB-DYH_wuFC.js             0.73 kB Ôöé gzip:  0.45 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad._signA._signB-C2kRIr8A.js             0.75 kB Ôöé gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.lecturas-lunares._id-Da8Abxg0.js          0.75 kB Ôöé gzip:  0.44 kB
+node_modules/.nitro/vite/services/ssr/assets/input-B8Q2ztVi.js                                    0.75 kB Ôöé gzip:  0.45 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario.index-BZMXr0pK.js                    0.77 kB Ôöé gzip:  0.49 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.cartas._card-DDfRugs3.js                       0.82 kB Ôöé gzip:  0.47 kB
+node_modules/.nitro/vite/services/ssr/assets/SectionErrorBoundary-Da8dl_Ao.js                     0.82 kB Ôöé gzip:  0.45 kB
+node_modules/.nitro/vite/services/ssr/assets/createMiddleware-B_4t7rW1.js                         0.83 kB Ôöé gzip:  0.32 kB
+node_modules/.nitro/vite/services/ssr/assets/site-Dcw4u41G.js                                     0.83 kB Ôöé gzip:  0.54 kB
+node_modules/.nitro/vite/services/ssr/assets/Placeholder-BlrQZ3zF.js                              0.85 kB Ôöé gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/assistant-CyDlByGP.js                                0.91 kB Ôöé gzip:  0.55 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos._id.preview-BsFRiAsS.js                    0.91 kB Ôöé gzip:  0.54 kB
+node_modules/.nitro/vite/services/ssr/assets/useSession-CQ-M8Nn3.js                               0.97 kB Ôöé gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonUnavailableState-EEx7xNLh.js                     0.98 kB Ôöé gzip:  0.53 kB
+node_modules/.nitro/vite/services/ssr/assets/editorial-Bqi7HIF3.js                                1.01 kB Ôöé gzip:  0.53 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases._slug-Bx4fp_12.js                         1.02 kB Ôöé gzip:  0.56 kB
+node_modules/.nitro/vite/services/ssr/assets/ThreeCardExperienceShell-BtSGSxH6.js                 1.04 kB Ôöé gzip:  0.54 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases.index-D1hQu9cM.js                         1.05 kB Ôöé gzip:  0.54 kB
+node_modules/.nitro/vite/services/ssr/assets/useAdminRoles-DicqcswV.js                            1.07 kB Ôöé gzip:  0.61 kB
+node_modules/.nitro/vite/services/ssr/assets/asistente-De9CqoXw.js                                1.09 kB Ôöé gzip:  0.57 kB
+node_modules/.nitro/vite/services/ssr/assets/TarotDeckIncompleteState-s_e3dJLt.js                 1.09 kB Ôöé gzip:  0.54 kB
+node_modules/.nitro/vite/services/ssr/assets/switch-Cn1w-cIH.js                                   1.10 kB Ôöé gzip:  0.56 kB
+node_modules/.nitro/vite/services/ssr/assets/avatar-gunzrkKA.js                                   1.13 kB Ôöé gzip:  0.44 kB
+node_modules/.nitro/vite/services/ssr/assets/guias-B4_rNF82.js                                    1.13 kB Ôöé gzip:  0.58 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.mes-CPTsa1Ld.js                            1.13 kB Ôöé gzip:  0.58 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.hoy-Da9boVOa.js                            1.14 kB Ôöé gzip:  0.58 kB
+node_modules/.nitro/vite/services/ssr/assets/features-CGiHll8z.js                                 1.15 kB Ôöé gzip:  0.56 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.semana-DwTzrxAI.js                         1.15 kB Ôöé gzip:  0.57 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonSkeleton-BOtDlQIY.js                             1.19 kB Ôöé gzip:  0.50 kB
+node_modules/.nitro/vite/services/ssr/assets/PageShell-4bSUQtKd.js                                1.21 kB Ôöé gzip:  0.59 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.tres-cartas.amor-8uW_Ejok.js                   1.32 kB Ôöé gzip:  0.57 kB
+node_modules/.nitro/vite/services/ssr/assets/route-DJH6PrKj.js                                    1.34 kB Ôöé gzip:  0.73 kB
+node_modules/.nitro/vite/services/ssr/assets/alert-a0qC4ePy.js                                    1.37 kB Ôöé gzip:  0.60 kB
+node_modules/.nitro/vite/services/ssr/assets/temas._category-COeg_DuG.js                          1.41 kB Ôöé gzip:  0.66 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.tres-cartas.index-gPHEcP3h.js                  1.42 kB Ôöé gzip:  0.68 kB
+node_modules/.nitro/vite/services/ssr/assets/autores._slug-DMHyitXc.js                            1.48 kB Ôöé gzip:  0.69 kB
+node_modules/.nitro/vite/services/ssr/assets/card-CzXpCsbD.js                                     1.50 kB Ôöé gzip:  0.46 kB
+node_modules/.nitro/vite/services/ssr/assets/Container-CG5I_0hT.js                                1.51 kB Ôöé gzip:  0.66 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonPhaseVisual-CThai45Z.js                          1.55 kB Ôöé gzip:  0.71 kB
+node_modules/.nitro/vite/services/ssr/assets/ContextualAiButton-BJIw3-px.js                       1.59 kB Ôöé gzip:  0.74 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonPhaseGrid-CkBFWVVg.js                            1.68 kB Ôöé gzip:  0.77 kB
+node_modules/.nitro/vite/services/ssr/assets/temas._category-D8m4-6yw.js                          1.69 kB Ôöé gzip:  0.77 kB
+node_modules/.nitro/vite/services/ssr/assets/HoroscopePeriodTabs-CSCWBbsO.js                      1.70 kB Ôöé gzip:  0.77 kB
+node_modules/.nitro/vite/services/ssr/assets/AuthorBlock-DWDwwXmT.js                              1.71 kB Ôöé gzip:  0.64 kB
+node_modules/.nitro/vite/services/ssr/assets/guias._slug-Da5KZpxD.js                              1.74 kB Ôöé gzip:  0.75 kB
+node_modules/.nitro/vite/services/ssr/assets/PageHeader-DeoiuZyP.js                               1.79 kB Ôöé gzip:  0.78 kB
+node_modules/.nitro/vite/services/ssr/assets/client.server-KnIXx3Ml.js                            1.94 kB Ôöé gzip:  0.87 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases._slug-D_VaAuau.js                         1.95 kB Ôöé gzip:  0.84 kB
+node_modules/.nitro/vite/services/ssr/assets/route-helpers-DKoDLiMH.js                            1.95 kB Ôöé gzip:  0.93 kB
+node_modules/.nitro/vite/services/ssr/assets/autores._slug-DYa36XJg.js                            1.97 kB Ôöé gzip:  0.87 kB
+node_modules/.nitro/vite/services/ssr/assets/roles-s47s0vO6.js                                    2.00 kB Ôöé gzip:  0.87 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo._sign-D2u7IEDG.js                          2.02 kB Ôöé gzip:  0.87 kB
+node_modules/.nitro/vite/services/ssr/assets/NextMoonPhases-BPKvRngq.js                           2.02 kB Ôöé gzip:  0.88 kB
+node_modules/.nitro/vite/services/ssr/assets/start-BWsCRj-y.js                                    2.05 kB Ôöé gzip:  0.89 kB
+node_modules/.nitro/vite/services/ssr/assets/auth.callback-C85cTYaI.js                            2.19 kB Ôöé gzip:  0.97 kB
+node_modules/.nitro/vite/services/ssr/assets/identity.functions-C88ACClo.js                       2.25 kB Ôöé gzip:  0.92 kB
+node_modules/.nitro/vite/services/ssr/assets/client-D2xT1XoQ.js                                   2.29 kB Ôöé gzip:  0.96 kB
+node_modules/.nitro/vite/services/ssr/assets/TarotCardVisual-AF4oCE6C.js                          2.29 kB Ôöé gzip:  1.00 kB
+node_modules/.nitro/vite/services/ssr/assets/EditorialCard-xtm_ZPVE.js                            2.30 kB Ôöé gzip:  1.06 kB
+node_modules/.nitro/vite/services/ssr/assets/admin.functions-DhfHdKuX.js                          2.33 kB Ôöé gzip:  1.23 kB
+node_modules/.nitro/vite/services/ssr/assets/public-features-DXWP8hV9.js                          2.34 kB Ôöé gzip:  0.72 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad._signA._signB-BdMSltpm.js             2.34 kB Ôöé gzip:  0.96 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.hoy-BC4VGofm.js                                 2.37 kB Ôöé gzip:  0.94 kB
+node_modules/.nitro/vite/services/ssr/assets/forms-DiQJxqAH.js                                    2.37 kB Ôöé gzip:  0.92 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-yl5Ko5HF.js                                   2.37 kB Ôöé gzip:  0.93 kB
+node_modules/.nitro/vite/services/ssr/assets/natal-moon-calculator-DdsCzFJK.js                    2.42 kB Ôöé gzip:  0.89 kB
+node_modules/.nitro/vite/services/ssr/assets/moon-m8Hp6oUN.js                                     2.43 kB Ôöé gzip:  0.77 kB
+node_modules/.nitro/vite/services/ssr/assets/createCsrfMiddleware-jzif2P7h.js                     2.45 kB Ôöé gzip:  0.86 kB
+node_modules/.nitro/vite/services/ssr/assets/guias-CY1CjP9H.js                                    2.58 kB Ôöé gzip:  1.12 kB
+node_modules/.nitro/vite/services/ssr/assets/zodiac-signs-G8DqYDmf.js                             2.62 kB Ôöé gzip:  0.78 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.favoritos-GeexqCmn.js                     2.63 kB Ôöé gzip:  1.13 kB
+node_modules/.nitro/vite/services/ssr/assets/account.functions-sLtOaRWl.js                        2.65 kB Ôöé gzip:  1.14 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos._id.preview-DK_D0jZB.js                    2.68 kB Ôöé gzip:  1.13 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscope-IAI1EjWE.js                                2.69 kB Ôöé gzip:  1.13 kB
+node_modules/.nitro/vite/services/ssr/assets/admin-BMOTzBSG.js                                    2.75 kB Ôöé gzip:  1.03 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.privacidad-DQyoHdfM.js                    2.84 kB Ôöé gzip:  1.28 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-middleware-C34-8AEi.js                          2.88 kB Ôöé gzip:  1.18 kB
+node_modules/.nitro/vite/services/ssr/assets/timezone-DN63boQb.js                                 3.02 kB Ôöé gzip:  1.30 kB
+node_modules/.nitro/vite/services/ssr/assets/icon-CqhFcb_j.js                                     3.19 kB Ôöé gzip:  1.33 kB
+node_modules/.nitro/vite/services/ssr/assets/admin.functions-CTZugXUG.js                          3.23 kB Ôöé gzip:  1.43 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot-Dl_BFIyP.js                                    3.28 kB Ôöé gzip:  1.36 kB
+node_modules/.nitro/vite/services/ssr/assets/auditoria-CeYhoTUN.js                                3.34 kB Ôöé gzip:  1.14 kB
+node_modules/.nitro/vite/services/ssr/assets/route-VlTw37dt.js                                    3.35 kB Ôöé gzip:  1.39 kB
+node_modules/.nitro/vite/services/ssr/assets/CompatibilityPairSelector-BkrW5E5k.js                3.35 kB Ôöé gzip:  1.40 kB
+node_modules/.nitro/vite/services/ssr/assets/seo-Ba_DppO0.js                                      3.43 kB Ôöé gzip:  1.34 kB
+node_modules/.nitro/vite/services/ssr/assets/moon.functions-Dykoxhhm.js                           3.44 kB Ôöé gzip:  1.41 kB
+node_modules/.nitro/vite/services/ssr/assets/image-url-D_c7cD27.js                                3.45 kB Ôöé gzip:  1.38 kB
+node_modules/.nitro/vite/services/ssr/assets/component-variants-tDPKpCDG.js                       3.50 kB Ôöé gzip:  1.22 kB
+node_modules/.nitro/vite/services/ssr/assets/articles.functions-2JuGww0X.js                       3.56 kB Ôöé gzip:  1.35 kB
+node_modules/.nitro/vite/services/ssr/assets/cookie-manager-D-e9DdaI.js                           3.79 kB Ôöé gzip:  1.33 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad.index-s-bAz4A7.js                     3.83 kB Ôöé gzip:  1.27 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.cartas.index-CGKvEMsb.js                       3.84 kB Ôöé gzip:  1.50 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-profile-BBYt5RJl.js                             3.86 kB Ôöé gzip:  1.37 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.index-2_IJJ4Vx.js                               3.87 kB Ôöé gzip:  1.37 kB
+node_modules/.nitro/vite/services/ssr/assets/metodo-Cv652NYt.js                                   3.95 kB Ôöé gzip:  1.30 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonDisclaimer-CXgkn1q5.js                           4.10 kB Ôöé gzip:  1.71 kB
+node_modules/.nitro/vite/services/ssr/assets/ArticleContentRenderer-BOg9vvv9.js                   4.15 kB Ôöé gzip:  1.29 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo.index-HSAJBy3c.js                          4.16 kB Ôöé gzip:  1.39 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.historial-MdM7ikLJ.js                     4.32 kB Ôöé gzip:  1.60 kB
+node_modules/.nitro/vite/services/ssr/assets/format-lm_rGEYQ.js                                   4.45 kB Ôöé gzip:  1.69 kB
+node_modules/.nitro/vite/services/ssr/index.js                                                    4.61 kB Ôöé gzip:  1.92 kB
+node_modules/.nitro/vite/services/ssr/assets/MoonTodayCard-D6UcMHF5.js                            4.74 kB Ôöé gzip:  1.65 kB
+node_modules/.nitro/vite/services/ssr/assets/HoroscopePeriodPage-Bx9cIJAS.js                      4.81 kB Ôöé gzip:  1.66 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.cartas._card-CXdlSBND.js                       5.05 kB Ôöé gzip:  1.58 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario._ym-BnXrivVw.js                      5.11 kB Ôöé gzip:  1.73 kB
+node_modules/.nitro/vite/services/ssr/assets/useThreeCardInterpretation-C_tKGO0G.js               5.25 kB Ôöé gzip:  2.15 kB
+node_modules/.nitro/vite/services/ssr/assets/AccountShell-5GBS7upm.js                             5.31 kB Ôöé gzip:  1.86 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.lecturas-lunares-DgLXPyK0.js              5.35 kB Ôöé gzip:  2.08 kB
+node_modules/.nitro/vite/services/ssr/assets/astronomy-planetary-engine-BHt7MZoO.js               5.45 kB Ôöé gzip:  1.99 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.lecturas-CUB_Ho0d.js                      5.52 kB Ôöé gzip:  2.06 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.lecturas-lunares._id-DwDTa_ZN.js          5.53 kB Ôöé gzip:  1.80 kB
+node_modules/.nitro/vite/services/ssr/assets/repository-B1NjaEeZ.js                               5.62 kB Ôöé gzip:  1.74 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos.nuevo-D3-3Nyjz.js                          5.72 kB Ôöé gzip:  1.66 kB
+node_modules/.nitro/vite/services/ssr/assets/TarotPositionResult-BwyOk1av.js                      5.73 kB Ôöé gzip:  1.94 kB
+node_modules/.nitro/vite/services/ssr/assets/upload-CVO7Rz5B.js                                   5.83 kB Ôöé gzip:  1.91 kB
+node_modules/.nitro/vite/services/ssr/assets/astronomy-moon-engine-DHQMHXBb.js                    6.06 kB Ôöé gzip:  2.33 kB
+node_modules/.nitro/vite/services/ssr/assets/repository-C6cnMV2a.js                               6.36 kB Ôöé gzip:  1.97 kB
+node_modules/.nitro/vite/services/ssr/assets/brand-test-BRUFk9SX.js                               6.60 kB Ôöé gzip:  1.53 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos-DsY-IEz6.js                                7.01 kB Ôöé gzip:  1.95 kB
+node_modules/.nitro/vite/services/ssr/assets/ResetPasswordPage-CcnJM5hR.js                        7.14 kB Ôöé gzip:  2.31 kB
+node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-server-fn-resolver-Cw4TnS4P.js    7.45 kB Ôöé gzip:  2.21 kB
+node_modules/.nitro/vite/services/ssr/assets/repository-BJU3qAra.js                               7.52 kB Ôöé gzip:  2.98 kB
+node_modules/.nitro/vite/services/ssr/assets/moon.functions-DV9hkmuR.js                           7.98 kB Ôöé gzip:  2.28 kB
+node_modules/.nitro/vite/services/ssr/assets/u._username-CydA2E_3.js                              8.20 kB Ôöé gzip:  2.46 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.memoria-Bb04tGd-.js                       8.69 kB Ôöé gzip:  2.90 kB
+node_modules/.nitro/vite/services/ssr/assets/three-card-readings-Clqw86ax.js                      8.79 kB Ôöé gzip:  2.64 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.calendario._ym-B0us-vhM.js                      8.92 kB Ôöé gzip:  3.04 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.fases._slug-D31Qt74u.js                         9.07 kB Ôöé gzip:  2.42 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.carta-del-dia-SQe2hBWd.js                      9.09 kB Ôöé gzip:  2.74 kB
+node_modules/.nitro/vite/services/ssr/assets/moon-reading-orchestrator-BlYV-I21.js                9.22 kB Ôöé gzip:  3.88 kB
+node_modules/.nitro/vite/services/ssr/assets/horoscopo._sign-BUoufKgJ.js                          9.31 kB Ôöé gzip:  2.65 kB
+node_modules/.nitro/vite/services/ssr/assets/AssistantChat-DCKMEpsg.js                           10.10 kB Ôöé gzip:  3.36 kB
+node_modules/.nitro/vite/services/ssr/assets/account.functions-C_TQhFb7.js                       10.38 kB Ôöé gzip:  2.44 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.index-PoUcossv.js                             10.45 kB Ôöé gzip:  2.11 kB
+node_modules/.nitro/vite/services/ssr/assets/guias._slug-DrH8LQjV.js                             10.46 kB Ôöé gzip:  3.20 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.configuracion-Bhj5IePC.js                10.51 kB Ôöé gzip:  3.13 kB
+node_modules/.nitro/vite/services/ssr/assets/design-system-Ca-Lqs1l.js                           11.73 kB Ôöé gzip:  2.66 kB
+node_modules/.nitro/vite/services/ssr/assets/buscar-Dgh6U1-P.js                                  12.01 kB Ôöé gzip:  3.32 kB
+node_modules/.nitro/vite/services/ssr/assets/useTarotDeck-CMJGDjXH.js                            12.10 kB Ôöé gzip:  3.98 kB
+node_modules/.nitro/vite/services/ssr/assets/createServerFn-BFFE07zL.js                          12.14 kB Ôöé gzip:  3.54 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibilidad._signA._signB-CzfqMR8y.js            14.04 kB Ôöé gzip:  3.43 kB
+node_modules/.nitro/vite/services/ssr/assets/compatibility-Cms9pfGn.js                           14.28 kB Ôöé gzip:  4.89 kB
+node_modules/.nitro/vite/services/ssr/assets/legal.cookies-BnndzdvL.js                           14.42 kB Ôöé gzip:  2.60 kB
+node_modules/.nitro/vite/services/ssr/assets/legal.terminos-D1kBSQBF.js                          15.37 kB Ôöé gzip:  3.38 kB
+node_modules/.nitro/vite/services/ssr/assets/legal.privacidad-B64k4iD5.js                        15.51 kB Ôöé gzip:  3.32 kB
+node_modules/.nitro/vite/services/ssr/assets/articulos._id-DxfBj4a6.js                           17.11 kB Ôöé gzip:  4.02 kB
+node_modules/.nitro/vite/services/ssr/assets/TarotContextualGuide-BSnqbuyR.js                    17.48 kB Ôöé gzip:  4.88 kB
+node_modules/.nitro/vite/services/ssr/assets/articles.functions-CZhiLulg.js                      19.99 kB Ôöé gzip:  4.75 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-D-IqKFiZ.js                                    22.07 kB Ôöé gzip:  5.43 kB
+node_modules/.nitro/vite/services/ssr/assets/NextBestAction-CBzYOtAW.js                          22.11 kB Ôöé gzip:  5.52 kB
+node_modules/.nitro/vite/services/ssr/assets/buscar-DdJHSYSh.js                                  22.66 kB Ôöé gzip:  7.28 kB
+node_modules/.nitro/vite/services/ssr/assets/tarot.si-o-no-B_74gm0c.js                           22.73 kB Ôöé gzip:  6.48 kB
+node_modules/.nitro/vite/services/ssr/assets/luna.tu-luna-de-hoy-D75TIvAB.js                     23.52 kB Ôöé gzip:  6.78 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BRIlmE4v.js              27.74 kB Ôöé gzip:  4.14 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.perfil-BPVh-RNm.js                       33.35 kB Ôöé gzip:  6.81 kB
+node_modules/.nitro/vite/services/ssr/assets/ThreeCardLoveExperienceShell-CLZ2ebOY.js            36.03 kB Ôöé gzip:  9.14 kB
+node_modules/.nitro/vite/services/ssr/assets/server-DbOfJCpe.js                                  50.91 kB Ôöé gzip: 13.13 kB
+node_modules/.nitro/vite/services/ssr/assets/mi-espacio.index-30cZQ8i0.js                        51.22 kB Ôöé gzip: 10.73 kB
+node_modules/.nitro/vite/services/ssr/assets/routes-Cm42dDZx.js                                  56.87 kB Ôöé gzip: 12.70 kB
+node_modules/.nitro/vite/services/ssr/assets/router-BbnWnskb.js                                 231.05 kB Ôöé gzip: 58.64 kB
+
+[32mÔ£ô built in 9.87s[39m
+[90m[[90mnitro[90m][39m [35mo[39m Building [[35mNitro[39m] [2m(preset: [36mvercel[39m, compatibility: [36m2026-08-07[39m)[22m
+[90m[[90mnitro[90m][39m [32mÔêÜ[39m Generated public [36m.vercel/output/static[39m
+[36mvite v8.1.5 [32mbuilding nitro environment for production...[36m[39m
+[2K
+transforming...Ô£ô 2725 modules transformed.
+[36mi[39m Tracing dependencies:
+- [36mtslib[39m (2.8.1)
+[32mÔêÜ[39m Traced 1 dependencies (4 files) in 180ms.
+[36mi[39m Ensure your production environment matches the builder OS and architecture ([36mwin32-x64[39m) to avoid native module issues.
+rendering chunks...
+computing gzip size...
+.vercel/output/functions/__server.func/_libs/motion.mjs                                      0.16 kB Ôöé gzip:   0.13 kB
+.vercel/output/functions/__server.func/_ssr/empty-plugin-adapters-D9UWiqvJ.mjs               0.23 kB Ôöé gzip:   0.16 kB
+.vercel/output/functions/__server.func/_ssr/reset-password-Ij2MFaZu.mjs                      0.25 kB Ôöé gzip:   0.18 kB
+.vercel/output/functions/__server.func/_ssr/auth.update-password-BLcRNtca.mjs                0.25 kB Ôöé gzip:   0.18 kB
+.vercel/output/functions/__server.func/_ssr/utils-C_uf36nf.mjs                               0.29 kB Ôöé gzip:   0.21 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__number.mjs                            0.32 kB Ôöé gzip:   0.24 kB
+.vercel/output/functions/__server.func/_ssr/createServerRpc-MBa5GZ-L.mjs                     0.40 kB Ôöé gzip:   0.28 kB
+.vercel/output/functions/__server.func/_ssr/luna-DPUnJp4f.mjs                                0.42 kB Ôöé gzip:   0.27 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases-DMsSW8qk.mjs                          0.42 kB Ôöé gzip:   0.27 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario-X_RZ9FUl.mjs                     0.43 kB Ôöé gzip:   0.27 kB
+.vercel/output/functions/__server.func/_ssr/privacidad-DPM0V2MR.mjs                          0.48 kB Ôöé gzip:   0.32 kB
+.vercel/output/functions/__server.func/_ssr/cookies-j7B3LlwR.mjs                             0.49 kB Ôöé gzip:   0.32 kB
+.vercel/output/functions/__server.func/_ssr/terminos-fuAUDImX.mjs                            0.49 kB Ôöé gzip:   0.32 kB
+.vercel/output/functions/__server.func/_ssr/ayuda-BHhnpUsi.mjs                               0.49 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/nosotros-D2w5btR7.mjs                            0.49 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/contacto-CEoS7jYo.mjs                            0.50 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/astrologia-cdafyP0m.mjs                          0.51 kB Ôöé gzip:   0.34 kB
+.vercel/output/functions/__server.func/_ssr/aviso-de-responsabilidad-CE09BzKR.mjs            0.52 kB Ôöé gzip:   0.34 kB
+.vercel/output/functions/__server.func/_ssr/tarot.tres-cartas.trabajo-QuDMnNGG.mjs           0.53 kB Ôöé gzip:   0.32 kB
+.vercel/output/functions/__server.func/_ssr/tarot.tres-cartas.decision-Crur3VZ3.mjs          0.54 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/articulos._id-CawkkuT4.mjs                       0.56 kB Ôöé gzip:   0.38 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.hoy-DfAJ16XN.mjs                       0.57 kB Ôöé gzip:   0.35 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.mes-SUQdAmEM.mjs                       0.57 kB Ôöé gzip:   0.35 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.semana-Bg02xV_r.mjs                    0.58 kB Ôöé gzip:   0.35 kB
+.vercel/output/functions/__server.func/_ssr/route-DtELbX2F.mjs                               0.59 kB Ôöé gzip:   0.38 kB
+.vercel/output/functions/__server.func/_chunks/ssr-renderer.mjs                              0.60 kB Ôöé gzip:   0.36 kB
+.vercel/output/functions/__server.func/_ssr/autores._slug-SRaF7l10.mjs                       0.60 kB Ôöé gzip:   0.37 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad.index-BjvjoA-G.mjs                0.60 kB Ôöé gzip:   0.37 kB
+.vercel/output/functions/__server.func/_ssr/badge-BObZzJqb.mjs                               0.60 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/temas._category-Bz2bJeLs.mjs                     0.60 kB Ôöé gzip:   0.38 kB
+.vercel/output/functions/__server.func/_ssr/limits-CFwCaIvQ.mjs                              0.69 kB Ôöé gzip:   0.46 kB
+.vercel/output/functions/__server.func/_ssr/guias-CxHp4jIc.mjs                               0.73 kB Ôöé gzip:   0.42 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario._ym-BufQXeEO.mjs                 0.74 kB Ôöé gzip:   0.41 kB
+.vercel/output/functions/__server.func/_ssr/guias._slug-BaP9ww6y.mjs                         0.74 kB Ôöé gzip:   0.42 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.hoy-Bnvd5Ehg.mjs                       0.74 kB Ôöé gzip:   0.42 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.mes-CVkQ-Tyj.mjs                       0.74 kB Ôöé gzip:   0.42 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo._sign-DOYYsQA4.mjs                     0.74 kB Ôöé gzip:   0.43 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.semana-CGm02f9p.mjs                    0.74 kB Ôöé gzip:   0.43 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad.index-BwCZQroW.mjs                0.75 kB Ôöé gzip:   0.42 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-direction.mjs                   0.76 kB Ôöé gzip:   0.40 kB
+.vercel/output/functions/__server.func/_ssr/workflow-C9ey1ZQg.mjs                            0.76 kB Ôöé gzip:   0.43 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo._sign-BZQ96-kL.mjs                     0.77 kB Ôöé gzip:   0.43 kB
+.vercel/output/functions/__server.func/_ssr/guias._slug-Ba8bhv5A.mjs                         0.77 kB Ôöé gzip:   0.44 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario._ym-DTBBl-Nv.mjs                 0.81 kB Ôöé gzip:   0.45 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.lecturas-lunares._id-Da8Abxg0.mjs     0.81 kB Ôöé gzip:   0.48 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases._slug-BLVuEecE.mjs                    0.81 kB Ôöé gzip:   0.47 kB
+.vercel/output/functions/__server.func/_ssr/createMiddleware-B_4t7rW1.mjs                    0.83 kB Ôöé gzip:   0.33 kB
+.vercel/output/functions/__server.func/_ssr/useServerFn-CrZF2pjq.mjs                         0.83 kB Ôöé gzip:   0.45 kB
+.vercel/output/functions/__server.func/_ssr/site-Dcw4u41G.mjs                                0.88 kB Ôöé gzip:   0.57 kB
+.vercel/output/functions/__server.func/_ssr/tarot.cartas._card-DDfRugs3.mjs                  0.89 kB Ôöé gzip:   0.52 kB
+.vercel/output/functions/__server.func/_ssr/button-KkU18FLL.mjs                              0.91 kB Ôöé gzip:   0.48 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad._signA._signB-DYH_wuFC.mjs        0.91 kB Ôöé gzip:   0.53 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad._signA._signB-C2kRIr8A.mjs        0.92 kB Ôöé gzip:   0.54 kB
+.vercel/output/functions/__server.func/_ssr/TarotReadingDisclaimer-ClJcm77N.mjs              0.93 kB Ôöé gzip:   0.50 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario.index-BZMXr0pK.mjs               0.94 kB Ôöé gzip:   0.57 kB
+.vercel/output/functions/__server.func/_ssr/assistant-CyDlByGP.mjs                           0.95 kB Ôöé gzip:   0.58 kB
+.vercel/output/functions/__server.func/_ssr/articulos._id.preview-BsFRiAsS.mjs               0.96 kB Ôöé gzip:   0.59 kB
+.vercel/output/functions/__server.func/_ssr/label-DBD1bRRP.mjs                               0.96 kB Ôöé gzip:   0.48 kB
+.vercel/output/functions/__server.func/_ssr/textarea-kko37XEX.mjs                            0.99 kB Ôöé gzip:   0.53 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-label.mjs                       1.00 kB Ôöé gzip:   0.51 kB
+.vercel/output/functions/__server.func/_ssr/editorial-Bqi7HIF3.mjs                           1.05 kB Ôöé gzip:   0.57 kB
+.vercel/output/functions/__server.func/_ssr/Placeholder-BlrQZ3zF.mjs                         1.07 kB Ôöé gzip:   0.58 kB
+.vercel/output/functions/__server.func/_ssr/input-B8Q2ztVi.mjs                               1.08 kB Ôöé gzip:   0.57 kB
+.vercel/output/functions/__server.func/_ssr/SectionErrorBoundary-Da8dl_Ao.mjs                1.10 kB Ôöé gzip:   0.57 kB
+.vercel/output/functions/__server.func/_ssr/useAdminRoles-DicqcswV.mjs                       1.14 kB Ôöé gzip:   0.64 kB
+.vercel/output/functions/__server.func/_ssr/features-CGiHll8z.mjs                            1.19 kB Ôöé gzip:   0.60 kB
+.vercel/output/functions/__server.func/_ssr/useSession-CQ-M8Nn3.mjs                          1.20 kB Ôöé gzip:   0.62 kB
+.vercel/output/functions/__server.func/_ssr/guias-B4_rNF82.mjs                               1.20 kB Ôöé gzip:   0.63 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.mes-CPTsa1Ld.mjs                       1.22 kB Ôöé gzip:   0.63 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.hoy-Da9boVOa.mjs                       1.22 kB Ôöé gzip:   0.63 kB
+.vercel/output/functions/__server.func/_ssr/MoonUnavailableState-EEx7xNLh.mjs                1.22 kB Ôöé gzip:   0.60 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.semana-DwTzrxAI.mjs                    1.23 kB Ôöé gzip:   0.62 kB
+.vercel/output/functions/__server.func/_ssr/ThreeCardExperienceShell-BtSGSxH6.mjs            1.23 kB Ôöé gzip:   0.62 kB
+.vercel/output/functions/__server.func/_ssr/asistente-De9CqoXw.mjs                           1.25 kB Ôöé gzip:   0.64 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases._slug-Bx4fp_12.mjs                    1.25 kB Ôöé gzip:   0.63 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases.index-D1hQu9cM.mjs                    1.29 kB Ôöé gzip:   0.62 kB
+.vercel/output/functions/__server.func/_ssr/TarotDeckIncompleteState-s_e3dJLt.mjs            1.34 kB Ôöé gzip:   0.62 kB
+.vercel/output/functions/__server.func/_ssr/PageShell-4bSUQtKd.mjs                           1.35 kB Ôöé gzip:   0.67 kB
+.vercel/output/functions/__server.func/_ssr/route-DJH6PrKj.mjs                               1.40 kB Ôöé gzip:   0.78 kB
+.vercel/output/functions/__server.func/_ssr/switch-Cn1w-cIH.mjs                              1.43 kB Ôöé gzip:   0.66 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-toggle.mjs                      1.45 kB Ôöé gzip:   0.67 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-separator.mjs                   1.46 kB Ôöé gzip:   0.65 kB
+.vercel/output/functions/__server.func/_ssr/tarot.tres-cartas.amor-8uW_Ejok.mjs              1.47 kB Ôöé gzip:   0.63 kB
+.vercel/output/functions/__server.func/_ssr/temas._category-COeg_DuG.mjs                     1.49 kB Ôöé gzip:   0.71 kB
+.vercel/output/functions/__server.func/_ssr/avatar-gunzrkKA.mjs                              1.51 kB Ôöé gzip:   0.56 kB
+.vercel/output/functions/__server.func/_ssr/MoonSkeleton-BOtDlQIY.mjs                        1.54 kB Ôöé gzip:   0.58 kB
+.vercel/output/functions/__server.func/_runtime.mjs                                          1.54 kB Ôöé gzip:   0.73 kB
+.vercel/output/functions/__server.func/_ssr/autores._slug-DMHyitXc.mjs                       1.56 kB Ôöé gzip:   0.74 kB
+.vercel/output/functions/__server.func/_ssr/tarot.tres-cartas.index-gPHEcP3h.mjs             1.58 kB Ôöé gzip:   0.75 kB
+.vercel/output/functions/__server.func/_ssr/MoonPhaseVisual-CThai45Z.mjs                     1.78 kB Ôöé gzip:   0.80 kB
+.vercel/output/functions/__server.func/_ssr/alert-a0qC4ePy.mjs                               1.78 kB Ôöé gzip:   0.72 kB
+.vercel/output/functions/__server.func/_ssr/Container-CG5I_0hT.mjs                           1.81 kB Ôöé gzip:   0.71 kB
+.vercel/output/functions/__server.func/_ssr/guias._slug-Da5KZpxD.mjs                         1.82 kB Ôöé gzip:   0.80 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__primitive.mjs                         1.83 kB Ôöé gzip:   0.72 kB
+.vercel/output/functions/__server.func/_libs/hugeicons__react.mjs                            1.89 kB Ôöé gzip:   0.82 kB
+.vercel/output/functions/__server.func/_ssr/route-helpers-DKoDLiMH.mjs                       1.91 kB Ôöé gzip:   0.95 kB
+.vercel/output/functions/__server.func/_ssr/temas._category-D8m4-6yw.mjs                     1.92 kB Ôöé gzip:   0.83 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases._slug-D_VaAuau.mjs                    1.94 kB Ôöé gzip:   0.83 kB
+.vercel/output/functions/__server.func/_ssr/HoroscopePeriodTabs-CSCWBbsO.mjs                 1.94 kB Ôöé gzip:   0.85 kB
+.vercel/output/functions/__server.func/_ssr/start-BWsCRj-y.mjs                               1.95 kB Ôöé gzip:   0.86 kB
+.vercel/output/functions/__server.func/_ssr/card-CzXpCsbD.mjs                                1.98 kB Ôöé gzip:   0.58 kB
+.vercel/output/functions/__server.func/_ssr/client.server-KnIXx3Ml.mjs                       1.99 kB Ôöé gzip:   0.91 kB
+.vercel/output/functions/__server.func/_ssr/roles-s47s0vO6.mjs                               2.04 kB Ôöé gzip:   0.91 kB
+.vercel/output/functions/__server.func/_ssr/AuthorBlock-DWDwwXmT.mjs                         2.04 kB Ôöé gzip:   0.73 kB
+.vercel/output/functions/__server.func/_ssr/MoonPhaseGrid-CkBFWVVg.mjs                       2.05 kB Ôöé gzip:   0.86 kB
+.vercel/output/functions/__server.func/_ssr/PageHeader-DeoiuZyP.mjs                          2.06 kB Ôöé gzip:   0.85 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo._sign-D2u7IEDG.mjs                     2.10 kB Ôöé gzip:   0.92 kB
+.vercel/output/functions/__server.func/_ssr/ContextualAiButton-BJIw3-px.mjs                  2.11 kB Ôöé gzip:   0.87 kB
+.vercel/output/functions/__server.func/_ssr/admin.functions-DhfHdKuX.mjs                     2.21 kB Ôöé gzip:   1.19 kB
+.vercel/output/functions/__server.func/_ssr/autores._slug-DYa36XJg.mjs                       2.25 kB Ôöé gzip:   0.93 kB
+.vercel/output/functions/__server.func/_ssr/client-D2xT1XoQ.mjs                              2.33 kB Ôöé gzip:   1.00 kB
+.vercel/output/functions/__server.func/_ssr/public-features-DXWP8hV9.mjs                     2.38 kB Ôöé gzip:   0.76 kB
+.vercel/output/functions/__server.func/_ssr/identity.functions-C88ACClo.mjs                  2.38 kB Ôöé gzip:   1.00 kB
+.vercel/output/functions/__server.func/_ssr/NextMoonPhases-BPKvRngq.mjs                      2.41 kB Ôöé gzip:   0.97 kB
+.vercel/output/functions/__server.func/_ssr/routes-yl5Ko5HF.mjs                              2.42 kB Ôöé gzip:   0.97 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad._signA._signB-BdMSltpm.mjs        2.43 kB Ôöé gzip:   1.01 kB
+.vercel/output/functions/__server.func/_ssr/createCsrfMiddleware-jzif2P7h.mjs                2.45 kB Ôöé gzip:   0.86 kB
+.vercel/output/functions/__server.func/_ssr/natal-moon-calculator-DdsCzFJK.mjs               2.46 kB Ôöé gzip:   0.92 kB
+.vercel/output/functions/__server.func/_ssr/moon-m8Hp6oUN.mjs                                2.47 kB Ôöé gzip:   0.80 kB
+.vercel/output/functions/__server.func/_ssr/forms-DiQJxqAH.mjs                               2.49 kB Ôöé gzip:   0.99 kB
+.vercel/output/functions/__server.func/_ssr/auth.callback-C85cTYaI.mjs                       2.55 kB Ôöé gzip:   1.08 kB
+.vercel/output/functions/__server.func/_ssr/EditorialCard-xtm_ZPVE.mjs                       2.64 kB Ôöé gzip:   1.14 kB
+.vercel/output/functions/__server.func/_ssr/zodiac-signs-G8DqYDmf.mjs                        2.67 kB Ôöé gzip:   0.82 kB
+.vercel/output/functions/__server.func/_ssr/account.functions-sLtOaRWl.mjs                   2.67 kB Ôöé gzip:   1.17 kB
+.vercel/output/functions/__server.func/_ssr/icon-CqhFcb_j.mjs                                2.73 kB Ôöé gzip:   1.42 kB
+.vercel/output/functions/__server.func/_ssr/horoscope-IAI1EjWE.mjs                           2.73 kB Ôöé gzip:   1.16 kB
+.vercel/output/functions/__server.func/_ssr/TarotCardVisual-AF4oCE6C.mjs                     2.80 kB Ôöé gzip:   1.13 kB
+.vercel/output/functions/__server.func/_ssr/auth-middleware-C34-8AEi.mjs                     2.93 kB Ôöé gzip:   1.21 kB
+.vercel/output/functions/__server.func/_ssr/guias-CY1CjP9H.mjs                               2.93 kB Ôöé gzip:   1.19 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.favoritos-GeexqCmn.mjs                2.98 kB Ôöé gzip:   1.19 kB
+.vercel/output/functions/__server.func/_ssr/luna.hoy-BC4VGofm.mjs                            3.01 kB Ôöé gzip:   1.08 kB
+.vercel/output/functions/__server.func/_ssr/timezone-DN63boQb.mjs                            3.06 kB Ôöé gzip:   1.33 kB
+.vercel/output/functions/__server.func/_ssr/tarot-Dl_BFIyP.mjs                               3.10 kB Ôöé gzip:   1.31 kB
+.vercel/output/functions/__server.func/_ssr/articulos._id.preview-DK_D0jZB.mjs               3.11 kB Ôöé gzip:   1.21 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.privacidad-DQyoHdfM.mjs               3.11 kB Ôöé gzip:   1.33 kB
+.vercel/output/functions/__server.func/_libs/class-variance-authority+clsx.mjs               3.17 kB Ôöé gzip:   1.24 kB
+.vercel/output/functions/__server.func/_ssr/admin-BMOTzBSG.mjs                               3.26 kB Ôöé gzip:   1.10 kB
+.vercel/output/functions/__server.func/_ssr/admin.functions-CTZugXUG.mjs                     3.26 kB Ôöé gzip:   1.46 kB
+.vercel/output/functions/__server.func/_ssr/seo-Ba_DppO0.mjs                                 3.47 kB Ôöé gzip:   1.37 kB
+.vercel/output/functions/__server.func/_ssr/component-variants-tDPKpCDG.mjs                  3.56 kB Ôöé gzip:   1.27 kB
+.vercel/output/functions/__server.func/_ssr/articles.functions-2JuGww0X.mjs                  3.60 kB Ôöé gzip:   1.39 kB
+.vercel/output/functions/__server.func/_ssr/moon.functions-Dykoxhhm.mjs                      3.64 kB Ôöé gzip:   1.49 kB
+.vercel/output/functions/__server.func/_ssr/auth-profile-BBYt5RJl.mjs                        3.77 kB Ôöé gzip:   1.33 kB
+.vercel/output/functions/__server.func/_ssr/route-VlTw37dt.mjs                               3.82 kB Ôöé gzip:   1.47 kB
+.vercel/output/functions/__server.func/_ssr/image-url-D_c7cD27.mjs                           3.82 kB Ôöé gzip:   1.50 kB
+.vercel/output/functions/__server.func/_ssr/cookie-manager-D-e9DdaI.mjs                      3.87 kB Ôöé gzip:   1.39 kB
+.vercel/output/functions/__server.func/_ssr/CompatibilityPairSelector-BkrW5E5k.mjs           3.98 kB Ôöé gzip:   1.53 kB
+.vercel/output/functions/__server.func/_ssr/auditoria-CeYhoTUN.mjs                           4.05 kB Ôöé gzip:   1.21 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad.index-s-bAz4A7.mjs                4.33 kB Ôöé gzip:   1.34 kB
+.vercel/output/functions/__server.func/_ssr/format-lm_rGEYQ.mjs                              4.41 kB Ôöé gzip:   1.71 kB
+.vercel/output/functions/__server.func/_ssr/tarot.cartas.index-CGKvEMsb.mjs                  4.42 kB Ôöé gzip:   1.61 kB
+.vercel/output/functions/__server.func/_ssr/MoonDisclaimer-CXgkn1q5.mjs                      4.47 kB Ôöé gzip:   1.78 kB
+.vercel/output/functions/__server.func/_ssr/ssr.mjs                                          4.55 kB Ôöé gzip:   1.92 kB
+.vercel/output/functions/__server.func/_ssr/metodo-Cv652NYt.mjs                              4.60 kB Ôöé gzip:   1.37 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo.index-HSAJBy3c.mjs                     4.75 kB Ôöé gzip:   1.46 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.historial-MdM7ikLJ.mjs                4.77 kB Ôöé gzip:   1.66 kB
+.vercel/output/functions/__server.func/_ssr/luna.index-2_IJJ4Vx.mjs                          4.78 kB Ôöé gzip:   1.51 kB
+.vercel/output/functions/__server.func/_ssr/ArticleContentRenderer-BOg9vvv9.mjs              4.83 kB Ôöé gzip:   1.37 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-avatar.mjs                      4.93 kB Ôöé gzip:   1.45 kB
+.vercel/output/functions/__server.func/_ssr/astronomy-planetary-engine-BHt7MZoO.mjs          5.44 kB Ôöé gzip:   2.04 kB
+.vercel/output/functions/__server.func/_ssr/HoroscopePeriodPage-Bx9cIJAS.mjs                 5.48 kB Ôöé gzip:   1.75 kB
+.vercel/output/functions/__server.func/_ssr/MoonTodayCard-D6UcMHF5.mjs                       5.50 kB Ôöé gzip:   1.75 kB
+.vercel/output/functions/__server.func/_ssr/repository-B1NjaEeZ.mjs                          5.61 kB Ôöé gzip:   1.77 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario._ym-BnXrivVw.mjs                 5.68 kB Ôöé gzip:   1.85 kB
+.vercel/output/functions/__server.func/_ssr/useThreeCardInterpretation-C_tKGO0G.mjs          5.78 kB Ôöé gzip:   2.26 kB
+.vercel/output/functions/__server.func/_ssr/AccountShell-5GBS7upm.mjs                        5.82 kB Ôöé gzip:   1.93 kB
+.vercel/output/functions/__server.func/_ssr/tarot.cartas._card-CXdlSBND.mjs                  5.87 kB Ôöé gzip:   1.66 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.lecturas-lunares-DgLXPyK0.mjs         6.00 kB Ôöé gzip:   2.20 kB
+.vercel/output/functions/__server.func/_ssr/astronomy-moon-engine-DHQMHXBb.mjs               6.05 kB Ôöé gzip:   2.36 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.lecturas-CUB_Ho0d.mjs                 6.15 kB Ôöé gzip:   2.17 kB
+.vercel/output/functions/__server.func/_ssr/TarotPositionResult-BwyOk1av.mjs                 6.26 kB Ôöé gzip:   2.01 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.lecturas-lunares._id-DwDTa_ZN.mjs     6.31 kB Ôöé gzip:   1.85 kB
+.vercel/output/functions/__server.func/_ssr/repository-C6cnMV2a.mjs                          6.40 kB Ôöé gzip:   2.00 kB
+.vercel/output/functions/__server.func/_ssr/upload-CVO7Rz5B.mjs                              6.70 kB Ôöé gzip:   2.08 kB
+.vercel/output/functions/__server.func/_ssr/articulos.nuevo-D3-3Nyjz.mjs                     6.78 kB Ôöé gzip:   1.79 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-toggle-group.mjs                6.82 kB Ôöé gzip:   1.61 kB
+.vercel/output/functions/__server.func/index.mjs                                             7.25 kB Ôöé gzip:   2.59 kB
+.vercel/output/functions/__server.func/_ssr/repository-BJU3qAra.mjs                          7.51 kB Ôöé gzip:   2.99 kB
+.vercel/output/functions/__server.func/__23tanstack-start-server-fn-resolver-Cw4TnS4P.mjs    7.72 kB Ôöé gzip:   2.26 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-switch.mjs                      7.73 kB Ôöé gzip:   2.21 kB
+.vercel/output/functions/__server.func/_ssr/brand-test-BRUFk9SX.mjs                          7.91 kB Ôöé gzip:   1.62 kB
+.vercel/output/functions/__server.func/_libs/tanstack__react-query.mjs                       7.93 kB Ôöé gzip:   2.05 kB
+.vercel/output/functions/__server.func/_ssr/moon.functions-DV9hkmuR.mjs                      8.16 kB Ôöé gzip:   2.37 kB
+.vercel/output/functions/__server.func/_ssr/ResetPasswordPage-CcnJM5hR.mjs                   8.27 kB Ôöé gzip:   2.45 kB
+.vercel/output/functions/__server.func/_ssr/articulos-DsY-IEz6.mjs                           8.53 kB Ôöé gzip:   2.09 kB
+.vercel/output/functions/__server.func/_ssr/three-card-readings-Clqw86ax.mjs                 8.84 kB Ôöé gzip:   2.67 kB
+.vercel/output/functions/__server.func/_ssr/moon-reading-orchestrator-BlYV-I21.mjs           9.02 kB Ôöé gzip:   3.88 kB
+.vercel/output/functions/__server.func/_ssr/u._username-CydA2E_3.mjs                         9.37 kB Ôöé gzip:   2.58 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.memoria-Bb04tGd-.mjs                  9.39 kB Ôöé gzip:   3.00 kB
+.vercel/output/functions/__server.func/_libs/@radix-ui/react-checkbox+[...].mjs              9.74 kB Ôöé gzip:   2.71 kB
+.vercel/output/functions/__server.func/_ssr/tarot.carta-del-dia-SQe2hBWd.mjs                10.10 kB Ôöé gzip:   2.83 kB
+.vercel/output/functions/__server.func/_ssr/luna.calendario._ym-B0us-vhM.mjs                10.11 kB Ôöé gzip:   3.17 kB
+.vercel/output/functions/__server.func/_ssr/horoscopo._sign-BUoufKgJ.mjs                    10.45 kB Ôöé gzip:   2.72 kB
+.vercel/output/functions/__server.func/_ssr/account.functions-C_TQhFb7.mjs                  10.57 kB Ôöé gzip:   2.52 kB
+.vercel/output/functions/__server.func/_ssr/luna.fases._slug-D31Qt74u.mjs                   10.70 kB Ôöé gzip:   2.57 kB
+.vercel/output/functions/__server.func/_ssr/AssistantChat-DCKMEpsg.mjs                      11.11 kB Ôöé gzip:   3.48 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.configuracion-Bhj5IePC.mjs           11.42 kB Ôöé gzip:   3.23 kB
+.vercel/output/functions/__server.func/_ssr/guias._slug-DrH8LQjV.mjs                        11.60 kB Ôöé gzip:   3.30 kB
+.vercel/output/functions/__server.func/_ssr/createServerFn-BFFE07zL.mjs                     11.66 kB Ôöé gzip:   3.55 kB
+.vercel/output/functions/__server.func/_ssr/useTarotDeck-CMJGDjXH.mjs                       12.00 kB Ôöé gzip:   3.96 kB
+.vercel/output/functions/__server.func/_ssr/tarot.index-PoUcossv.mjs                        12.02 kB Ôöé gzip:   2.19 kB
+.vercel/output/functions/__server.func/_libs/tanstack__history.mjs                          12.09 kB Ôöé gzip:   3.48 kB
+.vercel/output/functions/__server.func/_libs/supabase__functions-js.mjs                     12.49 kB Ôöé gzip:   3.44 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-radio-group.mjs                12.82 kB Ôöé gzip:   3.14 kB
+.vercel/output/functions/__server.func/_ssr/design-system-Ca-Lqs1l.mjs                      13.71 kB Ôöé gzip:   2.76 kB
+.vercel/output/functions/__server.func/_libs/lucide-react.mjs                               13.76 kB Ôöé gzip:   3.25 kB
+.vercel/output/functions/__server.func/_ssr/buscar-Dgh6U1-P.mjs                             13.76 kB Ôöé gzip:   3.50 kB
+.vercel/output/functions/__server.func/_ssr/compatibility-Cms9pfGn.mjs                      14.06 kB Ôöé gzip:   4.88 kB
+.vercel/output/functions/__server.func/_ssr/compatibilidad._signA._signB-CzfqMR8y.mjs       15.91 kB Ôöé gzip:   3.50 kB
+.vercel/output/functions/__server.func/_libs/radix-ui__react-collection.mjs                 16.52 kB Ôöé gzip:   3.70 kB
+.vercel/output/functions/__server.func/_ssr/legal.cookies-BnndzdvL.mjs                      17.54 kB Ôöé gzip:   2.71 kB
+.vercel/output/functions/__server.func/_libs/h3-v2+rou3+srvx.mjs                            18.20 kB Ôöé gzip:   4.98 kB
+.vercel/output/functions/__server.func/_ssr/legal.terminos-D1kBSQBF.mjs                     18.63 kB Ôöé gzip:   3.49 kB
+.vercel/output/functions/__server.func/_ssr/legal.privacidad-B64k4iD5.mjs                   19.16 kB Ôöé gzip:   3.44 kB
+.vercel/output/functions/__server.func/_ssr/TarotContextualGuide-BSnqbuyR.mjs               19.21 kB Ôöé gzip:   5.03 kB
+.vercel/output/functions/__server.func/_ssr/articulos._id-DxfBj4a6.mjs                      19.40 kB Ôöé gzip:   4.18 kB
+.vercel/output/functions/__server.func/_ssr/articles.functions-CZhiLulg.mjs                 20.02 kB Ôöé gzip:   4.79 kB
+.vercel/output/functions/__server.func/_ssr/NextBestAction-CBzYOtAW.mjs                     22.56 kB Ôöé gzip:   5.57 kB
+.vercel/output/functions/__server.func/_ssr/buscar-DdJHSYSh.mjs                             22.77 kB Ôöé gzip:   7.32 kB
+.vercel/output/functions/__server.func/_ssr/auth-D-IqKFiZ.mjs                               24.52 kB Ôöé gzip:   5.55 kB
+.vercel/output/functions/__server.func/_ssr/tarot.si-o-no-B_74gm0c.mjs                      24.86 kB Ôöé gzip:   6.60 kB
+.vercel/output/functions/__server.func/_libs/@floating-ui/dom+[...].mjs                     25.38 kB Ôöé gzip:   6.57 kB
+.vercel/output/functions/__server.func/_libs/@floating-ui/core+[...].mjs                    25.57 kB Ôöé gzip:   6.33 kB
+.vercel/output/functions/__server.func/_ssr/luna.tu-luna-de-hoy-D75TIvAB.mjs                25.84 kB Ôöé gzip:   6.95 kB
+.vercel/output/functions/__server.func/_libs/h3+rou3+srvx.mjs                               26.42 kB Ôöé gzip:   6.94 kB
+.vercel/output/functions/__server.func/_tanstack-start-manifest_v-BRIlmE4v.mjs              27.80 kB Ôöé gzip:   4.17 kB
+.vercel/output/functions/__server.func/_libs/@floating-ui/react-dom+[...].mjs               31.24 kB Ôöé gzip:   7.96 kB
+.vercel/output/functions/__server.func/_libs/hugeicons__core-free-icons.mjs                 32.02 kB Ôöé gzip:   8.65 kB
+.vercel/output/functions/__server.func/_libs/supabase__supabase-js.mjs                      36.30 kB Ôöé gzip:  10.75 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.perfil-BPVh-RNm.mjs                  38.22 kB Ôöé gzip:   6.95 kB
+.vercel/output/functions/__server.func/_ssr/ThreeCardLoveExperienceShell-CLZ2ebOY.mjs       39.23 kB Ôöé gzip:   9.30 kB
+.vercel/output/functions/__server.func/_libs/@radix-ui/react-select+[...].mjs               46.30 kB Ôöé gzip:   9.76 kB
+.vercel/output/functions/__server.func/_ssr/server-DbOfJCpe.mjs                             49.75 kB Ôöé gzip:  13.03 kB
+.vercel/output/functions/__server.func/_libs/supabase__phoenix.mjs                          50.54 kB Ôöé gzip:  12.76 kB
+.vercel/output/functions/__server.func/_libs/sonner.mjs                                     51.91 kB Ôöé gzip:  11.77 kB
+.vercel/output/functions/__server.func/_ssr/mi-espacio.index-30cZQ8i0.mjs                   57.11 kB Ôöé gzip:  10.99 kB
+.vercel/output/functions/__server.func/_libs/@radix-ui/react-dropdown-menu+[...].mjs        58.09 kB Ôöé gzip:  11.41 kB
+.vercel/output/functions/__server.func/_ssr/routes-Cm42dDZx.mjs                             63.02 kB Ôöé gzip:  12.96 kB
+.vercel/output/functions/__server.func/_libs/tanstack__query-core.mjs                       66.11 kB Ôöé gzip:  13.98 kB
+.vercel/output/functions/__server.func/_libs/supabase__realtime-js.mjs                      78.23 kB Ôöé gzip:  20.01 kB
+.vercel/output/functions/__server.func/_libs/@tanstack/router-core+[...].mjs                80.13 kB Ôöé gzip:  20.12 kB
+.vercel/output/functions/__server.func/_libs/@hookform/resolvers+[...].mjs                  87.41 kB Ôöé gzip:  20.60 kB
+.vercel/output/functions/__server.func/_libs/tailwind-merge.mjs                             88.13 kB Ôöé gzip:  15.66 kB
+.vercel/output/functions/__server.func/_libs/@radix-ui/react-alert-dialog+[...].mjs         92.14 kB Ôöé gzip:  20.56 kB
+.vercel/output/functions/__server.func/_libs/tanstack__zod-adapter+zod.mjs                 101.71 kB Ôöé gzip:  17.78 kB
+.vercel/output/functions/__server.func/_libs/supabase__postgrest-js.mjs                    105.41 kB Ôöé gzip:  21.66 kB
+.vercel/output/functions/__server.func/_libs/@supabase/storage-js+[...].mjs                119.46 kB Ôöé gzip:  22.32 kB
+.vercel/output/functions/__server.func/_libs/astronomy-engine.mjs                          119.61 kB Ôöé gzip:  37.87 kB
+.vercel/output/functions/__server.func/_ssr/router-BbnWnskb.mjs                            232.51 kB Ôöé gzip:  58.33 kB
+.vercel/output/functions/__server.func/_libs/supabase__auth-js.mjs                         302.30 kB Ôöé gzip:  60.28 kB
+.vercel/output/functions/__server.func/_libs/framer-motion+[...].mjs                       402.15 kB Ôöé gzip: 105.00 kB
+.vercel/output/functions/__server.func/_libs/@tanstack/react-router+[...].mjs              667.48 kB Ôöé gzip: 139.68 kB
+
+[32mÔ£ô built in 5.74s[39m
+[36mi[39m Generated [36m.vercel/output/nitro.json[39m
+[90m[[90mnitro[90m][39m [32mÔêÜ[39m You can preview this build using [36mnpx vite preview[39m
+[90m[[90mnitro[90m][39m [32mÔêÜ[39m You can deploy this build using [36mnpx nitro deploy --prebuilt[39m

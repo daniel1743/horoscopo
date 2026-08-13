@@ -32,9 +32,9 @@ export const homeConfig = {
   sectionOrder: [
     "hero",
     "daily_insight",
+    "compatibility",
     "featured_tarot",
     "zodiac_selector",
-    "compatibility",
     "featured_guides",
     "topics",
     "personal_space",
@@ -184,7 +184,7 @@ export const homeConfig = {
           "Observa tu situación laboral, los desafíos presentes y el próximo paso práctico.",
         status: isPublicFeatureEnabled("tarotThreeCardsTrabajo") ? "enabled" : "hidden",
         ctaLabel: "Comenzar tirada",
-        href: routes.tarotThreeCards,
+        href: routes.tarotThreeCardsTrabajo,
         image: "/trabajo.webp",
       },
       {
@@ -194,7 +194,7 @@ export const homeConfig = {
           "Comprende qué impulsa tu elección, qué debes considerar y desde dónde decidir.",
         status: isPublicFeatureEnabled("tarotThreeCardsDecision") ? "enabled" : "hidden",
         ctaLabel: "Comenzar tirada",
-        href: routes.tarotThreeCards,
+        href: routes.tarotThreeCardsDecision,
         image: "/decision.webp",
       },
     ],

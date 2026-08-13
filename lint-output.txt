@@ -1,0 +1,20 @@
+
+> lint
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.5
+
+Error: ENOENT: no such file or directory, scandir 'C:\Users\Lenovo\Desktop\proyectos desplegados importante\horoscopo\.vercel\output\functions\__server.func\_chunks'
+    at async Object.readdir (node:internal/fs/promises:956:18)
+    at async NodeHfsImpl.list (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/node/src/node-hfs.js:304:19)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:560:21)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:604:6)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:604:6)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:604:6)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:604:6)
+    at async NodeHfs.<anonymous> (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:604:6)
+    at async NodeHfs.walk (file:///C:/Users/Lenovo/Desktop/proyectos%20desplegados%20importante/horoscopo/node_modules/@humanfs/core/src/hfs.js:614:3)
+    at async globSearch (C:\Users\Lenovo\Desktop\proyectos desplegados importante\horoscopo\node_modules\eslint\lib\eslint\eslint-helpers.js:364:20)

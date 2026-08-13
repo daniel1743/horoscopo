@@ -217,7 +217,7 @@ export function AuthPage() {
       });
       if (data.session) {
         toast.success("Cuenta creada.");
-        navigate({ to: routes.account });
+        navigate({ to: redirectTo });
         return;
       }
       setConfirmationEmail(email.trim());

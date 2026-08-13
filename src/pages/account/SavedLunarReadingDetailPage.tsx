@@ -4,9 +4,18 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Icon } from "@/components/ui/icon";
 
 const ZODIAC_NAMES: Record<string, string> = {
-  aries: "Aries", taurus: "Tauro", gemini: "Géminis", cancer: "Cáncer",
-  leo: "Leo", virgo: "Virgo", libra: "Libra", scorpio: "Escorpio",
-  sagittarius: "Sagitario", capricorn: "Capricornio", aquarius: "Acuario", pisces: "Piscis"
+  aries: "Aries",
+  taurus: "Tauro",
+  gemini: "Géminis",
+  cancer: "Cáncer",
+  leo: "Leo",
+  virgo: "Virgo",
+  libra: "Libra",
+  scorpio: "Escorpio",
+  sagittarius: "Sagitario",
+  capricorn: "Capricornio",
+  aquarius: "Acuario",
+  pisces: "Piscis",
 };
 
 const ASPECT_LABELS: Record<string, string> = {
@@ -21,32 +30,37 @@ const ASPECT_LABELS: Record<string, string> = {
 export function SavedLunarReadingDetailPage() {
   const reading = useLoaderData({ from: Route.id });
 
-  const subtitleDate = new Intl.DateTimeFormat('es-ES', { 
-    day: 'numeric', month: 'long', year: 'numeric' 
+  const subtitleDate = new Intl.DateTimeFormat("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   }).format(new Date(reading.source_date + "T12:00:00Z"));
 
   const moonSign = ZODIAC_NAMES[reading.current_moon_sign] || reading.current_moon_sign;
   const natalSign = ZODIAC_NAMES[reading.natal_moon_sign] || reading.natal_moon_sign;
   const aspectLabel = ASPECT_LABELS[reading.aspect_type] || reading.aspect_type;
-  
-  // Extraemos el "enfoque" si existe (lo habíamos guardado en interpretation si no se pasó focus_text, 
+
+  // Extraemos el "enfoque" si existe (lo habíamos guardado en interpretation si no se pasó focus_text,
   // pero podemos intentar sacarlo del final como antes si queremos que se vea igual).
   // Para ser fieles a la UI original, si focus_text no está, extraemos el último párrafo.
   let interpretation = reading.interpretation;
   let conclusion = reading.focus_text;
-  
+
   if (!conclusion) {
-    const paragraphs = interpretation.split('\n').filter(p => p.trim() !== '');
+    const paragraphs = interpretation.split("\n").filter((p) => p.trim() !== "");
     if (paragraphs.length > 1) {
       conclusion = paragraphs.pop() || null;
-      interpretation = paragraphs.join('\n\n');
+      interpretation = paragraphs.join("\n\n");
     }
   }
 
   return (
     <PageShell>
       <div className="mb-6 flex items-center gap-2 text-[14px] text-ink-soft">
-        <Link to="/mi-espacio/lecturas-lunares" className="hover:text-brand hover:underline flex items-center gap-1">
+        <Link
+          to="/mi-espacio/lecturas-lunares"
+          className="hover:text-brand hover:underline flex items-center gap-1"
+        >
           <Icon name="arrowLeft" className="w-4 h-4" />
           Volver a Mis lecturas
         </Link>
@@ -79,12 +93,14 @@ export function SavedLunarReadingDetailPage() {
             <p className="font-semibold text-ink capitalize">{aspectLabel}</p>
           </div>
         </div>
-        
+
         {reading.uncertainty_message && (
           <div className="mt-3 rounded-md bg-warm-white p-3 border border-dashed border-line flex items-start gap-2">
             <Icon name="alertCircle" className="w-4 h-4 mt-0.5 shrink-0 text-ink-soft" />
             <p className="text-[12px] text-ink-soft leading-[1.5]">
-              <strong className="font-medium text-ink">Hora de nacimiento no confirmada</strong> &middot; {reading.uncertainty_message.replace('Hora de nacimiento no confirmada · ', '')}
+              <strong className="font-medium text-ink">Hora de nacimiento no confirmada</strong>{" "}
+              &middot;{" "}
+              {reading.uncertainty_message.replace("Hora de nacimiento no confirmada · ", "")}
             </p>
           </div>
         )}
@@ -96,9 +112,7 @@ export function SavedLunarReadingDetailPage() {
           {conclusion && (
             <div className="mt-6 rounded-xl bg-brand/5 p-5 border border-brand/10">
               <h3 className="text-[15px] font-semibold text-brand mb-2">Tu enfoque de hoy</h3>
-              <p className="font-body text-[15px] leading-[1.6] text-ink">
-                {conclusion}
-              </p>
+              <p className="font-body text-[15px] leading-[1.6] text-ink">{conclusion}</p>
             </div>
           )}
         </div>

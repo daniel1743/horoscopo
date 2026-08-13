@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "audit:routes": "node scripts/audit-public-routes.mjs",
+    "compat:generate": "node scripts/generate-compatibilities.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",
     "check:centralization": "bun scripts/check-hardcoded-styles.ts && bun scripts/check-direct-icon-imports.ts && bun scripts/check-direct-routes.ts && bun scripts/check-duplicate-layout.ts"

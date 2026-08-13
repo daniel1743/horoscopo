@@ -69,11 +69,11 @@ const desktopPrimaryConfig: NavGroup[] = [
     label: "Astrología",
     routeKey: "astrology",
     icon: "premium",
-    children: [
-      { label: "Carta natal", routeKey: "birthChart" },
-      { label: "Ascendente", routeKey: "ascendant" },
-      { label: "Signo lunar", routeKey: "moonSign" },
-    ],
+    // children: [
+    //   { label: "Carta natal", routeKey: "birthChart" },
+    //   { label: "Ascendente", routeKey: "ascendant" },
+    //   { label: "Signo lunar", routeKey: "moonSign" },
+    // ],
   },
   { label: "Compatibilidad", routeKey: "compatibility", icon: "compatibility" },
   {

@@ -2,6 +2,7 @@ import { Icon } from "@/components/ui/icon";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { IconName } from "@/config/icons";
+import { Link } from "@tanstack/react-router";
 
 interface FeaturedReadingCardProps {
   slug: string;
@@ -34,6 +35,7 @@ export function FeaturedReadingCard({
           ? "bg-parchment-elevated border-cosmic/25 shadow-elevated hover:border-cosmic/55 hover:shadow-[0_18px_48px_rgba(99,63,178,0.18)]"
           : "bg-parchment border-line-soft cursor-default",
       )}
+      aria-disabled={!isEnabled ? true : undefined}
     >
       {/* Icon or Image Area */}
       <div className="mb-5 flex h-[168px] w-full shrink-0 items-center justify-center md:h-[230px]">
@@ -70,7 +72,7 @@ export function FeaturedReadingCard({
           <Button
             variant="outline"
             className="min-h-[48px] w-full pointer-events-none"
-            tabIndex={-1}
+            disabled
           >
             {ctaLabel}
           </Button>
@@ -80,11 +82,25 @@ export function FeaturedReadingCard({
   );
 
   if (isEnabled && href) {
+    const isInternal = href.startsWith("/");
+    if (isInternal) {
+      return (
+        <Link
+          to={href}
+          aria-label={`Comenzar tirada de ${title}`}
+          className="block h-full w-full rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-cosmic focus-visible:ring-offset-2"
+        >
+          {content}
+        </Link>
+      );
+    }
     return (
       <a
         href={href}
         aria-label={`Comenzar tirada de ${title}`}
         className="block h-full w-full rounded-[24px] outline-none focus-visible:ring-2 focus-visible:ring-cosmic focus-visible:ring-offset-2"
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {content}
       </a>

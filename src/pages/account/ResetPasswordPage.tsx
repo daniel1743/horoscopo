@@ -217,9 +217,9 @@ function PasswordField({
           onClick={() => setShown(!shown)}
         >
           {shown ? (
-            <EyeOff aria-hidden className="h-4 w-4" />
+            <Icon name="eyeOff" aria-hidden className="h-4 w-4" />
           ) : (
-            <Eye aria-hidden className="h-4 w-4" />
+            <Icon name="eye" aria-hidden className="h-4 w-4" />
           )}
         </button>
       </div>

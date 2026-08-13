@@ -4,6 +4,7 @@ import { compatibilityQueries } from "@/services/compatibility.service";
 import { buildMeta } from "@/config/seo";
 import { COMPATIBILITY_COPY } from "@/config/compatibility";
 import { isPublicFeatureEnabled } from "@/config/public-features";
+import { routes } from "@/config/routes";
 
 export const Route = createFileRoute("/compatibilidad/")({
   beforeLoad: () => {
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/compatibilidad/")({
     const m = buildMeta({
       title: `Compatibilidad entre signos · Creovision`,
       description: COMPATIBILITY_COPY.hubDescription,
+      canonical: routes.compatibility,
     });
     return { meta: m.meta, links: m.links };
   },

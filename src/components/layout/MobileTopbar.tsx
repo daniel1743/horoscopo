@@ -15,19 +15,16 @@ export function MobileTopbar({ drawerOpen, onToggleDrawer }: Props) {
 
   return (
     <div className="flex h-[60px] items-center justify-between gap-2 px-4">
-      <Link to={routes.home} aria-label="Ir al inicio de Creovision" className="inline-flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-md">
-        <img 
-          src="/icons/icon-192x192.png" 
-          alt="" 
-          className="h-8 w-8 object-contain" 
-        />
-        <span className="font-display text-[20px] font-bold text-ink">
-          Creovision
-        </span>
+      <Link
+        to={routes.home}
+        aria-label="Ir al inicio de Creovision"
+        className="inline-flex items-center gap-2.5 outline-none focus-visible:ring-2 focus-visible:ring-cosmic rounded-md"
+      >
+        <img src="/favicon-48x48.png" alt="" className="h-8 w-8 object-contain" />
+        <span className="font-display text-[20px] font-bold text-ink">Creovision</span>
       </Link>
 
       <div className="flex items-center gap-1">
-
         <button
           type="button"
           onClick={onToggleDrawer}

@@ -3,13 +3,12 @@ import { useParams } from "@tanstack/react-router";
 import { useSession } from "@/hooks/useSession";
 import { fetchPublicProfileByUsername, type PublicProfile } from "@/lib/social/queries";
 import { SocialHeader } from "@/components/profile/SocialHeader";
-import { AppShell } from "@/components/layout/AppShell";
-import { Loader2 } from "lucide-react";
+import { Icon } from "@/components/ui/icon";
 
 export function PublicProfilePage() {
   const { username } = useParams({ strict: false }) as { username?: string };
   const { user } = useSession();
-  
+
   const [profile, setProfile] = useState<PublicProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,32 +35,28 @@ export function PublicProfilePage() {
 
   if (loading) {
     return (
-      <AppShell>
-        <div className="flex-1 flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="w-8 h-8 animate-spin text-ink-muted" />
-        </div>
-      </AppShell>
+      <div className="flex min-h-[60vh] flex-1 items-center justify-center">
+        <Icon name="premium" className="h-8 w-8 animate-spin text-ink-muted" />
+      </div>
     );
   }
 
   if (error || !profile) {
     return (
-      <AppShell>
-        <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-          <h1 className="text-2xl font-bold text-ink mb-2">Perfil no encontrado</h1>
-          <p className="text-ink-soft">El perfil que buscas no existe o no tiene un nombre de usuario configurado.</p>
-        </div>
-      </AppShell>
+      <div className="flex min-h-[60vh] flex-1 flex-col items-center justify-center px-4 text-center">
+        <h1 className="mb-2 text-2xl font-bold text-ink">Perfil no encontrado</h1>
+        <p className="text-ink-soft">
+          El perfil que buscas no existe o no tiene un nombre de usuario configurado.
+        </p>
+      </div>
     );
   }
 
   const isOwner = Boolean(user && user.id === profile.id);
 
   return (
-    <AppShell>
-      <div className="w-full bg-sand-light min-h-screen">
-        <SocialHeader profile={profile} isOwner={isOwner} />
-      </div>
-    </AppShell>
+    <div className="min-h-screen w-full bg-sand-light">
+      <SocialHeader profile={profile} isOwner={isOwner} />
+    </div>
   );
 }

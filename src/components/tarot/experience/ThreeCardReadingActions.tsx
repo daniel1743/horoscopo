@@ -21,7 +21,13 @@ export function ThreeCardReadingActions({
 }: ThreeCardReadingActionsProps) {
   if (state === "preparing") {
     return (
-      <Button type="button" variant="primary" onClick={onShuffle} disabled={disabled} className="w-full sm:w-auto">
+      <Button
+        type="button"
+        variant="primary"
+        onClick={onShuffle}
+        disabled={disabled}
+        className="w-full sm:w-auto"
+      >
         <Icon name="premium" />
         Barajar cartas
       </Button>
@@ -31,11 +37,23 @@ export function ThreeCardReadingActions({
   if (state === "selected") {
     return (
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-        <Button type="button" variant="primary" onClick={onReveal} disabled={disabled} className="w-full sm:w-auto">
+        <Button
+          type="button"
+          variant="primary"
+          onClick={onReveal}
+          disabled={disabled}
+          className="w-full sm:w-auto"
+        >
           <Icon name="sparkles" />
           Revelar mi lectura
         </Button>
-        <Button type="button" variant="outline" onClick={onShuffle} disabled={disabled} className="w-full sm:w-auto">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onShuffle}
+          disabled={disabled}
+          className="w-full sm:w-auto"
+        >
           Cambiar selección
         </Button>
       </div>
@@ -46,7 +64,12 @@ export function ThreeCardReadingActions({
     return (
       <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
         {onAskReading && (
-          <Button type="button" variant="primary" onClick={onAskReading} className="w-full sm:w-auto">
+          <Button
+            type="button"
+            variant="primary"
+            onClick={onAskReading}
+            className="w-full sm:w-auto"
+          >
             <Icon name="message" />
             Preguntar sobre esta lectura
           </Button>

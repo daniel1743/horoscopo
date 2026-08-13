@@ -11,6 +11,8 @@ import { COMPATIBILITY_COPY } from "@/config/compatibility";
 import { routes } from "@/config/routes";
 import { compatibilityRoute } from "@/lib/compatibility/route-helpers";
 import type { ZodiacSignKey } from "@/types/compatibility";
+import { NextBestAction } from "@/components/layout/NextBestAction";
+import type { NBAActionId } from "@/config/next-best-actions.config";
 
 interface Props {
   signA: ZodiacSignKey;
@@ -147,6 +149,17 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
       ) : (
         <EmptyProfileState />
       )}
+
+      <NextBestAction
+        context={{
+          source: "compatibility",
+        }}
+        onAction={(actionId: NBAActionId) => {
+          if (actionId === "another_combination") {
+            document.getElementById("compat-try")?.scrollIntoView({ behavior: "smooth" });
+          }
+        }}
+      />
 
       <section aria-labelledby="compat-try" className="mt-14 space-y-6">
         <h2

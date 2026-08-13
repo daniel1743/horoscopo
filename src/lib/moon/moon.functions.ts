@@ -8,13 +8,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { MOON_SITE_TIMEZONE } from "@/config/moon";
-import type {
-  MoonCalendarDay,
-  MoonPhaseEvent,
-  MoonSnapshot,
-} from "@/types/moon";
+import type { MoonCalendarDay, MoonPhaseEvent, MoonSnapshot } from "@/types/moon";
 import type { LunarReadingResult } from "@/server/moon/moon-reading-orchestrator";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Json } from "@/integrations/supabase/types";
 
 const LunarReadingInput = z.object({
   birthDate: z.string(), // YYYY-MM-DD
@@ -27,11 +24,23 @@ const MonthInput = z.object({
   month: z.number().int().min(1).max(12),
 });
 
+function isJsonValue(value: unknown): value is Json {
+  if (
+    value === null ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return true;
+  }
+  if (Array.isArray(value)) return value.every(isJsonValue);
+  if (typeof value !== "object") return false;
+  return Object.values(value).every((entry) => entry === undefined || isJsonValue(entry));
+}
+
 export const getMoonToday = createServerFn({ method: "GET" }).handler(
   async (): Promise<MoonSnapshot> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
     return astronomyMoonEngine.getSnapshot(new Date(), MOON_SITE_TIMEZONE);
   },
 );
@@ -39,26 +48,16 @@ export const getMoonToday = createServerFn({ method: "GET" }).handler(
 export const getMoonCalendar = createServerFn({ method: "POST" })
   .inputValidator((raw: unknown) => MonthInput.parse(raw))
   .handler(async ({ data }): Promise<MoonCalendarDay[]> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
-    return astronomyMoonEngine.getCalendarMonth(
-      data.year,
-      data.month,
-      MOON_SITE_TIMEZONE,
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
+    return astronomyMoonEngine.getCalendarMonth(data.year, data.month, MOON_SITE_TIMEZONE);
   });
 
 export const getUpcomingMoonEvents = createServerFn({ method: "GET" }).handler(
   async (): Promise<MoonPhaseEvent[]> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
     const now = new Date();
     const end = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
-    return astronomyMoonEngine
-      .getPhaseEvents(now, end, MOON_SITE_TIMEZONE)
-      .slice(0, 8);
+    return astronomyMoonEngine.getPhaseEvents(now, end, MOON_SITE_TIMEZONE).slice(0, 8);
   },
 );
 
@@ -82,28 +81,31 @@ const SaveLunarReadingSchema = z.object({
   uncertaintyMessage: z.string().optional(),
   interpretation: z.string(),
   focusText: z.string().optional(),
-  metadata: z.record(z.unknown()).default({}),
+  metadata: z.custom<Json>(isJsonValue).default({}),
 });
 
 export const saveLunarReadingFn = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => SaveLunarReadingSchema.parse(input))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.from("saved_readings").upsert({
-      user_id: context.userId,
-      reading_type: "lunar",
-      title: data.title,
-      source_date: data.sourceDate,
-      natal_moon_sign: data.natalMoonSign,
-      current_moon_sign: data.currentMoonSign,
-      aspect_name: data.aspectName,
-      aspect_type: data.aspectType,
-      birth_time_known: data.birthTimeKnown,
-      uncertainty_message: data.uncertaintyMessage ?? null,
-      interpretation: data.interpretation,
-      focus_text: data.focusText ?? null,
-      metadata: data.metadata,
-    }, { onConflict: "user_id, reading_type, source_date" });
+    const { error } = await context.supabase.from("saved_readings").upsert(
+      {
+        user_id: context.userId,
+        reading_type: "lunar",
+        title: data.title,
+        source_date: data.sourceDate,
+        natal_moon_sign: data.natalMoonSign,
+        current_moon_sign: data.currentMoonSign,
+        aspect_name: data.aspectName,
+        aspect_type: data.aspectType,
+        birth_time_known: data.birthTimeKnown,
+        uncertainty_message: data.uncertaintyMessage ?? null,
+        interpretation: data.interpretation,
+        focus_text: data.focusText ?? null,
+        metadata: data.metadata,
+      },
+      { onConflict: "user_id, reading_type, source_date" },
+    );
 
     if (error) throw new Error(error.message);
     return { ok: true };
@@ -148,9 +150,7 @@ export const deleteSavedLunarReadingFn = createServerFn({ method: "POST" })
       .delete()
       .eq("id", data.id)
       .eq("user_id", context.userId);
-      
+
     if (error) throw new Error(error.message);
     return { ok: true };
   });
-
-

@@ -904,6 +904,60 @@ export type Database = {
         };
         Relationships: [];
       };
+      saved_readings: {
+        Row: {
+          aspect_name: string;
+          aspect_type: string;
+          birth_time_known: boolean;
+          created_at: string;
+          current_moon_sign: string;
+          focus_text: string | null;
+          id: string;
+          interpretation: string;
+          metadata: Json;
+          natal_moon_sign: string;
+          reading_type: string;
+          source_date: string;
+          title: string;
+          uncertainty_message: string | null;
+          user_id: string;
+        };
+        Insert: {
+          aspect_name: string;
+          aspect_type: string;
+          birth_time_known?: boolean;
+          created_at?: string;
+          current_moon_sign: string;
+          focus_text?: string | null;
+          id?: string;
+          interpretation: string;
+          metadata?: Json;
+          natal_moon_sign: string;
+          reading_type?: string;
+          source_date: string;
+          title: string;
+          uncertainty_message?: string | null;
+          user_id: string;
+        };
+        Update: {
+          aspect_name?: string;
+          aspect_type?: string;
+          birth_time_known?: boolean;
+          created_at?: string;
+          current_moon_sign?: string;
+          focus_text?: string | null;
+          id?: string;
+          interpretation?: string;
+          metadata?: Json;
+          natal_moon_sign?: string;
+          reading_type?: string;
+          source_date?: string;
+          title?: string;
+          uncertainty_message?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       search_documents: {
         Row: {
           excerpt: string | null;

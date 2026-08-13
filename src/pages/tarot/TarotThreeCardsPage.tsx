@@ -2,10 +2,16 @@ import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { routes } from "@/config/routes";
 import { ThreeCardExperienceShell } from "@/components/tarot/experience/ThreeCardExperienceShell";
+import { threeCardReadings } from "@/config/three-card-readings";
 
 export function TarotThreeCardsPage() {
+  const config = threeCardReadings.general;
+
   return (
     <PageShell
+      hideBreadcrumbs
+      width="full"
+      spacing="compact"
       breadcrumbs={[
         { label: "Inicio", href: routes.home },
         { label: "Tarot", href: routes.tarot },
@@ -14,15 +20,14 @@ export function TarotThreeCardsPage() {
     >
       <PageHeader
         eyebrow="Tarot"
-        title="Tirada de tres cartas"
-        description="Elige 3 cartas y observa tu situación desde lo que influye, lo que necesitas mirar y un posible próximo paso."
+        title="Tira tus cartas"
+        description="Baraja, elige tres cartas y mira qué influencia, qué pide atención y cuál puede ser tu próximo paso."
+        className="mx-auto max-w-[920px] px-4 md:px-6"
       />
-      <section className="mt-2 rounded-[var(--radius-card-lg)] border border-line-subtle bg-warm-white p-4 md:p-8">
-        <p className="mb-6 text-center font-body text-[15px] font-medium text-brand">
-          Elige 3 cartas
-        </p>
-        <ThreeCardExperienceShell readingSlug="general" />
-      </section>
+
+      <div className="mt-2 md:mt-6">
+        <ThreeCardExperienceShell readingSlug={config.slug} />
+      </div>
     </PageShell>
   );
 }

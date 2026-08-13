@@ -17,6 +17,8 @@ export const routes = {
   tarotYesNo: "/tarot/si-o-no",
   tarotThreeCards: "/tarot/tres-cartas",
   tarotThreeCardsAmor: "/tarot/tres-cartas/amor",
+  tarotThreeCardsTrabajo: "/tarot/tres-cartas/trabajo",
+  tarotThreeCardsDecision: "/tarot/tres-cartas/decision",
   tarotLibrary: "/tarot/cartas",
 
   astrology: "/astrologia",

@@ -13,7 +13,7 @@ import { isAstralProfileComplete } from "@/lib/account/auth-profile";
 /** Resumen de Mi espacio: saludo + accesos rápidos + contadores. */
 export function AccountDashboardPage() {
   const { user } = useSession();
-  const userId = user?.id;
+  const userId = user?.id ?? "anon";
 
   const profile = useQuery({
     queryKey: ["profile", userId],

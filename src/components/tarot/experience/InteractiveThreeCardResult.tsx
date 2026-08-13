@@ -1,8 +1,28 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
+import { NextBestAction } from "@/components/layout/NextBestAction";
 import type { ThreeCardReadingConfig } from "@/types/tarot";
 import type { RevealedTarotCard } from "./types";
 import { cn } from "@/lib/utils";
+import { useSession } from "@/hooks/useSession";
+import { routes } from "@/config/routes";
+import {
+  PENDING_TAROT_READING_SAVE_KEY,
+  fetchPrivacySettings,
+  logActivity,
+  saveTarotReading,
+  type SavedReadingCard,
+} from "@/lib/account/repository";
+import { toast } from "sonner";
+
+function intentFromReadingSlug(slug: ThreeCardReadingConfig["slug"]) {
+  if (slug === "amor") return "love";
+  if (slug === "trabajo") return "work";
+  if (slug === "decision") return "decision";
+  return "general";
+}
 
 interface InteractiveThreeCardResultProps {
   config: ThreeCardReadingConfig;
@@ -22,6 +42,13 @@ export function InteractiveThreeCardResult({
   onReset,
   onAskGuide,
 }: InteractiveThreeCardResultProps) {
+  const { user } = useSession();
+  const navigate = useNavigate();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const loggedReadingRef = useRef<string | null>(null);
+
   const synthesisParagraphs = (synthesis || "")
     .split(/(?<=[.!?])\s+/)
     .filter(Boolean)
@@ -30,6 +57,105 @@ export function InteractiveThreeCardResult({
       paragraphs[paragraphIndex] = [paragraphs[paragraphIndex], sentence].filter(Boolean).join(" ");
       return paragraphs;
     }, []);
+  const savedCards = useMemo<SavedReadingCard[]>(
+    () =>
+      config.positions
+        .map((position) => {
+          const card = revealedCards.find((revealed) => revealed.positionId === position.key);
+          if (!card) return null;
+          return {
+            slug: card.card.slug,
+            name: card.card.name,
+            position: position.label,
+            positionKey: position.key,
+            theme: config.slug,
+            reversed: false,
+          };
+        })
+        .filter((card): card is SavedReadingCard => Boolean(card)),
+    [config.positions, config.slug, revealedCards],
+  );
+  const interpretationText = useMemo(() => {
+    const positionText = config.positions
+      .map((position, index) => {
+        const card = revealedCards.find((revealed) => revealed.positionId === position.key);
+        const text = interpretations[index];
+        return card && text ? `${position.label} - ${card.card.name}: ${text}` : null;
+      })
+      .filter(Boolean)
+      .join("\n\n");
+
+    return [positionText, synthesis ? `Síntesis: ${synthesis}` : null].filter(Boolean).join("\n\n");
+  }, [config.positions, interpretations, revealedCards, synthesis]);
+
+  useEffect(() => {
+    if (!user || savedCards.length !== 3) return;
+    const logKey = `${config.slug}:${savedCards.map((card) => card.slug).join("|")}`;
+    if (loggedReadingRef.current === logKey) return;
+    loggedReadingRef.current = logKey;
+
+    void logActivity({
+      userId: user.id,
+      type: "tarot_reading",
+      refType: "tarot_reading",
+      refId: logKey,
+      metadata: {
+        service: "tarot",
+        subtype: "three_cards",
+        intent: intentFromReadingSlug(config.slug),
+        spread_type: "three_cards",
+        theme: config.slug,
+        card_slugs: savedCards.map((card) => card.slug),
+        position_keys: savedCards.map((card) => card.positionKey).filter(Boolean),
+      },
+    });
+  }, [config.slug, savedCards, user]);
+
+  async function handleSaveReading() {
+    if (saving || saved) return;
+    setSaveError(null);
+
+    const pendingPayload = {
+      spreadType: "three_cards" as const,
+      cards: savedCards,
+      interpretation: interpretationText || null,
+      createdAt: new Date().toISOString(),
+    };
+
+    if (!user) {
+      sessionStorage.setItem(PENDING_TAROT_READING_SAVE_KEY, JSON.stringify(pendingPayload));
+      toast.info(
+        "Inicia sesión para guardar esta lectura. Conservaremos la intención de guardarla.",
+      );
+      navigate({ to: routes.signIn, search: { redirect: routes.savedReadings } });
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const privacy = await fetchPrivacySettings(user.id);
+      if (!privacy.save_readings_allowed) {
+        setSaveError("Guardar lecturas está desactivado en tus preferencias de privacidad.");
+        toast.error("Guardar lecturas está desactivado.");
+        return;
+      }
+
+      await saveTarotReading({
+        userId: user.id,
+        spreadType: pendingPayload.spreadType,
+        cards: pendingPayload.cards,
+        interpretation: pendingPayload.interpretation,
+      });
+      setSaved(true);
+      toast.success("Lectura guardada en Mi espacio.");
+    } catch (error) {
+      console.error(error);
+      setSaveError("No pudimos guardar la lectura. Inténtalo nuevamente.");
+      toast.error("No pudimos guardar la lectura.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-10">
@@ -94,16 +220,65 @@ export function InteractiveThreeCardResult({
       </div>
 
       {/* Acciones Finales */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4">
-        <Button type="button" variant="primary" onClick={onAskGuide} className="w-full sm:w-auto">
-          <Icon name="message" />
-          Preguntar sobre esta lectura
-        </Button>
-        <Button type="button" variant="outline" onClick={onReset} className="w-full sm:w-auto">
-          <Icon name="premium" />
-          Realizar otra lectura
-        </Button>
-      </div>
+      <section
+        aria-label="Sugerencias para continuar"
+        className="rounded-[var(--radius-card-lg)] border border-cosmic/20 bg-cosmic/5 p-6 text-center md:p-8"
+      >
+        <h2 className="font-display text-[20px] font-semibold text-ink md:text-[22px]">
+          Integra la lectura
+        </h2>
+        <p className="mx-auto mt-2 max-w-[42ch] font-body text-[15px] text-ink-soft">
+          Esta síntesis profunda puede guardarse para referencia futura.
+        </p>
+
+        <div className="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+          <Button
+            type="button"
+            size="lg"
+            variant="primary"
+            className="w-full sm:w-auto"
+            onClick={() => void handleSaveReading()}
+            disabled={saving || saved}
+          >
+            <Icon name="favorite" className="mr-2 h-4 w-4" />
+            {saving ? "Guardando..." : saved ? "Lectura guardada" : "Guardar esta lectura"}
+          </Button>
+          <Button
+            type="button"
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto"
+            onClick={onAskGuide}
+          >
+            <Icon name="message" className="mr-2 h-4 w-4" />
+            Preguntar sobre esta lectura
+          </Button>
+        </div>
+
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={onReset}
+            className="font-body text-[14px] font-medium text-ink-soft hover:text-ink hover:underline"
+          >
+            Hacer otra tirada
+          </button>
+        </div>
+
+        {(saving || saved || saveError) && (
+          <p
+            role={saveError ? "alert" : "status"}
+            className={cn("mt-4 font-body text-[14px]", saveError ? "text-error" : "text-ink-soft")}
+          >
+            {saveError ?? (saved ? "Lectura guardada" : "Guardando...")}
+          </p>
+        )}
+      </section>
+
+      <NextBestAction
+        context={{ source: "tarot_three_cards", tarotTopic: config.slug }}
+        className="mt-0"
+      />
     </div>
   );
 }

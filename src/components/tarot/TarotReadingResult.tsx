@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
 import { isFeatureEnabled } from "@/config/features";
+import { NextBestAction } from "@/components/layout/NextBestAction";
 
 interface Props {
   reading: TarotReading;
@@ -77,6 +78,11 @@ export function TarotReadingResult({
             Orientación
           </p>
           <h3 className="mt-1 font-display text-[22px] text-ink">{yesNo.display}</h3>
+          {reading.question && (
+            <p className="mt-2 font-body text-[13px] leading-[1.6] text-ink-soft">
+              Sobre tu pregunta: <span className="text-ink">“{reading.question}”</span>
+            </p>
+          )}
           <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">
             {yesNo.description}
           </p>
@@ -126,6 +132,17 @@ export function TarotReadingResult({
             Realizar otra lectura
           </Button>
         </div>
+      )}
+
+      {reading.spread === "yes_no" && (
+        <NextBestAction context={{ source: "tarot_yes_no" }} className="mt-2" />
+      )}
+
+      {reading.spread === "three_cards" && !readingConfig && (
+        <NextBestAction
+          context={{ source: "tarot_three_cards", tarotTopic: "general" }}
+          className="mt-2"
+        />
       )}
 
       {isFeatureEnabled("aiTarotInterpretation") && (

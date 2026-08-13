@@ -59,7 +59,7 @@ export const seoDefaults = {
 export const seoTemplates = {
   // Horóscopo - Optimizado para "qué dice mi horóscopo hoy"
   horoscope: (sign: string) => ({
-    title: `Horóscopo de ${sign} Hoy ${new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long' })} - Predicciones Diarias`,
+    title: `Horóscopo de ${sign} Hoy ${new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long" })} - Predicciones Diarias`,
     description: `Tu horóscopo de ${sign} para hoy. Descubre qué te deparan los astros en amor, trabajo y bienestar. Lectura personalizada actualizada diariamente.`,
     keywords: `horóscopo ${sign.toLowerCase()}, horóscopo ${sign.toLowerCase()} hoy, predicciones ${sign.toLowerCase()}, ${sign.toLowerCase()} horóscopo diario`,
   }),
@@ -71,7 +71,7 @@ export const seoTemplates = {
   }),
 
   horoscopeMonthly: (sign: string) => ({
-    title: `Horóscopo Mensual de ${sign} ${new Date().toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })}`,
+    title: `Horóscopo Mensual de ${sign} ${new Date().toLocaleDateString("es-ES", { month: "long", year: "numeric" })}`,
     description: `Horóscopo mensual completo de ${sign}. Tendencias, oportunidades y desafíos para este mes. Planifica con astrología profesional.`,
     keywords: `horóscopo mensual ${sign.toLowerCase()}, ${sign.toLowerCase()} mes, predicciones mensuales ${sign.toLowerCase()}`,
   }),
@@ -179,7 +179,6 @@ export function buildMeta(input: {
     { property: "og:description", content: description },
     { property: "og:type", content: type },
     { property: "og:locale", content: seoDefaults.locale },
-    { property: "og:url", content: canonical || site.url },
     { property: "og:site_name", content: site.name },
     { property: "og:image", content: image },
     { property: "og:image:width", content: "1200" },
@@ -201,6 +200,10 @@ export function buildMeta(input: {
     { name: "format-detection", content: "telephone=no" },
   ];
 
+  if (canonical) {
+    meta.push({ property: "og:url", content: canonical });
+  }
+
   // Keywords si se proveen (uso moderado, no spam)
   if (input.keywords) {
     meta.push({ name: "keywords", content: input.keywords });
@@ -210,7 +213,10 @@ export function buildMeta(input: {
   if (input.noindex) {
     meta.push({ name: "robots", content: "noindex, nofollow" });
   } else {
-    meta.push({ name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" });
+    meta.push({
+      name: "robots",
+      content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    });
   }
 
   const links: Array<Record<string, string>> = [];

@@ -1,0 +1,878 @@
+{
+  "src/components/account/AccountSidebar.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/account/FavoriteButton.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '{ redirect: string; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    }
+  ],
+  "src/components/account/SaveReadingButton.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '{ redirect: string; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    }
+  ],
+  "src/components/cookies/CookieConsentBanner.tsx": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ analytics: true; marketing: true; preferences: true; }' is not assignable to parameter of type 'Omit<CookieConsent, \"version\" | \"timestamp\">'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ analytics: false; marketing: false; preferences: false; }' is not assignable to parameter of type 'Omit<CookieConsent, \"version\" | \"timestamp\">'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'Omit<CookieConsent, \"version\" | \"necessary\" | \"timestamp\">' is not assignable to parameter of type 'Omit<CookieConsent, \"version\" | \"timestamp\">'."
+    }
+  ],
+  "src/components/home/HomeNewsletterSection.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/layout/AppBreadcrumbs.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/components/layout/DesktopNavDropdown.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/layout/DesktopNavigation.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/layout/MobileBottomNavigation.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/layout/MobileNavigationDrawer.tsx": [
+    {
+      "code": "TS2741",
+      "msg": "Property 'search' is missing in type '{ children: string; to: \"/auth\"; onClick: () => void; className: string; }' but required in type 'MakeRequiredSearchParams<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, AnyContext, ... 6 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, string, \"/auth\">'."
+    }
+  ],
+  "src/components/layout/SiteFooter.tsx": [
+    {
+      "code": "TS7053",
+      "msg": "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly home: \"/\"; readonly horoscope: \"/horoscopo\"; readonly horoscopeToday: \"/horoscopo/hoy\"; readonly horoscopeWeek: \"/horoscopo/semana\"; readonly horoscopeMonth: \"/horoscopo/mes\"; ... 44 more ...; readonly designSystem: \"/design-system\"; }'."
+    },
+    {
+      "code": "TS7053",
+      "msg": "Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ readonly home: \"/\"; readonly horoscope: \"/horoscopo\"; readonly horoscopeToday: \"/horoscopo/hoy\"; readonly horoscopeWeek: \"/horoscopo/semana\"; readonly horoscopeMonth: \"/horoscopo/mes\"; ... 44 more ...; readonly designSystem: \"/design-system\"; }'."
+    }
+  ],
+  "src/components/moon/LunarReadingForm.tsx": [
+    {
+      "code": "TS2339",
+      "msg": "Property 'name' does not exist on type 'AspectResult'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'name' does not exist on type 'AspectResult'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '{ redirect: \"/mi-espacio/lecturas-lunares\"; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    }
+  ],
+  "src/components/moon/MoonMonthNavigation.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '`/luna/calendario/${number}-${string}`' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '`/luna/calendario/${number}-${string}`' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/tarot/experience/InteractiveThreeCardResult.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '({ slug: string; name: string; position: string; positionKey: \"relationship_dynamic\" | \"emotional_world\" | \"guidance_forward\" | \"past\" | \"present\" | \"future\" | \"situation\" | \"challenge_opportunity\" | \"recommended_action\" | \"decision_driver\" | \"consideration\" | \"choice_criteria\"; theme: ThreeCardReadingSlug; reversed...' is not assignable to type 'SavedReadingCard[]'."
+    },
+    {
+      "code": "TS2677",
+      "msg": "A type predicate's type must be assignable to its parameter's type."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '{ redirect: \"/mi-espacio/lecturas\"; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"message\"' is not assignable to type '\"warning\" | \"search\" | \"home\" | \"tarot\" | \"compatibility\" | \"moon\" | \"account\" | \"history\" | \"settings\" | \"user\" | \"notification\" | \"close\" | \"eye\" | \"eyeOff\" | \"sun\" | \"menu\" | ... 34 more ... | \"moon_waning_crescent\"'."
+    }
+  ],
+  "src/components/tarot/experience/ThreeCardExperienceShell.tsx": [
+    {
+      "code": "TS2724",
+      "msg": "'\"@/config/three-card-readings\"' has no exported member named 'ThreeCardReadingSlug'. Did you mean 'threeCardReadings'?"
+    },
+    {
+      "code": "TS7053",
+      "msg": "Element implicitly has an 'any' type because expression of type 'ThreeCardReadingSlug' can't be used to index type 'Record<ThreeCardReadingSlug, ThreeCardReadingConfig>'."
+    }
+  ],
+  "src/components/tarot/experience/ThreeCardLoveExperienceShell.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/components/tarot/experience/ThreeCardReadingActions.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"message\"' is not assignable to type '\"warning\" | \"search\" | \"home\" | \"tarot\" | \"compatibility\" | \"moon\" | \"account\" | \"history\" | \"settings\" | \"user\" | \"notification\" | \"close\" | \"eye\" | \"eyeOff\" | \"sun\" | \"menu\" | ... 34 more ... | \"moon_waning_crescent\"'."
+    }
+  ],
+  "src/components/tarot/TarotCardGrid.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '`/tarot/cartas/${string}`' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/tarot/TarotContextualGuide.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/components/tarot/TarotPositionResult.tsx": [
+    {
+      "code": "TS2339",
+      "msg": "Property 'sign' does not exist on type 'User'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '`/tarot/cartas/${string}`' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/components/ui/navigation-menu.tsx": [
+    {
+      "code": "TS2304",
+      "msg": "Cannot find name 'ChevronDown'."
+    }
+  ],
+  "src/components/ui/pagination.tsx": [
+    {
+      "code": "TS2304",
+      "msg": "Cannot find name 'ChevronLeft'."
+    }
+  ],
+  "src/config/footer.ts": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'string' is not assignable to parameter of type '\"search\" | \"home\" | \"horoscope\" | \"horoscopeToday\" | \"horoscopeWeek\" | \"horoscopeMonth\" | \"tarot\" | \"tarotDaily\" | \"tarotYesNo\" | \"tarotThreeCards\" | \"tarotThreeCardsAmor\" | ... 38 more ... | \"designSystem\"'."
+    },
+    {
+      "code": "TS1360",
+      "msg": "Type '{ links: { label: string; routeKey: string; }[]; id: string; title: string; }[]' does not satisfy the expected type 'FooterColumn[]'."
+    }
+  ],
+  "src/config/next-best-actions.config.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/config/next-best-actions.config.ts": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"reset\"' is not assignable to type '\"warning\" | \"search\" | \"home\" | \"tarot\" | \"compatibility\" | \"moon\" | \"account\" | \"history\" | \"settings\" | \"user\" | \"notification\" | \"close\" | \"eye\" | \"eyeOff\" | \"sun\" | \"menu\" | ... 35 more ... | undefined'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"reset\"' is not assignable to type '\"warning\" | \"search\" | \"home\" | \"tarot\" | \"compatibility\" | \"moon\" | \"account\" | \"history\" | \"settings\" | \"user\" | \"notification\" | \"close\" | \"eye\" | \"eyeOff\" | \"sun\" | \"menu\" | ... 35 more ... | undefined'."
+    }
+  ],
+  "src/config/public-features.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    }
+  ],
+  "src/config/seo-indexability.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/config/three-card-readings.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/config/three-card-readings.ts": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"influence\"' is not assignable to type '\"relationship_dynamic\" | \"emotional_world\" | \"guidance_forward\" | \"past\" | \"present\" | \"future\" | \"situation\" | \"challenge_opportunity\" | \"recommended_action\" | \"decision_driver\" | \"consideration\" | \"choice_criteria\"'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"what_to_look_at\"' is not assignable to type '\"relationship_dynamic\" | \"emotional_world\" | \"guidance_forward\" | \"past\" | \"present\" | \"future\" | \"situation\" | \"challenge_opportunity\" | \"recommended_action\" | \"decision_driver\" | \"consideration\" | \"choice_criteria\"'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"next_step\"' is not assignable to type '\"relationship_dynamic\" | \"emotional_world\" | \"guidance_forward\" | \"past\" | \"present\" | \"future\" | \"situation\" | \"challenge_opportunity\" | \"recommended_action\" | \"decision_driver\" | \"consideration\" | \"choice_criteria\"'."
+    }
+  ],
+  "src/hooks/useHoroscopeVariant.ts": [
+    {
+      "code": "TS2305",
+      "msg": "Module '\"@/lib/account/auth-profile\"' has no exported member 'useAuth'."
+    }
+  ],
+  "src/lib/account/auth-profile.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS2353",
+      "msg": "Object literal may only specify known properties, and 'profile_completed_at' does not exist in type 'Partial<Profile>'."
+    }
+  ],
+  "src/lib/account/personalization-context.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/lib/account/personalization-context.ts": [
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"user_id\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"reading_type\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'SelectQueryError<\"column 'birth_date' does not exist on 'profiles'.\"> | null' is not assignable to type 'ProfileContextRow | null'."
+    },
+    {
+      "code": "TS2352",
+      "msg": "Conversion of type '(SelectQueryError<\"column 'created_at' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'created_at' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>)[]' to type 'SavedLunarContextRow[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first."
+    }
+  ],
+  "src/lib/account/repository.ts": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'PostgrestFilterBuilder<{ PostgrestVersion: \"14.5\"; }, { Tables: { admin_audit_log: { Row: { action: string; actor_id: string | null; actor_role: string | null; created_at: string; id: string; ip_hash: string | null; ... 4 more ...; status: string; }; Insert: { ...; }; Update: { ...; }; Relationships: []; }; ... 23 m...' is not assignable to parameter of type 'Promise<unknown>'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'PostgrestFilterBuilder<{ PostgrestVersion: \"14.5\"; }, { Tables: { admin_audit_log: { Row: { action: string; actor_id: string | null; actor_role: string | null; created_at: string; id: string; ip_hash: string | null; ... 4 more ...; status: string; }; Insert: { ...; }; Update: { ...; }; Relationships: []; }; ... 23 m...' is not assignable to parameter of type 'Promise<unknown>'."
+    }
+  ],
+  "src/lib/ai/gateway.server.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/lib/ai/gateway.server.ts": [
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    }
+  ],
+  "src/lib/compatibility/fallback-compatibility.ts": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'string' is not assignable to parameter of type 'ZodiacSignKey'."
+    }
+  ],
+  "src/lib/moon/moon.functions.ts": [
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'boolean' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string | null' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'string | null' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Record<string, unknown>' is not assignable to type 'never'."
+    },
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"user_id\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"reading_type\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '({ data, context }: ServerFnCtx<Register, \"GET\", readonly [FunctionMiddlewareAfterServer<{}, unknown, undefined, { supabase: SupabaseClient<Database, \"public\", \"public\", { Tables: { admin_audit_log: { Row: { action: string; actor_id: string | null; ... 8 more ...; status: string; }; Insert: { ...; }; Update: { ...; ...' is not assignable to parameter of type 'ServerFn<Register, \"GET\", readonly [FunctionMiddlewareAfterServer<{}, unknown, undefined, { supabase: SupabaseClient<Database, \"public\", \"public\", { Tables: { admin_audit_log: { Row: { action: string; actor_id: string | null; ... 8 more ...; status: string; }; Insert: { ...; }; Update: { ...; }; Relationships: []; }...'."
+    },
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"id\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"user_id\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2769",
+      "msg": "No overload matches this call."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"id\"' is not assignable to parameter of type 'never'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '\"user_id\"' is not assignable to parameter of type 'never'."
+    }
+  ],
+  "src/lib/tarot/daily-introduction.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/lib/tarot/image-url.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/pages/account/AccountDashboardPage.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 39 more ... | \"/design-system\"' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    }
+  ],
+  "src/pages/account/AuthCallbackPage.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/pages/account/AuthCallbackPage.tsx": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ to: \"/auth\"; replace: true; }' is not assignable to parameter of type 'NavigateOptions<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, AnyContext, ... 6 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, string, \"/auth\", string, \"\">'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ to: \"/auth\"; replace: true; }' is not assignable to parameter of type 'NavigateOptions<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, AnyContext, ... 6 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, string, \"/auth\", string, \"\">'."
+    }
+  ],
+  "src/pages/account/ProfilePage.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type 'Resolver<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; username: string; ... 14 more ...; show_sun_sign?: boolean | undefined; }, any, { ...; }>' is not assignable to type 'Resolver<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2353",
+      "msg": "Object literal may only specify known properties, and 'birthDate' does not exist in type 'OptionalFetcherDataOptions<readonly [FunctionMiddlewareAfterServer<{}, unknown, undefined, { supabase: SupabaseClient<Database, \"public\", \"public\", { Tables: { admin_audit_log: { Row: { action: string; actor_id: string | null; actor_role: string | null; ... 7 more ...; status: string; }; Insert: { ...; }; Update: { ...'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '(data: ProfileFormValues) => Promise<void>' is not assignable to parameter of type 'SubmitHandler<TFieldValues>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '{ placeholder: string; onChange: (...event: any[]) => void; onBlur: Noop; value: string | null | undefined; disabled?: boolean | undefined; name: \"display_name\"; ref: RefCallBack; }' is not assignable to type 'Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, \"ref\">'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '{ rows: number; maxLength: number; onChange: (...event: any[]) => void; onBlur: Noop; value: string | null | undefined; disabled?: boolean | undefined; name: \"bio\"; ref: RefCallBack; }' is not assignable to type 'Omit<DetailedHTMLProps<TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement>, \"ref\">'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '{ placeholder: string; onChange: (...event: any[]) => void; onBlur: Noop; value: string | null | undefined; disabled?: boolean | undefined; name: \"city\"; ref: RefCallBack; }' is not assignable to type 'Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, \"ref\">'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, TFieldValues>' is not assignable to type 'Control<{ birth_date: string; birth_latitude: number; birth_longitude: number; birth_place_label: string; birth_time_status: \"exact\" | \"unknown\" | \"approximate\"; birth_timezone: string; favorite_signs: string[]; ... 14 more ...; preferred_sign?: string | ... 1 more ... | undefined; }, any, { ...; }>'."
+    }
+  ],
+  "src/pages/account/ResetPasswordPage.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '{ mode: string; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    },
+    {
+      "code": "TS2304",
+      "msg": "Cannot find name 'EyeOff'."
+    },
+    {
+      "code": "TS2304",
+      "msg": "Cannot find name 'Eye'."
+    }
+  ],
+  "src/pages/account/SavedLunarReadingDetailPage.tsx": [
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'p' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '\"arrowLeft\"' is not assignable to type '\"warning\" | \"search\" | \"home\" | \"tarot\" | \"compatibility\" | \"moon\" | \"account\" | \"history\" | \"settings\" | \"user\" | \"notification\" | \"close\" | \"eye\" | \"eyeOff\" | \"sun\" | \"menu\" | ... 34 more ... | \"moon_waning_crescent\"'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    },
+    {
+      "code": "TS18046",
+      "msg": "'reading' is of type 'unknown'."
+    }
+  ],
+  "src/pages/account/SavedLunarReadingsPage.tsx": [
+    {
+      "code": "TS2339",
+      "msg": "Property 'source_date' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'current_moon_sign' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'current_moon_sign' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'natal_moon_sign' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'natal_moon_sign' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'id' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2322",
+      "msg": "Type '`/mi-espacio/lecturas-lunares/${any}`' is not assignable to type '\"/\" | \"/horoscopo\" | \"/horoscopo/hoy\" | \"/horoscopo/semana\" | \"/horoscopo/mes\" | \"/tarot\" | \"/tarot/carta-del-dia\" | \"/tarot/si-o-no\" | \"/tarot/tres-cartas\" | \"/tarot/tres-cartas/amor\" | ... 64 more ... | \"..\"'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'id' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'id' does not exist on type 'SelectQueryError<\"column 'id' does not exist on 'admin_audit_log'.\"> | SelectQueryError<\"column 'id' does not exist on 'ai_conversations'.\"> | ... 22 more ... | SelectQueryError<...>'."
+    }
+  ],
+  "src/repositories/supabase-tarot.repository.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/routes/_authenticated/route.tsx": [
+    {
+      "code": "TS2322",
+      "msg": "Type '{ redirect: string; }' is not assignable to type '{ redirect: string | undefined; mode: string; } | ParamsReducerFn<RouterCore<Route<Register, any, \"/\", \"/\", string, \"__root__\", undefined, {}, { queryClient: QueryClient; }, AnyContext, ... 7 more ..., undefined>, \"never\", false, RouterHistory, Record<...>>, \"SEARCH\", string, \"/auth\">'."
+    }
+  ],
+  "src/routes/api/tarot/interpret-reading.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/routes/api/tarot/interpret-reading.ts": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type 'string' is not assignable to parameter of type '\"relationship_dynamic\" | \"emotional_world\" | \"guidance_forward\" | \"past\" | \"present\" | \"future\" | \"situation\" | \"challenge_opportunity\" | \"recommended_action\" | \"decision_driver\" | \"consideration\" | \"choice_criteria\"'."
+    },
+    {
+      "code": "TS2353",
+      "msg": "Object literal may only specify known properties, and 'identityKey' does not exist in type '{ userId: string | null; anonymousHash: string | null; }'."
+    }
+  ],
+  "src/server/generation/fallback-generator.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'section' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7053",
+      "msg": "Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ love: string; work: string; wellbeing: string; reflection: string; }'."
+    }
+  ],
+  "src/server/generation/generation-policy.ts": [
+    {
+      "code": "TS2322",
+      "msg": "Type 'Readonly<{ title: { min: number; max: number; }; summary: { min: number; max: number; }; section: { min: number; max: number; }; closingMessage: { min: number; max: number; }; allowedSections: string[]; tone: string[]; forbiddenClaimCategories: string[]; forbiddenPatterns: readonly string[]; noInventedFacts: true; n...' is not assignable to type 'Readonly<GenerationConstraints>'."
+    }
+  ],
+  "src/server/generation/horoscope-generator.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter '_name' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'raw' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'expected' implicitly has an 'any' type."
+    }
+  ],
+  "src/server/generation/prompt-builder.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'period' implicitly has an 'any' type."
+    }
+  ],
+  "src/server/generation/strict-json-parser.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter '_name' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'raw' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'field' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'field' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'text' implicitly has an 'any' type."
+    }
+  ],
+  "src/server/moon/moon-ai-generator.ts": [
+    {
+      "code": "TS2724",
+      "msg": "'\"@/data/zodiac-signs\"' has no exported member named 'ZodiacSignKey'. Did you mean 'ZodiacSign'?"
+    }
+  ],
+  "src/server/moon/moon-editorial-library.ts": [
+    {
+      "code": "TS2724",
+      "msg": "'\"@/data/zodiac-signs\"' has no exported member named 'ZodiacSignKey'. Did you mean 'ZodiacSign'?"
+    }
+  ],
+  "src/server/natal/natal-moon-calculator.ts": [
+    {
+      "code": "TS2724",
+      "msg": "'\"@/data/zodiac-signs\"' has no exported member named 'ZodiacSignKey'. Did you mean 'ZodiacSign'?"
+    },
+    {
+      "code": "TS2339",
+      "msg": "Property 'longitude' does not exist on type 'PlanetaryPosition'."
+    }
+  ],
+  "src/server/persistence/persistence.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ signContext: { sign: \"taurus\"; id: string; kind: \"sign_context\"; period: EditorialPeriod; windowStart: string; windowEnd: string; editorialTimezone: string; ... 5 more ...; invariants: { noGeneratedText: true; noNatalChartData: true; deterministicOrdering: true; policyApplied: true; }; }; ... 11 more ...; errorCod...' is not assignable to parameter of type 'PersistExecutionInput'."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'status' implicitly has an 'any' type."
+    }
+  ],
+  "src/server/rules/rule-engine.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'target' implicitly has an 'any' type."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'phase' implicitly has an 'any' type."
+    }
+  ],
+  "src/server/rules/sign-context-builder.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/server/tarot/interpret.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/server/transits/time-window-event-resolver.test.ts": [
+    {
+      "code": "TS2740",
+      "msg": "Type '{ moon: number; }' is missing the following properties from type 'Record<\"moon\" | \"sun\" | \"mercury\" | \"venus\" | \"mars\" | \"jupiter\" | \"saturn\" | \"uranus\" | \"neptune\" | \"pluto\", number>': sun, mercury, venus, mars, and 5 more."
+    },
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/server/transits/time-window-event-resolver.ts": [
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ id: string; body: \"moon\" | \"sun\" | \"mercury\" | \"venus\" | \"mars\" | \"jupiter\" | \"saturn\" | \"uranus\" | \"neptune\" | \"pluto\"; fromSign: ZodiacSignKey; toSign: ZodiacSignKey; ... 5 more ...; resolverVersion: string; }' is not assignable to parameter of type 'SignIngressEvent'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ id: string; phase: LunarPhase; sunMoonAngle: number; type: TimeWindowEventType; occurredAt: string; windowStart: string; windowEnd: string; resolverVersion: string; }' is not assignable to parameter of type 'LunarPhaseEvent'."
+    },
+    {
+      "code": "TS2345",
+      "msg": "Argument of type '{ id: string; bodyA: \"moon\" | \"sun\" | \"mercury\" | \"venus\" | \"mars\" | \"jupiter\" | \"saturn\" | \"uranus\" | \"neptune\" | \"pluto\"; bodyB: \"moon\" | \"sun\" | \"mercury\" | \"venus\" | \"mars\" | \"jupiter\" | \"saturn\" | \"uranus\" | \"neptune\" | \"pluto\"; ... 10 more ...; resolverVersion: string; }' is not assignable to parameter of type 'ExactAspectEvent'."
+    }
+  ],
+  "src/server/validation/editorial-validator.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    },
+    {
+      "code": "TS7006",
+      "msg": "Parameter 'phrase' implicitly has an 'any' type."
+    }
+  ],
+  "src/services/tarot.service.test.ts": [
+    {
+      "code": "TS2307",
+      "msg": "Cannot find module 'vitest' or its corresponding type declarations."
+    }
+  ],
+  "src/types/horoscope-automation.ts": [
+    {
+      "code": "TS2430",
+      "msg": "Interface 'HoroscopeEntryWithVariant' incorrectly extends interface 'HoroscopeEntry'."
+    }
+  ]
+}

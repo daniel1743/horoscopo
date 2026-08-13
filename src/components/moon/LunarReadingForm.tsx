@@ -1,28 +1,56 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { getPersonalLunarReading, saveLunarReadingFn } from "@/lib/moon/moon.functions";
 import type { LunarReadingResult } from "@/server/moon/moon-reading-orchestrator";
 import { useSession } from "@/hooks/useSession";
+import { fetchProfile, PENDING_LUNAR_READING_SAVE_KEY } from "@/lib/account/repository";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { routes } from "@/config/routes";
 import { toast } from "sonner";
+import { NextBestAction } from "@/components/layout/NextBestAction";
+import type { NBAActionId } from "@/config/next-best-actions.config";
 
 export function LunarReadingForm() {
   const [birthDate, setBirthDate] = useState("");
   const [birthTime, setBirthTime] = useState("");
+  const [useCustomData, setUseCustomData] = useState(false);
+
+  const { user, loading: sessionLoading } = useSession();
+
+  const {
+    data: profile,
+    isLoading: isProfileLoading,
+    isError: isProfileError,
+  } = useQuery({
+    queryKey: ["natal-profile-moon", user?.id],
+    queryFn: () => fetchProfile(user!.id),
+    enabled: !!user,
+    staleTime: 60_000,
+  });
+
+  const isLoading = sessionLoading || (user && isProfileLoading);
+  const hasSavedData = Boolean(profile?.birth_date) && !isProfileError;
+  const showCompactState = hasSavedData && !useCustomData;
 
   const { mutate, isPending, data, error } = useMutation({
     mutationFn: async () => {
-      // Offset local del usuario (en horas)
       const offset = new Date().getTimezoneOffset() / 60;
+
+      const finalDate = showCompactState ? (profile?.birth_date as string) : birthDate;
+      const finalTime = showCompactState
+        ? profile?.birth_time || undefined
+        : birthTime || undefined;
+
+      if (!finalDate) throw new Error("Fecha de nacimiento es requerida");
+
       return getPersonalLunarReading({
         data: {
-          birthDate,
-          birthTime: birthTime || undefined,
+          birthDate: finalDate,
+          birthTime: finalTime,
           timezoneOffset: -offset,
         },
       });
@@ -32,13 +60,20 @@ export function LunarReadingForm() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     mutate();
   };
 
+  const handleReset = () => {
+    // Cuando el usuario hace click en "Hacer otra lectura"
+    setUseCustomData(true);
+    setBirthDate("");
+    setBirthTime("");
+  };
+
   if (data) {
-    return <LunarReadingDisplay result={data} onReset={() => setBirthDate("")} />;
+    return <LunarReadingDisplay result={data} onReset={handleReset} />;
   }
 
   return (
@@ -48,39 +83,77 @@ export function LunarReadingForm() {
         Descubre cómo la fase lunar actual interactúa con tu luna natal.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
-        <label className="flex flex-col gap-1">
-          <span className="text-[14px] font-medium text-ink">Fecha de nacimiento</span>
-          <input
-            type="date"
-            required
-            value={birthDate}
-            onChange={(e) => setBirthDate(e.target.value)}
-            className="h-10 rounded-md border border-line px-3 outline-none focus-visible:border-brand"
-          />
-        </label>
-
-        <label className="flex flex-col gap-1">
-          <span className="text-[14px] font-medium text-ink">Hora de nacimiento (Opcional)</span>
-          <input
-            type="time"
-            value={birthTime}
-            onChange={(e) => setBirthTime(e.target.value)}
-            className="h-10 rounded-md border border-line px-3 outline-none focus-visible:border-brand"
-          />
-          <span className="text-[12px] text-ink-muted">Si no la sabes, déjala en blanco.</span>
-        </label>
-
-        <Button type="submit" disabled={isPending || !birthDate} className="mt-2 w-full">
-          {isPending ? "Calculando..." : "Descubrir mi luna hoy"}
-        </Button>
-        {error && (
-          <div className="text-[14px] text-error">
-            <p>Ocurrió un error al calcular la lectura.</p>
-            <pre className="mt-2 text-xs opacity-70 whitespace-pre-wrap">{error.message}</pre>
+      {isLoading ? (
+        <div className="mt-6 flex flex-col gap-4 animate-pulse">
+          <div className="h-10 bg-line/50 rounded-md"></div>
+          <div className="h-10 bg-line/50 rounded-md"></div>
+          <div className="h-10 bg-line/50 rounded-md mt-2"></div>
+        </div>
+      ) : showCompactState ? (
+        <div className="mt-6 flex flex-col gap-4">
+          <div className="rounded-md bg-brand/5 p-4 border border-brand/10">
+            <p className="text-[14px] text-brand flex items-center gap-2 font-medium">
+              <Icon name="check" className="w-4 h-4" />
+              Usando tus datos natales guardados
+            </p>
           </div>
-        )}
-      </form>
+          <Button
+            type="button"
+            disabled={isPending}
+            onClick={() => handleSubmit()}
+            className="mt-2 w-full"
+          >
+            {isPending ? "Calculando..." : "Ver mi Luna de Hoy"}
+          </Button>
+          <button
+            type="button"
+            onClick={() => setUseCustomData(true)}
+            className="text-[13px] text-ink-muted hover:text-ink underline text-center mt-1"
+          >
+            Usar otros datos
+          </button>
+          {error && (
+            <div className="text-[14px] text-error mt-2">
+              <p>Ocurrió un error al calcular la lectura.</p>
+              <pre className="mt-2 text-xs opacity-70 whitespace-pre-wrap">{error.message}</pre>
+            </div>
+          )}
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="mt-6 flex flex-col gap-4">
+          <label className="flex flex-col gap-1">
+            <span className="text-[14px] font-medium text-ink">Fecha de nacimiento</span>
+            <input
+              type="date"
+              required
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="h-10 rounded-md border border-line px-3 outline-none focus-visible:border-brand"
+            />
+          </label>
+
+          <label className="flex flex-col gap-1">
+            <span className="text-[14px] font-medium text-ink">Hora de nacimiento (Opcional)</span>
+            <input
+              type="time"
+              value={birthTime}
+              onChange={(e) => setBirthTime(e.target.value)}
+              className="h-10 rounded-md border border-line px-3 outline-none focus-visible:border-brand"
+            />
+            <span className="text-[12px] text-ink-muted">Si no la sabes, déjala en blanco.</span>
+          </label>
+
+          <Button type="submit" disabled={isPending || !birthDate} className="mt-2 w-full">
+            {isPending ? "Calculando..." : "Descubrir mi luna hoy"}
+          </Button>
+          {error && (
+            <div className="text-[14px] text-error">
+              <p>Ocurrió un error al calcular la lectura.</p>
+              <pre className="mt-2 text-xs opacity-70 whitespace-pre-wrap">{error.message}</pre>
+            </div>
+          )}
+        </form>
+      )}
     </div>
   );
 }
@@ -301,8 +374,36 @@ function LunarReadingDisplay({
 
   const handleSave = () => {
     if (!user) {
-      toast.message("Inicia sesión para guardar esta lectura.");
-      navigate({ to: routes.signIn, search: { redirect: routes.moonPersonalToday } });
+      const todayIso = new Date().toISOString().split("T")[0];
+      const pendingPayload = {
+        title: "Lectura Lunar",
+        sourceDate: todayIso,
+        natalMoonSign: natal.moon.sign,
+        currentMoonSign: currentSign,
+        aspectName: aspect.name || "Ninguno",
+        aspectType: aspect.type,
+        birthTimeKnown: natal.confidence !== "dual",
+        uncertaintyMessage:
+          natal.confidence === "dual"
+            ? `Tu Luna natal podría variar entre ${ZODIAC_NAMES[natal.moon.sign] || natal.moon.sign} y ${ZODIAC_NAMES[natal.alternativeSign || ""] || natal.alternativeSign}.`
+            : undefined,
+        interpretation: reading.reading,
+        focusText: insights.gesture,
+        metadata: {
+          keywords: insights.keywords,
+          favors: insights.favors,
+          care: insights.care,
+          question: insights.question,
+          ritual: insights.ritual,
+          phrase: insights.phrase,
+        },
+      };
+
+      sessionStorage.setItem(PENDING_LUNAR_READING_SAVE_KEY, JSON.stringify(pendingPayload));
+      toast.info(
+        "Inicia sesión para guardar esta lectura. Conservaremos la intención de guardarla.",
+      );
+      navigate({ to: routes.signIn, search: { redirect: routes.savedLunarReadings } });
       return;
     }
     saveMutation.mutate();
@@ -403,36 +504,20 @@ function LunarReadingDisplay({
           </div>
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
-          <Button
-            variant={saved ? "default" : "outline"}
-            disabled={saved || saveMutation.isPending}
-            onClick={handleSave}
-            className="w-full sm:w-auto"
-          >
-            {saved ? (
-              <>
-                <Icon name="check" className="mr-2 h-4 w-4" />
-                Guardada en Mis lecturas
-              </>
-            ) : saveMutation.isPending ? (
-              "Guardando..."
-            ) : (
-              <>
-                <Icon name="favorite" className="mr-2 h-4 w-4" />
-                Guardar en mis lecturas
-              </>
-            )}
-          </Button>
-          <Button asChild variant="ghost" className="w-full sm:w-auto">
-            <Link to={routes.horoscopeToday}>Ver mi horóscopo de hoy</Link>
-          </Button>
-          {saved && (
+        <NextBestAction
+          context={{ source: "moon", authenticated: !!user }}
+          onAction={(actionId: NBAActionId) => {
+            if (actionId === "save_reading") handleSave();
+          }}
+        />
+
+        {saved && (
+          <div className="mt-4 text-center">
             <Button asChild variant="ghost" className="w-full sm:w-auto">
               <Link to={routes.savedLunarReadings}>Ver mis lecturas lunares</Link>
             </Button>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {reading.isFallback && (

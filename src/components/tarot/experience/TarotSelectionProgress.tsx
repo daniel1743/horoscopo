@@ -23,7 +23,15 @@ export function TarotSelectionProgress({
       
       {!isComplete && nextPositionLabel && (
         <div className="text-[14px] text-ink-soft animate-pulse">
-          Siguiente carta: <span className="font-medium text-ink">{nextPositionLabel}</span>
+          {currentSelectionCount === 0 && (
+            <>Elige una carta para <span className="font-medium text-ink">{nextPositionLabel}</span></>
+          )}
+          {currentSelectionCount === 1 && (
+            <>Ahora elige una carta para <span className="font-medium text-ink">{nextPositionLabel}</span></>
+          )}
+          {currentSelectionCount === 2 && (
+            <>Última carta: <span className="font-medium text-ink">{nextPositionLabel}</span></>
+          )}
         </div>
       )}
       

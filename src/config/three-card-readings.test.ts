@@ -74,15 +74,19 @@ describe("Configuración de tiradas de tres cartas", () => {
     });
   });
 
-  it("General, Trabajo, Decision existen pero están deshabilitadas", () => {
-    expect(threeCardReadings.general.enabled).toBe(false);
-    expect(threeCardReadings.trabajo.enabled).toBe(false);
-    expect(threeCardReadings.decision.enabled).toBe(false);
+  it("General, Trabajo y Decision existen y están habilitadas", () => {
+    expect(threeCardReadings.general.enabled).toBe(true);
+    expect(threeCardReadings.trabajo.enabled).toBe(true);
+    expect(threeCardReadings.decision.enabled).toBe(true);
   });
 
-  it("enabledThreeCardReadings solo incluye Amor", () => {
-    expect(enabledThreeCardReadings).toHaveLength(1);
-    expect(enabledThreeCardReadings[0].slug).toBe("amor");
+  it("enabledThreeCardReadings incluye todas las tiradas activas", () => {
+    expect(enabledThreeCardReadings.map((reading) => reading.slug)).toEqual([
+      "amor",
+      "general",
+      "trabajo",
+      "decision",
+    ]);
   });
 });
 
