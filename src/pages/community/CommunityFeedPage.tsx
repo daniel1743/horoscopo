@@ -7,7 +7,11 @@ import { CommunityPostCard } from "@/components/community/CommunityPostCard";
 import { CommunityPostComposer } from "@/components/community/CommunityPostComposer";
 import { ReportPostButton } from "@/components/community/ReportPostButton";
 import { CommunityPostActions } from "@/components/community/CommunityPostActions";
-import { listPublicCommunityPosts, listPublicCommunityReposts } from "@/lib/account/repository";
+import {
+  listPublicCommunityPosts,
+  listPublicCommunityReposts,
+  type PublicCommunityRepost,
+} from "@/lib/account/repository";
 import { routes } from "@/config/routes";
 
 type FeedFilter = "all" | "horoscope" | "moon" | "tarot" | "reflection" | "compatibility";
@@ -139,42 +143,45 @@ export function CommunityFeedPage() {
             </div>
           )}
           <div className="mt-6 space-y-4">
-            {posts.map((post) => (
-              <CommunityPostCard
-                key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
-                post={post}
-                footer={
-                  <div className="space-y-3">
-                    {stream === "reposts" && "reposter_username" in post && (
-                      <p className="font-body text-[12px] text-ink-muted">
-                        Republicada por{" "}
-                        <strong className="font-semibold text-ink">
-                          {post.reposter_display_name || `@${post.reposter_username}`}
-                        </strong>
-                      </p>
-                    )}
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <CommunityPostActions
-                        postId={post.id}
-                        likesCount={post.likes_count}
-                        repostsCount={post.reposts_count}
-                        likedByViewer={post.liked_by_viewer}
-                        repostedByViewer={post.reposted_by_viewer}
-                        onChanged={() => {
-                          void queryClient.invalidateQueries({
-                            queryKey: ["community", "public-posts"],
-                          });
-                          void queryClient.invalidateQueries({
-                            queryKey: ["community", "public-reposts"],
-                          });
-                        }}
-                      />
-                      <ReportPostButton postId={post.id} />
+            {posts.map((post) => {
+              const repost = "reposter_username" in post ? (post as PublicCommunityRepost) : null;
+              return (
+                <CommunityPostCard
+                  key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
+                  post={post}
+                  footer={
+                    <div className="space-y-3">
+                      {stream === "reposts" && repost && (
+                        <p className="font-body text-[12px] text-ink-muted">
+                          Republicada por{" "}
+                          <strong className="font-semibold text-ink">
+                            {repost.reposter_display_name || `@${repost.reposter_username}`}
+                          </strong>
+                        </p>
+                      )}
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <CommunityPostActions
+                          postId={post.id}
+                          likesCount={post.likes_count}
+                          repostsCount={post.reposts_count}
+                          likedByViewer={post.liked_by_viewer}
+                          repostedByViewer={post.reposted_by_viewer}
+                          onChanged={() => {
+                            void queryClient.invalidateQueries({
+                              queryKey: ["community", "public-posts"],
+                            });
+                            void queryClient.invalidateQueries({
+                              queryKey: ["community", "public-reposts"],
+                            });
+                          }}
+                        />
+                        <ReportPostButton postId={post.id} />
+                      </div>
                     </div>
-                  </div>
-                }
-              />
-            ))}
+                  }
+                />
+              );
+            })}
           </div>
         </div>
 

@@ -46,7 +46,9 @@ export function CommunityPostComposer({
           compartirlo.
         </p>
         <Button asChild className="mt-4">
-          <Link to={routes.auth}>Iniciar sesión para publicar</Link>
+          <Link to={routes.signIn} search={{ redirect: "/comunidad", mode: "signin" }}>
+            Iniciar sesión para publicar
+          </Link>
         </Button>
       </div>
     );

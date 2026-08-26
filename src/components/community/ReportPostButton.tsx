@@ -32,7 +32,8 @@ export function ReportPostButton({ postId }: Props) {
   if (!user) {
     return (
       <Link
-        to={routes.auth}
+        to={routes.signIn}
+        search={{ redirect: "/comunidad", mode: "signin" }}
         className="font-body text-[12px] text-ink-muted hover:text-brand hover:underline"
       >
         Inicia sesión para reportar

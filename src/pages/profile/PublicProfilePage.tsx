@@ -12,6 +12,7 @@ import {
   listPublicProfilePosts,
   listPublicProfileReposts,
   type PublicCommunityPost,
+  type PublicCommunityRepost,
   type PublicProfile,
 } from "@/lib/account/repository";
 
@@ -109,7 +110,7 @@ function PublicProfileContent({ profile }: { profile: PublicProfile }) {
             </div>
             {sign && (
               <Link
-                to={zodiacRoute(sign.slug)}
+                to={zodiacRoute(sign.slug) as never}
                 className="inline-flex w-fit items-center gap-2 rounded-full border border-line px-3 py-2 font-body text-[13px] font-medium text-ink-soft hover:border-brand/40 hover:text-brand"
               >
                 <span aria-hidden>{sign.symbol}</span> {sign.name}
@@ -205,37 +206,40 @@ function PublicProfileContent({ profile }: { profile: PublicProfile }) {
           </div>
         )}
         <div className="mt-5 space-y-4">
-          {posts.map((post) => (
-            <CommunityPostCard
-              key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
-              post={post as PublicCommunityPost}
-              footer={
-                <div className="space-y-3">
-                  {stream === "reposts" && "reposter_username" in post && (
-                    <p className="font-body text-[12px] text-ink-muted">
-                      Republicada por{" "}
-                      <strong className="font-semibold text-ink">
-                        {post.reposter_display_name || `@${post.reposter_username}`}
-                      </strong>
-                    </p>
-                  )}
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <CommunityPostActions
-                      postId={post.id}
-                      likesCount={post.likes_count}
-                      repostsCount={post.reposts_count}
-                      likedByViewer={post.liked_by_viewer}
-                      repostedByViewer={post.reposted_by_viewer}
-                      onChanged={refresh}
-                    />
-                    <span className="font-body text-[12px] text-ink-muted">
-                      Comparte una idea, no una certeza absoluta.
-                    </span>
+          {posts.map((post) => {
+            const repost = "reposter_username" in post ? (post as PublicCommunityRepost) : null;
+            return (
+              <CommunityPostCard
+                key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
+                post={post as PublicCommunityPost}
+                footer={
+                  <div className="space-y-3">
+                    {stream === "reposts" && repost && (
+                      <p className="font-body text-[12px] text-ink-muted">
+                        Republicada por{" "}
+                        <strong className="font-semibold text-ink">
+                          {repost.reposter_display_name || `@${repost.reposter_username}`}
+                        </strong>
+                      </p>
+                    )}
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <CommunityPostActions
+                        postId={post.id}
+                        likesCount={post.likes_count}
+                        repostsCount={post.reposts_count}
+                        likedByViewer={post.liked_by_viewer}
+                        repostedByViewer={post.reposted_by_viewer}
+                        onChanged={refresh}
+                      />
+                      <span className="font-body text-[12px] text-ink-muted">
+                        Comparte una idea, no una certeza absoluta.
+                      </span>
+                    </div>
                   </div>
-                </div>
-              }
-            />
-          ))}
+                }
+              />
+            );
+          })}
         </div>
       </section>
     </PageShell>

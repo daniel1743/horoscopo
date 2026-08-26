@@ -17,6 +17,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AvisoDeResponsabilidadRouteImport } from './routes/aviso-de-responsabilidad'
 import { Route as AyudaRouteImport } from './routes/ayuda'
 import { Route as BuscarRouteImport } from './routes/buscar'
+import { Route as ComunidadRouteImport } from './routes/comunidad'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
@@ -42,6 +43,7 @@ import { Route as HoroscopoSemanaRouteImport } from './routes/horoscopo.semana'
 import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
 import { Route as LunaHoyRouteImport } from './routes/luna.hoy'
+import { Route as PerfilUsernameRouteImport } from './routes/perfil.$username'
 import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
 import { Route as TarotSiONoRouteImport } from './routes/tarot.si-o-no'
@@ -57,6 +59,7 @@ import { Route as AuthenticatedMiEspacioLecturasRouteImport } from './routes/_au
 import { Route as AuthenticatedMiEspacioMemoriaRouteImport } from './routes/_authenticated/mi-espacio.memoria'
 import { Route as AuthenticatedMiEspacioPerfilRouteImport } from './routes/_authenticated/mi-espacio.perfil'
 import { Route as AuthenticatedMiEspacioPrivacidadRouteImport } from './routes/_authenticated/mi-espacio.privacidad'
+import { Route as AuthenticatedMiEspacioPublicacionesRouteImport } from './routes/_authenticated/mi-espacio.publicaciones'
 import { Route as ApiAiRespondRouteImport } from './routes/api/ai/respond'
 import { Route as ApiSearchSuggestionsRouteImport } from './routes/api/search/suggestions'
 import { Route as CompatibilidadSignASignBRouteImport } from './routes/compatibilidad.$signA.$signB'
@@ -105,6 +108,11 @@ const AyudaRoute = AyudaRouteImport.update({
 const BuscarRoute = BuscarRouteImport.update({
   id: '/buscar',
   path: '/buscar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComunidadRoute = ComunidadRouteImport.update({
+  id: '/comunidad',
+  path: '/comunidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -232,6 +240,11 @@ const LunaHoyRoute = LunaHoyRouteImport.update({
   path: '/hoy',
   getParentRoute: () => LunaRoute,
 } as any)
+const PerfilUsernameRoute = PerfilUsernameRouteImport.update({
+  id: '/perfil/$username',
+  path: '/perfil/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TarotIndexRoute = TarotIndexRouteImport.update({
   id: '/tarot/',
   path: '/tarot/',
@@ -316,6 +329,12 @@ const AuthenticatedMiEspacioPrivacidadRoute =
     path: '/privacidad',
     getParentRoute: () => AuthenticatedMiEspacioRoute,
   } as any)
+const AuthenticatedMiEspacioPublicacionesRoute =
+  AuthenticatedMiEspacioPublicacionesRouteImport.update({
+    id: '/publicaciones',
+    path: '/publicaciones',
+    getParentRoute: () => AuthenticatedMiEspacioRoute,
+  } as any)
 const ApiAiRespondRoute = ApiAiRespondRouteImport.update({
   id: '/api/ai/respond',
   path: '/api/ai/respond',
@@ -379,6 +398,7 @@ export interface FileRoutesByFullPath {
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
   '/buscar': typeof BuscarRoute
+  '/comunidad': typeof ComunidadRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
@@ -402,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
@@ -418,6 +439,7 @@ export interface FileRoutesByFullPath {
   '/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
+  '/mi-espacio/publicaciones': typeof AuthenticatedMiEspacioPublicacionesRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/compatibilidad/$signA/$signB': typeof CompatibilidadSignASignBRoute
@@ -438,6 +460,7 @@ export interface FileRoutesByTo {
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
   '/buscar': typeof BuscarRoute
+  '/comunidad': typeof ComunidadRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
@@ -460,6 +483,7 @@ export interface FileRoutesByTo {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
@@ -476,6 +500,7 @@ export interface FileRoutesByTo {
   '/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
+  '/mi-espacio/publicaciones': typeof AuthenticatedMiEspacioPublicacionesRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/compatibilidad/$signA/$signB': typeof CompatibilidadSignASignBRoute
@@ -498,6 +523,7 @@ export interface FileRoutesById {
   '/aviso-de-responsabilidad': typeof AvisoDeResponsabilidadRoute
   '/ayuda': typeof AyudaRoute
   '/buscar': typeof BuscarRoute
+  '/comunidad': typeof ComunidadRoute
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
@@ -521,6 +547,7 @@ export interface FileRoutesById {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
@@ -537,6 +564,7 @@ export interface FileRoutesById {
   '/_authenticated/mi-espacio/memoria': typeof AuthenticatedMiEspacioMemoriaRoute
   '/_authenticated/mi-espacio/perfil': typeof AuthenticatedMiEspacioPerfilRoute
   '/_authenticated/mi-espacio/privacidad': typeof AuthenticatedMiEspacioPrivacidadRoute
+  '/_authenticated/mi-espacio/publicaciones': typeof AuthenticatedMiEspacioPublicacionesRoute
   '/api/ai/respond': typeof ApiAiRespondRoute
   '/api/search/suggestions': typeof ApiSearchSuggestionsRoute
   '/compatibilidad/$signA/$signB': typeof CompatibilidadSignASignBRoute
@@ -559,6 +587,7 @@ export interface FileRouteTypes {
     | '/aviso-de-responsabilidad'
     | '/ayuda'
     | '/buscar'
+    | '/comunidad'
     | '/contacto'
     | '/cookies'
     | '/design-system'
@@ -582,6 +611,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
@@ -598,6 +628,7 @@ export interface FileRouteTypes {
     | '/mi-espacio/memoria'
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
+    | '/mi-espacio/publicaciones'
     | '/api/ai/respond'
     | '/api/search/suggestions'
     | '/compatibilidad/$signA/$signB'
@@ -618,6 +649,7 @@ export interface FileRouteTypes {
     | '/aviso-de-responsabilidad'
     | '/ayuda'
     | '/buscar'
+    | '/comunidad'
     | '/contacto'
     | '/cookies'
     | '/design-system'
@@ -640,6 +672,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
@@ -656,6 +689,7 @@ export interface FileRouteTypes {
     | '/mi-espacio/memoria'
     | '/mi-espacio/perfil'
     | '/mi-espacio/privacidad'
+    | '/mi-espacio/publicaciones'
     | '/api/ai/respond'
     | '/api/search/suggestions'
     | '/compatibilidad/$signA/$signB'
@@ -677,6 +711,7 @@ export interface FileRouteTypes {
     | '/aviso-de-responsabilidad'
     | '/ayuda'
     | '/buscar'
+    | '/comunidad'
     | '/contacto'
     | '/cookies'
     | '/design-system'
@@ -700,6 +735,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
@@ -716,6 +752,7 @@ export interface FileRouteTypes {
     | '/_authenticated/mi-espacio/memoria'
     | '/_authenticated/mi-espacio/perfil'
     | '/_authenticated/mi-espacio/privacidad'
+    | '/_authenticated/mi-espacio/publicaciones'
     | '/api/ai/respond'
     | '/api/search/suggestions'
     | '/compatibilidad/$signA/$signB'
@@ -738,6 +775,7 @@ export interface RootRouteChildren {
   AvisoDeResponsabilidadRoute: typeof AvisoDeResponsabilidadRoute
   AyudaRoute: typeof AyudaRoute
   BuscarRoute: typeof BuscarRoute
+  ComunidadRoute: typeof ComunidadRoute
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   DesignSystemRoute: typeof DesignSystemRoute
@@ -754,6 +792,7 @@ export interface RootRouteChildren {
   HoroscopoHoyRoute: typeof HoroscopoHoyRoute
   HoroscopoMesRoute: typeof HoroscopoMesRoute
   HoroscopoSemanaRoute: typeof HoroscopoSemanaRoute
+  PerfilUsernameRoute: typeof PerfilUsernameRoute
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
   TarotTresCartasRoute: typeof TarotTresCartasRoute
@@ -823,6 +862,13 @@ declare module '@tanstack/react-router' {
       path: '/buscar'
       fullPath: '/buscar'
       preLoaderRoute: typeof BuscarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comunidad': {
+      id: '/comunidad'
+      path: '/comunidad'
+      fullPath: '/comunidad'
+      preLoaderRoute: typeof ComunidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -1000,6 +1046,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LunaHoyRouteImport
       parentRoute: typeof LunaRoute
     }
+    '/perfil/$username': {
+      id: '/perfil/$username'
+      path: '/perfil/$username'
+      fullPath: '/perfil/$username'
+      preLoaderRoute: typeof PerfilUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tarot/': {
       id: '/tarot/'
       path: '/tarot'
@@ -1103,6 +1156,13 @@ declare module '@tanstack/react-router' {
       path: '/privacidad'
       fullPath: '/mi-espacio/privacidad'
       preLoaderRoute: typeof AuthenticatedMiEspacioPrivacidadRouteImport
+      parentRoute: typeof AuthenticatedMiEspacioRoute
+    }
+    '/_authenticated/mi-espacio/publicaciones': {
+      id: '/_authenticated/mi-espacio/publicaciones'
+      path: '/publicaciones'
+      fullPath: '/mi-espacio/publicaciones'
+      preLoaderRoute: typeof AuthenticatedMiEspacioPublicacionesRouteImport
       parentRoute: typeof AuthenticatedMiEspacioRoute
     }
     '/api/ai/respond': {
@@ -1238,6 +1298,7 @@ interface AuthenticatedMiEspacioRouteChildren {
   AuthenticatedMiEspacioMemoriaRoute: typeof AuthenticatedMiEspacioMemoriaRoute
   AuthenticatedMiEspacioPerfilRoute: typeof AuthenticatedMiEspacioPerfilRoute
   AuthenticatedMiEspacioPrivacidadRoute: typeof AuthenticatedMiEspacioPrivacidadRoute
+  AuthenticatedMiEspacioPublicacionesRoute: typeof AuthenticatedMiEspacioPublicacionesRoute
 }
 
 const AuthenticatedMiEspacioRouteChildren: AuthenticatedMiEspacioRouteChildren =
@@ -1251,6 +1312,8 @@ const AuthenticatedMiEspacioRouteChildren: AuthenticatedMiEspacioRouteChildren =
     AuthenticatedMiEspacioPerfilRoute: AuthenticatedMiEspacioPerfilRoute,
     AuthenticatedMiEspacioPrivacidadRoute:
       AuthenticatedMiEspacioPrivacidadRoute,
+    AuthenticatedMiEspacioPublicacionesRoute:
+      AuthenticatedMiEspacioPublicacionesRoute,
   }
 
 const AuthenticatedMiEspacioRouteWithChildren =
@@ -1350,6 +1413,7 @@ const rootRouteChildren: RootRouteChildren = {
   AvisoDeResponsabilidadRoute: AvisoDeResponsabilidadRoute,
   AyudaRoute: AyudaRoute,
   BuscarRoute: BuscarRoute,
+  ComunidadRoute: ComunidadRoute,
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   DesignSystemRoute: DesignSystemRoute,
@@ -1366,6 +1430,7 @@ const rootRouteChildren: RootRouteChildren = {
   HoroscopoHoyRoute: HoroscopoHoyRoute,
   HoroscopoMesRoute: HoroscopoMesRoute,
   HoroscopoSemanaRoute: HoroscopoSemanaRoute,
+  PerfilUsernameRoute: PerfilUsernameRoute,
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
   TarotSiONoRoute: TarotSiONoRoute,
   TarotTresCartasRoute: TarotTresCartasRoute,

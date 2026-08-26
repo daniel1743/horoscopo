@@ -32,7 +32,7 @@ export function CommunityPostActions({
 
   const requireSession = () => {
     toast("Inicia sesión para interactuar con una publicación.", {
-      action: { label: "Iniciar sesión", onClick: () => (window.location.href = routes.auth) },
+      action: { label: "Iniciar sesión", onClick: () => (window.location.href = routes.signIn) },
     });
   };
 
@@ -113,7 +113,8 @@ export function CommunityPostActions({
       </button>
       {!user && (
         <Link
-          to={routes.auth}
+          to={routes.signIn}
+          search={{ redirect: "/comunidad", mode: "signin" }}
           className="font-body text-[12px] text-ink-muted underline underline-offset-2"
         >
           Inicia sesión para guardar tu actividad

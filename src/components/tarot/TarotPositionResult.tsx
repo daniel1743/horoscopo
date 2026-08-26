@@ -66,7 +66,7 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
         )}
         <div className="mt-4 flex flex-wrap items-center gap-3">
           <Link
-            to={tarotCardRoute(card.slug)}
+            to={tarotCardRoute(card.slug) as never}
             className="inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"
           >
             Explorar esta carta →

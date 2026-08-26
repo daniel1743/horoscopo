@@ -22,7 +22,7 @@ export function CommunityPostCard({ post, footer }: Props) {
     <article className="rounded-[var(--radius-card-lg)] border border-line bg-warm-white p-5 shadow-soft md:p-6">
       <div className="flex items-start gap-3">
         <Link
-          to={profileRoute(post.author_username)}
+          to={profileRoute(post.author_username) as never}
           aria-label={`Ver perfil de ${authorName}`}
           className={`grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full bg-gradient-to-br ${aura.className} text-sm font-semibold text-white ring-2 ring-white transition hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20`}
         >
@@ -35,7 +35,7 @@ export function CommunityPostCard({ post, footer }: Props) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <Link
-              to={profileRoute(post.author_username)}
+              to={profileRoute(post.author_username) as never}
               className="font-body text-[14px] font-semibold text-ink hover:text-brand hover:underline"
             >
               {authorName}
