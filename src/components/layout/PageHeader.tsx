@@ -58,6 +58,7 @@ export function PageHeader({
         className={cn(
           "font-display font-semibold tracking-[-0.02em]",
           "text-[32px] leading-[1.12] md:text-[44px]",
+          variant === "dark" ? "text-ink-inverse" : "text-ink",
         )}
       >
         {title}

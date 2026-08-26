@@ -2,12 +2,16 @@ import { createFileRoute } from "@tanstack/react-router";
 import { HoroscopePeriodPage } from "@/pages/horoscope/HoroscopePeriodPage";
 import { listHoroscopesForCurrentPeriod } from "@/lib/horoscope/repository";
 import { ensureFullCoverage } from "@/lib/horoscope/fallbacks";
+import { moonQueries } from "@/services/moon.service";
 import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/horoscopo/semana")({
-  loader: async () => {
-    const entries = await listHoroscopesForCurrentPeriod("weekly");
-    return { entries: ensureFullCoverage(entries, "weekly") };
+  loader: async ({ context }) => {
+    const [entries, moon] = await Promise.all([
+      listHoroscopesForCurrentPeriod("weekly"),
+      context.queryClient.ensureQueryData(moonQueries.today()).catch(() => null),
+    ]);
+    return { entries: ensureFullCoverage(entries, "weekly"), moon };
   },
   head: () => {
     const m = buildMeta({
@@ -28,6 +32,6 @@ export const Route = createFileRoute("/horoscopo/semana")({
 });
 
 function Page() {
-  const { entries } = Route.useLoaderData();
-  return <HoroscopePeriodPage period="weekly" entries={entries} />;
+  const { entries, moon } = Route.useLoaderData();
+  return <HoroscopePeriodPage period="weekly" entries={entries} moon={moon} />;
 }

@@ -8,11 +8,15 @@ import { formatPeriodLabel, getPeriodByKey, referenceDateFor } from "@/config/ho
 import { zodiacSigns } from "@/data/zodiac-signs";
 import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import { Icon } from "@/components/ui/icon";
+import { HoroscopeMoonContext } from "@/components/horoscope/HoroscopeMoonContext";
+import { HoroscopeEditorialMeta } from "@/components/horoscope/HoroscopeEditorialMeta";
+import type { MoonSnapshot } from "@/types/moon";
 
 interface Props {
   signSlug: string;
   period: HoroscopePeriod;
   entry: HoroscopeEntry | null;
+  moon?: MoonSnapshot | null;
 }
 
 const notFound = (
@@ -23,7 +27,7 @@ const notFound = (
   </div>
 );
 
-export function SignHoroscopePage({ signSlug, period, entry }: Props) {
+export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Props) {
   const sign = zodiacSigns.find((s) => s.slug === signSlug);
   if (!sign) return null;
   const def = getPeriodByKey(period);
@@ -137,10 +141,16 @@ export function SignHoroscopePage({ signSlug, period, entry }: Props) {
               </p>
             )
           )}
+
+          <HoroscopeEditorialMeta updatedAt={entry.updatedAt} isFallback={entry.isFallback} />
         </article>
       ) : (
         notFound
       )}
+
+      <div className="mt-12">
+        <HoroscopeMoonContext snapshot={moon} />
+      </div>
 
       <nav
         aria-label="Otros signos"

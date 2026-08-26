@@ -2,6 +2,7 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 import { SignHoroscopePage } from "@/pages/horoscope/SignHoroscopePage";
 import { getLatestHoroscope } from "@/lib/horoscope/repository";
 import { createHoroscopeFallback } from "@/lib/horoscope/fallbacks";
+import { moonQueries } from "@/services/moon.service";
 import { getPeriodBySlug } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { buildMeta } from "@/config/seo";
@@ -18,13 +19,16 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     return {};
   },
   loaderDeps: ({ search }) => ({ periodo: search.periodo ?? "hoy" }),
-  loader: async ({ params, deps }) => {
+  loader: async ({ context, params, deps }) => {
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     if (!sign) throw notFound();
     const def = getPeriodBySlug(deps.periodo) ?? getPeriodBySlug("hoy")!;
-    const entry =
-      (await getLatestHoroscope(sign.slug, def.key)) ?? createHoroscopeFallback(sign.slug, def.key);
-    return { signSlug: sign.slug, period: def.key as HoroscopePeriod, entry };
+    const [publishedEntry, moon] = await Promise.all([
+      getLatestHoroscope(sign.slug, def.key),
+      context.queryClient.ensureQueryData(moonQueries.today()).catch(() => null),
+    ]);
+    const entry = publishedEntry ?? createHoroscopeFallback(sign.slug, def.key);
+    return { signSlug: sign.slug, period: def.key as HoroscopePeriod, entry, moon };
   },
   head: ({ params }) => {
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
@@ -55,6 +59,6 @@ export const Route = createFileRoute("/horoscopo/$sign")({
 });
 
 function Page() {
-  const { signSlug, period, entry } = Route.useLoaderData();
-  return <SignHoroscopePage signSlug={signSlug} period={period} entry={entry} />;
+  const { signSlug, period, entry, moon } = Route.useLoaderData();
+  return <SignHoroscopePage signSlug={signSlug} period={period} entry={entry} moon={moon} />;
 }

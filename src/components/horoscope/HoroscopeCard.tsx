@@ -1,17 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import { Icon } from "@/components/ui/icon";
 import { zodiacRoute } from "@/config/routes";
-import type { HoroscopeEntry } from "@/types/horoscope";
+import { getPeriodByKey } from "@/config/horoscope";
+import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import type { ZodiacSign } from "@/data/zodiac-signs";
 
 interface Props {
   sign: ZodiacSign;
   entry: HoroscopeEntry | null;
+  period?: HoroscopePeriod;
   periodLinkLabel?: string;
 }
 
 /** Tarjeta compacta de horóscopo por signo. Reutilizable en vistas globales. */
-export function HoroscopeCard({ sign, entry, periodLinkLabel = "Ver signo" }: Props) {
+export function HoroscopeCard({ sign, entry, period, periodLinkLabel = "Ver signo" }: Props) {
   return (
     <article
       aria-labelledby={`horoscope-${sign.slug}`}
@@ -60,6 +62,7 @@ export function HoroscopeCard({ sign, entry, periodLinkLabel = "Ver signo" }: Pr
       <div className="mt-auto pt-5">
         <Link
           to={zodiacRoute(sign.slug) as string}
+          search={period ? { periodo: getPeriodByKey(period).slug } : undefined}
           className="inline-flex items-center gap-1 font-body text-[13px] font-medium text-brand hover:underline focus-visible:ring-[3px] focus-visible:ring-brand focus-visible:ring-offset-2"
         >
           {periodLinkLabel}
