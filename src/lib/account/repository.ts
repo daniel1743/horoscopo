@@ -158,12 +158,93 @@ export interface PublicCommunityPost {
   author_display_name: string | null;
   author_avatar_url: string | null;
   author_aura_style: AuraStyle;
+  likes_count: number;
+  reposts_count: number;
+  liked_by_viewer: boolean;
+  reposted_by_viewer: boolean;
+}
+
+export interface PublicCommunityRepost extends PublicCommunityPost {
+  reposter_username: string;
+  reposter_display_name: string | null;
 }
 
 export async function listPublicCommunityPosts(limit = 30): Promise<PublicCommunityPost[]> {
   const { data, error } = await supabase.rpc("list_public_community_posts", { p_limit: limit });
   if (error) throw error;
   return (data ?? []) as PublicCommunityPost[];
+}
+
+export async function listPublicCommunityReposts(limit = 30): Promise<PublicCommunityRepost[]> {
+  const { data, error } = await supabase.rpc("list_public_community_reposts", { p_limit: limit });
+  if (error) throw error;
+  return (data ?? []) as PublicCommunityRepost[];
+}
+
+export async function listPublicProfilePosts(
+  username: string,
+  limit = 30,
+): Promise<PublicCommunityPost[]> {
+  const { data, error } = await supabase.rpc("list_public_profile_posts", {
+    p_username: username,
+    p_limit: limit,
+  });
+  if (error) throw error;
+  return (data ?? []) as PublicCommunityPost[];
+}
+
+export async function listPublicProfileReposts(
+  username: string,
+  limit = 30,
+): Promise<PublicCommunityRepost[]> {
+  const { data, error } = await supabase.rpc("list_public_profile_reposts", {
+    p_username: username,
+    p_limit: limit,
+  });
+  if (error) throw error;
+  return (data ?? []) as PublicCommunityRepost[];
+}
+
+export async function toggleCommunityPostLike(input: {
+  postId: string;
+  userId: string;
+  liked: boolean;
+}): Promise<void> {
+  if (input.liked) {
+    const { error } = await supabase
+      .from("community_post_likes")
+      .delete()
+      .eq("post_id", input.postId)
+      .eq("user_id", input.userId);
+    if (error) throw error;
+    return;
+  }
+  const { error } = await supabase.from("community_post_likes").insert({
+    post_id: input.postId,
+    user_id: input.userId,
+  });
+  if (error) throw error;
+}
+
+export async function toggleCommunityPostRepost(input: {
+  postId: string;
+  userId: string;
+  reposted: boolean;
+}): Promise<void> {
+  if (input.reposted) {
+    const { error } = await supabase
+      .from("community_post_reposts")
+      .delete()
+      .eq("post_id", input.postId)
+      .eq("user_id", input.userId);
+    if (error) throw error;
+    return;
+  }
+  const { error } = await supabase.from("community_post_reposts").insert({
+    post_id: input.postId,
+    user_id: input.userId,
+  });
+  if (error) throw error;
 }
 
 export async function listOwnCommunityPosts(userId: string): Promise<CommunityPost[]> {

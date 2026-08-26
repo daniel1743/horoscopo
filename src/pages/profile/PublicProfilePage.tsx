@@ -1,14 +1,25 @@
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { routes, zodiacRoute } from "@/config/routes";
+import { CommunityPostActions } from "@/components/community/CommunityPostActions";
+import { CommunityPostCard } from "@/components/community/CommunityPostCard";
 import { getAuraStyle } from "@/config/profile";
+import { routes, zodiacRoute } from "@/config/routes";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
-import type { PublicProfile } from "@/lib/account/repository";
+import {
+  listPublicProfilePosts,
+  listPublicProfileReposts,
+  type PublicCommunityPost,
+  type PublicProfile,
+} from "@/lib/account/repository";
 
 interface Props {
   profile: PublicProfile | null;
 }
+
+type ProfileStream = "posts" | "reposts";
 
 export function PublicProfilePage({ profile }: Props) {
   if (!profile) {
@@ -29,9 +40,37 @@ export function PublicProfilePage({ profile }: Props) {
     );
   }
 
+  return <PublicProfileContent profile={profile} />;
+}
+
+function PublicProfileContent({ profile }: { profile: PublicProfile }) {
+  const queryClient = useQueryClient();
+  const [stream, setStream] = useState<ProfileStream>("posts");
+  const postsQuery = useQuery({
+    queryKey: ["community", "profile-posts", profile.username],
+    queryFn: () => listPublicProfilePosts(profile.username, 30),
+    staleTime: 1000 * 60,
+  });
+  const repostsQuery = useQuery({
+    queryKey: ["community", "profile-reposts", profile.username],
+    queryFn: () => listPublicProfileReposts(profile.username, 30),
+    staleTime: 1000 * 60,
+    enabled: stream === "reposts",
+  });
+  const activeQuery = stream === "reposts" ? repostsQuery : postsQuery;
+  const posts = stream === "reposts" ? (repostsQuery.data ?? []) : (postsQuery.data ?? []);
   const aura = getAuraStyle(profile.aura_style);
   const sign = profile.preferred_sign ? getZodiacBySlug(profile.preferred_sign) : null;
   const displayName = profile.display_name?.trim() || profile.username;
+
+  const refresh = () => {
+    void queryClient.invalidateQueries({
+      queryKey: ["community", "profile-posts", profile.username],
+    });
+    void queryClient.invalidateQueries({
+      queryKey: ["community", "profile-reposts", profile.username],
+    });
+  };
 
   return (
     <PageShell breadcrumbs={[{ label: "Inicio", href: routes.home }, { label: "Perfil público" }]}>
@@ -97,7 +136,7 @@ export function PublicProfilePage({ profile }: Props) {
       </section>
 
       <section className="mt-10" aria-labelledby="public-wall-title">
-        <div className="flex flex-col gap-2 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-3 border-b border-line pb-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-brand">
               Espacio público
@@ -109,18 +148,94 @@ export function PublicProfilePage({ profile }: Props) {
               Muro de {displayName}
             </h2>
           </div>
-          <span className="font-body text-[12px] text-ink-muted">
-            Las publicaciones se comparten voluntariamente
-          </span>
+          <Link
+            to={routes.community}
+            className="font-body text-[13px] font-medium text-brand underline underline-offset-4"
+          >
+            Ver comunidad
+          </Link>
         </div>
-        <div className="mt-6 rounded-[var(--radius-card-lg)] border border-dashed border-line bg-ivory/60 p-8 text-center">
-          <p className="font-display text-[20px] font-semibold text-ink">
-            Aquí aparecerán sus publicaciones
+        <div className="mt-5 flex gap-2" role="tablist" aria-label="Contenido del perfil">
+          {[
+            { value: "posts" as const, label: "Publicaciones" },
+            { value: "reposts" as const, label: "Republicaciones" },
+          ].map((item) => {
+            const active = stream === item.value;
+            return (
+              <button
+                key={item.value}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                onClick={() => setStream(item.value)}
+                className={`rounded-full px-3 py-2 font-body text-[12px] font-medium transition ${
+                  active
+                    ? "bg-night text-ink-inverse"
+                    : "border border-line text-ink-soft hover:border-night/40 hover:text-ink"
+                }`}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {activeQuery.isLoading && (
+          <div
+            className="mt-5 h-48 animate-pulse rounded-[var(--radius-card-lg)] bg-parchment"
+            aria-live="polite"
+          />
+        )}
+        {activeQuery.isError && (
+          <p className="mt-5 rounded-[var(--radius-card-lg)] border border-line bg-ivory/60 p-6 font-body text-[14px] leading-[1.6] text-ink-soft">
+            Este muro todavía está preparando sus publicaciones.
           </p>
-          <p className="mx-auto mt-2 max-w-[48ch] font-body text-[14px] leading-[1.6] text-ink-soft">
-            Cuando el muro esté activo, esta persona podrá compartir lecturas, reflexiones y
-            momentos de su recorrido esotérico.
-          </p>
+        )}
+        {!activeQuery.isLoading && !activeQuery.isError && posts.length === 0 && (
+          <div className="mt-5 rounded-[var(--radius-card-lg)] border border-dashed border-line bg-ivory/60 p-7 text-center">
+            <p className="font-display text-[20px] font-semibold text-ink">
+              {stream === "reposts"
+                ? "Todavía no ha republicado contenido"
+                : "Todavía no hay publicaciones"}
+            </p>
+            <p className="mx-auto mt-2 max-w-[46ch] font-body text-[14px] leading-[1.6] text-ink-soft">
+              Cuando decida compartir parte de su recorrido, aparecerá aquí con el control de
+              visibilidad que eligió.
+            </p>
+          </div>
+        )}
+        <div className="mt-5 space-y-4">
+          {posts.map((post) => (
+            <CommunityPostCard
+              key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
+              post={post as PublicCommunityPost}
+              footer={
+                <div className="space-y-3">
+                  {stream === "reposts" && "reposter_username" in post && (
+                    <p className="font-body text-[12px] text-ink-muted">
+                      Republicada por{" "}
+                      <strong className="font-semibold text-ink">
+                        {post.reposter_display_name || `@${post.reposter_username}`}
+                      </strong>
+                    </p>
+                  )}
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <CommunityPostActions
+                      postId={post.id}
+                      likesCount={post.likes_count}
+                      repostsCount={post.reposts_count}
+                      likedByViewer={post.liked_by_viewer}
+                      repostedByViewer={post.reposted_by_viewer}
+                      onChanged={refresh}
+                    />
+                    <span className="font-body text-[12px] text-ink-muted">
+                      Comparte una idea, no una certeza absoluta.
+                    </span>
+                  </div>
+                </div>
+              }
+            />
+          ))}
         </div>
       </section>
     </PageShell>

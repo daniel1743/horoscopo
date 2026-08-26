@@ -6,10 +6,12 @@ import { PageHeader } from "@/components/layout/PageHeader";
 import { CommunityPostCard } from "@/components/community/CommunityPostCard";
 import { CommunityPostComposer } from "@/components/community/CommunityPostComposer";
 import { ReportPostButton } from "@/components/community/ReportPostButton";
-import { listPublicCommunityPosts } from "@/lib/account/repository";
+import { CommunityPostActions } from "@/components/community/CommunityPostActions";
+import { listPublicCommunityPosts, listPublicCommunityReposts } from "@/lib/account/repository";
 import { routes } from "@/config/routes";
 
 type FeedFilter = "all" | "horoscope" | "moon" | "tarot" | "reflection" | "compatibility";
+type FeedStream = "recent" | "reposts";
 
 const filters: readonly { value: FeedFilter; label: string }[] = [
   { value: "all", label: "Todo el muro" },
@@ -23,15 +25,23 @@ const filters: readonly { value: FeedFilter; label: string }[] = [
 export function CommunityFeedPage() {
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<FeedFilter>("all");
+  const [stream, setStream] = useState<FeedStream>("recent");
   const query = useQuery({
     queryKey: ["community", "public-posts"],
     queryFn: () => listPublicCommunityPosts(30),
     staleTime: 1000 * 60,
   });
-  const posts = useMemo(
-    () => (query.data ?? []).filter((post) => filter === "all" || post.post_type === filter),
-    [filter, query.data],
-  );
+  const repostsQuery = useQuery({
+    queryKey: ["community", "public-reposts"],
+    queryFn: () => listPublicCommunityReposts(30),
+    staleTime: 1000 * 60,
+    enabled: stream === "reposts",
+  });
+  const posts = useMemo(() => {
+    const source = stream === "reposts" ? (repostsQuery.data ?? []) : (query.data ?? []);
+    return source.filter((post) => filter === "all" || post.post_type === filter);
+  }, [filter, query.data, repostsQuery.data, stream]);
+  const activeQuery = stream === "reposts" ? repostsQuery : query;
 
   return (
     <PageShell breadcrumbs={[{ label: "Inicio", href: routes.home }, { label: "Comunidad" }]}>
@@ -45,6 +55,34 @@ export function CommunityFeedPage() {
         <div className="min-w-0">
           <div
             className="flex gap-2 overflow-x-auto border-b border-line pb-3"
+            role="tablist"
+            aria-label="Secciones de comunidad"
+          >
+            {[
+              { value: "recent" as const, label: "Publicaciones recientes" },
+              { value: "reposts" as const, label: "Republicaciones" },
+            ].map((item) => {
+              const active = stream === item.value;
+              return (
+                <button
+                  key={item.value}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setStream(item.value)}
+                  className={`shrink-0 rounded-full px-3 py-2 font-body text-[12px] font-medium transition ${
+                    active
+                      ? "bg-night text-ink-inverse"
+                      : "border border-line text-ink-soft hover:border-night/40 hover:text-ink"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+          <div
+            className="mt-4 flex gap-2 overflow-x-auto border-b border-line pb-3"
             role="tablist"
             aria-label="Filtrar publicaciones"
           >
@@ -69,7 +107,7 @@ export function CommunityFeedPage() {
             })}
           </div>
 
-          {query.isLoading && (
+          {activeQuery.isLoading && (
             <div className="mt-6 space-y-4" aria-live="polite">
               {[1, 2].map((item) => (
                 <div
@@ -79,7 +117,7 @@ export function CommunityFeedPage() {
               ))}
             </div>
           )}
-          {query.isError && (
+          {activeQuery.isError && (
             <div className="mt-6 rounded-[var(--radius-card-lg)] border border-line bg-ivory/60 p-6">
               <h2 className="font-display text-[20px] font-semibold text-ink">
                 El muro está preparando su primera conversación
@@ -90,7 +128,7 @@ export function CommunityFeedPage() {
               </p>
             </div>
           )}
-          {!query.isLoading && !query.isError && posts.length === 0 && (
+          {!activeQuery.isLoading && !activeQuery.isError && posts.length === 0 && (
             <div className="mt-6 rounded-[var(--radius-card-lg)] border border-dashed border-line bg-ivory/60 p-8 text-center">
               <h2 className="font-display text-[21px] font-semibold text-ink">
                 Todavía no hay publicaciones en esta vista
@@ -103,14 +141,36 @@ export function CommunityFeedPage() {
           <div className="mt-6 space-y-4">
             {posts.map((post) => (
               <CommunityPostCard
-                key={post.id}
+                key={`${stream}-${post.id}-${"reposter_username" in post ? post.reposter_username : "original"}`}
                 post={post}
                 footer={
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-body text-[12px] text-ink-muted">
-                      Comparte una idea, no una certeza absoluta.
-                    </span>
-                    <ReportPostButton postId={post.id} />
+                  <div className="space-y-3">
+                    {stream === "reposts" && "reposter_username" in post && (
+                      <p className="font-body text-[12px] text-ink-muted">
+                        Republicada por{" "}
+                        <strong className="font-semibold text-ink">
+                          {post.reposter_display_name || `@${post.reposter_username}`}
+                        </strong>
+                      </p>
+                    )}
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <CommunityPostActions
+                        postId={post.id}
+                        likesCount={post.likes_count}
+                        repostsCount={post.reposts_count}
+                        likedByViewer={post.liked_by_viewer}
+                        repostedByViewer={post.reposted_by_viewer}
+                        onChanged={() => {
+                          void queryClient.invalidateQueries({
+                            queryKey: ["community", "public-posts"],
+                          });
+                          void queryClient.invalidateQueries({
+                            queryKey: ["community", "public-reposts"],
+                          });
+                        }}
+                      />
+                      <ReportPostButton postId={post.id} />
+                    </div>
                   </div>
                 }
               />
