@@ -7,7 +7,7 @@ export const siteConfig = {
     "Plataforma editorial de astrología, horóscopo, tarot, compatibilidad y ciclos lunares. Contenido claro, íntimo y visualmente cuidado.",
   locale: "es-ES",
   timezone: "Europe/Madrid",
-  url: "",
+  url: "https://creovision.io",
   email: "hola@proyecto-astral.example",
   social: {
     instagram: "",

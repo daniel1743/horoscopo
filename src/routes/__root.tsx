@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppShell } from "../components/layout/AppShell";
+import { siteConfig } from "@/config/site";
+import { schemaOrg } from "@/config/seo";
 
 function NotFoundComponent() {
   return (
@@ -84,16 +86,30 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Horóscopo, tarot, compatibilidad y ciclos lunares con una mirada editorial clara, íntima y visualmente cuidada.",
       },
-      { name: "author", content: "Proyecto Astral" },
-      { property: "og:title", content: "Proyecto Astral" },
+      { name: "author", content: siteConfig.name },
+      { name: "robots", content: "index,follow" },
+      { property: "og:site_name", content: siteConfig.name },
+      { property: "og:title", content: siteConfig.name },
       {
         property: "og:description",
         content: "Astrología, tarot y luna con una voz editorial serena.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: `${siteConfig.url}/` },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(schemaOrg.website()),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify(schemaOrg.organization()),
+      },
+    ],
     links: [
+      { rel: "canonical", href: `${siteConfig.url}/` },
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -116,7 +132,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <head>
         <HeadContent />
       </head>

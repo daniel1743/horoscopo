@@ -8,6 +8,7 @@ export const Route = createFileRoute("/tarot/")({
       title: "Tarot · Proyecto Astral",
       description:
         "Lecturas simbólicas de tarot para reflexionar con calma: carta del día, consulta sí o no y tirada de tres cartas.",
+      canonical: "/tarot",
     });
     return { meta: m.meta, links: m.links };
   },

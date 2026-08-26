@@ -8,6 +8,7 @@ export const Route = createFileRoute("/horoscopo/")({
       title: "Horóscopo — Proyecto Astral",
       description:
         "Horóscopo diario, semanal y mensual para los doce signos, con foco, ánimo y energía.",
+      canonical: "/horoscopo",
     });
     return { meta: m.meta, links: m.links };
   },

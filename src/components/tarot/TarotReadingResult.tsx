@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { TarotPositionResult } from "./TarotPositionResult";
 import { TarotReadingDisclaimer } from "./TarotReadingDisclaimer";
 import { tarotThreeCardsSynthesis, yesNoLabels } from "@/config/tarot";
@@ -6,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
 import { isFeatureEnabled } from "@/config/features";
+import { SaveReadingButton } from "@/components/account/SaveReadingButton";
+import { useSession } from "@/hooks/useSession";
+import { logActivity } from "@/lib/account/repository";
 
 interface Props {
   reading: TarotReading;
@@ -15,6 +19,19 @@ interface Props {
 
 /** Resultado agregado de una tirada (1 o 3 cartas). */
 export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Props) {
+  const { user } = useSession();
+
+  useEffect(() => {
+    if (!user) return;
+    void logActivity({
+      userId: user.id,
+      type: "tarot_reading",
+      refType: "tarot_spread",
+      refId: reading.spread,
+      metadata: { cardKeys: reading.drawn.map(({ card }) => card.cardKey) },
+    });
+  }, [reading, user]);
+
   const yesNo =
     reading.spread === "yes_no" ? yesNoLabels[reading.drawn[0].card.yesNoTendency] : null;
 
@@ -53,14 +70,28 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
         </div>
       )}
 
-      {onDrawAgain && (
-        <div>
+      <div className="flex flex-wrap items-center gap-3">
+        <SaveReadingButton
+          spreadType={reading.spread}
+          cards={reading.drawn.map(({ card, position }) => ({
+            slug: card.slug,
+            position: position.key,
+          }))}
+          interpretation={[
+            yesNo?.description,
+            ...reading.drawn.map(({ card }) => card.uprightMeaning),
+            showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
+          ]
+            .filter(Boolean)
+            .join("\n\n")}
+        />
+        {onDrawAgain && (
           <Button type="button" variant="outline" onClick={onDrawAgain}>
             <Icon name="premium" />
             Realizar otra lectura
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       {isFeatureEnabled("aiTarotInterpretation") && (
         <ContextualAiButton

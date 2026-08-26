@@ -285,7 +285,7 @@ export const personalBenefits: readonly PersonalBenefit[] = [
   },
   {
     icon: "account",
-    title: "Prepara tu perfil",
-    description: "Añade tus preferencias para futuras personalizaciones.",
+    title: "Configura tu experiencia",
+    description: "Define tu signo y tus datos para volver a encontrar lo que te interesa.",
   },
 ] as const;

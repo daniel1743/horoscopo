@@ -17,6 +17,7 @@ export const Route = createFileRoute("/horoscopo/hoy")({
     const m = buildMeta({
       title: "Horóscopo de hoy — Proyecto Astral",
       description: "Tendencia diaria por signo, con foco, ánimo y energía.",
+      canonical: "/horoscopo/hoy",
     });
     return { meta: m.meta, links: m.links };
   },

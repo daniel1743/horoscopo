@@ -6,6 +6,7 @@ import { siteConfig } from "./site";
 const site = {
   name: siteConfig.name,
   description: siteConfig.description,
+  url: siteConfig.url.replace(/\/$/, ""),
 };
 
 export const seoDefaults = {
@@ -17,6 +18,12 @@ export const seoDefaults = {
   twitterCard: "summary_large_image",
   robots: { index: true, follow: true },
 } as const;
+
+/** Convierte una ruta interna en una URL pública absoluta para SEO y compartir. */
+export function absoluteSiteUrl(path = "/") {
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${site.url}${path.startsWith("/") ? path : `/${path}`}`;
+}
 
 export const seoTemplates = {
   horoscope: (sign: string) => ({
@@ -44,26 +51,32 @@ export function buildMeta(input: {
   description?: string;
   image?: string;
   canonical?: string;
+  type?: "website" | "article";
+  robots?: string;
 }) {
   const title = input.title;
   const description = input.description ?? seoDefaults.defaultDescription;
+  const canonical = absoluteSiteUrl(input.canonical ?? "/");
   const meta: Array<Record<string, string>> = [
     { title },
     { name: "description", content: description },
+    { name: "robots", content: input.robots ?? "index,follow" },
+    { property: "og:site_name", content: site.name },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
-    { property: "og:type", content: seoDefaults.type },
+    { property: "og:type", content: input.type ?? seoDefaults.type },
     { property: "og:locale", content: seoDefaults.locale },
+    { property: "og:url", content: canonical },
     { name: "twitter:card", content: seoDefaults.twitterCard },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: description },
   ];
   if (input.image) {
-    meta.push({ property: "og:image", content: input.image });
-    meta.push({ name: "twitter:image", content: input.image });
+    const image = absoluteSiteUrl(input.image);
+    meta.push({ property: "og:image", content: image });
+    meta.push({ name: "twitter:image", content: image });
   }
-  const links: Array<Record<string, string>> = [];
-  if (input.canonical) links.push({ rel: "canonical", href: input.canonical });
+  const links: Array<Record<string, string>> = [{ rel: "canonical", href: canonical }];
   return { meta, links };
 }
 
@@ -73,12 +86,14 @@ export const schemaOrg = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: site.name,
+    url: site.url,
     description: site.description,
   }),
   website: () => ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: site.name,
+    url: site.url,
     description: site.description,
   }),
   breadcrumb: (items: { name: string; url: string }[]) => ({
@@ -88,7 +103,7 @@ export const schemaOrg = {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: item.url,
+      item: absoluteSiteUrl(item.url),
     })),
   }),
   article: (input: {

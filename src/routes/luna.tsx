@@ -15,26 +15,18 @@ import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import { Suspense } from "react";
 import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
+import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/luna")({
-  head: () => ({
-    meta: [
-      { title: "Luna hoy, calendario y fases — Proyecto Astral" },
-      {
-        name: "description",
-        content:
-          "Fase lunar de hoy, calendario mensual y las ocho fases del ciclo, calculadas con un motor astronómico validado.",
-      },
-      { property: "og:title", content: "Luna — Proyecto Astral" },
-      {
-        property: "og:description",
-        content:
-          "Descubre la fase lunar de hoy, el calendario del mes y las ocho fases del ciclo lunar.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => {
+    const m = buildMeta({
+      title: "Luna hoy, calendario y fases — Proyecto Astral",
+      description:
+        "Fase lunar de hoy, calendario mensual y las ocho fases del ciclo, calculadas con un motor astronómico validado.",
+      canonical: "/luna",
+    });
+    return { meta: m.meta, links: m.links };
+  },
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(moonQueries.today()),
@@ -77,7 +69,8 @@ function MoonHubPage() {
           Las ocho fases
         </h2>
         <p className="mt-2 max-w-[60ch] font-body text-[15px] text-ink-soft">
-          Cada fase del ciclo sinódico tiene su ficha. Los datos astronómicos son verificables; la lectura simbólica es interpretativa.
+          Cada fase del ciclo sinódico tiene su ficha. Los datos astronómicos son verificables; la
+          lectura simbólica es interpretativa.
         </p>
         <MoonPhaseGrid />
       </section>

@@ -7,31 +7,27 @@ import { routes } from "@/config/routes";
 import { schemas, formMessages } from "@/config/forms";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { useSelectedSign } from "./useSelectedSign";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 
-type Status = "idle" | "loading" | "success" | "error";
-
-/** Newsletter local (demo). No persiste ni envía al servidor. */
+/** Newsletter conectado a la preferencia gestionable de Mi espacio. */
 export function HomeNewsletterSection() {
   const { newsletter: cfg } = homeConfig;
   const { slug } = useSelectedSign();
   const [email, setEmail] = useState("");
   const [sign, setSign] = useState(slug);
-  const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState<string | null>(null);
+  const { sessionLoading, status, message, submit: subscribe } = useNewsletterSubscription();
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     const parsed = schemas.newsletter.safeParse({ email });
     if (!parsed.success) {
-      setError(parsed.error.issues[0]?.message ?? formMessages.invalidEmail);
-      setStatus("error");
+      setValidationError(parsed.error.issues[0]?.message ?? formMessages.invalidEmail);
       return;
     }
-    setError(null);
-    setStatus("loading");
-    await new Promise((r) => setTimeout(r, 500));
-    setStatus("success");
-    setEmail("");
+    setValidationError(null);
+    const subscribed = await subscribe(parsed.data.email, sign);
+    if (subscribed) setEmail("");
   };
 
   return (
@@ -68,8 +64,12 @@ export function HomeNewsletterSection() {
                   autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  aria-invalid={status === "error" || undefined}
-                  aria-describedby={error ? "nl-email-error" : undefined}
+                  aria-invalid={
+                    validationError || status === "error" || status === "account-email"
+                      ? true
+                      : undefined
+                  }
+                  aria-describedby={validationError || message ? "nl-email-message" : undefined}
                   required
                   className="h-[52px] w-full rounded-[var(--radius-control)] border border-line bg-warm-white px-4 font-body text-[15px] text-ink outline-none focus:border-brand focus:ring-4 focus:ring-[rgba(108,75,217,0.18)] aria-invalid:border-danger"
                   placeholder="tu@correo.com"
@@ -93,24 +93,49 @@ export function HomeNewsletterSection() {
                 </select>
               </div>
 
-              <Button type="submit" size="lg" disabled={status === "loading"}>
+              <Button type="submit" size="lg" disabled={sessionLoading || status === "loading"}>
                 {status === "loading" ? "Enviando…" : cfg.submitLabel}
               </Button>
 
               <div aria-live="polite" className="min-h-[1.25rem]">
-                {status === "success" && (
-                  <p className="font-body text-[13px] text-success">
-                    ¡Gracias! Recibirás la próxima edición pronto.
+                {validationError && (
+                  <p id="nl-email-message" className="font-body text-[13px] text-danger">
+                    {validationError}
                   </p>
                 )}
-                {status === "error" && error && (
-                  <p id="nl-email-error" className="font-body text-[13px] text-danger">
-                    {error}
+                {status === "success" && !validationError && (
+                  <p id="nl-email-message" className="font-body text-[13px] text-success">
+                    Preferencia activada. Gestiona tu suscripción desde Mi espacio.
+                  </p>
+                )}
+                {!validationError &&
+                  (status === "auth-required" || status === "account-email") &&
+                  message && (
+                    <p id="nl-email-message" className="font-body text-[13px] text-ink-soft">
+                      {message}{" "}
+                      {status === "auth-required" && (
+                        <Link
+                          to={routes.signIn}
+                          search={{
+                            redirect:
+                              typeof window !== "undefined" ? window.location.pathname : "/",
+                          }}
+                          className="font-medium text-brand underline underline-offset-2"
+                        >
+                          Iniciar sesión
+                        </Link>
+                      )}
+                    </p>
+                  )}
+                {!validationError && status === "error" && message && (
+                  <p id="nl-email-message" className="font-body text-[13px] text-danger">
+                    {message}
                   </p>
                 )}
               </div>
 
               <p className="font-body text-[12px] leading-[1.5] text-ink-muted">
+                Si tienes una cuenta, usa su mismo correo para activar la preferencia.{" "}
                 {cfg.privacyHelper}{" "}
                 <Link
                   to={routes[cfg.privacyRouteKey]}

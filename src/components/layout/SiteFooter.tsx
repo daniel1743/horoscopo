@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Link } from "@tanstack/react-router";
 import { footerConfig } from "@/config/footer";
 import { routes } from "@/config/routes";
@@ -8,11 +8,26 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
+import { schemas, formMessages } from "@/config/forms";
+import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
 
 /** Único footer global. Consume `footerConfig`; no hard-codear enlaces. */
 export function SiteFooter() {
   const [open, setOpen] = useState<string | null>("explore");
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [email, setEmail] = useState("");
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const { sessionLoading, status, message, submit: subscribe } = useNewsletterSubscription();
+
+  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const parsed = schemas.newsletter.safeParse({ email });
+    if (!parsed.success) {
+      setValidationError(parsed.error.issues[0]?.message ?? formMessages.invalidEmail);
+      return;
+    }
+    setValidationError(null);
+    if (await subscribe(parsed.data.email)) setEmail("");
+  };
 
   return (
     <footer className="bg-night text-ink-inverse">
@@ -27,10 +42,7 @@ export function SiteFooter() {
             {footerConfig.newsletter.enabled && featureFlags.newsletter && (
               <form
                 className="mt-6 max-w-md"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setStatus("success");
-                }}
+                onSubmit={handleNewsletterSubmit}
                 aria-label={footerConfig.newsletter.title}
               >
                 <p className="font-display text-[18px] font-semibold">
@@ -48,19 +60,56 @@ export function SiteFooter() {
                     type="email"
                     required
                     maxLength={255}
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    aria-invalid={
+                      validationError || status === "error" || status === "account-email"
+                        ? true
+                        : undefined
+                    }
+                    aria-describedby={
+                      validationError || message ? "footer-newsletter-message" : undefined
+                    }
                     placeholder="tu@correo.com"
                     className="border-line-dark bg-night-elevated text-ink-inverse placeholder:text-ink-inverse-soft"
                   />
-                  <Button type="submit" variant="premium">
-                    {footerConfig.newsletter.submitLabel}
+                  <Button
+                    type="submit"
+                    variant="premium"
+                    disabled={sessionLoading || status === "loading"}
+                  >
+                    {status === "loading" ? "Actualizando…" : footerConfig.newsletter.submitLabel}
                   </Button>
                 </div>
-                <p
+                <div
+                  id="footer-newsletter-message"
                   aria-live="polite"
-                  className="mt-2 min-h-[1.25rem] font-body text-[13px] text-gold"
+                  className="mt-2 min-h-[1.25rem] font-body text-[13px]"
                 >
-                  {status === "success" ? "¡Gracias! Revisa tu correo." : ""}
-                </p>
+                  {status === "success" && (
+                    <p className="text-gold">
+                      Preferencia activada. Puedes gestionarla desde Mi espacio.
+                    </p>
+                  )}
+                  {validationError && <p className="text-red-200">{validationError}</p>}
+                  {status !== "success" && !validationError && message && (
+                    <p className="text-ink-inverse-soft">
+                      {message}{" "}
+                      {status === "auth-required" && (
+                        <Link
+                          to={routes.signIn}
+                          search={{
+                            redirect:
+                              typeof window !== "undefined" ? window.location.pathname : "/",
+                          }}
+                          className="font-medium text-gold underline underline-offset-2"
+                        >
+                          Iniciar sesión
+                        </Link>
+                      )}
+                    </p>
+                  )}
+                </div>
               </form>
             )}
           </div>

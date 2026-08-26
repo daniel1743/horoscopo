@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -10,6 +11,9 @@ import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import { Icon } from "@/components/ui/icon";
 import { HoroscopeMoonContext } from "@/components/horoscope/HoroscopeMoonContext";
 import { HoroscopeEditorialMeta } from "@/components/horoscope/HoroscopeEditorialMeta";
+import { FavoriteButton } from "@/components/account/FavoriteButton";
+import { useSession } from "@/hooks/useSession";
+import { logActivity } from "@/lib/account/repository";
 import type { MoonSnapshot } from "@/types/moon";
 
 interface Props {
@@ -29,6 +33,19 @@ const notFound = (
 
 export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Props) {
   const sign = zodiacSigns.find((s) => s.slug === signSlug);
+  const { user } = useSession();
+
+  useEffect(() => {
+    if (!user || !sign) return;
+    void logActivity({
+      userId: user.id,
+      type: "view_horoscope",
+      refType: "horoscope",
+      refId: sign.slug,
+      metadata: { period },
+    });
+  }, [period, sign, user]);
+
   if (!sign) return null;
   const def = getPeriodByKey(period);
   const idx = zodiacSigns.findIndex((s) => s.slug === signSlug);
@@ -52,7 +69,17 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
 
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <HoroscopePeriodTabs active={period} signSlug={sign.slug} linkMode="sign" />
-        <p className="font-body text-[13px] text-ink-muted">{formatPeriodLabel(period, dateKey)}</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="font-body text-[13px] text-ink-muted">
+            {formatPeriodLabel(period, dateKey)}
+          </p>
+          <FavoriteButton
+            itemType="horoscope"
+            itemRef={`${sign.slug}:${period}`}
+            itemTitle={`Horóscopo de ${sign.name} — ${def.label}`}
+            metadata={{ sign: sign.slug, period }}
+          />
+        </div>
       </div>
 
       {entry ? (
@@ -152,6 +179,47 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
         <HoroscopeMoonContext snapshot={moon} />
       </div>
 
+      <section className="mt-12" aria-labelledby="horoscope-related-title">
+        <div className="rounded-[var(--radius-card-lg)] border border-line bg-ivory/60 p-6 md:p-8">
+          <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-brand">
+            Explora según tu momento
+          </p>
+          <h2
+            id="horoscope-related-title"
+            className="mt-2 font-display text-[24px] font-semibold text-ink"
+          >
+            Continúa tu lectura
+          </h2>
+          <p className="mt-2 max-w-[58ch] font-body text-[14px] leading-[1.7] text-ink-soft">
+            El horóscopo es una puerta de entrada. Puedes contrastar tu momento con el ciclo lunar,
+            una lectura de tarot o una guía para comprender mejor el tema que te ocupa.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <RelatedLink
+              to={routes.moonToday}
+              title="La luna de hoy"
+              description="Observa el clima simbólico del día."
+            />
+            <RelatedLink
+              to={routes.tarotDaily}
+              title="Carta del día"
+              description="Abre una pregunta para reflexionar."
+            />
+            <RelatedLink
+              to={routes.compatibility}
+              title="Compatibilidad"
+              description="Explora la dinámica entre dos signos."
+            />
+          </div>
+          <Link
+            to={routes.guides}
+            className="mt-5 inline-flex font-body text-[14px] font-medium text-brand underline underline-offset-4"
+          >
+            Ver guías de astrología y tarot
+          </Link>
+        </div>
+      </section>
+
       <nav
         aria-label="Otros signos"
         className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
@@ -183,5 +251,29 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
         <SignQuickSelector activeSlug={sign.slug} />
       </section>
     </PageShell>
+  );
+}
+
+function RelatedLink({
+  to,
+  title,
+  description,
+}: {
+  to: string;
+  title: string;
+  description: string;
+}) {
+  return (
+    <Link
+      to={to}
+      className="group rounded-[var(--radius-card)] border border-line bg-warm-white p-4 transition-colors hover:border-brand/40 hover:bg-brand-soft/40"
+    >
+      <span className="font-display text-[16px] font-semibold text-ink group-hover:text-brand">
+        {title}
+      </span>
+      <span className="mt-1 block font-body text-[13px] leading-[1.5] text-ink-soft">
+        {description}
+      </span>
+    </Link>
   );
 }

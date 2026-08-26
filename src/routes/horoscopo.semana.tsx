@@ -17,6 +17,7 @@ export const Route = createFileRoute("/horoscopo/semana")({
     const m = buildMeta({
       title: "Horóscopo de la semana — Proyecto Astral",
       description: "Panorama semanal con las claves para cada signo.",
+      canonical: "/horoscopo/semana",
     });
     return { meta: m.meta, links: m.links };
   },

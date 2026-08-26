@@ -17,6 +17,7 @@ export const Route = createFileRoute("/horoscopo/mes")({
     const m = buildMeta({
       title: "Horóscopo del mes — Proyecto Astral",
       description: "Lectura mensual con los tránsitos más relevantes.",
+      canonical: "/horoscopo/mes",
     });
     return { meta: m.meta, links: m.links };
   },

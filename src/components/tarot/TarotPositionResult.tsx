@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { FavoriteButton } from "@/components/account/FavoriteButton";
 import { TarotCardVisual } from "./TarotCardVisual";
 import type { TarotDrawnCard } from "@/types/tarot";
 import { tarotCardRoute } from "@/config/routes";
@@ -45,12 +46,20 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
             ))}
           </ul>
         )}
-        <Link
-          to={tarotCardRoute(card.slug)}
-          className="mt-4 inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"
-        >
-          Explorar esta carta →
-        </Link>
+        <div className="mt-4 flex flex-wrap items-center gap-3">
+          <Link
+            to={tarotCardRoute(card.slug)}
+            className="inline-flex w-fit items-center gap-1 font-body text-[13px] font-medium text-cosmic hover:underline"
+          >
+            Explorar esta carta →
+          </Link>
+          <FavoriteButton
+            itemType="tarot_card"
+            itemRef={card.slug}
+            itemTitle={card.name}
+            metadata={{ cardKey: card.cardKey }}
+          />
+        </div>
       </div>
     </article>
   );

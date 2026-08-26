@@ -6,7 +6,7 @@ import { homeConfig } from "@/config/home";
 import { routes } from "@/config/routes";
 import { personalBenefits } from "@/data/home-content";
 
-/** Presentación de "Mi espacio" — lenguaje de próxima disponibilidad. */
+/** Presentación de "Mi espacio" y sus capacidades actuales. */
 export function PersonalSpaceSection() {
   const { personalSpace: cfg } = homeConfig;
 
@@ -68,7 +68,8 @@ export function PersonalSpaceSection() {
                 </Link>
               </Button>
               <p className="mt-3 font-body text-[12px] text-ink-inverse-soft/80">
-                Próximamente disponible. Prepara tu perfil para acceder cuando se abra.
+                Disponible para guardar tus contenidos y gestionar tus preferencias en un solo
+                lugar.
               </p>
             </div>
           </div>
