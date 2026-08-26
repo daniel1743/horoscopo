@@ -6,6 +6,9 @@
 import { supabase } from "@/integrations/supabase/client";
 
 // ---------- Tipos ----------
+export type AuraStyle = "lunar-violet" | "solar-gold" | "forest-emerald" | "cosmic-blue";
+export type ProfileVisibility = "private" | "public";
+
 export interface Profile {
   id: string;
   display_name: string | null;
@@ -14,8 +17,23 @@ export interface Profile {
   preferred_sign: string | null;
   city: string | null;
   birth_date: string | null;
+  username: string | null;
+  aura_style: AuraStyle;
+  profile_visibility: ProfileVisibility;
+  show_preferred_sign: boolean;
+  show_city: boolean;
   created_at: string;
   updated_at: string;
+}
+
+export interface PublicProfile {
+  username: string;
+  display_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  preferred_sign: string | null;
+  city: string | null;
+  aura_style: AuraStyle;
 }
 
 export interface PrivacySettings {
@@ -99,6 +117,12 @@ export async function upsertProfile(
     .single();
   if (error) throw error;
   return data as Profile;
+}
+
+export async function fetchPublicProfile(username: string): Promise<PublicProfile | null> {
+  const { data, error } = await supabase.rpc("get_public_profile", { p_username: username });
+  if (error) throw error;
+  return (data?.[0] ?? null) as PublicProfile | null;
 }
 
 // ---------- Privacy ----------
@@ -275,9 +299,6 @@ export async function deleteActivityEntry(id: string): Promise<void> {
 }
 
 export async function clearActivity(userId: string): Promise<void> {
-  const { error } = await supabase
-    .from("user_activity_history")
-    .delete()
-    .eq("user_id", userId);
+  const { error } = await supabase.from("user_activity_history").delete().eq("user_id", userId);
   if (error) throw error;
 }

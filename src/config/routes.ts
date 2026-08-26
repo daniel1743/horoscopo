@@ -71,6 +71,7 @@ export type RouteKey = keyof typeof routes;
 
 /** Helpers para rutas dinámicas. */
 export const zodiacRoute = (sign: string) => `/horoscopo/${sign}` as const;
+export const profileRoute = (username: string) => `/perfil/${username}` as const;
 export const articleRoute = (slug: string) => `/guias/${slug}` as const;
 export const tarotCardRoute = (slug: string) => `/tarot/cartas/${slug}` as const;
 export { compatibilityRoute } from "@/lib/compatibility/route-helpers";
