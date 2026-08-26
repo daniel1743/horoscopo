@@ -8,7 +8,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/horoscopo/hoy")({
   loader: async ({ context }) => {
     const [entries, moon] = await Promise.all([
-      listHoroscopesForCurrentPeriod("daily"),
+      listHoroscopesForCurrentPeriod("daily").catch(() => []),
       context.queryClient.ensureQueryData(moonQueries.today()).catch(() => null),
     ]);
     return { entries: ensureFullCoverage(entries, "daily"), moon };

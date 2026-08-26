@@ -24,7 +24,7 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     if (!sign) throw notFound();
     const def = getPeriodBySlug(deps.periodo) ?? getPeriodBySlug("hoy")!;
     const [publishedEntry, moon] = await Promise.all([
-      getLatestHoroscope(sign.slug, def.key),
+      getLatestHoroscope(sign.slug, def.key).catch(() => null),
       context.queryClient.ensureQueryData(moonQueries.today()).catch(() => null),
     ]);
     const entry = publishedEntry ?? createHoroscopeFallback(sign.slug, def.key);

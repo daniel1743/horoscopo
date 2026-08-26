@@ -34,7 +34,10 @@ export function HoroscopeMoonContext({ snapshot }: Props) {
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-gold">
               Contexto lunar
             </p>
-            <h2 id="horoscope-moon-context" className="mt-1 font-display text-[23px] font-semibold">
+            <h2
+              id="horoscope-moon-context"
+              className="mt-1 font-display text-[23px] font-semibold text-ink-inverse"
+            >
               La luna también forma parte de tu momento
             </h2>
             {snapshot ? (
