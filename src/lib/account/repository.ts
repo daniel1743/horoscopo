@@ -125,6 +125,122 @@ export async function fetchPublicProfile(username: string): Promise<PublicProfil
   return (data?.[0] ?? null) as PublicProfile | null;
 }
 
+export type CommunityPostType =
+  "reflection" | "horoscope" | "moon" | "tarot" | "compatibility" | "birth_chart" | "other";
+export type CommunityPostStatus = "published" | "hidden" | "deleted" | "pending";
+export type CommunityReportReason = "spam" | "harassment" | "sensitive" | "misleading" | "other";
+
+export interface CommunityPost {
+  id: string;
+  user_id: string;
+  post_type: CommunityPostType;
+  title: string | null;
+  body: string;
+  source_ref: string | null;
+  source_title: string | null;
+  source_url: string | null;
+  visibility: "private" | "public";
+  status: CommunityPostStatus;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PublicCommunityPost {
+  id: string;
+  post_type: CommunityPostType;
+  title: string | null;
+  body: string;
+  source_ref: string | null;
+  source_title: string | null;
+  source_url: string | null;
+  created_at: string;
+  author_username: string;
+  author_display_name: string | null;
+  author_avatar_url: string | null;
+  author_aura_style: AuraStyle;
+}
+
+export async function listPublicCommunityPosts(limit = 30): Promise<PublicCommunityPost[]> {
+  const { data, error } = await supabase.rpc("list_public_community_posts", { p_limit: limit });
+  if (error) throw error;
+  return (data ?? []) as PublicCommunityPost[];
+}
+
+export async function listOwnCommunityPosts(userId: string): Promise<CommunityPost[]> {
+  const { data, error } = await supabase
+    .from("community_posts")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as CommunityPost[];
+}
+
+export async function createCommunityPost(input: {
+  userId: string;
+  postType: CommunityPostType;
+  title?: string | null;
+  body: string;
+  sourceRef?: string | null;
+  sourceTitle?: string | null;
+  sourceUrl?: string | null;
+  visibility?: "private" | "public";
+}): Promise<CommunityPost> {
+  const { data, error } = await supabase
+    .from("community_posts")
+    .insert({
+      user_id: input.userId,
+      post_type: input.postType,
+      title: input.title?.trim() || null,
+      body: input.body.trim(),
+      source_ref: input.sourceRef ?? null,
+      source_title: input.sourceTitle ?? null,
+      source_url: input.sourceUrl ?? null,
+      visibility: input.visibility ?? "public",
+    })
+    .select("*")
+    .single();
+  if (error) throw error;
+  return data as CommunityPost;
+}
+
+export async function updateCommunityPostStatus(
+  userId: string,
+  postId: string,
+  status: Extract<CommunityPostStatus, "published" | "hidden">,
+): Promise<void> {
+  const { error } = await supabase
+    .from("community_posts")
+    .update({ status })
+    .eq("id", postId)
+    .eq("user_id", userId);
+  if (error) throw error;
+}
+
+export async function deleteCommunityPost(userId: string, postId: string): Promise<void> {
+  const { error } = await supabase
+    .from("community_posts")
+    .delete()
+    .eq("id", postId)
+    .eq("user_id", userId);
+  if (error) throw error;
+}
+
+export async function reportCommunityPost(input: {
+  postId: string;
+  reporterId: string;
+  reason: CommunityReportReason;
+  details?: string | null;
+}): Promise<void> {
+  const { error } = await supabase.from("community_post_reports").insert({
+    post_id: input.postId,
+    reporter_id: input.reporterId,
+    reason: input.reason,
+    details: input.details?.trim() || null,
+  });
+  if (error) throw error;
+}
+
 // ---------- Privacy ----------
 export async function fetchPrivacySettings(userId: string): Promise<PrivacySettings> {
   const { data, error } = await supabase

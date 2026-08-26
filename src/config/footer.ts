@@ -32,6 +32,7 @@ export const footerConfig = {
         { label: "Astrología", routeKey: "astrology" },
         { label: "Compatibilidad", routeKey: "compatibility" },
         { label: "Luna", routeKey: "moon" },
+        { label: "Comunidad", routeKey: "community" },
       ],
     },
     {

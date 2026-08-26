@@ -33,6 +33,7 @@ export const routes = {
   guides: "/guias",
   topics: "/temas",
   authors: "/autores",
+  community: "/comunidad",
   search: "/buscar",
 
   about: "/nosotros",
@@ -55,6 +56,7 @@ export const routes = {
   profile: "/mi-espacio/perfil",
   favorites: "/mi-espacio/favoritos",
   savedReadings: "/mi-espacio/lecturas",
+  myPosts: "/mi-espacio/publicaciones",
   history: "/mi-espacio/historial",
   settings: "/mi-espacio/configuracion",
   privacySettings: "/mi-espacio/privacidad",

@@ -37,6 +37,12 @@ export const accountNav: AccountNavItem[] = [
     description: "Solo las lecturas que decidiste conservar.",
   },
   {
+    label: "Mis publicaciones",
+    routeKey: "myPosts",
+    icon: "article",
+    description: "Revisa, oculta o elimina lo que compartiste.",
+  },
+  {
     label: "Historial",
     routeKey: "history",
     icon: "history",
