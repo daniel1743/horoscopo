@@ -59,10 +59,29 @@ export function DailyTarotCard() {
                 ? drawn.card.summary
                 : "Revélala cuando estés en calma para observar su símbolo."}
           </p>
-          {revealed && drawn?.card.reflectionQuestion && (
-            <p className="mt-3 border-l-2 border-gold/60 pl-4 font-display text-[15px] italic text-ink-inverse">
-              {drawn.card.reflectionQuestion}
-            </p>
+          {revealed && drawn && (
+            <div className="mt-4 rounded-[var(--radius-control)] border border-white/10 bg-white/5 p-4">
+              <h4 className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+                Qué puede aportar esta carta
+              </h4>
+              <p className="mt-2 font-body text-[14px] leading-[1.65] text-ink-inverse-soft">
+                {drawn.card.uprightMeaning}
+              </p>
+              {drawn.card.reflectionQuestion && (
+                <div className="mt-4 border-l-2 border-gold/60 pl-4">
+                  <p className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+                    Pregunta para reflexionar hoy
+                  </p>
+                  <p className="mt-1 font-display text-[15px] italic leading-[1.5] text-ink-inverse">
+                    {drawn.card.reflectionQuestion}
+                  </p>
+                  <p className="mt-2 font-body text-[12px] leading-[1.5] text-ink-inverse-soft">
+                    Es una pregunta para observar tu experiencia, no una pregunta que tengas que
+                    responderle al sistema.
+                  </p>
+                </div>
+              )}
+            </div>
           )}
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">

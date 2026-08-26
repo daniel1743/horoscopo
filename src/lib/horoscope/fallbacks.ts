@@ -1,6 +1,7 @@
 import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { referenceDateFor } from "@/config/horoscope";
+import { getHoroscopeEditorial } from "@/config/horoscope-editorial";
 
 /**
  * Genera una entrada de horóscopo estática basada en los metadatos del signo.
@@ -18,14 +19,18 @@ export function createHoroscopeFallback(
     throw new Error(`Sign not found: ${signSlug}`);
   }
 
-  const periodLabel = period === "daily" ? "hoy" : period === "weekly" ? "esta semana" : "este mes";
+  const guide = getHoroscopeEditorial(signSlug, period);
 
   return {
     id: `fallback-${signSlug}-${period}-${actualDate}`,
     signSlug,
     period,
     dateFor: actualDate,
-    summary: `Para ${sign.name}, ${periodLabel} el enfoque principal está en la ${sign.keyword.toLowerCase()}. Es un momento para observar cómo tu elemento ${sign.element} influye en tus decisiones cotidianas y buscar el equilibrio en tus acciones.`,
+    summary: guide.opening,
+    context: guide.context,
+    whyItMatters: guide.whyItMatters,
+    observe: guide.observe,
+    reflectionQuestion: guide.reflectionQuestion,
     focus: sign.keyword,
     mood: "Reflexivo",
     energy: 3,

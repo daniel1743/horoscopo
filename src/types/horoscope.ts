@@ -13,6 +13,11 @@ export interface HoroscopeEntry {
   /** Fecha ISO (YYYY-MM-DD) de referencia del periodo. */
   dateFor: string;
   summary: string;
+  /** Bloques editoriales opcionales para lecturas enriquecidas. */
+  context?: string;
+  whyItMatters?: string;
+  observe?: string;
+  reflectionQuestion?: string;
   focus: string;
   mood: string;
   energy: 1 | 2 | 3 | 4 | 5;

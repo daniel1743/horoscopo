@@ -9,6 +9,7 @@ import { TarotSkeleton } from "@/components/tarot/TarotSkeleton";
 import { tarotService } from "@/services/tarot.service";
 import { tarotQueryKeys } from "@/hooks/useTarotDeck";
 import { yesNoLabels } from "@/config/tarot";
+import { FavoriteButton } from "@/components/account/FavoriteButton";
 
 interface Props {
   slug: string;
@@ -60,14 +61,26 @@ export function TarotCardDetailPage({ slug }: Props) {
         { label: card.name },
       ]}
     >
-      <PageHeader eyebrow="Arcano mayor" title={card.name} description={card.summary} />
+      <PageHeader
+        eyebrow="Arcano mayor"
+        title={card.name}
+        description="Una ficha para comprender el símbolo, llevarlo a tu contexto y observar qué pregunta despierta en ti."
+      />
       <div className="grid gap-8 md:grid-cols-[minmax(0,220px)_1fr]">
         <div className="mx-auto md:mx-0">
           <TarotCardVisual card={card} revealed size="lg" />
         </div>
         <div className="flex flex-col gap-6">
           <section>
-            <h2 className="font-display text-[20px] text-ink">Significado</h2>
+            <h2 className="font-display text-[20px] font-semibold text-ink">
+              Qué representa esta carta
+            </h2>
+            <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink-soft">{card.summary}</p>
+          </section>
+          <section>
+            <h2 className="font-display text-[20px] font-semibold text-ink">
+              Significado en tu momento
+            </h2>
             <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink">
               {card.uprightMeaning}
             </p>
@@ -94,13 +107,33 @@ export function TarotCardDetailPage({ slug }: Props) {
             </p>
           </section>
           {card.reflectionQuestion && (
-            <section>
-              <h2 className="font-display text-[18px] text-ink">Pregunta para reflexionar</h2>
-              <p className="mt-2 border-l-2 border-cosmic/40 pl-3 font-display text-[16px] italic text-ink">
+            <section className="rounded-[var(--radius-card)] border border-cosmic/20 bg-cosmic/5 p-5">
+              <h2 className="font-display text-[18px] font-semibold text-ink">
+                Pregunta para reflexionar
+              </h2>
+              <p className="mt-2 font-body text-[13px] leading-[1.6] text-ink-soft">
+                No es una pregunta que debas responderle al sistema. Es una invitación a observar tu
+                propia situación.
+              </p>
+              <p className="mt-3 border-l-2 border-cosmic/40 pl-3 font-display text-[16px] italic text-ink">
                 {card.reflectionQuestion}
               </p>
             </section>
           )}
+          <div className="flex flex-wrap gap-3">
+            <FavoriteButton
+              itemType="tarot_card"
+              itemRef={card.slug}
+              itemTitle={card.name}
+              metadata={{ cardKey: card.cardKey }}
+            />
+            <Link
+              to={routes.tarotDaily}
+              className="inline-flex items-center rounded-[var(--radius-control)] border border-line px-4 py-2 font-body text-[13px] font-medium text-cosmic hover:bg-cosmic/5"
+            >
+              Sacar una carta
+            </Link>
+          </div>
         </div>
       </div>
       <TarotReadingDisclaimer />

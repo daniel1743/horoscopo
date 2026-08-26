@@ -6,6 +6,7 @@ import { HoroscopePeriodTabs } from "@/components/horoscope/HoroscopePeriodTabs"
 import { SignQuickSelector } from "@/components/horoscope/SignQuickSelector";
 import { routes, zodiacRoute } from "@/config/routes";
 import { formatPeriodLabel, getPeriodByKey, referenceDateFor } from "@/config/horoscope";
+import { getHoroscopeEditorial } from "@/config/horoscope-editorial";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
 import { Icon } from "@/components/ui/icon";
@@ -52,6 +53,7 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
   const prev = zodiacSigns[(idx - 1 + zodiacSigns.length) % zodiacSigns.length];
   const next = zodiacSigns[(idx + 1) % zodiacSigns.length];
   const dateKey = entry?.dateFor ?? referenceDateFor(period);
+  const editorial = getHoroscopeEditorial(sign.slug, period);
 
   return (
     <PageShell
@@ -175,6 +177,59 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
         notFound
       )}
 
+      <section className="mt-10" aria-labelledby="horoscope-meaning-title">
+        <div className="rounded-[var(--radius-card-lg)] border border-line bg-warm-white p-6 md:p-8">
+          <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-brand">
+            Cómo leer este resultado
+          </p>
+          <h2
+            id="horoscope-meaning-title"
+            className="mt-2 font-display text-[24px] font-semibold text-ink"
+          >
+            La idea central no es una predicción: es un punto de observación
+          </h2>
+          <p className="mt-3 font-body text-[15px] leading-[1.75] text-ink">
+            Una lectura simbólica puede ayudarte a poner nombre a una tensión, una oportunidad o un
+            patrón. Tómala como una invitación a mirar tu experiencia con más claridad.
+          </p>
+          <div className="mt-7 grid gap-6 md:grid-cols-3">
+            <EditorialBlock
+              title={editorial.contextTitle}
+              text={entry?.context ?? editorial.context}
+            />
+            <EditorialBlock
+              title={editorial.whyTitle}
+              text={entry?.whyItMatters ?? editorial.whyItMatters}
+            />
+            <EditorialBlock
+              title={editorial.observeTitle}
+              text={entry?.observe ?? editorial.observe}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-8" aria-labelledby="horoscope-question-title">
+        <div className="rounded-[var(--radius-card-lg)] border border-brand/20 bg-brand-soft/40 p-6 md:p-8">
+          <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-brand">
+            Para llevar la lectura a tu día
+          </p>
+          <h2
+            id="horoscope-question-title"
+            className="mt-2 font-display text-[23px] font-semibold text-ink"
+          >
+            Pregunta para reflexionar {editorial.periodLabel}
+          </h2>
+          <p className="mt-2 font-body text-[14px] leading-[1.65] text-ink-soft">
+            Esta es una pregunta para hacértela a ti, no una pregunta que debas responderle al
+            sistema. Puedes escribir tu respuesta o simplemente observar qué te despierta.
+          </p>
+          <blockquote className="mt-5 border-l-2 border-brand pl-4 font-display text-[20px] italic leading-[1.45] text-ink">
+            {entry?.reflectionQuestion ?? editorial.reflectionQuestion}
+          </blockquote>
+        </div>
+      </section>
+
       <div className="mt-12">
         <HoroscopeMoonContext snapshot={moon} />
       </div>
@@ -275,5 +330,14 @@ function RelatedLink({
         {description}
       </span>
     </Link>
+  );
+}
+
+function EditorialBlock({ title, text }: { title: string; text: string }) {
+  return (
+    <div>
+      <h3 className="font-display text-[17px] font-semibold text-ink">{title}</h3>
+      <p className="mt-2 font-body text-[14px] leading-[1.7] text-ink-soft">{text}</p>
+    </div>
   );
 }
