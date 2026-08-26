@@ -34,6 +34,11 @@ export function HoroscopeCard({ sign, entry, periodLinkLabel = "Ver signo" }: Pr
 
       {entry ? (
         <>
+          {entry.isFallback && (
+            <p className="mt-4 rounded-[var(--radius-control)] bg-ivory px-3 py-2 font-body text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted">
+              Lectura editorial de respaldo
+            </p>
+          )}
           <p className="mt-4 font-body text-[14px] leading-[1.7] text-ink line-clamp-5">
             {entry.summary}
           </p>

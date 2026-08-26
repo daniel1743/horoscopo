@@ -22,6 +22,8 @@ export interface HoroscopeEntry {
   luckyNumber: number | null;
   luckyColor: string | null;
   isDemo: boolean;
+  /** true cuando la vista usa contenido editorial de respaldo por falta de publicación remota. */
+  isFallback?: boolean;
   publishedAt: string | null;
   updatedAt: string;
 }

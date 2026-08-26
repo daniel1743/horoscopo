@@ -6,9 +6,15 @@ import { queryOptions } from "@tanstack/react-query";
 import { supabaseCompatibilityRepository } from "@/repositories/supabase-compatibility.repository";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import {
+  createPairKey,
   normalizeSignPair,
   parsePairKey,
 } from "@/lib/compatibility/normalize-sign-pair";
+import {
+  createCompatibilityFallback,
+  getFallbackFeaturedPairs,
+  getFallbackPairsForSign,
+} from "@/lib/compatibility/fallbacks";
 import type {
   CompatibilityPageData,
   CompatibilityProfile,
@@ -56,7 +62,21 @@ async function loadPairPage(
     if (alternativePairs.length >= 4) break;
   }
 
-  return { normalized, signA, signB, profile, alternativePairs };
+  // Si no hay suficientes alternativas publicadas, completar con fallbacks
+  if (alternativePairs.length < 4) {
+    const fallbacks = getFallbackPairsForSign(normalized.sign_a, 4);
+    for (const [fa, fb] of fallbacks) {
+      const fKey = createPairKey(fa, fb);
+      if (seen.has(fKey)) continue;
+      seen.add(fKey);
+      alternativePairs.push(createCompatibilityFallback(fa, fb));
+      if (alternativePairs.length >= 4) break;
+    }
+  }
+
+  const finalProfile = profile ?? createCompatibilityFallback(normalized.sign_a, normalized.sign_b);
+
+  return { normalized, signA, signB, profile: finalProfile, alternativePairs };
 }
 
 export const compatibilityQueries = {
@@ -69,7 +89,11 @@ export const compatibilityQueries = {
   featured: (limit = 6) =>
     queryOptions({
       queryKey: ["compatibility", "featured", limit] as const,
-      queryFn: () => repo.getPublishedPairs(limit),
+      queryFn: async () => {
+        const published = await repo.getPublishedPairs(limit);
+        if (published.length > 0) return published;
+        return getFallbackFeaturedPairs().map(([a, b]) => createCompatibilityFallback(a, b));
+      },
       staleTime: STALE_MS,
     }),
 };

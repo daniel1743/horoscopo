@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HoroscopePeriodPage } from "@/pages/horoscope/HoroscopePeriodPage";
 import { listHoroscopesForCurrentPeriod } from "@/lib/horoscope/repository";
+import { ensureFullCoverage } from "@/lib/horoscope/fallbacks";
 import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/horoscopo/mes")({
   loader: async () => {
     const entries = await listHoroscopesForCurrentPeriod("monthly");
-    return { entries };
+    return { entries: ensureFullCoverage(entries, "monthly") };
   },
   head: () => {
     const m = buildMeta({

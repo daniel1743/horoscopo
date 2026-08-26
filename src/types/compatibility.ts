@@ -68,6 +68,8 @@ export interface CompatibilityProfile {
   disclaimerKey: string;
   status: CompatibilityStatus;
   isDemo: boolean;
+  /** true cuando el perfil se genera como respaldo por falta de publicación remota. */
+  isFallback?: boolean;
   seoTitle: string | null;
   seoDescription: string | null;
   publishedAt: string | null;

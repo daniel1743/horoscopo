@@ -55,6 +55,13 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
             </p>
           </section>
 
+          {profile.isFallback && (
+            <p className="rounded-[var(--radius-control)] bg-ivory px-4 py-3 font-body text-[12px] text-ink-muted">
+              Perfil editorial de respaldo. La interpretación publicada se mostrará aquí cuando esté
+              disponible.
+            </p>
+          )}
+
           <CompatibilityDimensionsList dimensions={profile.dimensions} />
 
           {profile.strengths.length + profile.challenges.length > 0 && (
@@ -166,9 +173,7 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
                   to={compatibilityRoute(p.signA, p.signB)}
                   className="block rounded-[var(--radius-card)] border border-line-subtle bg-warm-white p-5 transition hover:border-brand focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(108,75,217,0.18)]"
                 >
-                  <h3 className="font-display text-[17px] font-semibold text-ink">
-                    {p.title}
-                  </h3>
+                  <h3 className="font-display text-[17px] font-semibold text-ink">{p.title}</h3>
                   <p className="mt-2 font-body text-[14px] text-ink-soft">{p.summary}</p>
                 </Link>
               </li>

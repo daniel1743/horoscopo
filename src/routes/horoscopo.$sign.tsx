@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { SignHoroscopePage } from "@/pages/horoscope/SignHoroscopePage";
 import { getLatestHoroscope } from "@/lib/horoscope/repository";
+import { createHoroscopeFallback } from "@/lib/horoscope/fallbacks";
 import { getPeriodBySlug } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { buildMeta } from "@/config/seo";
@@ -21,7 +22,8 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     if (!sign) throw notFound();
     const def = getPeriodBySlug(deps.periodo) ?? getPeriodBySlug("hoy")!;
-    const entry = await getLatestHoroscope(sign.slug, def.key);
+    const entry =
+      (await getLatestHoroscope(sign.slug, def.key)) ?? createHoroscopeFallback(sign.slug, def.key);
     return { signSlug: sign.slug, period: def.key as HoroscopePeriod, entry };
   },
   head: ({ params }) => {

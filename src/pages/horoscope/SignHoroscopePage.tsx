@@ -125,10 +125,17 @@ export function SignHoroscopePage({ signSlug, period, entry }: Props) {
             </div>
           )}
 
-          {entry.isDemo && (
+          {entry.isFallback ? (
             <p className="mt-8 rounded-[var(--radius-control)] bg-ivory px-4 py-3 font-body text-[12px] text-ink-muted">
-              Contenido de demostración. Reemplázalo desde Supabase.
+              Lectura editorial de respaldo. La actualización publicada aparecerá aquí cuando esté
+              disponible.
             </p>
+          ) : (
+            entry.isDemo && (
+              <p className="mt-8 rounded-[var(--radius-control)] bg-ivory px-4 py-3 font-body text-[12px] text-ink-muted">
+                Contenido de demostración. Reemplázalo desde Supabase.
+              </p>
+            )
           )}
         </article>
       ) : (
