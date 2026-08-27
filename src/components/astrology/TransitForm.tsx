@@ -4,6 +4,8 @@ import { formatDegree } from "@/services/astrology.service";
 import { calculateTransitSnapshot } from "@/services/transits.service";
 import type { BirthData } from "@/types/astrology";
 import type { TransitSnapshot } from "@/types/transits";
+import { LocalReportActions } from "@/components/astrology/LocalReportActions";
+import { buildTransitReport } from "@/lib/astrology/report";
 
 function toNumber(value: string, field: string): number {
   const parsed = Number(value);
@@ -114,6 +116,11 @@ function TransitResult({ snapshot }: { snapshot: TransitSnapshot }) {
           ))}
         </ul>
       </details>
+      <LocalReportActions
+        content={buildTransitReport(snapshot)}
+        filename="creovision-transitos.txt"
+        label="Informe local de tránsitos"
+      />
     </section>
   );
 }

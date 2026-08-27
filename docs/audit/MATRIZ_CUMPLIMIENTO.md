@@ -63,3 +63,19 @@ No se puede declarar 100% de cumplimiento. El estado real es un **MVP parcialmen
 La rama incorporó el vertical Tarot/diario de la primera ampliación autorizada: preferencia local de reversos, guardado explícito de Carta del Día mediante la persistencia privada existente y edición/filtros de notas en `/mi-espacio/lecturas`. Esta mejora se clasifica como **IMPLEMENTADA EN CÓDIGO, NO VERIFICADA EN E2E** hasta desplegar la rama y probar con una cuenta autenticada.
 
 La privacidad natal y el ciclo de exportación/eliminación se clasifican como **CORREGIDOS EN CÓDIGO, E2E PENDIENTE**. La nueva tirada Tarot decisión, los motores locales de carta natal avanzada, tránsitos, sinastría y Numerología Camino de Vida están en código; no se declara precisión profesional ni persistencia de datos nuevos. Comunidad comentarios/follows/reportes requiere aplicar manualmente 07 y 08. El detector local actualizado registra 30 tablas y 15 RPC utilizados, sin faltantes locales. Los módulos avanzados y esotéricos restantes continúan **PARCIALES** o **NO IMPLEMENTADOS** según la matriz.
+
+
+## Actualización posterior de brechas — 27 de agosto de 2026
+
+La revisión local posterior modificó el estado de varias filas ejecutivas sin elevarlas a cumplimiento total:
+
+| Funcionalidad | Estado posterior | Evidencia local | Límite que permanece |
+|---|---|---|---|
+| Tiradas Tarot | **PARCIAL ampliado** | Nueva `/tarot/pasado-presente-futuro`, posiciones, motor, IA y diario tipados | Las demás temáticas, mazos y constructor siguen sin existir; el constraint remoto requiere SQL manual |
+| Sol/Luna/Ascendente | **PARCIAL ampliado** | Big Three, elemento, modalidad y signo más repetido en carta natal | No equivale a planeta dominante ni a interpretación profesional |
+| Sueños | **PARCIAL** | `/suenos` con 20 símbolos, búsqueda, filtros y preguntas reflexivas | No hay diario, patrones personales ni persistencia |
+| Informes | **PARCIAL** | Copiar/descargar `.txt` de natal, tránsitos y sinastría en dispositivo | PDF, almacenamiento histórico y reportes profesionales siguen fuera |
+| Landing | **PARCIAL mejorado** | Enlaces a Tarot decisión, tránsitos y Camino de Vida | Conversión, performance y comportamiento en producción no verificados |
+| SEO | **PARCIAL mejorado** | Sitemap local de 137 URLs; incluye Tarot nuevo y Sueños; excluye sinastría noindex | No prueba indexación, Search Console ni tráfico real |
+
+El estado global continúa siendo **PARCIAL**. No se contabilizan como activados remotamente los comentarios, follows, reportes de comentarios ni las nuevas claves del diario Tarot hasta que Daniel aplique y compruebe los SQL pendientes. La suite local pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check; esto no sustituye E2E autenticada, pruebas multiusuario ni deploy.

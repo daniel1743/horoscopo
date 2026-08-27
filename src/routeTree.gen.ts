@@ -25,6 +25,7 @@ import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SuenosRouteImport } from './routes/suenos'
 import { Route as TemasRouteImport } from './routes/temas'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
@@ -55,6 +56,7 @@ import { Route as PerfilUsernameRouteImport } from './routes/perfil.$username'
 import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
 import { Route as TarotDecisionRouteImport } from './routes/tarot.decision'
+import { Route as TarotPasadoPresenteFuturoRouteImport } from './routes/tarot.pasado-presente-futuro'
 import { Route as TarotSiONoRouteImport } from './routes/tarot.si-o-no'
 import { Route as TarotTresCartasRouteImport } from './routes/tarot.tres-cartas'
 import { Route as TemasCategoryRouteImport } from './routes/temas.$category'
@@ -158,6 +160,11 @@ const PrivacidadRoute = PrivacidadRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SuenosRoute = SuenosRouteImport.update({
+  id: '/suenos',
+  path: '/suenos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TemasRoute = TemasRouteImport.update({
@@ -310,6 +317,12 @@ const TarotDecisionRoute = TarotDecisionRouteImport.update({
   path: '/tarot/decision',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TarotPasadoPresenteFuturoRoute =
+  TarotPasadoPresenteFuturoRouteImport.update({
+    id: '/tarot/pasado-presente-futuro',
+    path: '/tarot/pasado-presente-futuro',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const TarotSiONoRoute = TarotSiONoRouteImport.update({
   id: '/tarot/si-o-no',
   path: '/tarot/si-o-no',
@@ -467,6 +480,7 @@ export interface FileRoutesByFullPath {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/suenos': typeof SuenosRoute
   '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
@@ -492,6 +506,7 @@ export interface FileRoutesByFullPath {
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/decision': typeof TarotDecisionRoute
+  '/tarot/pasado-presente-futuro': typeof TarotPasadoPresenteFuturoRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -539,6 +554,7 @@ export interface FileRoutesByTo {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/suenos': typeof SuenosRoute
   '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
@@ -563,6 +579,7 @@ export interface FileRoutesByTo {
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/decision': typeof TarotDecisionRoute
+  '/tarot/pasado-presente-futuro': typeof TarotPasadoPresenteFuturoRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -612,6 +629,7 @@ export interface FileRoutesById {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/suenos': typeof SuenosRoute
   '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
@@ -637,6 +655,7 @@ export interface FileRoutesById {
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/decision': typeof TarotDecisionRoute
+  '/tarot/pasado-presente-futuro': typeof TarotPasadoPresenteFuturoRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -686,6 +705,7 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/suenos'
     | '/temas'
     | '/terminos'
     | '/admin'
@@ -711,6 +731,7 @@ export interface FileRouteTypes {
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/decision'
+    | '/tarot/pasado-presente-futuro'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -758,6 +779,7 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/suenos'
     | '/temas'
     | '/terminos'
     | '/mi-espacio'
@@ -782,6 +804,7 @@ export interface FileRouteTypes {
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/decision'
+    | '/tarot/pasado-presente-futuro'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -830,6 +853,7 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/suenos'
     | '/temas'
     | '/terminos'
     | '/_authenticated/admin'
@@ -855,6 +879,7 @@ export interface FileRouteTypes {
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/decision'
+    | '/tarot/pasado-presente-futuro'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -904,6 +929,7 @@ export interface RootRouteChildren {
   NosotrosRoute: typeof NosotrosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  SuenosRoute: typeof SuenosRoute
   TemasRoute: typeof TemasRouteWithChildren
   TerminosRoute: typeof TerminosRoute
   ApiSearchRoute: typeof ApiSearchRouteWithChildren
@@ -923,6 +949,7 @@ export interface RootRouteChildren {
   PerfilUsernameRoute: typeof PerfilUsernameRoute
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
   TarotDecisionRoute: typeof TarotDecisionRoute
+  TarotPasadoPresenteFuturoRoute: typeof TarotPasadoPresenteFuturoRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
   TarotTresCartasRoute: typeof TarotTresCartasRoute
   AstrologiaIndexRoute: typeof AstrologiaIndexRoute
@@ -1048,6 +1075,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/suenos': {
+      id: '/suenos'
+      path: '/suenos'
+      fullPath: '/suenos'
+      preLoaderRoute: typeof SuenosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/temas': {
@@ -1258,6 +1292,13 @@ declare module '@tanstack/react-router' {
       path: '/tarot/decision'
       fullPath: '/tarot/decision'
       preLoaderRoute: typeof TarotDecisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tarot/pasado-presente-futuro': {
+      id: '/tarot/pasado-presente-futuro'
+      path: '/tarot/pasado-presente-futuro'
+      fullPath: '/tarot/pasado-presente-futuro'
+      preLoaderRoute: typeof TarotPasadoPresenteFuturoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tarot/si-o-no': {
@@ -1623,6 +1664,7 @@ const rootRouteChildren: RootRouteChildren = {
   NosotrosRoute: NosotrosRoute,
   PrivacidadRoute: PrivacidadRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  SuenosRoute: SuenosRoute,
   TemasRoute: TemasRouteWithChildren,
   TerminosRoute: TerminosRoute,
   ApiSearchRoute: ApiSearchRouteWithChildren,
@@ -1642,6 +1684,7 @@ const rootRouteChildren: RootRouteChildren = {
   PerfilUsernameRoute: PerfilUsernameRoute,
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
   TarotDecisionRoute: TarotDecisionRoute,
+  TarotPasadoPresenteFuturoRoute: TarotPasadoPresenteFuturoRoute,
   TarotSiONoRoute: TarotSiONoRoute,
   TarotTresCartasRoute: TarotTresCartasRoute,
   AstrologiaIndexRoute: AstrologiaIndexRoute,

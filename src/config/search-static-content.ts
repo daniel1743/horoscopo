@@ -45,10 +45,28 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
   {
     routeKey: "tarot",
     title: "Tarot",
-    description: "Carta del día, tirada de tres cartas, sí o no.",
-    keywords: ["tarot", "cartas", "arcanos"],
+    description: "Carta del día, sí o no, tres cartas, decisión y pasado, presente y futuro.",
+    keywords: ["tarot", "cartas", "arcanos", "carta del día", "decisión", "pasado presente futuro"],
     enabledIf: () =>
-      featureFlags.tarotDaily || featureFlags.tarotYesNo || featureFlags.tarotThreeCards,
+      featureFlags.tarotDaily ||
+      featureFlags.tarotYesNo ||
+      featureFlags.tarotThreeCards ||
+      featureFlags.tarotDecision ||
+      featureFlags.tarotPastPresentFuture,
+  },
+  {
+    routeKey: "tarotDecision",
+    title: "Tarot para una decisión",
+    description: "Dos cartas para ordenar una decisión desde la reflexión, sin certezas absolutas.",
+    keywords: ["tarot decisión", "elegir", "orientación", "reflexión"],
+    enabledIf: () => featureFlags.tarotDecision,
+  },
+  {
+    routeKey: "tarotPastPresentFuture",
+    title: "Tarot pasado, presente y futuro",
+    description: "Tres cartas para observar antecedentes, presente y una posibilidad abierta.",
+    keywords: ["pasado presente futuro", "tarot", "secuencia", "contexto"],
+    enabledIf: () => featureFlags.tarotPastPresentFuture,
   },
   {
     routeKey: "moon",
@@ -56,6 +74,34 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
     description: "Fase actual, calendario lunar y páginas por fase.",
     keywords: ["luna", "fase lunar", "calendario"],
     enabledIf: () => featureFlags.moonToday || featureFlags.moonCalendar,
+  },
+  {
+    routeKey: "astrology",
+    title: "Astrología personal",
+    description: "Carta natal, ascendente, signo lunar, tránsitos y sinastría local.",
+    keywords: ["astrología", "carta natal", "ascendente", "tránsitos", "sinastría"],
+    enabledIf: () => featureFlags.astrology,
+  },
+  {
+    routeKey: "transits",
+    title: "Tránsitos astrológicos",
+    description: "Observa posiciones y aspectos de una fecha frente a una carta de referencia.",
+    keywords: ["tránsitos", "retrogradación", "aspectos", "astrología"],
+    enabledIf: () => featureFlags.transits,
+  },
+  {
+    routeKey: "synastry",
+    title: "Sinastría",
+    description: "Compara dos cartas de referencia en memoria, sin guardar datos natales.",
+    keywords: ["sinastría", "compatibilidad astral", "dos cartas", "pareja"],
+    enabledIf: () => featureFlags.synastry,
+  },
+  {
+    routeKey: "topics",
+    title: "Temas",
+    description: "Explora categorías editoriales de astrología, Tarot y Luna.",
+    keywords: ["temas", "categorías", "astrología", "tarot", "luna"],
+    enabledIf: () => featureFlags.articles,
   },
   {
     routeKey: "compatibility",
@@ -69,6 +115,15 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
     title: "Camino de vida",
     description: "Calcula un número simbólico a partir de tu fecha sin guardar datos personales.",
     keywords: ["numerología", "camino de vida", "número de vida"],
+    enabledIf: () => featureFlags.numerologyLifePath,
+  },
+  {
+    routeKey: "dreams",
+    title: "Diccionario de sueños",
+    description:
+      "Explora símbolos de sueños con lentes emocionales y simbólicos, sin interpretaciones universales.",
+    keywords: ["sueños", "diccionario de sueños", "símbolos", "emociones"],
+    enabledIf: () => featureFlags.dreams,
   },
   {
     routeKey: "guides",

@@ -16,6 +16,13 @@ export const featureFlags = {
   search: true,
   newsletter: true,
   accountBasic: true,
+  tarotDecision: true,
+  tarotPastPresentFuture: true,
+  astrology: true,
+  transits: true,
+  synastry: true,
+  numerologyLifePath: true,
+  dreams: true,
 
   // Panel administrativo (YAML 13 — Fase A)
   adminPanel: true,

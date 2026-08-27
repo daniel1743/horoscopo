@@ -69,6 +69,28 @@ export interface NatalAspect {
   orb: number;
 }
 
+export type AstrologyElementKey = "fire" | "earth" | "air" | "water";
+export type AstrologyModalityKey = "cardinal" | "fixed" | "mutable";
+
+export interface NatalDominant {
+  key: string;
+  label: string;
+  count: number;
+}
+
+export interface NatalProfileSummary {
+  bigThree: {
+    sun: CelestialPlacement;
+    moon: CelestialPlacement;
+    ascendant: CelestialPlacement;
+  };
+  elements: Record<AstrologyElementKey, number>;
+  modalities: Record<AstrologyModalityKey, number>;
+  dominantElement: NatalDominant;
+  dominantModality: NatalDominant;
+  dominantSign: NatalDominant;
+}
+
 export interface AstrologyCalculationMeta {
   dateTimeIso: string;
   timezone: string;
@@ -88,6 +110,7 @@ export interface NatalChart {
   houses: HouseCusp[];
   angles: NatalAngle[];
   aspects: NatalAspect[];
+  summary: NatalProfileSummary;
 }
 
 export interface LunarSignResult {

@@ -117,3 +117,16 @@ La auditoría no considera el producto terminado. El cierre del MVP requiere sin
 [4]: ../../src/lib/account/account.functions.ts "Exportación y eliminación"
 [5]: ../../src/lib/astrology/profile-repository.ts "Persistencia natal"
 [6]: ../../src/integrations/supabase/types.ts "Tipos Supabase"
+
+
+## 7. Revisión autónoma posterior — brechas que sí podían cerrarse localmente
+
+Se incorporó una nueva validación posterior al cierre anterior. El hub de Astrología ahora descubre carta natal, ascendente, Luna, tránsitos y sinastría. El índice de búsqueda y los feature flags centrales reconocen las rutas nuevas sin añadir superficies privadas.
+
+Tarot ahora incluye localmente la tirada `past_present_future`, con tres posiciones, cartas únicas, síntesis reflexiva, integración en IA Tarot, guardado explícito y filtro del diario. El constraint remoto de `saved_tarot_readings.spread_type` todavía requiere el bloque manual `supabase/migrations/manual-tarot/01_saved_readings_spreads.sql`; no se ha aplicado.
+
+La carta natal muestra Big Three y conteos descriptivos de elemento, modalidad y signo. Natal, tránsitos y sinastría pueden copiar o descargar un informe `.txt` local bajo acción explícita; no se activa `pdfReports`, no se persiste y no se envía a IA. `/suenos` ofrece un diccionario público con 20 símbolos, búsqueda y filtros, sin diario ni almacenamiento.
+
+La suite posterior pasó `npx tsc --noEmit`, `npm run build`, `npm run content:check`, `npm run pending:check`, `npm run seo:sitemap`, `npx prettier --check src scripts`, `npm run lint` y `git diff --check`. El sitemap local alcanzó 137 URLs, incluyendo Tarot pasado/presente/futuro y Sueños, y excluyendo sinastría por `noindex`. El runtime externo pasó Tarot, natal, tránsitos, sinastría, Sueños e informes. El auditor Supabase sigue reportando 30 tablas usadas, 15 RPC usados y 0 faltantes locales.
+
+El estado final continúa siendo **PARCIAL**: falta aplicar SQL 07, 08 y `manual-tarot/01`, ejecutar E2E autenticada/multiusuario, desplegar y verificar el dominio, así como decidir futuros proveedores para notificaciones, newsletter, pagos y PDF si se desea construirlos.

@@ -11,7 +11,7 @@ import type { TarotReading } from "@/types/tarot";
 import { detectSensitiveTopic, sensitiveMessages } from "@/lib/tarot/sensitive-question";
 
 interface Props {
-  mode: "yes_no" | "three_cards" | "decision";
+  mode: "yes_no" | "three_cards" | "decision" | "past_present_future";
 }
 
 export function TarotSpreadExperience({ mode }: Props) {
@@ -32,7 +32,12 @@ export function TarotSpreadExperience({ mode }: Props) {
           ? await tarotService.drawYesNoCard({ question, deck: deckQuery.data.cards })
           : mode === "three_cards"
             ? await tarotService.drawThreeCards({ question, deck: deckQuery.data.cards })
-            : await tarotService.drawDecisionCards({ question, deck: deckQuery.data.cards });
+            : mode === "decision"
+              ? await tarotService.drawDecisionCards({ question, deck: deckQuery.data.cards })
+              : await tarotService.drawPastPresentFutureCards({
+                  question,
+                  deck: deckQuery.data.cards,
+                });
       setReading(r);
     } finally {
       setDrawing(false);
@@ -74,7 +79,9 @@ export function TarotSpreadExperience({ mode }: Props) {
                   ? "Consultar la carta"
                   : mode === "decision"
                     ? "Explorar la decisión"
-                    : "Realizar tirada"}
+                    : mode === "past_present_future"
+                      ? "Observar la secuencia"
+                      : "Realizar tirada"}
             </Button>
           </div>
         </div>
@@ -93,7 +100,7 @@ export function TarotSpreadExperience({ mode }: Props) {
         <TarotReadingResult
           reading={reading}
           onDrawAgain={handleReset}
-          showSynthesis={mode === "three_cards"}
+          showSynthesis={mode === "three_cards" || mode === "past_present_future"}
         />
       )}
     </div>

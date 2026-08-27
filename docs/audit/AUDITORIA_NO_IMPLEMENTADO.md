@@ -294,3 +294,20 @@ Sí encontré tres categorías que deben permanecer visibles para no repetir el 
 El producto no está completo según el documento maestro. El estado honesto es: **MVP real y parcialmente activado, con Tarot, astrología local, Comunidad y Numerología ampliados en código, SQL nuevo pendiente y una cantidad importante de módulos todavía inexistentes**. No hay evidencia para declarar 100% de cumplimiento.
 
 La consolidación local quedó en el commit `ff1483b`. Después Daniel debe aplicar los bloques SQL 07 y 08 uno por uno, capturar sus resultados y ejecutar las pruebas autenticadas y multiusuario. Las mejoras futuras deben priorizarse solo después de esa evidencia.
+
+
+## Revisión de brechas posterior — 27 de agosto de 2026
+
+La revisión autónoma posterior cerró varias brechas que sí podían resolverse en código local: discoverability de las experiencias astrológicas, flags para rutas nuevas, Tarot pasado/presente/futuro, resumen descriptivo natal, informes de texto locales, diccionario de sueños y enlaces adicionales desde la landing. Estas mejoras deben considerarse **IMPLEMENTADAS localmente**, pero todavía requieren pruebas visuales/E2E y observación en deploy.
+
+La parte 5 ya no debe declarar pasado/presente/futuro como inexistente: ahora existe como tirada local con tres posiciones y queda incluida en el diario y la IA Tarot. Las demás tiradas temáticas, mazos alternativos, imágenes licenciadas, constructor de tiradas y estadísticas avanzadas siguen pendientes.
+
+La parte 10 ya no debe declarar como inexistentes el Big Three, el elemento dominante, la modalidad dominante o el signo más repetido: ahora existe un resumen descriptivo local. No equivale a planeta dominante profesional ni a interpretación astrológica validada científicamente.
+
+La parte 27 ya no debe declarar como inexistente el diccionario de sueños: `/suenos` ofrece veinte símbolos, búsqueda, filtros y preguntas reflexivas. No existe todavía un diario de sueños, patrones personales, persistencia ni interpretación clínica/espiritual determinista.
+
+La parte 30 de Informes debe leerse como **PARCIAL**: ahora existen informes `.txt` locales para carta natal, tránsitos y sinastría, descargables o copiables bajo acción explícita. PDF, almacenamiento histórico y reportes profesionales continúan fuera de alcance.
+
+Continúan pendientes de acción manual los SQL `manual-community/07_comments_and_follows.sql`, `manual-community/08_comment_reports_and_moderation.sql` y `manual-tarot/01_saved_readings_spreads.sql`. Hasta que Daniel los aplique y compruebe sus resultados, comentarios, follows, reportes de comentarios y el guardado de las nuevas tiradas no deben declararse activos en Supabase remoto.
+
+El sitemap local actualizado contiene 137 URLs, incluye `/tarot/pasado-presente-futuro` y `/suenos`, y conserva fuera `/astrologia/sinastria` por `noindex`. La suite de esta revisión pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El resultado sigue siendo una entrega **PARCIAL**, no el cumplimiento total de las 636 casillas del documento maestro.

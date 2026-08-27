@@ -4,6 +4,8 @@ import { formatDegree } from "@/services/astrology.service";
 import { calculateSynastry } from "@/services/synastry.service";
 import type { BirthData } from "@/types/astrology";
 import type { SynastrySnapshot } from "@/types/synastry";
+import { LocalReportActions } from "@/components/astrology/LocalReportActions";
+import { buildSynastryReport } from "@/lib/astrology/report";
 
 interface PersonFormState {
   birthDate: string;
@@ -213,6 +215,11 @@ function SynastryResult({ snapshot }: { snapshot: SynastrySnapshot }) {
           ))}
         </ul>
       </details>
+      <LocalReportActions
+        content={buildSynastryReport(snapshot)}
+        filename="creovision-sinastria.txt"
+        label="Informe local de sinastría"
+      />
     </section>
   );
 }

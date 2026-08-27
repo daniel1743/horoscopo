@@ -90,3 +90,18 @@ La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge
 [6]: ../../src/lib/account/repository.ts "Repositorio de cuenta y Comunidad"
 [7]: ../audit/MODELO_DATOS.md "Modelo de datos y SQL pendiente"
 [8]: ../audit/numerologia-research.md "Investigación de referencia de Numerología"
+
+
+## Revisión autónoma adicional — 27 de agosto de 2026
+
+Después del commit de consolidación se revisaron nuevamente las brechas del documento maestro. Sin aplicar SQL ni desplegar, se cerraron localmente varias oportunidades de alto valor: el hub de Astrología ahora descubre cinco experiencias; la búsqueda interna y los flags incluyen las rutas públicas nuevas; la landing enlaza Tarot decisión, tránsitos y Camino de Vida; y el sitemap local subió a 137 URLs con `/tarot/pasado-presente-futuro` y `/suenos`, manteniendo fuera sinastría por `noindex`.
+
+Se añadió la tirada Tarot **pasado, presente y futuro** con posiciones declarativas, cartas únicas, síntesis no determinista, IA dentro del perímetro Tarot y soporte del diario privado. El código ya contempla `decision` y `past_present_future`, pero la restricción remota histórica de `saved_tarot_readings.spread_type` necesita el SQL manual `supabase/migrations/manual-tarot/01_saved_readings_spreads.sql` antes de afirmar compatibilidad en producción.
+
+La carta natal ahora ofrece un resumen de Big Three, elemento, modalidad y signo más repetido, calculado a partir de los puntos locales y presentado como descripción simbólica. Además, natal, tránsitos y sinastría permiten copiar o descargar un `.txt` local con posiciones, contactos y límites. No se activó PDF, persistencia de informes ni envío de estos datos a IA.
+
+Se implementó `/suenos` como diccionario público de veinte símbolos con búsqueda, filtros, lentes emocionales y simbólicas y preguntas de reflexión. No se creó diario de sueños ni persistencia, por lo que no se añadió SQL ni se expone información personal.
+
+La validación posterior pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El runtime externo pasó Tarot temático, natal, tránsitos, sinastría, Sueños e informes. El auditor local continúa registrando 30 tablas usadas, 15 RPC usados y 0 faltantes. Esta evidencia es local y no sustituye pruebas autenticadas, multiusuario, aplicación de SQL ni deploy.
+
+La rama sigue siendo `redesign/fases-1-5`. Estas mejoras adicionales aún no tienen un commit posterior al `3581b12`; antes de entregar el siguiente SQL se debe crear y verificar ese commit local, sin push.

@@ -146,6 +146,31 @@ export class TarotService {
     };
   }
 
+  /** Tirada temática pasado/presente/futuro. No presenta el futuro como certeza. */
+  async drawPastPresentFutureCards(input?: {
+    question?: string;
+    deck?: readonly TarotCard[];
+  }): Promise<TarotReading | null> {
+    const deck = input?.deck ?? (await this.loadDeck());
+    const reversalsEnabled = readReversalsPreference();
+    if (deck.length < tarotSpreads.past_present_future.numberOfCards) return null;
+    const cards = drawUniqueCards(deck, tarotSpreads.past_present_future.numberOfCards);
+    const question = sanitizeQuestion(input?.question);
+    const drawn: TarotDrawnCard[] = tarotSpreads.past_present_future.positions.map(
+      (position, idx) => ({
+        card: cards[idx],
+        position,
+        reversed: reversalsEnabled ? drawReversed() : false,
+      }),
+    );
+    return {
+      spread: "past_present_future",
+      drawn,
+      question,
+      drawnAtIso: new Date().toISOString(),
+    };
+  }
+
   getCardBySlug(slug: string) {
     return this.repo.getCardBySlug(slug);
   }

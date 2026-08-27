@@ -28,6 +28,24 @@ const valuePillars = [
   },
 ];
 
+const realTools = [
+  {
+    label: "Tarot para una decisión",
+    description: "Dos cartas para ordenar lo que conviene valorar y un siguiente paso posible.",
+    to: routes.tarotDecision,
+  },
+  {
+    label: "Tránsitos astrológicos",
+    description: "Observa el cielo del día frente a una carta de referencia calculada en memoria.",
+    to: routes.transits,
+  },
+  {
+    label: "Camino de Vida",
+    description: "Calcula un número simbólico a partir de tu fecha sin guardar tus datos.",
+    to: routes.numerologyLifePath,
+  },
+] as const;
+
 const steps = [
   {
     number: "01",
@@ -111,6 +129,44 @@ export function PremiumValueSection() {
             ))}
           </div>
         </div>
+
+        <nav
+          aria-labelledby="real-tools-title"
+          className="mt-12 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment p-6 md:mt-16 md:p-8"
+        >
+          <div className="max-w-[54ch]">
+            <p className="font-body text-[12px] font-medium uppercase tracking-[0.18em] text-cosmic">
+              Explora también
+            </p>
+            <h3
+              id="real-tools-title"
+              className="mt-3 font-display text-[26px] font-semibold text-ink"
+            >
+              Herramientas para distintos momentos
+            </h3>
+            <p className="mt-3 font-body text-[15px] leading-7 text-ink-soft">
+              Son experiencias independientes y reflexivas: no combinan ni guardan tus datos natales
+              automáticamente.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 md:grid-cols-3">
+            {realTools.map((tool) => (
+              <Link
+                key={tool.to}
+                to={tool.to}
+                className="rounded-2xl border border-line bg-background p-4 transition hover:-translate-y-0.5 hover:border-cosmic focus:outline-none focus:ring-2 focus:ring-cosmic/30"
+              >
+                <h4 className="font-display text-[19px] text-ink">{tool.label}</h4>
+                <p className="mt-2 font-body text-[13px] leading-6 text-ink-soft">
+                  {tool.description}
+                </p>
+                <span className="mt-3 inline-flex font-body text-[13px] font-semibold text-cosmic">
+                  Abrir herramienta →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </nav>
 
         <div className="mt-16 rounded-[var(--radius-card-lg)] bg-night px-6 py-8 text-ink-inverse md:mt-24 md:px-10 md:py-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">

@@ -45,6 +45,7 @@ export const desktopPrimary: NavGroup[] = [
       { label: "Sí o no", routeKey: "tarotYesNo" },
       { label: "Tres cartas", routeKey: "tarotThreeCards" },
       { label: "Tomar una decisión", routeKey: "tarotDecision" },
+      { label: "Pasado, presente y futuro", routeKey: "tarotPastPresentFuture" },
     ],
   },
   {
@@ -95,6 +96,7 @@ export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = [
       { label: "Compatibilidad", routeKey: "compatibility", icon: "compatibility" },
       { label: "Luna", routeKey: "moon", icon: "moon" },
       { label: "Guías", routeKey: "guides", icon: "article" },
+      { label: "Diccionario de sueños", routeKey: "dreams", icon: "moon" },
     ],
   },
   {
@@ -139,6 +141,7 @@ export const primaryNav: NavItem[] = [
   { label: "Numerología", href: "/numerologia/camino-de-vida", icon: "premium" },
   { label: "Luna", href: "/luna", icon: "moon" },
   { label: "Guías", href: "/guias", icon: "article" },
+  { label: "Sueños", href: "/suenos", icon: "moon" },
 ];
 
 export const mobileBottomNav: NavItem[] = [

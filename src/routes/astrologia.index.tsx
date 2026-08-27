@@ -23,14 +23,26 @@ const tools = [
       "La posición de la Luna en tu fecha de nacimiento, con aproximación explícita si falta la hora.",
     to: routes.moonSign,
   },
+  {
+    title: "Tránsitos de hoy",
+    description:
+      "Observa posiciones, retrogradaciones y aspectos del día frente a una carta introducida en memoria.",
+    to: routes.transits,
+  },
+  {
+    title: "Sinastría",
+    description:
+      "Compara dos cartas de referencia en el navegador, sin guardar los datos de ninguna persona.",
+    to: routes.synastry,
+  },
 ] as const;
 
 export const Route = createFileRoute("/astrologia/")({
   head: () => {
     const m = buildMeta({
-      title: "Astrología personal: carta natal y signos | Creovision",
+      title: "Astrología personal: carta natal, tránsitos y sinastría | Creovision",
       description:
-        "Calcula una carta natal de referencia, tu ascendente o tu signo lunar con datos astronómicos y límites explícitos.",
+        "Explora carta natal, ascendente, signo lunar, tránsitos y sinastría con cálculos locales y límites explícitos.",
       canonical: "/astrologia",
     });
     return { meta: m.meta, links: m.links };
@@ -44,7 +56,7 @@ function AstrologyHubPage() {
       <PageHeader
         eyebrow="Astrología personal"
         title="Conoce tus símbolos de nacimiento"
-        description="Tres experiencias locales para observar carta natal, ascendente y signo lunar sin promesas absolutas ni afirmaciones de causalidad científica."
+        description="Cinco experiencias locales para observar carta natal, ascendente, Luna, tránsitos y sinastría sin promesas absolutas ni afirmaciones de causalidad científica."
       />
       <section aria-labelledby="astrology-tools-heading" className="mt-10">
         <h2

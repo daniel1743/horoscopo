@@ -1,7 +1,12 @@
 import { useEffect } from "react";
 import { TarotPositionResult } from "./TarotPositionResult";
 import { TarotReadingDisclaimer } from "./TarotReadingDisclaimer";
-import { tarotSpreads, tarotThreeCardsSynthesis, yesNoLabels } from "@/config/tarot";
+import {
+  tarotPastPresentFutureSynthesis,
+  tarotSpreads,
+  tarotThreeCardsSynthesis,
+  yesNoLabels,
+} from "@/config/tarot";
 import type { TarotReading } from "@/types/tarot";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -63,16 +68,19 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
         ))}
       </div>
 
-      {showSynthesis && reading.spread === "three_cards" && (
-        <div className="rounded-[var(--radius-card-md)] border border-line-soft bg-parchment p-5">
-          <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
-            Cómo integrar la lectura
-          </p>
-          <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink">
-            {tarotThreeCardsSynthesis}
-          </p>
-        </div>
-      )}
+      {showSynthesis &&
+        (reading.spread === "three_cards" || reading.spread === "past_present_future") && (
+          <div className="rounded-[var(--radius-card-md)] border border-line-soft bg-parchment p-5">
+            <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
+              Cómo integrar la lectura
+            </p>
+            <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink">
+              {reading.spread === "past_present_future"
+                ? tarotPastPresentFutureSynthesis
+                : tarotThreeCardsSynthesis}
+            </p>
+          </div>
+        )}
 
       <div className="flex flex-wrap items-center gap-3">
         <SaveReadingButton
@@ -85,7 +93,11 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           interpretation={[
             yesNo?.description,
             ...reading.drawn.map((drawn) => describeDrawnCard(drawn)),
-            showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
+            showSynthesis && reading.spread === "past_present_future"
+              ? tarotPastPresentFutureSynthesis
+              : showSynthesis && reading.spread === "three_cards"
+                ? tarotThreeCardsSynthesis
+                : null,
           ]
             .filter(Boolean)
             .join("\n\n")}
@@ -96,7 +108,11 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           body={[
             reading.drawn.map((drawn) => describeDrawnCard(drawn)).join("\n"),
             yesNo?.description,
-            showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
+            showSynthesis && reading.spread === "past_present_future"
+              ? tarotPastPresentFutureSynthesis
+              : showSynthesis && reading.spread === "three_cards"
+                ? tarotThreeCardsSynthesis
+                : null,
           ]
             .filter(Boolean)
             .join("\n\n")}

@@ -22,6 +22,7 @@ const spreadLabels: Record<SpreadType, string> = {
   yes_no: "Sí o no",
   three_cards: "Tres cartas",
   decision: "Tarot para una decisión",
+  past_present_future: "Pasado, presente y futuro",
 };
 
 const filterOptions: Array<{ key: ReadingFilter; label: string }> = [
@@ -30,6 +31,7 @@ const filterOptions: Array<{ key: ReadingFilter; label: string }> = [
   { key: "yes_no", label: "Sí o no" },
   { key: "three_cards", label: "Tres cartas" },
   { key: "decision", label: "Tarot para una decisión" },
+  { key: "past_present_future", label: "Pasado, presente y futuro" },
 ];
 
 export function SavedReadingsPage() {

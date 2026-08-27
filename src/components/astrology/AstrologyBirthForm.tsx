@@ -8,6 +8,8 @@ import {
 } from "@/services/astrology.service";
 import type { AscendantResult, BirthData, LunarSignResult, NatalChart } from "@/types/astrology";
 import { NatalChartWheel } from "@/components/astrology/NatalChartWheel";
+import { LocalReportActions } from "@/components/astrology/LocalReportActions";
+import { buildNatalChartReport } from "@/lib/astrology/report";
 
 type AstrologyMode = "natal" | "ascendant" | "moon";
 type AstrologyResult = NatalChart | AscendantResult | LunarSignResult;
@@ -104,6 +106,55 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
               detail="Cada cúspide avanza 30° desde el ascendente."
             />
           </div>
+          <section
+            className="mt-6 rounded-2xl border border-cosmic/15 bg-cosmic/5 p-5"
+            aria-labelledby="natal-profile-summary-title"
+          >
+            <h3 id="natal-profile-summary-title" className="font-display text-[20px] text-ink">
+              Tu mapa principal
+            </h3>
+            <p className="mt-2 font-body text-[13px] leading-6 text-ink-soft">
+              Un resumen descriptivo de tus once puntos de referencia. El conteo de elementos y
+              modalidades sirve para observar patrones simbólicos; no es un diagnóstico ni una
+              medida científica de personalidad.
+            </p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              {[
+                { label: "Sol", placement: result.summary.bigThree.sun },
+                { label: "Luna", placement: result.summary.bigThree.moon },
+                { label: "Ascendente", placement: result.summary.bigThree.ascendant },
+              ].map(({ label, placement }) => (
+                <div
+                  key={label}
+                  className="rounded-xl border border-line/70 bg-background px-4 py-3"
+                >
+                  <p className="font-body text-[12px] uppercase tracking-[0.12em] text-ink-soft">
+                    {label}
+                  </p>
+                  <p className="mt-1 font-display text-[17px] text-ink">
+                    {placement.sign.symbol} {placement.sign.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <DominantResult
+                label="Elemento más repetido"
+                value={result.summary.dominantElement.label}
+                detail={`${result.summary.dominantElement.count} de 11 puntos`}
+              />
+              <DominantResult
+                label="Modalidad más repetida"
+                value={result.summary.dominantModality.label}
+                detail={`${result.summary.dominantModality.count} de 11 puntos`}
+              />
+              <DominantResult
+                label="Signo más repetido"
+                value={result.summary.dominantSign.label}
+                detail={`${result.summary.dominantSign.count} de 11 puntos`}
+              />
+            </div>
+          </section>
           <section className="mt-6" aria-labelledby="natal-angles-title">
             <h3 id="natal-angles-title" className="font-display text-[20px] text-ink">
               Ángulos principales
@@ -180,6 +231,11 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
               </p>
             )}
           </section>
+          <LocalReportActions
+            content={buildNatalChartReport(result)}
+            filename="creovision-carta-natal.txt"
+            label="Informe de tu carta natal"
+          />
         </>
       )}
 
@@ -222,6 +278,24 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
         )}
       </div>
     </section>
+  );
+}
+
+function DominantResult({
+  label,
+  value,
+  detail,
+}: {
+  label: string;
+  value: string;
+  detail: string;
+}) {
+  return (
+    <div className="rounded-xl border border-line/70 bg-background px-4 py-3">
+      <p className="font-body text-[12px] uppercase tracking-[0.12em] text-ink-soft">{label}</p>
+      <p className="mt-1 font-display text-[17px] text-ink">{value}</p>
+      <p className="font-body text-[12px] text-ink-soft">{detail}</p>
+    </div>
   );
 }
 

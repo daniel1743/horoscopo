@@ -36,6 +36,7 @@ export const tarotStorageKeys = {
   session: {
     yesNo: "tarot-reading-yes-no",
     threeCards: "tarot-reading-three-cards",
+    pastPresentFuture: "tarot-reading-past-present-future",
   },
   preferences: {
     reversalsEnabled: "tarot-reversals-enabled",
@@ -121,6 +122,31 @@ export const tarotSpreads: Record<TarotSpreadKey, TarotSpreadDefinition> = {
       },
     ],
   },
+  past_present_future: {
+    key: "past_present_future",
+    routeKey: "tarotPastPresentFuture",
+    label: "Pasado, presente y futuro",
+    description: "Tres cartas para ordenar contexto, momento actual y una posibilidad de avance.",
+    numberOfCards: 3,
+    icon: "tarot",
+    positions: [
+      {
+        key: "past",
+        label: "Lo que trae el pasado",
+        description: "Un antecedente o aprendizaje que influye en la situación.",
+      },
+      {
+        key: "present",
+        label: "Lo que está presente",
+        description: "La dinámica que merece atención ahora.",
+      },
+      {
+        key: "future",
+        label: "Una posibilidad futura",
+        description: "Un escenario abierto, no una predicción inevitable.",
+      },
+    ],
+  },
 };
 
 export const enabledSpreadKeys: readonly TarotSpreadKey[] = [
@@ -128,6 +154,7 @@ export const enabledSpreadKeys: readonly TarotSpreadKey[] = [
   "yes_no",
   "three_cards",
   "decision",
+  "past_present_future",
 ] as const;
 
 export const tarotDisclaimer =
@@ -135,6 +162,9 @@ export const tarotDisclaimer =
 
 export const tarotThreeCardsSynthesis =
   "Observa cómo se relacionan las tres cartas. La lectura puede ser más útil cuando conectas sus símbolos con hechos concretos de tu situación actual.";
+
+export const tarotPastPresentFutureSynthesis =
+  "Usa la secuencia como una conversación entre experiencia, presente y posibilidad. El futuro queda abierto: la lectura no sustituye tus decisiones ni predice hechos inevitables.";
 
 export const tarotHowToUsePoints: readonly string[] = [
   "Formula una pregunta clara y abierta.",

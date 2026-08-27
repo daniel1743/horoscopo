@@ -2,6 +2,8 @@ import * as Astronomy from "astronomy-engine";
 import type {
   AscendantResult,
   AstrologyCalculationMeta,
+  AstrologyElementKey,
+  AstrologyModalityKey,
   BirthData,
   CelestialPlacement,
   HouseCusp,
@@ -10,7 +12,9 @@ import type {
   NatalAngle,
   NatalAspect,
   NatalAspectKey,
+  NatalProfileSummary,
   ZodiacSign,
+  ZodiacSignKey,
 } from "@/types/astrology";
 import { ZODIAC_SIGNS } from "@/types/astrology";
 
@@ -52,6 +56,105 @@ export const ASTROLOGY_LIMITATIONS = [
   "La calidad del ascendente y de las casas depende de una hora de nacimiento y coordenadas correctas.",
   "La astrología se ofrece como lenguaje simbólico de reflexión, no como evidencia científica ni predicción determinista.",
 ] as const;
+
+const ELEMENT_BY_SIGN: Record<ZodiacSignKey, AstrologyElementKey> = {
+  aries: "fire",
+  leo: "fire",
+  sagittarius: "fire",
+  taurus: "earth",
+  virgo: "earth",
+  capricorn: "earth",
+  gemini: "air",
+  libra: "air",
+  aquarius: "air",
+  cancer: "water",
+  scorpio: "water",
+  pisces: "water",
+};
+
+const MODALITY_BY_SIGN: Record<ZodiacSignKey, AstrologyModalityKey> = {
+  aries: "cardinal",
+  cancer: "cardinal",
+  libra: "cardinal",
+  capricorn: "cardinal",
+  taurus: "fixed",
+  leo: "fixed",
+  scorpio: "fixed",
+  aquarius: "fixed",
+  gemini: "mutable",
+  virgo: "mutable",
+  sagittarius: "mutable",
+  pisces: "mutable",
+};
+
+const ELEMENT_LABELS: Record<AstrologyElementKey, string> = {
+  fire: "Fuego",
+  earth: "Tierra",
+  air: "Aire",
+  water: "Agua",
+};
+
+const MODALITY_LABELS: Record<AstrologyModalityKey, string> = {
+  cardinal: "Cardinal",
+  fixed: "Fija",
+  mutable: "Mutable",
+};
+
+function dominantFromCounts<T extends string>(
+  counts: Record<T, number>,
+  labels: Record<T, string>,
+): { key: T; label: string; count: number } {
+  const key = (Object.keys(counts) as T[]).reduce((current, candidate) =>
+    counts[candidate] > counts[current] ? candidate : current,
+  );
+  return { key, label: labels[key], count: counts[key] };
+}
+
+function buildProfileSummary(
+  placements: CelestialPlacement[],
+  ascendant: CelestialPlacement,
+): NatalProfileSummary {
+  const sun = placements.find((placement) => placement.body === Astronomy.Body.Sun);
+  const moon = placements.find((placement) => placement.body === Astronomy.Body.Moon);
+  if (!sun || !moon) throw new Error("No fue posible completar el resumen de la carta natal.");
+
+  const elements: Record<AstrologyElementKey, number> = {
+    fire: 0,
+    earth: 0,
+    air: 0,
+    water: 0,
+  };
+  const modalities: Record<AstrologyModalityKey, number> = {
+    cardinal: 0,
+    fixed: 0,
+    mutable: 0,
+  };
+  const signs = Object.fromEntries(ZODIAC_SIGNS.map((sign) => [sign.key, 0])) as Record<
+    ZodiacSignKey,
+    number
+  >;
+
+  for (const placement of [...placements, ascendant]) {
+    elements[ELEMENT_BY_SIGN[placement.sign.key]] += 1;
+    modalities[MODALITY_BY_SIGN[placement.sign.key]] += 1;
+    signs[placement.sign.key] += 1;
+  }
+
+  return {
+    bigThree: { sun, moon, ascendant },
+    elements,
+    modalities,
+    dominantElement: dominantFromCounts(elements, ELEMENT_LABELS),
+    dominantModality: dominantFromCounts(modalities, MODALITY_LABELS),
+    dominantSign: dominantFromCounts(
+      signs,
+      Object.fromEntries(ZODIAC_SIGNS.map((sign) => [sign.key, sign.label])) as Record<
+        ZodiacSignKey,
+        string
+      >,
+    ),
+  };
+}
 
 function normalize360(degrees: number): number {
   return ((degrees % 360) + 360) % 360;
@@ -367,6 +470,7 @@ function buildResult(data: BirthData): {
   houses: HouseCusp[];
   angles: NatalAngle[];
   aspects: NatalAspect[];
+  summary: NatalProfileSummary;
 } {
   const date = resolveBirthDate(data);
   const meta = metaFor(data, date);
@@ -389,10 +493,11 @@ function buildResult(data: BirthData): {
   }));
   const angles = calculateAngles(ascendantLongitude);
   const aspects = calculateAspects(placements);
+  const summary = buildProfileSummary(placements, ascendant);
   meta.limitations.push(
     "Los aspectos mostrados son los cinco aspectos mayores entre los diez cuerpos calculados y usan orbes fijos; no sustituyen una carta profesional.",
   );
-  return { date, meta, placements, ascendant, houses, angles, aspects };
+  return { date, meta, placements, ascendant, houses, angles, aspects, summary };
 }
 
 export function calculateNatalChart(data: BirthData): NatalChart {
@@ -409,6 +514,7 @@ export function calculateNatalChart(data: BirthData): NatalChart {
     houses: result.houses,
     angles: result.angles,
     aspects: result.aspects,
+    summary: result.summary,
   };
 }
 

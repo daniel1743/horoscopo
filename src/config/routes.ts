@@ -17,6 +17,7 @@ export const routes = {
   tarotYesNo: "/tarot/si-o-no",
   tarotThreeCards: "/tarot/tres-cartas",
   tarotDecision: "/tarot/decision",
+  tarotPastPresentFuture: "/tarot/pasado-presente-futuro",
   tarotLibrary: "/tarot/cartas",
 
   astrology: "/astrologia",
@@ -34,6 +35,7 @@ export const routes = {
   moonPhases: "/luna/fases",
 
   numerologyLifePath: "/numerologia/camino-de-vida",
+  dreams: "/suenos",
 
   guides: "/guias",
   topics: "/temas",

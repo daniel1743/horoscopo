@@ -56,7 +56,7 @@ export interface Favorite {
   created_at: string;
 }
 
-export type SpreadType = "daily" | "yes_no" | "three_cards" | "decision";
+export type SpreadType = "daily" | "yes_no" | "three_cards" | "decision" | "past_present_future";
 
 export interface SavedReadingCard {
   slug: string;

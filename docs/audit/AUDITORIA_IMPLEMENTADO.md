@@ -170,3 +170,16 @@ La conclusión no es que el documento maestro esté terminado. La conclusión es
 [17]: ../../src/services/search.service.ts "Servicio de búsqueda"
 [18]: ../../src/server/search/search-source-registry.ts "Fuentes indexables"
 [19]: ../../src/config/seo.ts "Configuración SEO compartida"
+
+
+## 3.13 Revisión autónoma posterior — 27 de agosto de 2026
+
+Después del cierre anterior se detectaron y corrigieron brechas de discoverability y producto que todavía podían resolverse localmente. `/astrologia` ahora muestra las cinco experiencias reales disponibles; el buscador interno y los flags centrales reconocen Tarot decisión, tránsitos, sinastría, Numerología, Sueños y la nueva tirada pasado/presente/futuro. La landing enlaza directamente a superficies reales sin prometer pagos o funciones premium inexistentes.
+
+La vertical Tarot incorpora una tirada temática de tres posiciones —pasado, presente y futuro— con cartas únicas, preferencia local de reversos, síntesis reflexiva, IA dentro del perímetro Tarot ya autorizado, guardado explícito y filtro en el diario. La extensión del constraint remoto de `saved_tarot_readings.spread_type` quedó preparada en `supabase/migrations/manual-tarot/01_saved_readings_spreads.sql`, pero está **PENDIENTE de aplicación manual**.
+
+La carta natal incorpora un resumen descriptivo de Big Three, conteos de elementos, modalidades y signo más repetido. También se añadieron informes `.txt` locales para carta natal, tránsitos y sinastría; se copian o descargan solo tras una acción explícita, no se persisten y no se envían a IA. Esto no activa informes PDF ni almacenamiento histórico.
+
+Se construyó `/suenos`, un diccionario público con veinte símbolos, búsqueda, filtros, lentes emocionales y simbólicas, preguntas reflexivas y aviso de que no se guardan experiencias. Es contenido editorial inicial, no una interpretación universal ni una herramienta clínica.
+
+La validación posterior pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El sitemap local quedó en 137 URLs: incluye `/tarot/pasado-presente-futuro` y `/suenos`, y mantiene fuera `/astrologia/sinastria` por su `noindex`. El auditor local registra 30 tablas y 15 RPC utilizados, sin faltantes entre código y SQL local; esto no demuestra que los bloques 07, 08 ni el SQL Tarot hayan sido aplicados en Supabase remoto.

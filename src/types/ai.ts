@@ -56,7 +56,7 @@ export interface AiUserPreferences {
 }
 
 export interface AiTarotContextInput {
-  spreadKey: "daily" | "yes_no" | "three_cards" | "decision";
+  spreadKey: "daily" | "yes_no" | "three_cards" | "decision" | "past_present_future";
   cardKeys: string[];
   positionKeys: string[];
   question?: string;
