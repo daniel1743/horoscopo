@@ -16,19 +16,19 @@ La carta natal local incorpora placements por casa, ASC/MC/DSC/IC, cinco aspecto
 
 ## Estado por área
 
-| Área | Resultado local | Estado que puede afirmarse |
-| --- | --- | --- |
-| Privacidad natal | Repositorio aislado en `profile_astrology_birth_data`; exportación y eliminación ampliadas | **Implementado en código; E2E pendiente** |
-| Tarot | 78 cartas, reversos, biblioteca filtrable, recomendaciones, cuatro tiradas y guardado explícito | **Implementado; catálogo remoto confirmado manualmente** |
-| Diario privado | Filtros por tirada/fecha, búsqueda, métricas, notas editables y borrado | **Implementado en código; E2E pendiente** |
-| Astrología natal | 10 cuerpos, 12 casas iguales, cuatro ángulos, cinco aspectos y rueda accesible | **Implementado localmente; aproximación no profesional** |
-| Tránsitos | Posiciones locales, velocidad/retrogradación y aspectos cruzados | **Implementado localmente; no persistente** |
-| Sinastría | Dos cartas en memoria, contactos cruzados, ruta `noindex,nofollow` | **Implementado localmente; E2E pendiente** |
-| Comunidad base | Posts, feed, likes, reposts, reportes y moderación de posts | **SQL 01–06 confirmado; E2E pendiente** |
-| Comunidad ampliada | Comentarios, follows y reportes/moderación de comentarios | **Código + SQL 07–08 local; no aplicado remotamente** |
-| Editorial/SEO | 12 Guías, categorías, filtro de temas, 78 fichas Tarot y sitemap de 135 URLs | **Implementado localmente; crawler/performance no verificados** |
-| IA | Chat con streaming, cuotas, RAG limitado y contexto Tarot/horóscopo/artículos | **Implementado localmente; proveedor/producción no verificados** |
-| Numerología | Camino de Vida calculado en memoria, significados 1–9/11/22/33 y aviso de límites | **Implementado localmente; sin SQL por diseño** |
+| Área               | Resultado local                                                                                 | Estado que puede afirmarse                                       |
+| ------------------ | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Privacidad natal   | Repositorio aislado en `profile_astrology_birth_data`; exportación y eliminación ampliadas      | **Implementado en código; E2E pendiente**                        |
+| Tarot              | 78 cartas, reversos, biblioteca filtrable, recomendaciones, cuatro tiradas y guardado explícito | **Implementado; catálogo remoto confirmado manualmente**         |
+| Diario privado     | Filtros por tirada/fecha, búsqueda, métricas, notas editables y borrado                         | **Implementado en código; E2E pendiente**                        |
+| Astrología natal   | 10 cuerpos, 12 casas iguales, cuatro ángulos, cinco aspectos y rueda accesible                  | **Implementado localmente; aproximación no profesional**         |
+| Tránsitos          | Posiciones locales, velocidad/retrogradación y aspectos cruzados                                | **Implementado localmente; no persistente**                      |
+| Sinastría          | Dos cartas en memoria, contactos cruzados, ruta `noindex,nofollow`                              | **Implementado localmente; E2E pendiente**                       |
+| Comunidad base     | Posts, feed, likes, reposts, reportes y moderación de posts                                     | **SQL 01–06 confirmado; E2E pendiente**                          |
+| Comunidad ampliada | Comentarios, follows y reportes/moderación de comentarios                                       | **Código + SQL 07–08 local; no aplicado remotamente**            |
+| Editorial/SEO      | 12 Guías, categorías, filtro de temas, 78 fichas Tarot y sitemap de 135 URLs                    | **Implementado localmente; crawler/performance no verificados**  |
+| IA                 | Chat con streaming, cuotas, RAG limitado y contexto Tarot/horóscopo/artículos                   | **Implementado localmente; proveedor/producción no verificados** |
+| Numerología        | Camino de Vida calculado en memoria, significados 1–9/11/22/33 y aviso de límites               | **Implementado localmente; sin SQL por diseño**                  |
 
 ## Cambios funcionales relevantes
 
@@ -44,29 +44,29 @@ La Comunidad ampliada incluye comentarios bajo demanda, follow por username medi
 
 El detector local reconstruido comparó las llamadas del código con los SQL versionados y encontró **30 tablas usadas, 15 RPC usados, 0 tablas faltantes y 0 RPC faltantes**. Esta comprobación demuestra coherencia local, no existencia en el proyecto Supabase remoto.
 
-| Bloque | Estado | Acción de Daniel al final |
-| --- | --- | --- |
-| `profile_astrology_birth_data` | Confirmado manualmente | Ejecutar pruebas de guardar, recuperar, borrar y exportar |
-| Comunidad 01–06 | Confirmado manualmente | Ejecutar pruebas reales de post, like, repost, reporte y moderación |
-| `07_comments_and_follows.sql` | Local, no aplicado | Aplicar como bloque SQL independiente y capturar resultado |
-| `08_comment_reports_and_moderation.sql` | Local, no aplicado | Aplicar después de 07 y verificar bandeja/admin/RLS |
-| Numerología | No requiere SQL | Probar cálculo local sin datos reales compartidos |
+| Bloque                                  | Estado                 | Acción de Daniel al final                                           |
+| --------------------------------------- | ---------------------- | ------------------------------------------------------------------- |
+| `profile_astrology_birth_data`          | Confirmado manualmente | Ejecutar pruebas de guardar, recuperar, borrar y exportar           |
+| Comunidad 01–06                         | Confirmado manualmente | Ejecutar pruebas reales de post, like, repost, reporte y moderación |
+| `07_comments_and_follows.sql`           | Local, no aplicado     | Aplicar como bloque SQL independiente y capturar resultado          |
+| `08_comment_reports_and_moderation.sql` | Local, no aplicado     | Aplicar después de 07 y verificar bandeja/admin/RLS                 |
+| Numerología                             | No requiere SQL        | Probar cálculo local sin datos reales compartidos                   |
 
 No se debe aplicar un seed a ciegas ni ejecutar un bloque contra una tabla equivocada. Cada bloque nuevo debe comprobarse en el proyecto Supabase correcto y, si falla por objeto existente o ausente, documentar el estado antes de continuar.
 
 ## Validaciones locales
 
-| Comprobación | Estado actual | Evidencia o límite |
-| --- | --- | --- |
-| `npx tsc --noEmit` | **PASÓ** | 0 errores después del soporte Tarot decisión, Comunidad y Numerología |
-| `npm run lint` | **PASÓ** | 0 errores; 7 warnings estructurales `react-refresh/only-export-components` |
-| `npm run build` | **PASÓ** | Vite/Nitro generó el build y actualizó `routeTree.gen.ts`; no implica deploy |
-| `npm run seo:sitemap` | **PASÓ** | 135 URLs, 78 fichas Tarot y sin sinastría |
-| Detector Supabase local | **PASÓ** | 30 tablas, 15 RPC, 0 faltantes; no confirma remoto |
-| `npm run content:check` | Pendiente en suite final | Debe repetirse después de la consolidación |
-| `npm run pending:check` | Pendiente en suite final | Debe repetirse después de la consolidación |
-| Runtime Tarot/natal/tránsitos/sinastría | Pendiente en suite final | Se ejecutará con archivos temporales fuera del repositorio |
-| E2E autenticado | Pendiente | Requiere sesión, SQL aplicado y pruebas de Daniel |
+| Comprobación                            | Estado actual            | Evidencia o límite                                                           |
+| --------------------------------------- | ------------------------ | ---------------------------------------------------------------------------- |
+| `npx tsc --noEmit`                      | **PASÓ**                 | 0 errores después del soporte Tarot decisión, Comunidad y Numerología        |
+| `npm run lint`                          | **PASÓ**                 | 0 errores; 7 warnings estructurales `react-refresh/only-export-components`   |
+| `npm run build`                         | **PASÓ**                 | Vite/Nitro generó el build y actualizó `routeTree.gen.ts`; no implica deploy |
+| `npm run seo:sitemap`                   | **PASÓ**                 | 135 URLs, 78 fichas Tarot y sin sinastría                                    |
+| Detector Supabase local                 | **PASÓ**                 | 30 tablas, 15 RPC, 0 faltantes; no confirma remoto                           |
+| `npm run content:check`                 | Pendiente en suite final | Debe repetirse después de la consolidación                                   |
+| `npm run pending:check`                 | Pendiente en suite final | Debe repetirse después de la consolidación                                   |
+| Runtime Tarot/natal/tránsitos/sinastría | Pendiente en suite final | Se ejecutará con archivos temporales fuera del repositorio                   |
+| E2E autenticado                         | Pendiente                | Requiere sesión, SQL aplicado y pruebas de Daniel                            |
 
 No se añadió Vitest ni otro runner porque el repositorio no lo tenía instalado y no se autorizó introducir una dependencia de pruebas solo para esta continuidad. Los tests de dominio existentes siguen siendo útiles, pero no sustituyen E2E.
 
@@ -78,7 +78,7 @@ La IA continúa acotada a Tarot, horóscopos y artículos editoriales publicados
 
 ## Estado de Git y entrega
 
-La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge, rebase, force push, push ni deploy. Se revisaron `git status --short`, `git diff --stat`, `git diff --check` y el lockfile; el commit local cohesivo quedó creado como `ff1483b`. El respaldo `/home/ubuntu/horoscopo-restored-backup-20260827` se conserva como respaldo de recuperación.
+La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge, rebase, force push, push ni deploy. Se revisaron `git status --short`, `git diff --stat`, `git diff --check` y el lockfile; los commits locales de consolidación incluyen `ff1483b`, `3581b12` y el último `8fa7874`. El respaldo `/home/ubuntu/horoscopo-restored-backup-20260827` se conserva como respaldo de recuperación.
 
 ## Referencias internas
 
@@ -90,7 +90,6 @@ La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge
 [6]: ../../src/lib/account/repository.ts "Repositorio de cuenta y Comunidad"
 [7]: ../audit/MODELO_DATOS.md "Modelo de datos y SQL pendiente"
 [8]: ../audit/numerologia-research.md "Investigación de referencia de Numerología"
-
 
 ## Revisión autónoma adicional — 27 de agosto de 2026
 
@@ -104,4 +103,4 @@ Se implementó `/suenos` como diccionario público de veinte símbolos con búsq
 
 La validación posterior pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El runtime externo pasó Tarot temático, natal, tránsitos, sinastría, Sueños e informes. El auditor local continúa registrando 30 tablas usadas, 15 RPC usados y 0 faltantes. Esta evidencia es local y no sustituye pruebas autenticadas, multiusuario, aplicación de SQL ni deploy.
 
-La rama sigue siendo `redesign/fases-1-5`. Estas mejoras adicionales aún no tienen un commit posterior al `3581b12`; antes de entregar el siguiente SQL se debe crear y verificar ese commit local, sin push.
+La rama sigue siendo `redesign/fases-1-5`. Las mejoras adicionales quedaron consolidadas en `8fa7874`; no se hizo push.
