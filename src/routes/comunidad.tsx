@@ -14,7 +14,11 @@ const shareTypes: readonly CommunityPostType[] = [
   "other",
 ];
 
-const readSearchString = (value: unknown) => (typeof value === "string" ? value : "");
+const readSearchString = (value: unknown) => {
+  if (typeof value !== "string") return undefined;
+  const cleanValue = value.trim();
+  return cleanValue || undefined;
+};
 
 const readShareType = (value: unknown): CommunityPostType =>
   shareTypes.includes(value as CommunityPostType) ? (value as CommunityPostType) : "reflection";
@@ -45,11 +49,11 @@ function CommunityRoute() {
   const sharePrefill: CommunitySharePrefill | undefined = hasPrefill
     ? {
         initialPostType: readShareType(search.shareType),
-        initialTitle: search.shareTitle,
-        initialBody: search.shareBody,
-        sourceRef: search.shareSourceRef,
-        sourceTitle: search.shareSourceTitle,
-        sourceUrl: search.shareSourceUrl,
+        initialTitle: search.shareTitle ?? "",
+        initialBody: search.shareBody ?? "",
+        sourceRef: search.shareSourceRef ?? "",
+        sourceTitle: search.shareSourceTitle ?? "",
+        sourceUrl: search.shareSourceUrl ?? "",
       }
     : undefined;
 

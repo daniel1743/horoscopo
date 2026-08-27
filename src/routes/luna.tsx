@@ -18,14 +18,15 @@ import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
 import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/luna")({
-  head: () => {
+  head: ({ matches }) => {
     const m = buildMeta({
       title: "Luna hoy, calendario y fases — Proyecto Astral",
       description:
         "Fase lunar de hoy, calendario mensual y las ocho fases del ciclo, calculadas con un motor astronómico validado.",
       canonical: "/luna",
     });
-    return { meta: m.meta, links: m.links };
+    const activePath = matches.at(-1)?.fullPath;
+    return { meta: m.meta, links: activePath === "/luna" ? m.links : [] };
   },
   loader: async ({ context }) => {
     await Promise.all([

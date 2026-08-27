@@ -8,6 +8,7 @@ export const Route = createFileRoute("/tarot/cartas/")({
       title: "Biblioteca de cartas · Tarot · Proyecto Astral",
       description:
         "Explora los Arcanos Mayores publicados con su significado, palabras clave y preguntas para reflexionar.",
+      canonical: "/tarot/cartas",
     });
     return { meta: m.meta, links: m.links };
   },

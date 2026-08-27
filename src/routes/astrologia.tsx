@@ -1,18 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Placeholder } from "@/components/layout/Placeholder";
+import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/astrologia")({
-  head: () => ({
-    meta: [
-      { title: "Astrología — Proyecto Astral" },
-      { name: "description", content: "Comprende los principales conceptos de tu carta astral." },
-      { property: "og:title", content: "Astrología — Proyecto Astral" },
-      {
-        property: "og:description",
-        content: "Comprende los principales conceptos de tu carta astral.",
-      },
-    ],
-  }),
+  head: () => {
+    const m = buildMeta({
+      title: "Astrología — Proyecto Astral",
+      description: "Comprende los principales conceptos de tu carta astral.",
+      canonical: "/astrologia",
+    });
+    return { meta: m.meta, links: m.links };
+  },
   component: () => (
     <Placeholder
       title="Astrología"

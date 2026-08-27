@@ -10,4 +10,4 @@ Disallow: /mi-espacio/
 Disallow: /design-system
 Disallow: /api/
 
-Sitemap: https://creovision.io/sitemap.xml
+Sitemap: https://www.creovision.io/sitemap.xml

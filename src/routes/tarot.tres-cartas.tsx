@@ -8,6 +8,7 @@ export const Route = createFileRoute("/tarot/tres-cartas")({
       title: "Tirada de tres cartas · Tarot · Proyecto Astral",
       description:
         "Tres cartas de tarot para observar una situación: lo que influye, lo que conviene mirar y un posible próximo paso.",
+      canonical: "/tarot/tres-cartas",
     });
     return { meta: m.meta, links: m.links };
   },

@@ -9,10 +9,11 @@ interface Props {
   articles: EditorialArticle[];
   categories: EditorialCategory[];
   authors: EditorialAuthor[];
+  unavailable?: boolean;
 }
 
 /** Hub editorial: portada de guías con categorías + listado. */
-export function GuidesPage({ articles, categories }: Props) {
+export function GuidesPage({ articles, categories, unavailable = false }: Props) {
   const byId = new Map(categories.map((c) => [c.id, c]));
 
   return (
@@ -46,7 +47,9 @@ export function GuidesPage({ articles, categories }: Props) {
 
       {articles.length === 0 ? (
         <p className="rounded-[var(--radius-card)] border border-dashed border-line bg-warm-white p-6 font-body text-ink-soft">
-          Todavía no hay artículos publicados. Vuelve pronto.
+          {unavailable
+            ? "Las guías no están disponibles en este momento. Intenta volver a cargar la página en unos minutos."
+            : "Todavía no hay artículos publicados. Vuelve pronto."}
         </p>
       ) : (
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" role="list">

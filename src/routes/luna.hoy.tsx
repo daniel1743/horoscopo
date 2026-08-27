@@ -12,25 +12,18 @@ import { MoonUnavailableState } from "@/components/moon/MoonUnavailableState";
 import { moonQueries } from "@/services/moon.service";
 import { routes } from "@/config/routes";
 import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
+import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/luna/hoy")({
-  head: () => ({
-    meta: [
-      { title: "Luna de hoy — Proyecto Astral" },
-      {
-        name: "description",
-        content:
-          "Fase, iluminación, edad lunar y próxima fase mayor calculadas para hoy con un motor astronómico validado.",
-      },
-      { property: "og:title", content: "Luna de hoy — Proyecto Astral" },
-      {
-        property: "og:description",
-        content: "Fase lunar de hoy con datos astronómicos verificables.",
-      },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  head: () => {
+    const meta = buildMeta({
+      title: "Luna de hoy — Proyecto Astral",
+      description: "Fase lunar de hoy con datos astronómicos verificables.",
+      canonical: "/luna/hoy",
+      type: "article",
+    });
+    return { meta: meta.meta, links: meta.links };
+  },
   loader: async ({ context }) => {
     await Promise.all([
       context.queryClient.ensureQueryData(moonQueries.today()),
@@ -42,12 +35,7 @@ export const Route = createFileRoute("/luna/hoy")({
 
 function MoonTodayPage() {
   return (
-    <PageShell
-      breadcrumbs={[
-        { label: "Luna", href: routes.moon },
-        { label: "Luna de hoy" },
-      ]}
-    >
+    <PageShell breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Luna de hoy" }]}>
       <PageHeader
         eyebrow="Cálculo astronómico"
         title="Luna de hoy"

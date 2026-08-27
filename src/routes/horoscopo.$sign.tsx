@@ -30,16 +30,17 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const entry = publishedEntry ?? createHoroscopeFallback(sign.slug, def.key);
     return { signSlug: sign.slug, period: def.key as HoroscopePeriod, entry, moon };
   },
-  head: ({ params, search }) => {
+  head: ({ params, match }) => {
     const sign = zodiacSigns.find((s) => s.slug === params.sign);
     const name = sign?.name ?? "Signo";
+    const search = match.search as Search;
     const periodLabel =
-      search?.periodo === "semana" ? "esta semana" : search?.periodo === "mes" ? "este mes" : "hoy";
+      search.periodo === "semana" ? "esta semana" : search.periodo === "mes" ? "este mes" : "hoy";
     const m = buildMeta({
       title: `${name} — Horóscopo de ${periodLabel} · Proyecto Astral`,
       description: `Horóscopo de ${name} para ${periodLabel}, con foco, ánimo y energía para orientar tu día.`,
       canonical: `/horoscopo/${sign?.slug ?? params.sign}`,
-      robots: search?.periodo ? "noindex,follow" : undefined,
+      robots: search.periodo ? "noindex,follow" : undefined,
     });
     return { meta: m.meta, links: m.links };
   },

@@ -1,17 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { useSuspenseQuery } from "@tanstack/react-query";
 import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CompatibilityPairSelector } from "@/components/compatibility/CompatibilityPairSelector";
 import { COMPATIBILITY_COPY } from "@/config/compatibility";
-import { compatibilityQueries } from "@/services/compatibility.service";
+import type { CompatibilityProfile } from "@/types/compatibility";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import { compatibilityRoute } from "@/lib/compatibility/route-helpers";
 
 /** Hub de compatibilidad: intro editorial + selector + parejas publicadas. */
-export function CompatibilityHubPage() {
-  const { data: featured } = useSuspenseQuery(compatibilityQueries.featured(6));
-
+export function CompatibilityHubPage({ featured }: { featured: CompatibilityProfile[] }) {
   return (
     <PageShell breadcrumbs={[{ label: "Compatibilidad" }]}>
       <PageHeader

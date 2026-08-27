@@ -5,33 +5,24 @@ import { MoonPhaseGrid } from "@/components/moon/MoonPhaseGrid";
 import { MoonScientificFacts } from "@/components/moon/MoonScientificFacts";
 import { MoonDisclaimer } from "@/components/moon/MoonDisclaimer";
 import { routes } from "@/config/routes";
+import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/luna/fases")({
-  head: () => ({
-    meta: [
-      { title: "Las 8 fases lunares — Proyecto Astral" },
-      {
-        name: "description",
-        content:
-          "Índice completo de las ocho fases del ciclo lunar: astronomía y lectura simbólica.",
-      },
-      { property: "og:title", content: "Las 8 fases lunares — Proyecto Astral" },
-      {
-        property: "og:description",
-        content: "Astronomía y lectura simbólica de las ocho fases del ciclo lunar.",
-      },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-    ],
-  }),
+  head: () => {
+    const m = buildMeta({
+      title: "Las 8 fases lunares — Proyecto Astral",
+      description:
+        "Índice completo de las ocho fases del ciclo lunar: astronomía y lectura simbólica.",
+      canonical: "/luna/fases",
+    });
+    return { meta: m.meta, links: m.links };
+  },
   component: MoonPhasesIndexPage,
 });
 
 function MoonPhasesIndexPage() {
   return (
-    <PageShell
-      breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Fases" }]}
-    >
+    <PageShell breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Fases" }]}>
       <PageHeader
         eyebrow="Ciclo sinódico"
         title="Las 8 fases lunares"

@@ -8,6 +8,7 @@ export const Route = createFileRoute("/tarot/carta-del-dia")({
       title: "Carta del día · Tarot · Proyecto Astral",
       description:
         "Una carta simbólica diaria del tarot para observar con calma. Permanece estable durante todo el día.",
+      canonical: "/tarot/carta-del-dia",
     });
     return { meta: m.meta, links: m.links };
   },

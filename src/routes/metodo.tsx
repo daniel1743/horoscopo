@@ -8,6 +8,7 @@ export const Route = createFileRoute("/metodo")({
       title: "Método editorial — Proyecto Astral",
       description:
         "Cómo trabajamos: principios, proceso editorial y límites de nuestro contenido sobre astrología y tarot.",
+      canonical: "/metodo",
     });
     return { meta: m.meta, links: m.links };
   },

@@ -5,18 +5,23 @@ import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/guias")({
   loader: async () => {
-    const [articles, categories, authors] = await Promise.all([
-      listPublishedArticles({ limit: 60 }),
-      listCategories(),
-      listAuthors(),
-    ]);
-    return { articles, categories, authors };
+    try {
+      const [articles, categories, authors] = await Promise.all([
+        listPublishedArticles({ limit: 60 }),
+        listCategories(),
+        listAuthors(),
+      ]);
+      return { articles, categories, authors, unavailable: false };
+    } catch {
+      return { articles: [], categories: [], authors: [], unavailable: true };
+    }
   },
   head: () => {
     const m = buildMeta({
       title: "Guías — Proyecto Astral",
       description:
         "Ensayos y artículos editoriales sobre astrología, tarot, luna y compatibilidad, con una mirada clara y contemporánea.",
+      canonical: "/guias",
     });
     return { meta: m.meta, links: m.links };
   },
@@ -32,6 +37,13 @@ export const Route = createFileRoute("/guias")({
 });
 
 function GuidesRoute() {
-  const { articles, categories, authors } = Route.useLoaderData();
-  return <GuidesPage articles={articles} categories={categories} authors={authors} />;
+  const { articles, categories, authors, unavailable } = Route.useLoaderData();
+  return (
+    <GuidesPage
+      articles={articles}
+      categories={categories}
+      authors={authors}
+      unavailable={unavailable}
+    />
+  );
 }

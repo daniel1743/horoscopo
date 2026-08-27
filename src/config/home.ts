@@ -9,6 +9,7 @@ import type { RouteKey } from "@/config/routes";
 
 export type HomeSectionId =
   | "hero"
+  | "premium_value"
   | "zodiac_selector"
   | "daily_insight"
   | "moon_today"
@@ -29,6 +30,7 @@ export interface HomeAction {
 export const homeConfig = {
   sectionOrder: [
     "hero",
+    "premium_value",
     "zodiac_selector",
     "daily_insight",
     "moon_today",
@@ -41,6 +43,7 @@ export const homeConfig = {
 
   enabled: {
     hero: true,
+    premium_value: true,
     zodiac_selector: true,
     daily_insight: true,
     moon_today: true,

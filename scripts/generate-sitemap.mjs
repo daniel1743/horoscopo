@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
-const siteUrl = (process.env.SITE_URL ?? "https://creovision.io").replace(/\/$/, "");
+const siteUrl = (process.env.SITE_URL ?? "https://www.creovision.io").replace(/\/$/, "");
 const corePaths = [
   "/",
   "/horoscopo",

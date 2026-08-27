@@ -1,6 +1,7 @@
 import * as React from "react";
 import { homeConfig, type HomeSectionId } from "@/config/home";
 import { HomeHero } from "@/components/home/HomeHero";
+import { PremiumValueSection } from "@/components/home/PremiumValueSection";
 import { ZodiacSelector } from "@/components/home/ZodiacSelector";
 import { DailyInsightSection } from "@/components/home/DailyInsightSection";
 import { MoonTodaySection } from "@/components/home/MoonTodaySection";
@@ -15,6 +16,7 @@ import { HomeNewsletterSection } from "@/components/home/HomeNewsletterSection";
  */
 const registry: Record<HomeSectionId, React.ComponentType> = {
   hero: HomeHero,
+  premium_value: PremiumValueSection,
   zodiac_selector: ZodiacSelector,
   daily_insight: DailyInsightSection,
   moon_today: MoonTodaySection,

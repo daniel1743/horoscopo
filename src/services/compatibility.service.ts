@@ -45,13 +45,30 @@ async function loadPairPage(
   const signB = getZodiacBySlug(normalized.sign_b);
   if (!signA || !signB) throw new Error("Zodiac metadata missing");
 
-  const [profile, altA, altB] = await Promise.all([
-    repo.getByPairKey(normalized.pair_key),
-    repo.getPublishedForSign(normalized.sign_a, 6),
-    normalized.sign_a === normalized.sign_b
-      ? Promise.resolve<CompatibilityProfile[]>([])
-      : repo.getPublishedForSign(normalized.sign_b, 6),
-  ]);
+  let profile: CompatibilityProfile | null;
+  let altA: CompatibilityProfile[];
+  let altB: CompatibilityProfile[];
+  try {
+    [profile, altA, altB] = await Promise.all([
+      repo.getByPairKey(normalized.pair_key),
+      repo.getPublishedForSign(normalized.sign_a, 6),
+      normalized.sign_a === normalized.sign_b
+        ? Promise.resolve<CompatibilityProfile[]>([])
+        : repo.getPublishedForSign(normalized.sign_b, 6),
+    ]);
+  } catch {
+    const fallbackAlternatives = getFallbackPairsForSign(normalized.sign_a, 5)
+      .map(([fallbackA, fallbackB]) => createCompatibilityFallback(fallbackA, fallbackB))
+      .filter((fallback) => fallback.pairKey !== normalized.pair_key)
+      .slice(0, 4);
+    return {
+      normalized,
+      signA,
+      signB,
+      profile: createCompatibilityFallback(normalized.sign_a, normalized.sign_b),
+      alternativePairs: fallbackAlternatives,
+    };
+  }
 
   const seen = new Set<string>([normalized.pair_key]);
   const alternativePairs: CompatibilityProfile[] = [];

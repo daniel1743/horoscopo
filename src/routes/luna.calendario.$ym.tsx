@@ -15,6 +15,7 @@ import { MOON_SITE_TIMEZONE, MOON_CALENDAR_RANGE_YEARS } from "@/config/moon";
 import { getZonedParts } from "@/lib/moon/timezone";
 import { parseYearMonth, formatMonthYear } from "@/lib/moon/format";
 import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
+import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/luna/calendario/$ym")({
   parseParams: (raw) => {
@@ -31,31 +32,22 @@ export const Route = createFileRoute("/luna/calendario/$ym")({
   },
   head: ({ params }) => {
     const label = params ? formatMonthYear(params.year, params.month) : "Calendario";
-    return {
-      meta: [
-        { title: `Calendario lunar · ${label} — Proyecto Astral` },
-        {
-          name: "description",
-          content: `Fases lunares y eventos mayores en ${label}. Cálculos astronómicos validados.`,
-        },
-        { property: "og:title", content: `Calendario lunar · ${label}` },
-        {
-          property: "og:description",
-          content: `Fases lunares y eventos mayores en ${label}.`,
-        },
-        { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
-      ],
-    };
+    const m = buildMeta({
+      title: `Calendario lunar · ${label} — Proyecto Astral`,
+      description: `Fases lunares y eventos mayores en ${label}. Cálculos astronómicos validados.`,
+      canonical: params ? moonCalendarMonthRoute(params.year, params.month) : "/luna/calendario",
+    });
+    return { meta: m.meta, links: m.links };
   },
   loader: async ({ context, params }) => {
-    await context.queryClient.ensureQueryData(
-      moonQueries.calendar(params.year, params.month),
-    );
+    await context.queryClient.ensureQueryData(moonQueries.calendar(params.year, params.month));
   },
   notFoundComponent: () => (
     <PageShell breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Calendario" }]}>
-      <PageHeader title="Mes no disponible" description="Elige un mes dentro del rango soportado." />
+      <PageHeader
+        title="Mes no disponible"
+        description="Elige un mes dentro del rango soportado."
+      />
     </PageShell>
   ),
   errorComponent: () => (
@@ -69,12 +61,7 @@ export const Route = createFileRoute("/luna/calendario/$ym")({
 function MoonCalendarMonthPage() {
   const { year, month } = Route.useParams();
   return (
-    <PageShell
-      breadcrumbs={[
-        { label: "Luna", href: routes.moon },
-        { label: "Calendario" },
-      ]}
-    >
+    <PageShell breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Calendario" }]}>
       <PageHeader
         eyebrow="Ciclo lunar"
         title="Calendario lunar"

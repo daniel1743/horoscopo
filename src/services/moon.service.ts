@@ -4,15 +4,8 @@
  * repositorios ni server functions directamente.
  */
 import { queryOptions } from "@tanstack/react-query";
-import {
-  getMoonToday,
-  getMoonCalendar,
-  getUpcomingMoonEvents,
-} from "@/lib/moon/moon.functions";
-import {
-  fetchAllPublishedMoonContent,
-  fetchMoonContentByPhase,
-} from "@/lib/moon/repository";
+import { getMoonToday, getMoonCalendar, getUpcomingMoonEvents } from "@/lib/moon/moon.functions";
+import { fetchAllPublishedMoonContent, fetchMoonContentByPhase } from "@/lib/moon/repository";
 import type { MoonPhaseKey } from "@/types/moon";
 
 const CACHE_MS = {
@@ -50,7 +43,7 @@ export const moonQueries = {
   contentByPhase: (phaseKey: MoonPhaseKey) =>
     queryOptions({
       queryKey: ["moon", "content", phaseKey] as const,
-      queryFn: () => fetchMoonContentByPhase(phaseKey),
+      queryFn: () => fetchMoonContentByPhase(phaseKey).catch(() => null),
       staleTime: CACHE_MS.content,
     }),
 };

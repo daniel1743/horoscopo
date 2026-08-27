@@ -13,11 +13,7 @@ import { MoonUnavailableState } from "@/components/moon/MoonUnavailableState";
 import { NextMoonPhases } from "@/components/moon/NextMoonPhases";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
 import { moonQueries } from "@/services/moon.service";
-import {
-  MOON_PHASE_ORDER,
-  MOON_PHASE_REGISTRY,
-  phaseBySlug,
-} from "@/config/moon";
+import { MOON_PHASE_ORDER, MOON_PHASE_REGISTRY, phaseBySlug } from "@/config/moon";
 import { routes, moonPhaseRoute } from "@/config/routes";
 import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
 import type { MoonPhaseKey } from "@/types/moon";
@@ -44,6 +40,7 @@ export const Route = createFileRoute("/luna/fases/$slug")({
         { property: "og:type", content: "article" },
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: [{ rel: "canonical", href: moonPhaseRoute(params.slug) }],
     };
   },
   loader: async ({ context, params }) => {
@@ -76,7 +73,8 @@ function MoonPhasePage() {
   const phaseKey = params.phaseKey;
   const meta = MOON_PHASE_REGISTRY[phaseKey];
   const orderIndex = MOON_PHASE_ORDER.indexOf(phaseKey);
-  const prevKey = MOON_PHASE_ORDER[(orderIndex - 1 + MOON_PHASE_ORDER.length) % MOON_PHASE_ORDER.length];
+  const prevKey =
+    MOON_PHASE_ORDER[(orderIndex - 1 + MOON_PHASE_ORDER.length) % MOON_PHASE_ORDER.length];
   const nextKey = MOON_PHASE_ORDER[(orderIndex + 1) % MOON_PHASE_ORDER.length];
 
   return (
@@ -172,9 +170,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
         >
           Qué es esta fase
         </h2>
-        <p className="mt-3 font-body text-[16px] leading-[1.75] text-ink">
-          {content.summary}
-        </p>
+        <p className="mt-3 font-body text-[16px] leading-[1.75] text-ink">{content.summary}</p>
       </section>
 
       <section aria-labelledby="phase-meaning">
@@ -195,16 +191,15 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.reflection_questions.length > 0 && (
         <section aria-labelledby="phase-questions">
-          <h2
-            id="phase-questions"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-questions" className="font-display text-[20px] font-semibold text-ink">
             Preguntas para reflexionar
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink">
             {content.reflection_questions.map((q) => (
               <li key={q} className="flex gap-3">
-                <span aria-hidden className="mt-1 text-cosmic">•</span>
+                <span aria-hidden className="mt-1 text-cosmic">
+                  •
+                </span>
                 <span>{q}</span>
               </li>
             ))}
@@ -214,16 +209,15 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.practical_suggestions.length > 0 && (
         <section aria-labelledby="phase-practical">
-          <h2
-            id="phase-practical"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-practical" className="font-display text-[20px] font-semibold text-ink">
             Sugerencias prácticas
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink">
             {content.practical_suggestions.map((s) => (
               <li key={s} className="flex gap-3">
-                <span aria-hidden className="mt-1 text-cosmic">·</span>
+                <span aria-hidden className="mt-1 text-cosmic">
+                  ·
+                </span>
                 <span>{s}</span>
               </li>
             ))}
@@ -233,10 +227,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.misconceptions.length > 0 && (
         <section aria-labelledby="phase-myths">
-          <h2
-            id="phase-myths"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-myths" className="font-display text-[20px] font-semibold text-ink">
             Malentendidos frecuentes
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink-soft">
@@ -250,10 +241,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
       )}
 
       <section aria-labelledby="phase-upcoming">
-        <h2
-          id="phase-upcoming"
-          className="font-display text-[20px] font-semibold text-ink"
-        >
+        <h2 id="phase-upcoming" className="font-display text-[20px] font-semibold text-ink">
           Próximas fases mayores
         </h2>
         <div className="mt-4">

@@ -1,10 +1,7 @@
 import { createFileRoute, redirect, notFound } from "@tanstack/react-router";
 import { CompatibilityPairPage } from "@/pages/compatibility/CompatibilityPairPage";
 import { compatibilityQueries } from "@/services/compatibility.service";
-import {
-  isZodiacSign,
-  normalizeSignPair,
-} from "@/lib/compatibility/normalize-sign-pair";
+import { isZodiacSign, normalizeSignPair } from "@/lib/compatibility/normalize-sign-pair";
 import { buildMeta } from "@/config/seo";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import type { ZodiacSignKey } from "@/types/compatibility";
@@ -28,10 +25,7 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
   },
   loader: ({ context, params }) =>
     context.queryClient.ensureQueryData(
-      compatibilityQueries.pair(
-        params.signA as ZodiacSignKey,
-        params.signB as ZodiacSignKey,
-      ),
+      compatibilityQueries.pair(params.signA as ZodiacSignKey, params.signB as ZodiacSignKey),
     ),
   head: ({ params }) => {
     const a = getZodiacBySlug(params.signA);
@@ -41,6 +35,7 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
     const m = buildMeta({
       title: `${nameA} y ${nameB}: compatibilidad simbólica · Proyecto Astral`,
       description: `Lectura editorial de la dinámica entre ${nameA} y ${nameB}: comunicación, ritmo emocional y áreas de crecimiento.`,
+      canonical: `/compatibilidad/${params.signA}/${params.signB}`,
     });
     return { meta: m.meta, links: m.links };
   },
@@ -63,10 +58,5 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
 
 function PairComponent() {
   const { signA, signB } = Route.useParams();
-  return (
-    <CompatibilityPairPage
-      signA={signA as ZodiacSignKey}
-      signB={signB as ZodiacSignKey}
-    />
-  );
+  return <CompatibilityPairPage signA={signA as ZodiacSignKey} signB={signB as ZodiacSignKey} />;
 }
