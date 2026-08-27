@@ -4,7 +4,9 @@ import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/tarot/cartas/$card")({
   head: ({ params }) => {
-    const name = decodeURIComponent(params.card).replace(/-/g, " ");
+    const name = decodeURIComponent(params.card)
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
     const m = buildMeta({
       title: `${name} · Tarot · Creovision`,
       description: `Significado simbólico y palabras clave de la carta ${name}.`,
