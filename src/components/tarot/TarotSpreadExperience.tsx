@@ -100,7 +100,7 @@ export function TarotSpreadExperience({ mode }: Props) {
         <TarotReadingResult
           reading={reading}
           onDrawAgain={handleReset}
-          showSynthesis={mode === "three_cards" || mode === "past_present_future"}
+          showSynthesis={mode !== "yes_no"}
         />
       )}
     </div>

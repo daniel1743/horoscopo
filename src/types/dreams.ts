@@ -10,3 +10,25 @@ export interface DreamSymbol {
   reflectionQuestion: string;
   relatedWords: string[];
 }
+
+export type DreamEmotion = "calm" | "fear" | "joy" | "sadness" | "anger" | "wonder" | "unclear";
+
+export interface DreamJournalEntry {
+  id: string;
+  createdAtIso: string;
+  updatedAtIso: string;
+  title: string;
+  context: string;
+  reflection: string;
+  emotion: DreamEmotion | null;
+  symbolSlugs: string[];
+}
+
+export interface DreamReflection {
+  title: string;
+  overview: string;
+  sharedThemes: string[];
+  symbolPrompts: Array<{ symbolName: string; prompt: string }>;
+  contextPrompt: string;
+  reflectionQuestion: string;
+}

@@ -6,6 +6,8 @@ import type { BirthData } from "@/types/astrology";
 import type { SynastrySnapshot } from "@/types/synastry";
 import { LocalReportActions } from "@/components/astrology/LocalReportActions";
 import { buildSynastryReport } from "@/lib/astrology/report";
+import { SynastryNarrativePanel } from "@/components/astrology/SynastryNarrativePanel";
+import { buildSynastryNarrative } from "@/services/astrology-relationship.service";
 
 interface PersonFormState {
   birthDate: string;
@@ -143,6 +145,7 @@ function PersonFields({
 }
 
 function SynastryResult({ snapshot }: { snapshot: SynastrySnapshot }) {
+  const narrative = buildSynastryNarrative(snapshot);
   return (
     <section
       aria-labelledby="synastry-result-heading"
@@ -205,6 +208,7 @@ function SynastryResult({ snapshot }: { snapshot: SynastrySnapshot }) {
           No hay aspectos mayores dentro de los orbes configurados para estas cartas.
         </p>
       )}
+      <SynastryNarrativePanel narrative={narrative} />
       <details className="mt-6 rounded-2xl border border-cosmic/15 bg-cosmic/5 p-4">
         <summary className="cursor-pointer font-body text-[13px] font-semibold text-cosmic">
           Privacidad, método y límites

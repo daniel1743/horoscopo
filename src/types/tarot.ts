@@ -63,6 +63,24 @@ export interface TarotReading {
   drawnAtIso: string;
 }
 
+export interface TarotSynthesisPosition {
+  positionKey: string;
+  positionLabel: string;
+  cardName: string;
+  orientationLabel: string;
+  text: string;
+}
+
+export interface TarotSynthesis {
+  title: string;
+  overview: string;
+  relationshipLabel: string;
+  relationshipText: string;
+  positions: TarotSynthesisPosition[];
+  synthesis: string;
+  reflectionQuestion: string;
+}
+
 export interface TarotServiceResult<T> {
   ok: boolean;
   data?: T;

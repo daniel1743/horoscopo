@@ -10,6 +10,8 @@ import type { AscendantResult, BirthData, LunarSignResult, NatalChart } from "@/
 import { NatalChartWheel } from "@/components/astrology/NatalChartWheel";
 import { LocalReportActions } from "@/components/astrology/LocalReportActions";
 import { buildNatalChartReport } from "@/lib/astrology/report";
+import { NatalNarrativePanel } from "@/components/astrology/NatalNarrativePanel";
+import { buildNatalNarrative } from "@/services/astrology-narrative.service";
 
 type AstrologyMode = "natal" | "ascendant" | "moon";
 type AstrologyResult = NatalChart | AscendantResult | LunarSignResult;
@@ -155,6 +157,7 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
               />
             </div>
           </section>
+          <NatalNarrativePanel narrative={buildNatalNarrative(result)} />
           <section className="mt-6" aria-labelledby="natal-angles-title">
             <h3 id="natal-angles-title" className="font-display text-[20px] text-ink">
               Ángulos principales

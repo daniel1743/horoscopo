@@ -6,6 +6,8 @@ import type { BirthData } from "@/types/astrology";
 import type { TransitSnapshot } from "@/types/transits";
 import { LocalReportActions } from "@/components/astrology/LocalReportActions";
 import { buildTransitReport } from "@/lib/astrology/report";
+import { TransitNarrativePanel } from "@/components/astrology/TransitNarrativePanel";
+import { buildTransitNarrative } from "@/services/astrology-relationship.service";
 
 function toNumber(value: string, field: string): number {
   const parsed = Number(value);
@@ -18,6 +20,7 @@ function TransitResult({ snapshot }: { snapshot: TransitSnapshot }) {
     dateStyle: "long",
     timeStyle: "short",
   });
+  const narrative = buildTransitNarrative(snapshot);
   return (
     <section
       aria-labelledby="transit-result-heading"
@@ -105,6 +108,8 @@ function TransitResult({ snapshot }: { snapshot: TransitSnapshot }) {
           </p>
         )}
       </section>
+
+      <TransitNarrativePanel narrative={narrative} />
 
       <details className="mt-6 rounded-2xl border border-cosmic/15 bg-cosmic/5 p-4">
         <summary className="cursor-pointer font-body text-[13px] font-semibold text-cosmic">

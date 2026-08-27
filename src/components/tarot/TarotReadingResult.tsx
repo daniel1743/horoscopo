@@ -1,12 +1,7 @@
 import { useEffect } from "react";
 import { TarotPositionResult } from "./TarotPositionResult";
 import { TarotReadingDisclaimer } from "./TarotReadingDisclaimer";
-import {
-  tarotPastPresentFutureSynthesis,
-  tarotSpreads,
-  tarotThreeCardsSynthesis,
-  yesNoLabels,
-} from "@/config/tarot";
+import { tarotSpreads, yesNoLabels } from "@/config/tarot";
 import type { TarotReading } from "@/types/tarot";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -17,6 +12,8 @@ import { ShareReadingButton } from "@/components/community/ShareReadingButton";
 import { routes } from "@/config/routes";
 import { useSession } from "@/hooks/useSession";
 import { logActivity } from "@/lib/account/repository";
+import { buildTarotSynthesis } from "@/services/tarot-synthesis.service";
+import type { TarotSynthesis } from "@/types/tarot";
 
 interface Props {
   reading: TarotReading;
@@ -43,6 +40,7 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
 
   const yesNo =
     reading.spread === "yes_no" ? yesNoLabels[reading.drawn[0].card.yesNoTendency] : null;
+  const synthesis = buildTarotSynthesis(reading);
 
   return (
     <section aria-label="Resultado de la lectura" className="mt-8 flex flex-col gap-4">
@@ -68,19 +66,7 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
         ))}
       </div>
 
-      {showSynthesis &&
-        (reading.spread === "three_cards" || reading.spread === "past_present_future") && (
-          <div className="rounded-[var(--radius-card-md)] border border-line-soft bg-parchment p-5">
-            <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
-              Cómo integrar la lectura
-            </p>
-            <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink">
-              {reading.spread === "past_present_future"
-                ? tarotPastPresentFutureSynthesis
-                : tarotThreeCardsSynthesis}
-            </p>
-          </div>
-        )}
+      {showSynthesis && <TarotSynthesisPanel synthesis={synthesis} />}
 
       <div className="flex flex-wrap items-center gap-3">
         <SaveReadingButton
@@ -93,11 +79,16 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           interpretation={[
             yesNo?.description,
             ...reading.drawn.map((drawn) => describeDrawnCard(drawn)),
-            showSynthesis && reading.spread === "past_present_future"
-              ? tarotPastPresentFutureSynthesis
-              : showSynthesis && reading.spread === "three_cards"
-                ? tarotThreeCardsSynthesis
-                : null,
+            ...(showSynthesis
+              ? [
+                  ...synthesis.positions.map(
+                    (position) => `${position.positionLabel}: ${position.text}`,
+                  ),
+                  synthesis.relationshipText,
+                  synthesis.synthesis,
+                  synthesis.reflectionQuestion,
+                ]
+              : []),
           ]
             .filter(Boolean)
             .join("\n\n")}
@@ -108,11 +99,9 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           body={[
             reading.drawn.map((drawn) => describeDrawnCard(drawn)).join("\n"),
             yesNo?.description,
-            showSynthesis && reading.spread === "past_present_future"
-              ? tarotPastPresentFutureSynthesis
-              : showSynthesis && reading.spread === "three_cards"
-                ? tarotThreeCardsSynthesis
-                : null,
+            ...(showSynthesis
+              ? [synthesis.relationshipText, synthesis.synthesis, synthesis.reflectionQuestion]
+              : []),
           ]
             .filter(Boolean)
             .join("\n\n")}
@@ -152,4 +141,51 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
 function describeDrawnCard({ card, reversed }: TarotReading["drawn"][number]): string {
   const meaning = reversed ? (card.reversedMeaning ?? card.uprightMeaning) : card.uprightMeaning;
   return `${card.name} (${reversed ? "Invertida" : "Al derecho"}): ${meaning}`;
+}
+
+function TarotSynthesisPanel({ synthesis }: { synthesis: TarotSynthesis }) {
+  return (
+    <section
+      aria-labelledby="tarot-synthesis-title"
+      className="rounded-[var(--radius-card-md)] border border-cosmic/20 bg-cosmic/5 p-5"
+    >
+      <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-cosmic">
+        Lectura integrada
+      </p>
+      <h3 id="tarot-synthesis-title" className="mt-1 font-display text-[22px] text-ink">
+        {synthesis.title}
+      </h3>
+      <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">{synthesis.overview}</p>
+      <ol className="mt-5 grid gap-3" aria-label="Lectura por posición">
+        {synthesis.positions.map((position) => (
+          <li
+            key={position.positionKey}
+            className="rounded-xl border border-line/70 bg-background p-4"
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h4 className="font-display text-[18px] text-ink">{position.positionLabel}</h4>
+              <span className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-cosmic">
+                {position.cardName} · {position.orientationLabel}
+              </span>
+            </div>
+            <p className="mt-2 font-body text-[14px] leading-6 text-ink-soft">{position.text}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-5 rounded-xl border border-line/70 bg-background p-4">
+        <h4 className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+          {synthesis.relationshipLabel}
+        </h4>
+        <p className="mt-2 font-body text-[14px] leading-6 text-ink-soft">
+          {synthesis.relationshipText}
+        </p>
+      </div>
+      <p className="mt-5 font-body text-[15px] font-medium leading-7 text-ink">
+        {synthesis.synthesis}
+      </p>
+      <p className="mt-4 border-l-2 border-cosmic/40 pl-4 font-body text-[14px] italic leading-6 text-ink">
+        {synthesis.reflectionQuestion}
+      </p>
+    </section>
+  );
 }
