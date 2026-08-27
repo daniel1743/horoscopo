@@ -1342,6 +1342,13 @@ export type Database = {
         Args: { p_decision: string; p_note?: string | null; p_report_id: string }
         Returns: boolean
       }
+      admin_product_metrics: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          metric_key: string
+          metric_value: number
+        }[]
+      }
       current_user_has_role: { Args: { _roles: string[] }; Returns: boolean };
       has_admin_role: {
         Args: { _roles: string[]; _user_id: string };

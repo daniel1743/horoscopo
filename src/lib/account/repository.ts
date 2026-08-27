@@ -357,6 +357,17 @@ export async function moderateCommunityReport(input: {
   return Boolean(data);
 }
 
+export interface ProductMetric {
+  metric_key: string;
+  metric_value: number;
+}
+
+export async function fetchAdminProductMetrics(): Promise<ProductMetric[]> {
+  const { data, error } = await supabase.rpc("admin_product_metrics");
+  if (error) throw error;
+  return (data ?? []) as ProductMetric[];
+}
+
 // ---------- Privacy ----------
 export async function fetchPrivacySettings(userId: string): Promise<PrivacySettings> {
   const { data, error } = await supabase
