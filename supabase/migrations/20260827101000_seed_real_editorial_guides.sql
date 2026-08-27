@@ -2,7 +2,7 @@
 -- Preparado para revisión y aplicación manual. No se ejecuta desde el frontend.
 -- Requiere las tablas public.editorial_categories, public.editorial_authors y public.editorial_articles.
 
-UPDATE public.editorial_articles SET status = 'archived', featured = false, home_featured = false, updated_at = now() WHERE is_demo = true;
+UPDATE public.editorial_articles SET status = 'archived', featured = false, home_featured = false, updated_at = now() WHERE slug = 'articulo-de-demostracion' AND is_demo = true;
 
 INSERT INTO public.editorial_articles (slug, title, subtitle, excerpt, category_id, author_id, status, image_alt, content, seo, tags, reading_time, featured, home_featured, sources, disclaimer_key, reviewed_by, review_date, is_demo, published_at)
 VALUES
@@ -38,7 +38,7 @@ ON CONFLICT (slug) DO UPDATE SET
   review_date = EXCLUDED.review_date,
   is_demo = EXCLUDED.is_demo,
   published_at = EXCLUDED.published_at
-WHERE public.editorial_articles.is_demo = true OR public.editorial_articles.reviewed_by = 'Equipo editorial';
+WHERE public.editorial_articles.is_demo = true OR (public.editorial_articles.reviewed_by = 'Equipo editorial' AND public.editorial_articles.slug = EXCLUDED.slug);
 
 -- Verificar con SELECT antes de activar el sitemap de artículos:
 -- SELECT slug, status, is_demo, published_at FROM public.editorial_articles ORDER BY published_at DESC;
