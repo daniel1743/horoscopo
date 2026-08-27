@@ -1,33 +1,16 @@
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { footerConfig } from "@/config/footer";
 import { routes } from "@/config/routes";
 import { featureFlags } from "@/config/features";
 import { Container } from "@/components/layout/Container";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Icon } from "@/components/ui/icon";
 import { cn } from "@/lib/utils";
-import { schemas, formMessages } from "@/config/forms";
-import { useNewsletterSubscription } from "@/hooks/useNewsletterSubscription";
+import { PublicNewsletterForm } from "@/components/newsletter/PublicNewsletterForm";
 
 /** Único footer global. Consume `footerConfig`; no hard-codear enlaces. */
 export function SiteFooter() {
   const [open, setOpen] = useState<string | null>("explore");
-  const [email, setEmail] = useState("");
-  const [validationError, setValidationError] = useState<string | null>(null);
-  const { sessionLoading, status, message, submit: subscribe } = useNewsletterSubscription();
-
-  const handleNewsletterSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const parsed = schemas.newsletter.safeParse({ email });
-    if (!parsed.success) {
-      setValidationError(parsed.error.issues[0]?.message ?? formMessages.invalidEmail);
-      return;
-    }
-    setValidationError(null);
-    if (await subscribe(parsed.data.email)) setEmail("");
-  };
 
   return (
     <footer className="bg-night text-ink-inverse">
@@ -40,77 +23,15 @@ export function SiteFooter() {
             </p>
 
             {footerConfig.newsletter.enabled && featureFlags.newsletter && (
-              <form
-                className="mt-6 max-w-md"
-                onSubmit={handleNewsletterSubmit}
-                aria-label={footerConfig.newsletter.title}
-              >
-                <p className="font-display text-[18px] font-semibold">
-                  {footerConfig.newsletter.title}
-                </p>
-                <p className="mt-1 font-body text-[14px] text-ink-inverse-soft">
-                  {footerConfig.newsletter.description}
-                </p>
-                <div className="mt-3 flex flex-col gap-2 sm:flex-row">
-                  <label htmlFor="footer-newsletter-email" className="sr-only">
-                    Correo electrónico
-                  </label>
-                  <Input
-                    id="footer-newsletter-email"
-                    type="email"
-                    required
-                    maxLength={255}
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    aria-invalid={
-                      validationError || status === "error" || status === "account-email"
-                        ? true
-                        : undefined
-                    }
-                    aria-describedby={
-                      validationError || message ? "footer-newsletter-message" : undefined
-                    }
-                    placeholder="tu@correo.com"
-                    className="border-line-dark bg-night-elevated text-ink-inverse placeholder:text-ink-inverse-soft"
-                  />
-                  <Button
-                    type="submit"
-                    variant="premium"
-                    disabled={sessionLoading || status === "loading"}
-                  >
-                    {status === "loading" ? "Actualizando…" : footerConfig.newsletter.submitLabel}
-                  </Button>
-                </div>
-                <div
-                  id="footer-newsletter-message"
-                  aria-live="polite"
-                  className="mt-2 min-h-[1.25rem] font-body text-[13px]"
-                >
-                  {status === "success" && (
-                    <p className="text-gold">
-                      Preferencia activada. Puedes gestionarla desde Mi espacio.
-                    </p>
-                  )}
-                  {validationError && <p className="text-red-200">{validationError}</p>}
-                  {status !== "success" && !validationError && message && (
-                    <p className="text-ink-inverse-soft">
-                      {message}{" "}
-                      {status === "auth-required" && (
-                        <Link
-                          to={routes.signIn}
-                          search={{
-                            redirect:
-                              typeof window !== "undefined" ? window.location.pathname : "/",
-                          }}
-                          className="font-medium text-gold underline underline-offset-2"
-                        >
-                          Iniciar sesión
-                        </Link>
-                      )}
-                    </p>
-                  )}
-                </div>
-              </form>
+              <div className="mt-6 max-w-md">
+                <PublicNewsletterForm
+                  id="footer-newsletter"
+                  title={footerConfig.newsletter.title}
+                  description={footerConfig.newsletter.description}
+                  submitLabel={footerConfig.newsletter.submitLabel}
+                  dark
+                />
+              </div>
             )}
           </div>
 

@@ -35,6 +35,7 @@ export const routes = {
   authors: "/autores",
   community: "/comunidad",
   search: "/buscar",
+  newsletterUnsubscribe: "/newsletter/unsubscribe",
 
   about: "/nosotros",
   method: "/metodo",

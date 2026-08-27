@@ -46,6 +46,7 @@ import { Route as HoroscopoSemanaRouteImport } from './routes/horoscopo.semana'
 import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
 import { Route as LunaHoyRouteImport } from './routes/luna.hoy'
+import { Route as NewsletterUnsubscribeRouteImport } from './routes/newsletter.unsubscribe'
 import { Route as PerfilUsernameRouteImport } from './routes/perfil.$username'
 import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
@@ -259,6 +260,11 @@ const LunaHoyRoute = LunaHoyRouteImport.update({
   path: '/hoy',
   getParentRoute: () => LunaRoute,
 } as any)
+const NewsletterUnsubscribeRoute = NewsletterUnsubscribeRouteImport.update({
+  id: '/newsletter/unsubscribe',
+  path: '/newsletter/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PerfilUsernameRoute = PerfilUsernameRouteImport.update({
   id: '/perfil/$username',
   path: '/perfil/$username',
@@ -448,6 +454,7 @@ export interface FileRoutesByFullPath {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
@@ -513,6 +520,7 @@ export interface FileRoutesByTo {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
@@ -581,6 +589,7 @@ export interface FileRoutesById {
   '/luna/calendario': typeof LunaCalendarioRouteWithChildren
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
+  '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
@@ -649,6 +658,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/newsletter/unsubscribe'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
@@ -714,6 +724,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/newsletter/unsubscribe'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
@@ -781,6 +792,7 @@ export interface FileRouteTypes {
     | '/luna/calendario'
     | '/luna/fases'
     | '/luna/hoy'
+    | '/newsletter/unsubscribe'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
     | '/tarot/si-o-no'
@@ -843,6 +855,7 @@ export interface RootRouteChildren {
   HoroscopoHoyRoute: typeof HoroscopoHoyRoute
   HoroscopoMesRoute: typeof HoroscopoMesRoute
   HoroscopoSemanaRoute: typeof HoroscopoSemanaRoute
+  NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
   PerfilUsernameRoute: typeof PerfilUsernameRoute
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
@@ -1119,6 +1132,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/luna/hoy'
       preLoaderRoute: typeof LunaHoyRouteImport
       parentRoute: typeof LunaRoute
+    }
+    '/newsletter/unsubscribe': {
+      id: '/newsletter/unsubscribe'
+      path: '/newsletter/unsubscribe'
+      fullPath: '/newsletter/unsubscribe'
+      preLoaderRoute: typeof NewsletterUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/perfil/$username': {
       id: '/perfil/$username'
@@ -1505,6 +1525,7 @@ const rootRouteChildren: RootRouteChildren = {
   HoroscopoHoyRoute: HoroscopoHoyRoute,
   HoroscopoMesRoute: HoroscopoMesRoute,
   HoroscopoSemanaRoute: HoroscopoSemanaRoute,
+  NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
   PerfilUsernameRoute: PerfilUsernameRoute,
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
   TarotSiONoRoute: TarotSiONoRoute,
