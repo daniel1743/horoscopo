@@ -12,7 +12,7 @@ export const Route = createFileRoute("/luna/calendario")({
   head: () => {
     const { year, month } = getZonedParts(new Date(), MOON_SITE_TIMEZONE);
     const m = buildMeta({
-      title: "Calendario lunar — Proyecto Astral",
+      title: "Calendario lunar — Creovision",
       description: "Calendario mensual con fases, iluminación y eventos lunares mayores.",
       canonical: moonCalendarMonthRoute(year, month),
     });

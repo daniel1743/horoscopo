@@ -10,7 +10,7 @@ import { typography } from "@/design-system/typography";
 export const Route = createFileRoute("/design-system")({
   head: () => ({
     meta: [
-      { title: "Sistema de diseño — Proyecto Astral" },
+      { title: "Sistema de diseño — Creovision" },
       { name: "description", content: "Referencia visual interna de tokens y primitivas." },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -53,8 +53,8 @@ function DesignSystemPage() {
             Sistema de diseño
           </h1>
           <p className="mt-3 max-w-[62ch] font-body text-[18px] text-ink-soft">
-            Fuente única de tokens, primitivas y variantes para Proyecto Astral. Nada de lo que ves
-            aquí debe reescribirse en las páginas.
+            Fuente única de tokens, primitivas y variantes para Creovision. Nada de lo que ves aquí
+            debe reescribirse en las páginas.
           </p>
         </header>
 

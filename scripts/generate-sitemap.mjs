@@ -14,6 +14,9 @@ const corePaths = [
   "/tarot/tres-cartas",
   "/tarot/cartas",
   "/astrologia",
+  "/astrologia/carta-natal",
+  "/astrologia/ascendente",
+  "/astrologia/signo-lunar",
   "/compatibilidad",
   "/luna",
   "/luna/hoy",
@@ -39,7 +42,37 @@ const zodiacSlugs = [
   "piscis",
 ];
 
-const paths = [...corePaths, ...zodiacSlugs.map((slug) => `/horoscopo/${slug}`)];
+const guideCategorySlugs = [
+  "astrologia",
+  "tarot",
+  "luna",
+  "compatibilidad",
+  "horoscopo",
+  "editorial",
+];
+
+const guideSlugs = [
+  "como-leer-una-carta-natal-sin-convertirla-en-una-sentencia",
+  "ascendente-signo-lunar-y-sol-tres-capas-para-conocerte-mejor",
+  "como-hacer-una-pregunta-util-antes-de-sacar-una-carta",
+  "carta-al-derecho-y-carta-invertida-leer-matices-no-condenas",
+  "las-ocho-fases-de-la-luna-que-observamos-realmente-en-el-cielo",
+  "calendario-lunar-como-usar-fechas-astronomicas-sin-atribuir-causalidades",
+  "compatibilidad-entre-signos-pasar-del-veredicto-a-la-conversacion",
+  "elementos-ritmos-y-acuerdos-una-lectura-practica-de-dos-signos",
+  "como-leer-un-horoscopo-diario-con-criterio-y-contexto",
+  "de-la-prediccion-a-la-reflexion-que-hace-util-una-lectura-simbolica",
+  "que-significa-leer-simbolos-con-responsabilidad",
+  "como-distinguir-un-dato-astronomico-de-una-interpretacion",
+];
+
+const paths = [
+  ...corePaths,
+  ...zodiacSlugs.map((slug) => `/horoscopo/${slug}`),
+  ...guideCategorySlugs.map((slug) => `/temas/${slug}`),
+  ...guideSlugs.map((slug) => `/guias/${slug}`),
+  "/autores/equipo-editorial",
+];
 const xml = [
   '<?xml version="1.0" encoding="UTF-8"?>',
   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',

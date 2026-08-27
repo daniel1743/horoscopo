@@ -27,7 +27,7 @@ export const Route = createFileRoute("/autores/$slug")({
     }
     const { author } = loaderData;
     const m = buildMeta({
-      title: `${author.name} | Proyecto Astral`,
+      title: `${author.name} | Creovision`,
       description: author.bio ?? author.roleLabel ?? undefined,
       canonical: authorRoute(author.slug),
     });

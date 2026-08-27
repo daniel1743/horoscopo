@@ -10,7 +10,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/luna/fases")({
   head: () => {
     const m = buildMeta({
-      title: "Las 8 fases lunares — Proyecto Astral",
+      title: "Las 8 fases lunares — Creovision",
       description:
         "Índice completo de las ocho fases del ciclo lunar: astronomía y lectura simbólica.",
       canonical: "/luna/fases",

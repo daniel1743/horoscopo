@@ -33,7 +33,7 @@ export function AccountDashboardPage() {
   const greeting = profile.data?.display_name || user?.email?.split("@")[0] || "explorador";
 
   return (
-    <AccountShell title={`Hola, ${greeting}`} description="Tu espacio personal en Proyecto Astral.">
+    <AccountShell title={`Hola, ${greeting}`} description="Tu espacio personal en Creovision.">
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard
           label="Favoritos"

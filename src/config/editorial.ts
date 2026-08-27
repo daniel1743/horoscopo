@@ -13,7 +13,7 @@ export const editorialConfig = {
 export const disclaimers: Record<string, { title: string; body: string }> = {
   general: {
     title: "Aviso editorial",
-    body: "El contenido de Proyecto Astral es simbólico y de reflexión. No sustituye consejo profesional médico, legal ni financiero.",
+    body: "El contenido de Creovision es simbólico y de reflexión. No sustituye consejo profesional médico, legal ni financiero.",
   },
   demo: {
     title: "Contenido de demostración",

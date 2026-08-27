@@ -5,7 +5,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/nosotros")({
   head: () => {
     const m = buildMeta({
-      title: "Sobre nosotros — Proyecto Astral",
+      title: "Sobre nosotros — Creovision",
       description: "Quiénes somos y qué nos mueve.",
       canonical: "/nosotros",
     });

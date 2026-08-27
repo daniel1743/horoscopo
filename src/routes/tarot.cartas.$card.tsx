@@ -6,7 +6,7 @@ export const Route = createFileRoute("/tarot/cartas/$card")({
   head: ({ params }) => {
     const name = decodeURIComponent(params.card).replace(/-/g, " ");
     const m = buildMeta({
-      title: `${name} · Tarot · Proyecto Astral`,
+      title: `${name} · Tarot · Creovision`,
       description: `Significado simbólico y palabras clave de la carta ${name}.`,
       canonical: `/tarot/cartas/${encodeURIComponent(params.card)}`,
     });

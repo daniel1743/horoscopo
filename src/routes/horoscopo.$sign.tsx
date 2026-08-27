@@ -37,7 +37,7 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const periodLabel =
       search.periodo === "semana" ? "esta semana" : search.periodo === "mes" ? "este mes" : "hoy";
     const m = buildMeta({
-      title: `${name} — Horóscopo de ${periodLabel} · Proyecto Astral`,
+      title: `${name} — Horóscopo de ${periodLabel} · Creovision`,
       description: `Horóscopo de ${name} para ${periodLabel}, con foco, ánimo y energía para orientar tu día.`,
       canonical: `/horoscopo/${sign?.slug ?? params.sign}`,
       robots: search.periodo ? "noindex,follow" : undefined,

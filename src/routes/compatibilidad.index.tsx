@@ -20,7 +20,7 @@ export const Route = createFileRoute("/compatibilidad/")({
   },
   head: () => {
     const m = buildMeta({
-      title: `Compatibilidad entre signos · Proyecto Astral`,
+      title: `Compatibilidad entre signos · Creovision`,
       description: COMPATIBILITY_COPY.hubDescription,
       canonical: "/compatibilidad",
     });

@@ -17,7 +17,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/luna/hoy")({
   head: () => {
     const meta = buildMeta({
-      title: "Luna de hoy — Proyecto Astral",
+      title: "Luna de hoy — Creovision",
       description: "Fase lunar de hoy con datos astronómicos verificables.",
       canonical: "/luna/hoy",
       type: "article",

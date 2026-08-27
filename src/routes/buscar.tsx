@@ -37,10 +37,10 @@ export const Route = createFileRoute("/buscar")({
   validateSearch: zodValidator(searchSchema),
   head: () => ({
     meta: [
-      { title: "Buscar — Proyecto Astral" },
+      { title: "Buscar — Creovision" },
       { name: "description", content: "Encuentra guías, signos, cartas, horóscopos, fases lunares y compatibilidades." },
       { name: "robots", content: "noindex, follow" },
-      { property: "og:title", content: "Buscar — Proyecto Astral" },
+      { property: "og:title", content: "Buscar — Creovision" },
       { property: "og:description", content: "Buscador unificado de la plataforma." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

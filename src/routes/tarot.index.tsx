@@ -5,7 +5,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/tarot/")({
   head: () => {
     const m = buildMeta({
-      title: "Tarot · Proyecto Astral",
+      title: "Tarot · Creovision",
       description:
         "Lecturas simbólicas de tarot para reflexionar con calma: carta del día, consulta sí o no y tirada de tres cartas.",
       canonical: "/tarot",

@@ -20,7 +20,7 @@ import { buildMeta } from "@/config/seo";
 export const Route = createFileRoute("/luna")({
   head: ({ matches }) => {
     const m = buildMeta({
-      title: "Luna hoy, calendario y fases — Proyecto Astral",
+      title: "Luna hoy, calendario y fases — Creovision",
       description:
         "Fase lunar de hoy, calendario mensual y las ocho fases del ciclo, calculadas con un motor astronómico validado.",
       canonical: "/luna",
