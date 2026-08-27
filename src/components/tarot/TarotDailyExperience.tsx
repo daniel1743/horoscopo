@@ -3,6 +3,7 @@ import { TarotSkeleton } from "@/components/tarot/TarotSkeleton";
 import { TarotDeckIncompleteState } from "@/components/tarot/TarotDeckIncompleteState";
 import { TarotPositionResult } from "@/components/tarot/TarotPositionResult";
 import { TarotReadingDisclaimer } from "@/components/tarot/TarotReadingDisclaimer";
+import { ShareReadingButton } from "@/components/community/ShareReadingButton";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useTarotDeck } from "@/hooks/useTarotDeck";
@@ -69,7 +70,19 @@ export function TarotDailyExperience() {
           </Button>
         </div>
       ) : (
-        <TarotPositionResult drawn={drawn} showPosition={false} />
+        <>
+          <TarotPositionResult drawn={drawn} showPosition={false} />
+          <div className="flex flex-wrap gap-3">
+            <ShareReadingButton
+              postType="tarot"
+              title={`Mi carta del día · ${drawn.card.name}`}
+              body={`${drawn.card.name}: ${drawn.card.uprightMeaning}\n\nPregunta para reflexionar: ${drawn.card.reflectionQuestion ?? "¿Qué parte de este símbolo reconoces en tu día?"}`}
+              sourceRef={`tarot:daily:${drawn.card.cardKey}`}
+              sourceTitle={`Carta del día · ${drawn.card.name}`}
+              sourceUrl="/tarot/carta-del-dia"
+            />
+          </div>
+        </>
       )}
       <TarotReadingDisclaimer />
     </section>

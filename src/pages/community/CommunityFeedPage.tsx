@@ -10,12 +10,35 @@ import { CommunityPostActions } from "@/components/community/CommunityPostAction
 import {
   listPublicCommunityPosts,
   listPublicCommunityReposts,
+  type CommunityPostType,
   type PublicCommunityRepost,
 } from "@/lib/account/repository";
 import { routes } from "@/config/routes";
 
 type FeedFilter = "all" | "horoscope" | "moon" | "tarot" | "reflection" | "compatibility";
 type FeedStream = "recent" | "reposts";
+
+export interface CommunitySharePrefill {
+  initialPostType: CommunityPostType;
+  initialTitle: string;
+  initialBody: string;
+  sourceRef: string;
+  sourceTitle: string;
+  sourceUrl: string;
+}
+
+const buildShareRedirect = (prefill?: CommunitySharePrefill) => {
+  if (!prefill) return routes.community;
+  const params = new URLSearchParams({
+    shareType: prefill.initialPostType,
+    shareTitle: prefill.initialTitle,
+    shareBody: prefill.initialBody,
+    shareSourceRef: prefill.sourceRef,
+    shareSourceTitle: prefill.sourceTitle,
+    shareSourceUrl: prefill.sourceUrl,
+  });
+  return `${routes.community}?${params.toString()}`;
+};
 
 const filters: readonly { value: FeedFilter; label: string }[] = [
   { value: "all", label: "Todo el muro" },
@@ -26,7 +49,7 @@ const filters: readonly { value: FeedFilter; label: string }[] = [
   { value: "compatibility", label: "Compatibilidad" },
 ];
 
-export function CommunityFeedPage() {
+export function CommunityFeedPage({ sharePrefill }: { sharePrefill?: CommunitySharePrefill }) {
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<FeedFilter>("all");
   const [stream, setStream] = useState<FeedStream>("recent");
@@ -187,9 +210,12 @@ export function CommunityFeedPage() {
 
         <aside className="space-y-5">
           <CommunityPostComposer
-            onPublished={() =>
-              queryClient.invalidateQueries({ queryKey: ["community", "public-posts"] })
-            }
+            {...sharePrefill}
+            authRedirect={buildShareRedirect(sharePrefill)}
+            onPublished={() => {
+              void queryClient.invalidateQueries({ queryKey: ["community", "public-posts"] });
+              void queryClient.invalidateQueries({ queryKey: ["community", "public-reposts"] });
+            }}
           />
           <div className="rounded-[var(--radius-card-lg)] border border-line bg-ivory/60 p-5">
             <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-brand">

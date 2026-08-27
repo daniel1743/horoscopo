@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { MoonPhaseVisual } from "./MoonPhaseVisual";
+import { ShareReadingButton } from "@/components/community/ShareReadingButton";
 import { MOON_PHASE_REGISTRY, MOON_SITE_LOCALE } from "@/config/moon";
 import { formatLongDate, formatShortDate } from "@/lib/moon/format";
 import { routes, moonPhaseRoute } from "@/config/routes";
@@ -146,6 +147,17 @@ export function MoonTodayCard({ snapshot, compact = false }: Props) {
                 Leer sobre {meta.label.toLowerCase()}
               </Link>
             </Button>
+            {!compact && (
+              <ShareReadingButton
+                postType="moon"
+                title={`Mi lectura lunar · ${meta.label}`}
+                body={`${meta.label} · ${dateLabel}\n\nQué puede aportar este momento: ${PHASE_REFLECTIONS[snapshot.phase_key].why}\n\nPregunta para reflexionar: ${PHASE_REFLECTIONS[snapshot.phase_key].question}`}
+                sourceRef={`moon:${snapshot.timestamp}:${snapshot.phase_key}`}
+                sourceTitle={`Luna de hoy · ${meta.label}`}
+                sourceUrl={routes.moonToday}
+                variant="dark"
+              />
+            )}
             {compact && (
               <Button asChild variant="link" className="text-gold">
                 <Link to={routes.moonToday}>

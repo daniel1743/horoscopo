@@ -13,6 +13,7 @@ import { Icon } from "@/components/ui/icon";
 import { HoroscopeMoonContext } from "@/components/horoscope/HoroscopeMoonContext";
 import { HoroscopeEditorialMeta } from "@/components/horoscope/HoroscopeEditorialMeta";
 import { FavoriteButton } from "@/components/account/FavoriteButton";
+import { ShareReadingButton } from "@/components/community/ShareReadingButton";
 import { useSession } from "@/hooks/useSession";
 import { logActivity } from "@/lib/account/repository";
 import type { MoonSnapshot } from "@/types/moon";
@@ -81,6 +82,16 @@ export function SignHoroscopePage({ signSlug, period, entry, moon = null }: Prop
             itemTitle={`Horóscopo de ${sign.name} — ${def.label}`}
             metadata={{ sign: sign.slug, period }}
           />
+          {entry && (
+            <ShareReadingButton
+              postType="horoscope"
+              title={`Mi horóscopo de ${sign.name} · ${def.label}`}
+              body={`${entry.summary}\n\nQué observar: ${entry.observe ?? editorial.observe}\n\nPregunta para reflexionar: ${entry.reflectionQuestion ?? editorial.reflectionQuestion}`}
+              sourceRef={`${sign.slug}:${period}:${dateKey}`}
+              sourceTitle={`Horóscopo de ${sign.name} — ${def.label}`}
+              sourceUrl={`${zodiacRoute(sign.slug)}?periodo=${period}`}
+            />
+          )}
         </div>
       </div>
 

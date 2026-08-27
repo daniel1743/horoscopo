@@ -8,6 +8,8 @@ import { Icon } from "@/components/ui/icon";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
 import { isFeatureEnabled } from "@/config/features";
 import { SaveReadingButton } from "@/components/account/SaveReadingButton";
+import { ShareReadingButton } from "@/components/community/ShareReadingButton";
+import { routes } from "@/config/routes";
 import { useSession } from "@/hooks/useSession";
 import { logActivity } from "@/lib/account/repository";
 
@@ -84,6 +86,20 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           ]
             .filter(Boolean)
             .join("\n\n")}
+        />
+        <ShareReadingButton
+          postType="tarot"
+          title={`Mi lectura de Tarot · ${reading.spread === "yes_no" ? "Sí o no" : "Tres cartas"}`}
+          body={[
+            reading.drawn.map(({ card }) => `${card.name}: ${card.uprightMeaning}`).join("\n"),
+            yesNo?.description,
+            showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
+          ]
+            .filter(Boolean)
+            .join("\n\n")}
+          sourceRef={`tarot:${reading.spread}:${reading.drawn.map(({ card }) => card.cardKey).join(",")}`}
+          sourceTitle="Lectura de Tarot"
+          sourceUrl={routes.tarot}
         />
         {onDrawAgain && (
           <Button type="button" variant="outline" onClick={onDrawAgain}>

@@ -17,6 +17,7 @@ interface Props {
   sourceRef?: string | null;
   sourceTitle?: string | null;
   sourceUrl?: string | null;
+  authRedirect?: string;
   onPublished?: () => void;
 }
 
@@ -27,6 +28,7 @@ export function CommunityPostComposer({
   sourceRef = null,
   sourceTitle = null,
   sourceUrl = null,
+  authRedirect = routes.community,
   onPublished,
 }: Props) {
   const { user } = useSession();
@@ -46,7 +48,7 @@ export function CommunityPostComposer({
           compartirlo.
         </p>
         <Button asChild className="mt-4">
-          <Link to={routes.signIn} search={{ redirect: "/comunidad", mode: "signin" }}>
+          <Link to={routes.signIn} search={{ redirect: authRedirect, mode: "signin" }}>
             Iniciar sesión para publicar
           </Link>
         </Button>
