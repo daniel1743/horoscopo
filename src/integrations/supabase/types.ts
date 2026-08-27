@@ -1322,33 +1322,33 @@ export type Database = {
         }[];
       };
       list_open_community_reports: {
-        Args: { p_limit?: number }
+        Args: { p_limit?: number };
         Returns: {
-          author_username: string | null
-          post_body: string
-          post_id: string
-          post_status: string
-          post_title: string | null
-          post_type: string
-          report_details: string | null
-          report_id: string
-          report_reason: string
-          report_status: string
-          reported_at: string
-          reporter_id: string
-        }[]
-      }
+          author_username: string | null;
+          post_body: string;
+          post_id: string;
+          post_status: string;
+          post_title: string | null;
+          post_type: string;
+          report_details: string | null;
+          report_id: string;
+          report_reason: string;
+          report_status: string;
+          reported_at: string;
+          reporter_id: string;
+        }[];
+      };
       moderate_community_report: {
-        Args: { p_decision: string; p_note?: string | null; p_report_id: string }
-        Returns: boolean
-      }
+        Args: { p_decision: string; p_note?: string | null; p_report_id: string };
+        Returns: boolean;
+      };
       admin_product_metrics: {
-        Args: Record<PropertyKey, never>
+        Args: Record<PropertyKey, never>;
         Returns: {
-          metric_key: string
-          metric_value: number
-        }[]
-      }
+          metric_key: string;
+          metric_value: number;
+        }[];
+      };
       current_user_has_role: { Args: { _roles: string[] }; Returns: boolean };
       has_admin_role: {
         Args: { _roles: string[]; _user_id: string };
