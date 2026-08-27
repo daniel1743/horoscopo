@@ -237,6 +237,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Fecha de nacimiento
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-date"
+                name="birthDate"
                 type="date"
                 value={birthDate}
                 onChange={(event) => setBirthDate(event.target.value)}
@@ -247,6 +249,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Hora de nacimiento {content.timeRequired ? "(necesaria)" : "(opcional)"}
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-time"
+                name="birthTime"
                 type="time"
                 value={birthTime}
                 onChange={(event) => setBirthTime(event.target.value)}
@@ -259,6 +263,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Zona horaria IANA
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-timezone"
+                name="timezone"
                 type="text"
                 value={timezone}
                 onChange={(event) => setTimezone(event.target.value)}
@@ -270,6 +276,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Lugar de referencia (opcional)
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-place"
+                name="locationLabel"
                 type="text"
                 value={locationLabel}
                 onChange={(event) => setLocationLabel(event.target.value)}
@@ -283,6 +291,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Latitud
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-latitude"
+                name="latitude"
                 type="number"
                 min={-90}
                 max={90}
@@ -298,6 +308,8 @@ export function AstrologyBirthForm({ mode }: Props) {
               Longitud
               <input
                 className="h-11 rounded-xl border border-line bg-warm-white px-3 font-body text-[14px] font-normal text-ink outline-none transition focus:border-cosmic focus:ring-2 focus:ring-cosmic/20"
+                id="birth-longitude"
+                name="longitude"
                 type="number"
                 min={-180}
                 max={180}
