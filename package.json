@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "seo:sitemap": "node scripts/generate-sitemap.mjs",
     "social:check": "node scripts/check-social-backend.mjs",
+    "pending:check": "node scripts/check-pending-flows.mjs",
     "content:check": "node scripts/check-editorial-quality.mjs",
     "check:centralization": "bun scripts/check-hardcoded-styles.ts && bun scripts/check-direct-icon-imports.ts && bun scripts/check-direct-routes.ts && bun scripts/check-duplicate-layout.ts"
   },
