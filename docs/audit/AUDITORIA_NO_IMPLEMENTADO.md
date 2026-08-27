@@ -311,3 +311,22 @@ La parte 30 de Informes debe leerse como **PARCIAL**: ahora existen informes `.t
 Continúan pendientes de acción manual los SQL `manual-community/07_comments_and_follows.sql`, `manual-community/08_comment_reports_and_moderation.sql` y `manual-tarot/01_saved_readings_spreads.sql`. Hasta que Daniel los aplique y compruebe sus resultados, comentarios, follows, reportes de comentarios y el guardado de las nuevas tiradas no deben declararse activos en Supabase remoto.
 
 El sitemap local actualizado contiene 137 URLs, incluye `/tarot/pasado-presente-futuro` y `/suenos`, y conserva fuera `/astrologia/sinastria` por `noindex`. La suite de esta revisión pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El resultado sigue siendo una entrega **PARCIAL**, no el cumplimiento total de las 636 casillas del documento maestro.
+
+## 8. Cierre de brechas posterior a las cinco mejoras aprobadas — 27 de agosto de 2026
+
+La clasificación de las cinco áreas trabajadas cambia, pero no se convierte en cumplimiento total del documento maestro:
+
+| Área | Nueva clasificación | Qué se cerró localmente | Qué sigue sin existir o sin verificar |
+|---|---|---|---|
+| Tarot | **PARCIAL ampliado** | Síntesis relacional por posición, keywords, contraste, progresión y pregunta contextual; decisión y pasado/presente/futuro disponibles | Mazos alternativos, imágenes licenciadas, significados por área, constructor y tiradas temáticas restantes; SQL Tarot 01 pendiente |
+| Carta natal | **PARCIAL ampliado** | Big Three, patrón de elementos/modalidad/signo, narrativa de 10 placements y ranking de aspectos | Puntos avanzados, casas configurables, precisión profesional y E2E autenticada |
+| Tránsitos | **PARCIAL ampliado** | Agrupación temática de todos los contactos del snapshot, intensidad, tono y retrogradación | Calendario, alertas, historial, persistencia y técnicas predictivas |
+| Sinastría | **PARCIAL ampliado** | Agrupación de contactos por seis temas y preguntas conversacionales | Carta compuesta, Davison, casas cruzadas, persistencia y E2E de privacidad |
+| Sueños | **PARCIAL ampliado** | Diccionario de 20 símbolos, búsqueda, selección de hasta 5, emoción, contexto, reflexión y diario local opt-in | Catálogo mayor, patrones y cualquier persistencia remota, social o clínica |
+| Informes | **PARCIAL ampliado** | Copia, TXT y HTML de impresión local con “Imprimir / guardar PDF” | PDF servidor, historial, plantillas profesionales y compartir controlado |
+
+El diario local de Sueños es una alternativa explícita y borrable, no una cuenta ni una nube. La síntesis de Tarot, natal, tránsitos y sinastría no amplía el perímetro de IA; los datos natales y de Persona B no se envían automáticamente. La ruta de sinastría mantiene `noindex,nofollow`.
+
+El runtime específico comprobó los contratos nuevos y la suite completa pasó Prettier, TypeScript, lint, build, contenido, pendientes, sitemap, auditoría de dependencias y diff-check. Estas pruebas no sustituyen E2E, Supabase remoto, crawler, dispositivos reales ni proveedor.
+
+Las capacidades que permanecen **NO** —Lenormand, runas, oráculos, chakras, cristales, rituales, astrocartografía, notificaciones, pagos y app nativa— no deben anunciarse ni recibir SQL ficticio. Los SQL reales todavía pendientes son únicamente los lotes manuales de Comunidad 07, Comunidad 08 y Tarot 01, cada uno sujeto a aplicación y verificación separadas.

@@ -104,3 +104,30 @@ Se implementó `/suenos` como diccionario público de veinte símbolos con búsq
 La validación posterior pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El runtime externo pasó Tarot temático, natal, tránsitos, sinastría, Sueños e informes. El auditor local continúa registrando 30 tablas usadas, 15 RPC usados y 0 faltantes. Esta evidencia es local y no sustituye pruebas autenticadas, multiusuario, aplicación de SQL ni deploy.
 
 La rama sigue siendo `redesign/fases-1-5`. Las mejoras adicionales quedaron consolidadas en `8fa7874`; no se hizo push.
+
+## Revisión final de esta tranche — 27 de agosto de 2026
+
+El informe anterior queda superseded por este corte documental. La rama ahora incorpora las cinco mejoras aprobadas de forma local y queda consolidada en `e6acecd` (`feat: deepen local interpretations and reports`). El encabezado histórico conserva sus datos de origen; para el estado vigente deben usarse esta sección y `docs/audit/TERCERA_REVISION_BRECHAS_20260827.md`.
+
+| Área nueva | Estado vigente | Evidencia |
+|---|---|---|
+| Tarot relacional | **IMPLEMENTADO LOCALMENTE** | Síntesis por posición, orientación, palabras compartidas, contraste, progresión, cierre y pregunta; decision y pasado/presente/futuro |
+| Natal narrativo | **IMPLEMENTADO LOCALMENTE** | Big Three, patrón de elementos/modalidad/signo, 10 placements y aspectos ordenados por orbe |
+| Tránsitos | **IMPLEMENTADO LOCALMENTE; NO PERSISTENTE** | Todos los contactos se conservan y agrupan por temas, intensidad, tono y retrogradación |
+| Sinastría | **IMPLEMENTADO LOCALMENTE; NO PERSISTENTE** | Contactos cruzados agrupados en seis temas; Persona B no se guarda ni se envía a IA; `noindex,nofollow` permanece |
+| Sueños | **PARCIAL AMPLIADO** | 20 símbolos, selección máxima de 5, emoción, contexto, reflexión multi-símbolo y diario local opt-in/exportable/borrable |
+| Informes | **PARCIAL AMPLIADO** | Copiar, TXT y ventana HTML local escapada para imprimir/guardar PDF desde el navegador; sin servidor ni historial |
+
+El diario de Sueños usa únicamente el navegador después de una acción explícita. No usa cuenta, Supabase, IA, Comunidad, URL o analytics. La pregunta de Tarot no se incorpora al payload guardado o compartido de la síntesis. Los informes locales contienen narrativas nuevas, pero `pdfReports` sigue desactivado.
+
+### Validación definitiva
+
+Pasaron con código 0: `npx prettier --check src scripts`, `npx tsc --noEmit --pretty false`, `npm run lint`, `npm run build`, `npm run content:check`, `npm run pending:check`, `npm run seo:sitemap`, `git diff --check` y `python3 /home/ubuntu/audit_supabase_dependencies.py`. Lint conserva 7 warnings de Fast Refresh sin errores. El auditor local registra 30 tablas, 15 RPC y 0 faltantes locales.
+
+El runtime temporal externo pasó Tarot, natal, tránsitos, sinastría, Sueños/diario e informes con fixtures deterministas. El sitemap vigente contiene 137 URLs, incluye `/tarot/pasado-presente-futuro` y `/suenos`, y excluye `/astrologia/sinastria`.
+
+### Estado final y siguiente etapa
+
+No se aplicó SQL, no se hizo push, deploy, merge, rebase ni escritura remota; `main` no fue tocada. Continúan pendientes los bloques manuales `manual-community/07_comments_and_follows.sql`, `manual-community/08_comment_reports_and_moderation.sql` y `manual-tarot/01_saved_readings_spreads.sql`, en ese orden de entrega operativa, seguidos por verificación de resultados y E2E autenticada/multiusuario.
+
+La rama sigue siendo **PARCIAL** frente a las 636 casillas del documento maestro. Permanecen fuera de alcance o sin verificar los módulos no construidos, la precisión astrológica profesional, notificaciones, pagos, newsletter real, app nativa, PDF servidor, crawler, producción y pruebas de dispositivos.

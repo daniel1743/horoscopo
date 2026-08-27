@@ -183,3 +183,23 @@ La carta natal incorpora un resumen descriptivo de Big Three, conteos de element
 Se construyó `/suenos`, un diccionario público con veinte símbolos, búsqueda, filtros, lentes emocionales y simbólicas, preguntas reflexivas y aviso de que no se guardan experiencias. Es contenido editorial inicial, no una interpretación universal ni una herramienta clínica.
 
 La validación posterior pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check. El sitemap local quedó en 137 URLs: incluye `/tarot/pasado-presente-futuro` y `/suenos`, y mantiene fuera `/astrologia/sinastria` por su `noindex`. El auditor local registra 30 tablas y 15 RPC utilizados, sin faltantes entre código y SQL local; esto no demuestra que los bloques 07, 08 ni el SQL Tarot hayan sido aplicados en Supabase remoto.
+
+## 3.14 Cierre posterior a las cinco mejoras aprobadas — 27 de agosto de 2026
+
+La tranche final de esta rama incorporó profundidad narrativa sin alterar la arquitectura existente ni conectar datos sensibles a nuevos proveedores. Los estados se mantienen deliberadamente por debajo de “completo” cuando falta persistencia, licencia, precisión profesional o evidencia remota.
+
+| Capacidad | Estado confirmado en esta revisión | Evidencia |
+|---|---|---|
+| Síntesis relacional Tarot | **IMPLEMENTADA LOCALMENTE** | `tarot-synthesis.service.ts`, panel en el resultado y tiradas no sí/no; runtime con tres posiciones, relación y síntesis |
+| Perfil natal narrativo | **IMPLEMENTADO LOCALMENTE** | `astrology-narrative.service.ts`, panel integrado, 10 placements y aspectos ordenados por orbe en runtime |
+| Síntesis de tránsitos | **IMPLEMENTADA LOCALMENTE** | Agrupación temática, intensidad, tono y retrogradación; runtime con 26 contactos en 5 grupos |
+| Síntesis de sinastría | **IMPLEMENTADA LOCALMENTE** | Agrupación cruzada en seis temas; runtime con 34 contactos en 6 grupos; ruta sigue `noindex,nofollow` |
+| Sueños multi-símbolo | **IMPLEMENTADOS LOCALMENTE** | Hasta 5 símbolos, emoción, contexto, hilos compartidos, prompts y pregunta reflexiva |
+| Diario de Sueños | **IMPLEMENTADO LOCALMENTE, OPT-IN** | `localStorage`, migración segura de entradas antiguas, máximo 50, exportación TXT, borrado individual y total |
+| Informes locales | **IMPLEMENTADOS LOCALMENTE** | Copiar, descargar TXT y ventana HTML escapada de impresión/Guardar PDF en natal, tránsitos, sinastría y Sueños |
+
+El diario de Sueños no usa Supabase, IA, Comunidad, URL ni analytics. La impresión no activa `pdfReports`, no genera un PDF de servidor y no crea historial remoto. La síntesis Tarot conserva el perímetro de IA existente y no incorpora la pregunta del usuario al payload guardado/compartido.
+
+La validación posterior pasó Prettier, TypeScript, lint, build, contenido, contratos pendientes, sitemap, auditor de dependencias y `git diff --check`. El lint quedó con 0 errores y 7 warnings conocidos de Fast Refresh. El runtime externo pasó Tarot, natal, tránsitos, sinastría, Sueños/diario e informes. El sitemap actual tiene 137 URLs, incluye `/tarot/pasado-presente-futuro` y `/suenos`, y excluye `/astrologia/sinastria`.
+
+La entrega queda consolidada localmente en `e6acecd` (`feat: deepen local interpretations and reports`) sobre `redesign/fases-1-5`. No se hizo push, deploy, merge, rebase ni escritura remota.

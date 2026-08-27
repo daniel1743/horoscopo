@@ -130,3 +130,27 @@ La carta natal muestra Big Three y conteos descriptivos de elemento, modalidad y
 La suite posterior pasó `npx tsc --noEmit`, `npm run build`, `npm run content:check`, `npm run pending:check`, `npm run seo:sitemap`, `npx prettier --check src scripts`, `npm run lint` y `git diff --check`. El sitemap local alcanzó 137 URLs, incluyendo Tarot pasado/presente/futuro y Sueños, y excluyendo sinastría por `noindex`. El runtime externo pasó Tarot, natal, tránsitos, sinastría, Sueños e informes. El auditor Supabase sigue reportando 30 tablas usadas, 15 RPC usados y 0 faltantes locales.
 
 El estado final continúa siendo **PARCIAL**: falta aplicar SQL 07, 08 y `manual-tarot/01`, ejecutar E2E autenticada/multiusuario, desplegar y verificar el dominio, así como decidir futuros proveedores para notificaciones, newsletter, pagos y PDF si se desea construirlos.
+
+## 8. QA posterior a las cinco mejoras aprobadas — 27 de agosto de 2026
+
+Se ejecutó una nueva suite después de integrar síntesis Tarot, narrativa natal, agrupación de tránsitos/sinastría, diario local de Sueños e informes HTML imprimibles. Todos los comandos terminaron con código 0, salvo que `npm run lint` conserva los siete warnings estructurales ya descritos y no presenta errores.
+
+| Prueba | Resultado final |
+|---|---|
+| `npx prettier --check src scripts` | PASÓ |
+| `npx tsc --noEmit --pretty false` | PASÓ |
+| `npm run lint` | PASÓ; 0 errores y 7 warnings Fast Refresh conocidos |
+| `npm run build` | PASÓ; regeneró el árbol de rutas |
+| `npm run content:check` | PASÓ |
+| `npm run pending:check` | PASÓ |
+| `npm run seo:sitemap` | PASÓ; 137 URLs |
+| `git diff --check` | PASÓ |
+| Auditor local Supabase | PASÓ; 30 tablas, 15 RPC y 0 faltantes locales |
+
+El runtime temporal externo también pasó con fixtures deterministas: Tarot con 3 posiciones y relación; natal con 10 placements y 14 aspectos; tránsitos con 26 contactos en 5 grupos; sinastría con 34 contactos en 6 grupos; Sueños con tres símbolos, reflexión, migración/persistencia local, exportación, borrado y limpieza; e informes con las nuevas secciones narrativas. El archivo temporal fue eliminado después de la ejecución y no se añadió un runner ni dependencia al repositorio.
+
+La evidencia sigue siendo local. No demuestra la activación de SQL remoto, E2E con cuentas, aislamiento multiusuario, rol administrativo, deploy, crawler, proveedor IA, responsive real ni precisión astrológica profesional. En especial, la ventana “Imprimir / guardar PDF” es una vista HTML local que delega el PDF al navegador; no es un generador PDF de servidor.
+
+## 9. Criterio de cierre posterior
+
+La tranche local queda validada y puede detenerse antes de SQL. El orden operativo pendiente es: Comunidad 07, Comunidad 08 y Tarot manual 01, cada uno aplicado manualmente por Daniel con captura/resultado y verificación posterior antes del siguiente. Después corresponde E2E autenticada y multiusuario, no otra afirmación de que el producto está completo.

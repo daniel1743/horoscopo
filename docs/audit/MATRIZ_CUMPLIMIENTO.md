@@ -79,3 +79,25 @@ La revisión local posterior modificó el estado de varias filas ejecutivas sin 
 | SEO | **PARCIAL mejorado** | Sitemap local de 137 URLs; incluye Tarot nuevo y Sueños; excluye sinastría noindex | No prueba indexación, Search Console ni tráfico real |
 
 El estado global continúa siendo **PARCIAL**. No se contabilizan como activados remotamente los comentarios, follows, reportes de comentarios ni las nuevas claves del diario Tarot hasta que Daniel aplique y compruebe los SQL pendientes. La suite local pasó TypeScript, build, contenido, pendientes, sitemap, Prettier, lint y diff-check; esto no sustituye E2E autenticada, pruebas multiusuario ni deploy.
+
+## Corte de evidencia posterior a las cinco mejoras — 27 de agosto de 2026
+
+Este corte no reescribe las 636 casillas del documento maestro; precisa el estado de las filas ejecutivas con la evidencia nueva.
+
+| Funcionalidad | Estado actualizado | Evidencia nueva | Límite operativo |
+|---|---|---|---|
+| Tiradas Tarot | **PARCIAL ampliado** | `past_present_future`, síntesis relacional, pregunta contextual, guardado/compartir sin pregunta de usuario | SQL Tarot 01 pendiente para aceptar ambas claves nuevas en remoto; faltan temáticas y constructor |
+| Carta natal | **PARCIAL ampliado** | Panel narrativo de Big Three, patrones, 10 placements y aspectos ordenados por orbe | Modelo aproximado; E2E y precisión profesional pendientes |
+| Tránsitos | **PARCIAL ampliado** | Narrativa temática con todos los contactos, intensidad, tono y retrogradación | Snapshot en memoria; no calendario, alertas ni persistencia |
+| Sinastría | **PARCIAL ampliado** | Seis grupos temáticos y preguntas conversacionales; ruta noindex | Sin persistencia de Persona B, carta compuesta o E2E multiusuario |
+| Sueños | **PARCIAL ampliado** | Selección de hasta 5 símbolos, emoción, contexto, reflexión, diario local, exportación y borrado | No Supabase, IA, Comunidad, patrones remotos ni catálogo amplio |
+| Informes | **PARCIAL ampliado** | Copiar/TXT y ventana HTML local escapada para imprimir o guardar PDF desde el navegador | `pdfReports=false`; no PDF servidor, historial ni storage remoto |
+| Testing | **PARCIAL** | Runtime determinista externo pasó las cinco verticales; suite estática final completa pasó | No existe runner global ni E2E autenticada/multiusuario |
+| SEO | **PARCIAL mejorado** | Sitemap local de 137 URLs, nuevas rutas incluidas, sinastría excluida | No prueba deploy, crawler, Search Console o indexación |
+| Seguridad/privacidad | **PARCIAL/NO VERIFICADO** | Sueños local opt-in y borrable; natal/Persona B fuera de URL/IA; HTML de informes escapado | Faltan E2E real, SQL 07/08, aislamiento entre usuarios y verificación remota |
+
+### Resultados de la suite final
+
+`npx prettier --check src scripts`, `npx tsc --noEmit --pretty false`, `npm run lint`, `npm run build`, `npm run content:check`, `npm run pending:check`, `npm run seo:sitemap`, `git diff --check` y el auditor de dependencias Supabase terminaron con código 0. Lint produjo 0 errores y 7 warnings conocidos de Fast Refresh. El auditor local registró 30 tablas, 15 RPC y 0 faltantes locales.
+
+El estado ejecutivo sigue siendo **MVP parcialmente activado**. La rama no se considera lista para marcar el documento maestro como completado.
