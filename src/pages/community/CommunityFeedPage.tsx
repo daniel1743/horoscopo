@@ -53,14 +53,15 @@ export function CommunityFeedPage({ sharePrefill }: { sharePrefill?: CommunitySh
   const queryClient = useQueryClient();
   const [filter, setFilter] = useState<FeedFilter>("all");
   const [stream, setStream] = useState<FeedStream>("recent");
+  const [limit, setLimit] = useState(30);
   const query = useQuery({
-    queryKey: ["community", "public-posts"],
-    queryFn: () => listPublicCommunityPosts(30),
+    queryKey: ["community", "public-posts", limit],
+    queryFn: () => listPublicCommunityPosts(limit),
     staleTime: 1000 * 60,
   });
   const repostsQuery = useQuery({
-    queryKey: ["community", "public-reposts"],
-    queryFn: () => listPublicCommunityReposts(30),
+    queryKey: ["community", "public-reposts", limit],
+    queryFn: () => listPublicCommunityReposts(limit),
     staleTime: 1000 * 60,
     enabled: stream === "reposts",
   });
@@ -69,6 +70,8 @@ export function CommunityFeedPage({ sharePrefill }: { sharePrefill?: CommunitySh
     return source.filter((post) => filter === "all" || post.post_type === filter);
   }, [filter, query.data, repostsQuery.data, stream]);
   const activeQuery = stream === "reposts" ? repostsQuery : query;
+  const rawPosts = stream === "reposts" ? (repostsQuery.data ?? []) : (query.data ?? []);
+  const canLoadMore = rawPosts.length >= limit && limit < 50;
 
   return (
     <PageShell breadcrumbs={[{ label: "Inicio", href: routes.home }, { label: "Comunidad" }]}>
@@ -206,6 +209,21 @@ export function CommunityFeedPage({ sharePrefill }: { sharePrefill?: CommunitySh
               );
             })}
           </div>
+          {canLoadMore && !activeQuery.isError && (
+            <button
+              type="button"
+              className="mt-5 w-full rounded-full border border-line px-4 py-3 font-body text-[13px] font-medium text-ink-soft transition hover:border-brand/40 hover:text-brand disabled:cursor-wait disabled:opacity-60"
+              onClick={() => setLimit(50)}
+              disabled={activeQuery.isFetching}
+            >
+              {activeQuery.isFetching ? "Cargando más publicaciones…" : "Cargar más publicaciones"}
+            </button>
+          )}
+          {limit >= 50 && rawPosts.length >= 50 && !activeQuery.isError && (
+            <p className="mt-4 text-center font-body text-[12px] text-ink-muted">
+              Se muestran las 50 publicaciones más recientes disponibles en este feed.
+            </p>
+          )}
         </div>
 
         <aside className="space-y-5">

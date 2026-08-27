@@ -43,6 +43,7 @@ export function ReportPostButton({ postId }: Props) {
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (busy) return;
     setBusy(true);
     try {
       await reportCommunityPost({ postId, reporterId: user.id, reason, details });

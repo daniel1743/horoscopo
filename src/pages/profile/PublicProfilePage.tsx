@@ -18,11 +18,32 @@ import {
 
 interface Props {
   profile: PublicProfile | null;
+  backendUnavailable?: boolean;
 }
 
 type ProfileStream = "posts" | "reposts";
 
-export function PublicProfilePage({ profile }: Props) {
+export function PublicProfilePage({ profile, backendUnavailable = false }: Props) {
+  if (backendUnavailable) {
+    return (
+      <PageShell
+        breadcrumbs={[{ label: "Inicio", href: routes.home }, { label: "Perfil público" }]}
+      >
+        <PageHeader
+          eyebrow="Perfil público"
+          title="Perfil temporalmente no disponible"
+          description="No pudimos conectar con el servicio de perfiles. No se muestran datos privados ni se ha asumido que el perfil sea público."
+        />
+        <Link
+          to={routes.home}
+          className="font-body text-[14px] font-medium text-brand underline underline-offset-4"
+        >
+          Volver al inicio
+        </Link>
+      </PageShell>
+    );
+  }
+
   if (!profile) {
     return (
       <PageShell breadcrumbs={[{ label: "Inicio", href: routes.home }, { label: "Perfil" }]}>

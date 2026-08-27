@@ -58,6 +58,7 @@ export function CommunityPostComposer({
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (busy) return;
     const cleanBody = body.trim();
     if (cleanBody.length < 8) {
       toast.error("Escribe al menos unas palabras para que tu publicación tenga contexto.");

@@ -5,11 +5,16 @@ import { buildMeta } from "@/config/seo";
 import { profileRoute } from "@/config/routes";
 
 export const Route = createFileRoute("/perfil/$username")({
-  loader: async ({ params }) => ({
-    profile: await fetchPublicProfile(params.username).catch(() => null),
-  }),
+  loader: async ({ params }) => {
+    try {
+      return { profile: await fetchPublicProfile(params.username), backendUnavailable: false };
+    } catch {
+      return { profile: null, backendUnavailable: true };
+    }
+  },
   head: ({ params, loaderData }) => {
     const profile = loaderData?.profile;
+    const backendUnavailable = loaderData?.backendUnavailable ?? false;
     const title = profile?.display_name
       ? `${profile.display_name} (@${profile.username}) — Perfil público`
       : "Perfil público no disponible";
@@ -18,7 +23,7 @@ export const Route = createFileRoute("/perfil/$username")({
       title,
       description,
       canonical: profileRoute(params.username),
-      robots: profile ? "index,follow" : "noindex,nofollow",
+      robots: profile && !backendUnavailable ? "index,follow" : "noindex,nofollow",
     });
     return { meta: meta.meta, links: meta.links };
   },
@@ -26,5 +31,11 @@ export const Route = createFileRoute("/perfil/$username")({
 });
 
 function PublicProfileRouteComponent() {
-  return <PublicProfilePage profile={Route.useLoaderData().profile} />;
+  const loaderData = Route.useLoaderData();
+  return (
+    <PublicProfilePage
+      profile={loaderData.profile}
+      backendUnavailable={loaderData.backendUnavailable}
+    />
+  );
 }

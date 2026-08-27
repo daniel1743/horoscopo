@@ -37,6 +37,7 @@ export function CommunityPostActions({
   };
 
   const handleLike = async () => {
+    if (busy) return;
     if (!user) {
       requireSession();
       return;
@@ -58,6 +59,7 @@ export function CommunityPostActions({
   };
 
   const handleRepost = async () => {
+    if (busy) return;
     if (!user) {
       requireSession();
       return;
