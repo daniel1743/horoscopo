@@ -6,7 +6,7 @@
 export type TarotArcana = "major" | "minor";
 export type TarotSuit = "wands" | "cups" | "swords" | "pentacles";
 export type TarotYesNoTendency = "favorable" | "caution" | "open";
-export type TarotSpreadKey = "daily" | "yes_no" | "three_cards";
+export type TarotSpreadKey = "daily" | "yes_no" | "three_cards" | "decision";
 
 export interface TarotCard {
   id: string;
@@ -40,7 +40,7 @@ export interface TarotSpreadPosition {
 export interface TarotSpreadDefinition {
   key: TarotSpreadKey;
   label: string;
-  routeKey: "tarotDaily" | "tarotYesNo" | "tarotThreeCards";
+  routeKey: "tarotDaily" | "tarotYesNo" | "tarotThreeCards" | "tarotDecision";
   numberOfCards: number;
   positions: TarotSpreadPosition[];
   description: string;

@@ -42,13 +42,11 @@ export const ADMIN_ROLE_META: Record<AdminRole, { label: string; description: st
   },
   editor: {
     label: "Editor",
-    description:
-      "Crea y edita borradores editoriales. No puede publicar ni aprobar por sí solo.",
+    description: "Crea y edita borradores editoriales. No puede publicar ni aprobar por sí solo.",
   },
   reviewer: {
     label: "Revisor",
-    description:
-      "Aprueba o solicita cambios en contenido enviado a revisión. No publica.",
+    description: "Aprueba o solicita cambios en contenido enviado a revisión. No publica.",
   },
   media_manager: {
     label: "Gestor de medios",
@@ -61,6 +59,9 @@ export function isAdminRole(value: string): value is AdminRole {
   return (ADMIN_ROLES as readonly string[]).includes(value);
 }
 
-export function hasAnyRole(userRoles: readonly AdminRole[], allowed: readonly AdminRole[]): boolean {
+export function hasAnyRole(
+  userRoles: readonly AdminRole[],
+  allowed: readonly AdminRole[],
+): boolean {
   return userRoles.some((r) => allowed.includes(r));
 }

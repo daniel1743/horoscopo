@@ -27,7 +27,9 @@ export function AccountSidebar() {
           const disabled = Boolean(item.disabled);
           const commonClass = cn(
             "flex items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 text-sm transition-colors whitespace-nowrap lg:whitespace-normal",
-            active ? "bg-brand-soft text-ink" : "text-ink-soft hover:bg-brand-soft/60 hover:text-ink",
+            active
+              ? "bg-brand-soft text-ink"
+              : "text-ink-soft hover:bg-brand-soft/60 hover:text-ink",
             disabled && "cursor-not-allowed opacity-50",
           );
           return (
@@ -39,7 +41,7 @@ export function AccountSidebar() {
                 </span>
               ) : (
                 <Link
-                  to={href}
+                  to={href as never}
                   aria-current={active ? "page" : undefined}
                   className={commonClass}
                 >

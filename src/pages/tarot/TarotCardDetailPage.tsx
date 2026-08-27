@@ -10,6 +10,7 @@ import { tarotService } from "@/services/tarot.service";
 import { tarotQueryKeys } from "@/hooks/useTarotDeck";
 import { yesNoLabels } from "@/config/tarot";
 import { FavoriteButton } from "@/components/account/FavoriteButton";
+import { TarotRelatedCards } from "@/components/tarot/TarotRelatedCards";
 
 interface Props {
   slug: string;
@@ -151,6 +152,7 @@ export function TarotCardDetailPage({ slug }: Props) {
           </div>
         </div>
       </div>
+      <TarotRelatedCards card={card} />
       <TarotReadingDisclaimer />
     </PageShell>
   );

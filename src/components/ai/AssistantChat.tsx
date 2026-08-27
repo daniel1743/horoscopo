@@ -81,9 +81,7 @@ export function AssistantChat({ mode = "general", context, compact = false }: Pr
       if ((e as Error).name === "AbortError") {
         setMessages((prev) =>
           prev.map((m) =>
-            m.id === assistantId
-              ? { ...m, content: m.content || "Respuesta detenida." }
-              : m,
+            m.id === assistantId ? { ...m, content: m.content || "Respuesta detenida." } : m,
           ),
         );
       } else {
@@ -175,7 +173,12 @@ export function AssistantChat({ mode = "general", context, compact = false }: Pr
                 <Icon name="close" /> Detener
               </Button>
             ) : (
-              <Button type="button" variant="primary" onClick={() => send(input)} disabled={!input.trim()}>
+              <Button
+                type="button"
+                variant="primary"
+                onClick={() => send(input)}
+                disabled={!input.trim()}
+              >
                 <Icon name="premium" /> Enviar
               </Button>
             )}

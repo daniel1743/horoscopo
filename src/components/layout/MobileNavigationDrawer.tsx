@@ -104,7 +104,7 @@ export function MobileNavigationDrawer({ open, onClose }: Props) {
                 {group.items.map((item) => (
                   <li key={item.routeKey}>
                     <Link
-                      to={routes[item.routeKey]}
+                      to={routes[item.routeKey] as never}
                       onClick={onClose}
                       className="flex min-h-12 items-center gap-3 rounded-[var(--radius-control)] px-3 py-2 font-body text-[15px] text-ink hover:bg-brand-soft"
                     >

@@ -20,7 +20,7 @@ const RespondSchema = z.object({
       z.object({
         kind: z.literal("tarot"),
         tarot: z.object({
-          spreadKey: z.enum(["daily", "yes_no", "three_cards"]),
+          spreadKey: z.enum(["daily", "yes_no", "three_cards", "decision"]),
           cardKeys: z.array(z.string().min(1)).min(1).max(3),
           positionKeys: z.array(z.string()).max(3),
           question: z.string().max(240).optional(),
@@ -88,7 +88,9 @@ export const Route = createFileRoute("/api/ai/respond")({
 
         // Auth (opcional).
         const auth = await readOptionalAuth(request);
-        const anonymousHash = auth.userId ? null : getOrCreateAnonymousHash(request, responseHeaders);
+        const anonymousHash = auth.userId
+          ? null
+          : getOrCreateAnonymousHash(request, responseHeaders);
 
         // Rate limit.
         const rl = await checkAndConsumeQuota({
@@ -250,10 +252,16 @@ export const Route = createFileRoute("/api/ai/respond")({
           });
 
           return new Response(persistedStream, { status: 200, headers: responseHeaders });
-        } catch (err: any) {
+        } catch (err: unknown) {
           clearTimeout(timer);
-          console.error("[/api/ai/respond] gateway error", err?.message ?? err);
-          const status = typeof err?.status === "number" ? err.status : 502;
+          const errorRecord =
+            typeof err === "object" && err !== null
+              ? (err as { message?: unknown; status?: unknown })
+              : null;
+          const message =
+            typeof errorRecord?.message === "string" ? errorRecord.message : String(err);
+          console.error("[/api/ai/respond] gateway error", message);
+          const status = typeof errorRecord?.status === "number" ? errorRecord.status : 502;
           return jsonError(
             status,
             "provider_error",

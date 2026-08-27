@@ -125,7 +125,8 @@ export function AccountSettingsPage() {
         <div className="border-t border-line pt-6">
           <h3 className="font-display text-lg font-semibold text-destructive">Eliminar cuenta</h3>
           <p className="mt-1 text-sm text-ink-soft">
-            Elimina permanentemente tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.
+            Elimina permanentemente tu cuenta y todos los datos asociados. Esta acción no se puede
+            deshacer.
           </p>
           <Button variant="destructive" className="mt-3" onClick={() => setConfirmOpen(true)}>
             Eliminar cuenta
@@ -144,7 +145,10 @@ export function AccountSettingsPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-destructive text-destructive-foreground">
+            <AlertDialogAction
+              onClick={handleDelete}
+              className="bg-destructive text-destructive-foreground"
+            >
               Eliminar definitivamente
             </AlertDialogAction>
           </AlertDialogFooter>

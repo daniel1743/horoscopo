@@ -17,7 +17,8 @@ export function AuthPage() {
   const navigate = useNavigate();
   const search = useSearch({ from: "/auth" }) as { redirect?: string; mode?: Mode };
   const initialMode: Mode = search.mode ?? "signin";
-  const redirectTo = search.redirect && search.redirect.startsWith("/") ? search.redirect : routes.account;
+  const redirectTo =
+    search.redirect && search.redirect.startsWith("/") ? search.redirect : routes.account;
 
   const [mode, setMode] = useState<Mode>(initialMode);
   const [email, setEmail] = useState("");
@@ -48,7 +49,9 @@ export function AuthPage() {
       password,
       options: {
         emailRedirectTo:
-          typeof window !== "undefined" ? `${window.location.origin}${routes.authCallback}` : undefined,
+          typeof window !== "undefined"
+            ? `${window.location.origin}${routes.authCallback}`
+            : undefined,
       },
     });
     setBusy(false);
@@ -73,7 +76,9 @@ export function AuthPage() {
     setMessage(null);
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo:
-        typeof window !== "undefined" ? `${window.location.origin}${routes.resetPassword}` : undefined,
+        typeof window !== "undefined"
+          ? `${window.location.origin}${routes.resetPassword}`
+          : undefined,
     });
     setBusy(false);
     if (error) {
@@ -94,7 +99,14 @@ export function AuthPage() {
           Inicia sesión para guardar lecturas, favoritos y personalizar tu experiencia.
         </p>
 
-        <Tabs value={mode} onValueChange={(v) => { setMode(v as Mode); setMessage(null); }} className="mt-6">
+        <Tabs
+          value={mode}
+          onValueChange={(v) => {
+            setMode(v as Mode);
+            setMessage(null);
+          }}
+          className="mt-6"
+        >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="signin">Iniciar sesión</TabsTrigger>
             <TabsTrigger value="signup">Crear cuenta</TabsTrigger>
@@ -102,10 +114,7 @@ export function AuthPage() {
           </TabsList>
 
           {message && (
-            <Alert
-              className="mt-4"
-              variant={message.kind === "error" ? "destructive" : "default"}
-            >
+            <Alert className="mt-4" variant={message.kind === "error" ? "destructive" : "default"}>
               <AlertDescription>{message.text}</AlertDescription>
             </Alert>
           )}
@@ -114,11 +123,25 @@ export function AuthPage() {
             <form onSubmit={handleSignIn} className="mt-4 space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email">Correo electrónico</Label>
-                <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="password">Contraseña</Label>
-                <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                />
               </div>
               <Button type="submit" className="w-full" disabled={busy}>
                 {busy ? "Entrando…" : "Iniciar sesión"}
@@ -139,11 +162,26 @@ export function AuthPage() {
             <form onSubmit={handleSignUp} className="mt-4 space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email-signup">Correo electrónico</Label>
-                <Input id="email-signup" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+                <Input
+                  id="email-signup"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
               </div>
               <div className="space-y-1.5">
                 <Label htmlFor="password-signup">Contraseña</Label>
-                <Input id="password-signup" type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="new-password" />
+                <Input
+                  id="password-signup"
+                  type="password"
+                  required
+                  minLength={8}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
+                />
                 <p className="text-xs text-ink-muted">Mínimo 8 caracteres.</p>
               </div>
               <Button type="submit" className="w-full" disabled={busy}>
@@ -167,7 +205,14 @@ export function AuthPage() {
             <form onSubmit={handleForgot} className="mt-4 space-y-4">
               <div className="space-y-1.5">
                 <Label htmlFor="email-forgot">Correo electrónico</Label>
-                <Input id="email-forgot" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" />
+                <Input
+                  id="email-forgot"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
               </div>
               <Button type="submit" className="w-full" disabled={busy}>
                 {busy ? "Enviando…" : "Enviar enlace"}

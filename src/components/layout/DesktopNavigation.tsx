@@ -30,7 +30,7 @@ export function DesktopNavigation() {
                 />
               ) : (
                 <Link
-                  to={parentPath}
+                  to={parentPath as never}
                   onClick={() => setOpenKey(null)}
                   className={cn(
                     "inline-flex h-11 items-center rounded-[var(--radius-control)] px-3 font-body text-[14px] font-medium transition-colors",

@@ -10,22 +10,19 @@
  *   fuerza status='draft' y workflow_state='draft'. NUNCA publica.
  * - Auditoría: cada acción sensible llama logAdminAction.
  */
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 import { assertRole } from "./admin.functions";
-import {
-  EDITOR_ROLES,
-  APPROVER_ROLES,
-  PUBLISHER_ROLES,
-  AUDIT_READER_ROLES,
-} from "./roles";
+import { EDITOR_ROLES, APPROVER_ROLES, PUBLISHER_ROLES, AUDIT_READER_ROLES } from "./roles";
 import { canTransition, type WorkflowState } from "./workflow";
 
 // -----------------------------------------------------------------------------
 // Helper: registrar auditoría desde dentro de otros handlers (mismo request).
 // -----------------------------------------------------------------------------
 async function audit(
-  supabase: any,
+  supabase: SupabaseClient<Database>,
   actorId: string,
   entry: {
     action: string;
@@ -58,13 +55,15 @@ async function audit(
 // -----------------------------------------------------------------------------
 export const adminListArticles = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    page?: number;
-    pageSize?: number;
-    status?: "draft" | "published" | "archived" | "all";
-    categoryId?: string | null;
-    search?: string;
-  }) => input)
+  .inputValidator(
+    (input: {
+      page?: number;
+      pageSize?: number;
+      status?: "draft" | "published" | "archived" | "all";
+      categoryId?: string | null;
+      search?: string;
+    }) => input,
+  )
   .handler(async ({ data, context }) => {
     await assertRole(context, EDITOR_ROLES);
 
@@ -97,7 +96,7 @@ export const adminListArticles = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
 
     // Join workflow states
-    const ids = (rows ?? []).map((r: any) => r.id);
+    const ids = (rows ?? []).map((r) => r.id);
     let workflowMap: Record<string, string> = {};
     if (ids.length) {
       const { data: wf } = await context.supabase
@@ -105,16 +104,14 @@ export const adminListArticles = createServerFn({ method: "GET" })
         .select("resource_id, workflow_state")
         .eq("resource_type", "article")
         .in("resource_id", ids);
-      workflowMap = Object.fromEntries(
-        (wf ?? []).map((w: any) => [w.resource_id, w.workflow_state]),
-      );
+      workflowMap = Object.fromEntries((wf ?? []).map((w) => [w.resource_id, w.workflow_state]));
     }
 
     return {
       page,
       pageSize,
       total: count ?? 0,
-      items: (rows ?? []).map((r: any) => ({
+      items: (rows ?? []).map((r) => ({
         ...r,
         workflow_state: workflowMap[r.id] ?? "draft",
       })),
@@ -152,13 +149,15 @@ export const adminGetArticle = createServerFn({ method: "GET" })
 // -----------------------------------------------------------------------------
 export const adminCreateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    slug: string;
-    title: string;
-    excerpt: string;
-    categoryId: string;
-    authorId: string;
-  }) => input)
+  .inputValidator(
+    (input: {
+      slug: string;
+      title: string;
+      excerpt: string;
+      categoryId: string;
+      authorId: string;
+    }) => input,
+  )
   .handler(async ({ data, context }) => {
     await assertRole(context, EDITOR_ROLES);
 
@@ -215,31 +214,33 @@ export const adminCreateArticle = createServerFn({ method: "POST" })
 // -----------------------------------------------------------------------------
 export const adminUpdateArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    id: string;
-    expectedVersion: number;
-    expectedUpdatedAt: string;
-    patch: {
-      title?: string;
-      subtitle?: string | null;
-      excerpt?: string;
-      slug?: string;
-      categoryId?: string;
-      authorId?: string;
-      imageUrl?: string | null;
-      imageAlt?: string | null;
-      tags?: string[];
-      featured?: boolean;
-      homeFeatured?: boolean;
-      readingTime?: number | null;
-      content?: unknown;
-      seo?: Record<string, unknown>;
-      sources?: unknown[];
-      relatedArticleIds?: string[];
-      disclaimerKey?: string | null;
-    };
-    revisionNote?: string;
-  }) => input)
+  .inputValidator(
+    (input: {
+      id: string;
+      expectedVersion: number;
+      expectedUpdatedAt: string;
+      patch: {
+        title?: string;
+        subtitle?: string | null;
+        excerpt?: string;
+        slug?: string;
+        categoryId?: string;
+        authorId?: string;
+        imageUrl?: string | null;
+        imageAlt?: string | null;
+        tags?: string[];
+        featured?: boolean;
+        homeFeatured?: boolean;
+        readingTime?: number | null;
+        content?: unknown;
+        seo?: Record<string, unknown>;
+        sources?: unknown[];
+        relatedArticleIds?: string[];
+        disclaimerKey?: string | null;
+      };
+      revisionNote?: string;
+    }) => input,
+  )
   .handler(async ({ data, context }) => {
     await assertRole(context, EDITOR_ROLES);
 
@@ -259,16 +260,14 @@ export const adminUpdateArticle = createServerFn({ method: "POST" })
     }
 
     // 2) Snapshot append-only ANTES del cambio.
-    const { error: snapErr } = await context.supabase
-      .from("content_revisions")
-      .insert({
-        resource_type: "article",
-        resource_id: data.id,
-        version: current.version,
-        snapshot: current,
-        note: data.revisionNote?.slice(0, 200) ?? null,
-        created_by: context.userId,
-      });
+    const { error: snapErr } = await context.supabase.from("content_revisions").insert({
+      resource_type: "article",
+      resource_id: data.id,
+      version: current.version,
+      snapshot: current,
+      note: data.revisionNote?.slice(0, 200) ?? null,
+      created_by: context.userId,
+    });
     if (snapErr) throw new Error(snapErr.message);
 
     // 3) UPDATE con WHERE version = expected (protección doble contra race).
@@ -279,8 +278,7 @@ export const adminUpdateArticle = createServerFn({ method: "POST" })
     if (p.subtitle !== undefined) updates.subtitle = p.subtitle;
     if (p.excerpt !== undefined) updates.excerpt = p.excerpt.trim();
     if (p.slug !== undefined) {
-      if (!/^[a-z0-9-]{3,120}$/.test(p.slug))
-        throw new Error("BLOCKER: slug inválido.");
+      if (!/^[a-z0-9-]{3,120}$/.test(p.slug)) throw new Error("BLOCKER: slug inválido.");
       updates.slug = p.slug;
     }
     if (p.categoryId !== undefined) updates.category_id = p.categoryId;
@@ -294,8 +292,7 @@ export const adminUpdateArticle = createServerFn({ method: "POST" })
     if (p.content !== undefined) updates.content = p.content;
     if (p.seo !== undefined) updates.seo = p.seo;
     if (p.sources !== undefined) updates.sources = p.sources;
-    if (p.relatedArticleIds !== undefined)
-      updates.related_article_ids = p.relatedArticleIds;
+    if (p.relatedArticleIds !== undefined) updates.related_article_ids = p.relatedArticleIds;
     if (p.disclaimerKey !== undefined) updates.disclaimer_key = p.disclaimerKey;
 
     const { data: updated, error: updErr } = await context.supabase
@@ -325,11 +322,7 @@ export const adminUpdateArticle = createServerFn({ method: "POST" })
 // -----------------------------------------------------------------------------
 export const adminTransitionWorkflow = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    id: string;
-    to: WorkflowState;
-    note?: string;
-  }) => input)
+  .inputValidator((input: { id: string; to: WorkflowState; note?: string }) => input)
   .handler(async ({ data, context }) => {
     // Autorización según destino
     const allowed =
@@ -352,9 +345,7 @@ export const adminTransitionWorkflow = createServerFn({ method: "POST" })
     if (!wf) throw new Error("NOT_FOUND: workflow no inicializado.");
 
     if (!canTransition(wf.workflow_state as WorkflowState, data.to)) {
-      throw new Error(
-        `BLOCKER: transición no permitida (${wf.workflow_state} → ${data.to}).`,
-      );
+      throw new Error(`BLOCKER: transición no permitida (${wf.workflow_state} → ${data.to}).`);
     }
 
     const { error: updErr } = await context.supabase
@@ -382,11 +373,9 @@ export const adminTransitionWorkflow = createServerFn({ method: "POST" })
 // -----------------------------------------------------------------------------
 export const adminPublishArticle = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    id: string;
-    expectedVersion: number;
-    overrideReason?: string;
-  }) => input)
+  .inputValidator(
+    (input: { id: string; expectedVersion: number; overrideReason?: string }) => input,
+  )
   .handler(async ({ data, context }) => {
     await assertRole(context, PUBLISHER_ROLES);
 
@@ -485,11 +474,9 @@ export const adminGetRevision = createServerFn({ method: "GET" })
 
 export const adminRestoreRevision = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    articleId: string;
-    revisionId: string;
-    expectedVersion: number;
-  }) => input)
+  .inputValidator(
+    (input: { articleId: string; revisionId: string; expectedVersion: number }) => input,
+  )
   .handler(async ({ data, context }) => {
     await assertRole(context, EDITOR_ROLES);
 
@@ -525,7 +512,10 @@ export const adminRestoreRevision = createServerFn({ method: "POST" })
     });
 
     // 4) Aplicar snapshot como borrador (NUNCA publica).
-    const snap: Record<string, any> = (rev.snapshot ?? {}) as Record<string, any>;
+    const snap: Record<string, unknown> =
+      rev.snapshot && typeof rev.snapshot === "object" && !Array.isArray(rev.snapshot)
+        ? (rev.snapshot as Record<string, unknown>)
+        : {};
     const nextVersion = current.version + 1;
     const restored: Record<string, unknown> = {
       title: snap.title,
@@ -584,14 +574,8 @@ export const adminListCategoriesAndAuthors = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     await assertRole(context, EDITOR_ROLES);
     const [cats, auths] = await Promise.all([
-      context.supabase
-        .from("editorial_categories")
-        .select("id,label,slug")
-        .order("sort_order"),
-      context.supabase
-        .from("editorial_authors")
-        .select("id,name,slug")
-        .order("name"),
+      context.supabase.from("editorial_categories").select("id,label,slug").order("sort_order"),
+      context.supabase.from("editorial_authors").select("id,name,slug").order("name"),
     ]);
     if (cats.error) throw new Error(cats.error.message);
     if (auths.error) throw new Error(auths.error.message);
@@ -608,7 +592,9 @@ export const adminListAuditLog = createServerFn({ method: "GET" })
     await assertRole(context, AUDIT_READER_ROLES);
     let q = context.supabase
       .from("admin_audit_log")
-      .select("id, action, resource_type, resource_id, status, actor_id, actor_role, metadata, created_at")
+      .select(
+        "id, action, resource_type, resource_id, status, actor_id, actor_role, metadata, created_at",
+      )
       .order("created_at", { ascending: false })
       .limit(Math.min(200, data.limit ?? 50));
     if (data.resourceId) q = q.eq("resource_id", data.resourceId);

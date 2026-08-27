@@ -64,7 +64,9 @@ export const listMemoriesFn = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("ai_memories")
-      .select("id, category, memory_key, memory_value, summary, active, consent_status, created_at, updated_at")
+      .select(
+        "id, category, memory_key, memory_value, summary, active, consent_status, created_at, updated_at",
+      )
       .order("updated_at", { ascending: false });
     if (error) throw new Error(error.message);
     return data ?? [];

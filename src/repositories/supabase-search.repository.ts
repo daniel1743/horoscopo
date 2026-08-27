@@ -38,7 +38,10 @@ export const supabaseSearchRepository: SearchRepository = {
     if (q.length < SEARCH_LIMITS.minQueryLength) return [];
     const { data, error } = await supabase.rpc("search_suggest", {
       p_query: q,
-      p_limit: Math.min(limit ?? SEARCH_LIMITS.suggestionsDefaultLimit, SEARCH_LIMITS.suggestionsMaxLimit),
+      p_limit: Math.min(
+        limit ?? SEARCH_LIMITS.suggestionsDefaultLimit,
+        SEARCH_LIMITS.suggestionsMaxLimit,
+      ),
     });
     if (error) throw new Error("suggest_failed");
     const rows = (data ?? []) as unknown as Parameters<typeof mapSuggestRow>[0][];

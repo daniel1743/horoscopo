@@ -6,6 +6,7 @@ import { TarotSpreadChooser } from "@/components/tarot/TarotSpreadChooser";
 import { TarotReadingDisclaimer } from "@/components/tarot/TarotReadingDisclaimer";
 import { Link } from "@tanstack/react-router";
 import { Icon } from "@/components/ui/icon";
+import { TarotPreferences } from "@/components/tarot/TarotPreferences";
 
 export function TarotHubPage() {
   return (
@@ -53,7 +54,16 @@ export function TarotHubPage() {
           Explorar la biblioteca de cartas
           <Icon name="chevronRight" className="h-4 w-4" />
         </Link>
+        <Link
+          to={routes.savedReadings}
+          className="mt-3 inline-flex items-center gap-2 font-body text-[14px] font-medium text-cosmic hover:underline"
+        >
+          Abrir mi diario privado
+          <Icon name="chevronRight" className="h-4 w-4" />
+        </Link>
       </section>
+
+      <TarotPreferences />
 
       <TarotReadingDisclaimer />
     </PageShell>

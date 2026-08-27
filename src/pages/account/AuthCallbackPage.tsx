@@ -11,7 +11,12 @@ export function AuthCallbackPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate({ to: routes.account, replace: true });
-      else navigate({ to: routes.signIn, replace: true });
+      else
+        navigate({
+          to: routes.signIn,
+          search: { redirect: routes.account, mode: "signin" },
+          replace: true,
+        });
     });
   }, [navigate]);
 

@@ -57,7 +57,14 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
       if (clean.length < SEARCH_LIMITS.minQueryLength) return;
       push(clean);
       onOpenChange(false);
-      navigate({ to: routes.search, search: { [SEARCH_QUERY_PARAMS.query]: clean } as any });
+      navigate({
+        to: routes.search as never,
+        search: {
+          [SEARCH_QUERY_PARAMS.query]: clean,
+          [SEARCH_QUERY_PARAMS.type]: "all",
+          [SEARCH_QUERY_PARAMS.page]: 1,
+        } as never,
+      });
     },
     [navigate, onOpenChange, push],
   );
@@ -88,19 +95,17 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
           }}
           className="border-b border-border/60 p-4"
         >
-          <SearchInput
-            value={query}
-            onValueChange={setQuery}
-            autoFocus
-            size="lg"
-          />
+          <SearchInput value={query} onValueChange={setQuery} autoFocus size="lg" />
         </form>
 
         <div className="max-h-[60vh] overflow-y-auto p-4">
           {!enabled && recent.length > 0 && (
             <section aria-labelledby="recent-title">
               <div className="mb-2 flex items-center justify-between px-1">
-                <h3 id="recent-title" className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                <h3
+                  id="recent-title"
+                  className="text-xs font-medium uppercase tracking-wider text-muted-foreground"
+                >
                   {SEARCH_COPY.recentTitle}
                 </h3>
                 <button
@@ -144,7 +149,10 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
 
           {enabled && (
             <section aria-labelledby="sug-title">
-              <h3 id="sug-title" className="mb-2 px-1 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+              <h3
+                id="sug-title"
+                className="mb-2 px-1 text-xs font-medium uppercase tracking-wider text-muted-foreground"
+              >
                 {isFetching ? SEARCH_COPY.loadingLabel : SEARCH_COPY.suggestionsTitle}
               </h3>
               {(data ?? []).length === 0 && !isFetching ? (
@@ -164,7 +172,7 @@ export function SearchDialog({ open, onOpenChange }: SearchDialogProps) {
                           excerpt: null,
                           routePath: s.routePath,
                           imageKey: null,
-                          metadata: { kind: "static_page", routeKey: s.routePath } as any,
+                          metadata: { kind: "static_page", routeKey: s.routePath },
                           sourcePublishedAt: null,
                           rank: 0,
                           matchType: s.matchType,

@@ -2,20 +2,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import {
-  adminCreateArticle,
-  adminListCategoriesAndAuthors,
-} from "@/lib/admin/articles.functions";
+import { adminCreateArticle, adminListCategoriesAndAuthors } from "@/lib/admin/articles.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export const Route = createFileRoute("/_authenticated/admin/articulos/nuevo")({
   head: () => ({
-    meta: [
-      { title: "Nuevo artículo — Admin" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Nuevo artículo — Admin" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: NewArticlePage,
 });
@@ -50,8 +44,8 @@ function NewArticlePage() {
       <header>
         <h1 className="text-h2 text-ink">Nuevo artículo</h1>
         <p className="text-caption text-ink-soft">
-          Crea un borrador. Podrás editarlo, someterlo a revisión y publicarlo desde la
-          siguiente pantalla.
+          Crea un borrador. Podrás editarlo, someterlo a revisión y publicarlo desde la siguiente
+          pantalla.
         </p>
       </header>
 
@@ -105,7 +99,7 @@ function NewArticlePage() {
               className="block h-9 w-full rounded-[var(--radius-control)] border border-line bg-warm-white px-3"
             >
               <option value="">Selecciona…</option>
-              {catalog?.categories.map((c: any) => (
+              {catalog?.categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.label}
                 </option>
@@ -121,7 +115,7 @@ function NewArticlePage() {
               className="block h-9 w-full rounded-[var(--radius-control)] border border-line bg-warm-white px-3"
             >
               <option value="">Selecciona…</option>
-              {catalog?.authors.map((a: any) => (
+              {catalog?.authors.map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name}
                 </option>

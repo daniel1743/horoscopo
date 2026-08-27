@@ -56,8 +56,17 @@ export interface SyncOptions {
 }
 
 export interface SyncSummary {
-  bySource: Record<string, { fetched: number; upserted: number; skipped: number; errors: number; orphansRemoved: number }>;
-  total: { fetched: number; upserted: number; skipped: number; errors: number; orphansRemoved: number };
+  bySource: Record<
+    string,
+    { fetched: number; upserted: number; skipped: number; errors: number; orphansRemoved: number }
+  >;
+  total: {
+    fetched: number;
+    upserted: number;
+    skipped: number;
+    errors: number;
+    orphansRemoved: number;
+  };
   dryRun: boolean;
 }
 
@@ -71,9 +80,10 @@ export async function syncAll(client: Client, options: SyncOptions = {}): Promis
     total: emptyPerSource(),
     dryRun: !!options.dryRun,
   };
-  const filter = options.onlySourceTypes && options.onlySourceTypes.length > 0
-    ? new Set(options.onlySourceTypes)
-    : null;
+  const filter =
+    options.onlySourceTypes && options.onlySourceTypes.length > 0
+      ? new Set(options.onlySourceTypes)
+      : null;
 
   for (const adapter of SEARCH_SOURCE_REGISTRY) {
     if (filter && !filter.has(adapter.sourceType)) continue;

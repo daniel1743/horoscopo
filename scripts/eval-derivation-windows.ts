@@ -6,7 +6,7 @@ function getPos(body: Astronomy.Body, date: Date): number {
 }
 
 function signedDelta(from: number, to: number): number {
-  let d = ((to % 360) + 360) % 360 - ((from % 360) + 360) % 360;
+  let d = (((to % 360) + 360) % 360) - (((from % 360) + 360) % 360);
   if (d > 180) d -= 360;
   if (d < -180) d += 360;
   return d;
@@ -40,6 +40,6 @@ for (const b of bodiesConfig) {
   const spdRecommended = getSpeed(b.body, testDate, b.recommendedMs);
   const spd12h = getSpeed(b.body, testDate, 12 * 3600 * 1000);
   console.log(
-    `${b.name.padEnd(8)} | recWindow: ${(b.recommendedMs / 3600000).toFixed(1).padStart(4)}h | recSpeed: ${spdRecommended.toFixed(6).padStart(9)} | 12hSpeed: ${spd12h.toFixed(6).padStart(9)}`
+    `${b.name.padEnd(8)} | recWindow: ${(b.recommendedMs / 3600000).toFixed(1).padStart(4)}h | recSpeed: ${spdRecommended.toFixed(6).padStart(9)} | 12hSpeed: ${spd12h.toFixed(6).padStart(9)}`,
   );
 }

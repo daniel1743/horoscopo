@@ -7,7 +7,7 @@ export const Route = createFileRoute("/astrologia/carta-natal")({
     const m = buildMeta({
       title: "Carta natal de referencia | Creovision",
       description:
-        "Calcula posiciones planetarias, ascendente y casas iguales con tus datos de nacimiento, de forma local y transparente.",
+        "Calcula posiciones planetarias, casas iguales, ángulos y aspectos mayores con tus datos de nacimiento, de forma local y transparente.",
       canonical: "/astrologia/carta-natal",
     });
     return { meta: m.meta, links: m.links };

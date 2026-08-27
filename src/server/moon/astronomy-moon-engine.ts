@@ -29,11 +29,7 @@ import type {
   MajorMoonPhaseKey,
 } from "@/types/moon";
 import type { MoonEngine } from "./moon-engine";
-import {
-  daysInLocalMonth,
-  toDateKey,
-  zonedWallTimeToUtc,
-} from "@/lib/moon/timezone";
+import { daysInLocalMonth, toDateKey, zonedWallTimeToUtc } from "@/lib/moon/timezone";
 
 const ENGINE_VERSION = "astronomy-engine@2.1.19";
 
@@ -84,11 +80,7 @@ const MAJOR_TARGETS: readonly { key: MajorMoonPhaseKey; angle: number }[] = [
   { key: "last_quarter", angle: 270 },
 ];
 
-function toEvent(
-  key: MajorMoonPhaseKey,
-  date: Date,
-  timezone: string,
-): MoonPhaseEvent {
+function toEvent(key: MajorMoonPhaseKey, date: Date, timezone: string): MoonPhaseEvent {
   return {
     phase_key: key,
     timestamp: date.toISOString(),
@@ -127,15 +119,9 @@ function snapshot(instantUtc: Date, timezone: string): MoonSnapshot {
   };
 }
 
-function eventsInRange(
-  startUtc: Date,
-  endUtc: Date,
-  timezone: string,
-): MoonPhaseEvent[] {
+function eventsInRange(startUtc: Date, endUtc: Date, timezone: string): MoonPhaseEvent[] {
   const out: MoonPhaseEvent[] = [];
-  const rangeDays = Math.ceil(
-    (endUtc.getTime() - startUtc.getTime()) / (24 * 60 * 60 * 1000),
-  ) + 2;
+  const rangeDays = Math.ceil((endUtc.getTime() - startUtc.getTime()) / (24 * 60 * 60 * 1000)) + 2;
   for (const target of MAJOR_TARGETS) {
     // Buscamos hacia adelante múltiples ocurrencias.
     let cursor = new Date(startUtc.getTime() - 24 * 60 * 60 * 1000);
@@ -155,11 +141,7 @@ function eventsInRange(
   return out;
 }
 
-function calendarMonth(
-  year: number,
-  month: number,
-  timezone: string,
-): MoonCalendarDay[] {
+function calendarMonth(year: number, month: number, timezone: string): MoonCalendarDay[] {
   const days = daysInLocalMonth(year, month, timezone);
   const monthStartUtc = zonedWallTimeToUtc(year, month, 1, 0, 0, 0, timezone);
   const monthEndUtc = zonedWallTimeToUtc(
@@ -189,7 +171,7 @@ function calendarMonth(
       date_key: dateKey,
       phase_key: classifyPhase(angle),
       illumination_percentage: Math.round(fraction * 100),
-      lunar_age_days: Math.round((lunarAgeDays(noonUtc)) * 10) / 10,
+      lunar_age_days: Math.round(lunarAgeDays(noonUtc) * 10) / 10,
       major_event: eventsByDay.get(dateKey) ?? null,
     });
   }

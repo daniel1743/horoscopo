@@ -6,10 +6,7 @@ import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/_authenticated/admin/auditoria")({
   head: () => ({
-    meta: [
-      { title: "Auditoría — Admin" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Auditoría — Admin" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: AuditPage,
 });
@@ -26,8 +23,8 @@ function AuditPage() {
       <header>
         <h1 className="text-h2 text-ink">Auditoría</h1>
         <p className="text-caption text-ink-soft">
-          Registro append-only de las últimas 100 acciones administrativas.
-          Sólo visible para admin y super_admin.
+          Registro append-only de las últimas 100 acciones administrativas. Sólo visible para admin
+          y super_admin.
         </p>
       </header>
 
@@ -48,26 +45,18 @@ function AuditPage() {
               </tr>
             </thead>
             <tbody>
-              {(data ?? []).map((e: any) => (
+              {(data ?? []).map((e) => (
                 <tr key={e.id} className="border-t border-line">
-                  <td className="p-3 text-ink-soft">
-                    {new Date(e.created_at).toLocaleString()}
-                  </td>
+                  <td className="p-3 text-ink-soft">{new Date(e.created_at).toLocaleString()}</td>
                   <td className="p-3 font-mono text-xs">{e.action}</td>
                   <td className="p-3 text-ink-soft">
                     {e.resource_type ?? "—"}
                     {e.resource_id ? ` · ${e.resource_id.slice(0, 8)}…` : ""}
                   </td>
                   <td className="p-3">
-                    <Badge
-                      variant={e.status === "success" ? "blue" : "rose"}
-                    >
-                      {e.status}
-                    </Badge>
+                    <Badge variant={e.status === "success" ? "blue" : "rose"}>{e.status}</Badge>
                   </td>
-                  <td className="p-3 text-caption text-ink-soft">
-                    {e.actor_role ?? "—"}
-                  </td>
+                  <td className="p-3 text-caption text-ink-soft">{e.actor_role ?? "—"}</td>
                 </tr>
               ))}
               {(data ?? []).length === 0 ? (

@@ -7,12 +7,7 @@
 export type EditorialStatus = "draft" | "published" | "archived";
 
 export type EditorialCategoryKey =
-  | "astrology"
-  | "tarot"
-  | "moon"
-  | "compatibility"
-  | "horoscope"
-  | "editorial";
+  "astrology" | "tarot" | "moon" | "compatibility" | "horoscope" | "editorial";
 
 export interface EditorialCategory {
   id: string;

@@ -10,7 +10,7 @@ import {
   type CommunityPost,
 } from "@/lib/account/repository";
 import { communityPostTypeLabels } from "@/config/community";
-import { routes } from "@/config/routes";
+import { emptyCommunitySearch, routes } from "@/config/routes";
 import { toast } from "sonner";
 
 function statusLabel(post: CommunityPost) {
@@ -67,6 +67,7 @@ export function MyPostsPage() {
         </p>
         <Link
           to={routes.community}
+          search={emptyCommunitySearch}
           className="mt-3 inline-flex font-body text-[13px] font-medium text-brand underline underline-offset-4"
         >
           Ir al muro comunitario

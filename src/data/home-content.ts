@@ -3,6 +3,7 @@
  * NO son datos astronómicos reales. Deben ser reemplazables por API/CMS.
  * Tipados estrictamente y estables entre renders (nunca Math.random).
  */
+import { editorialTopicRoute } from "@/config/editorial";
 import type { IconName } from "@/config/icons";
 
 /* ---------------- Horóscopo diario (mock) ---------------- */
@@ -225,42 +226,42 @@ export const homeTopics: readonly HomeTopic[] = [
     title: "Amor y relaciones",
     description: "Compatibilidad, vínculos y comunicación emocional.",
     icon: "compatibility",
-    href: "/guias?tema=amor-y-relaciones",
+    href: editorialTopicRoute("amor-y-relaciones"),
   },
   {
     id: "work",
     title: "Trabajo y propósito",
     description: "Decisiones, talentos y dirección profesional.",
     icon: "premium",
-    href: "/guias?tema=trabajo-y-proposito",
+    href: editorialTopicRoute("trabajo-y-proposito"),
   },
   {
     id: "money",
     title: "Dinero y decisiones",
     description: "Reflexiones sobre organización, prioridades y recursos.",
     icon: "article",
-    href: "/guias?tema=dinero-y-decisiones",
+    href: editorialTopicRoute("dinero-y-decisiones"),
   },
   {
     id: "emotional_wellbeing",
     title: "Bienestar emocional",
     description: "Ciclos internos, descanso y comprensión personal.",
     icon: "moon",
-    href: "/guias?tema=bienestar-emocional",
+    href: editorialTopicRoute("bienestar-emocional"),
   },
   {
     id: "personal_growth",
     title: "Crecimiento personal",
     description: "Herramientas simbólicas para conocerte mejor.",
     icon: "article",
-    href: "/guias?tema=crecimiento-personal",
+    href: editorialTopicRoute("crecimiento-personal"),
   },
   {
     id: "changes",
     title: "Ciclos y cambios",
     description: "Luna, tránsitos y momentos de transición.",
     icon: "moon",
-    href: "/guias?tema=ciclos-y-cambios",
+    href: editorialTopicRoute("ciclos-y-cambios"),
   },
 ] as const;
 

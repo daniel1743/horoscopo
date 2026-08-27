@@ -25,8 +25,7 @@ interface Row {
 const COLUMNS =
   "phase_key,title,summary,meaning,reflection_questions,practical_suggestions,misconceptions,disclaimer_key,image_key,seo_title,seo_description,status,is_demo,published_at";
 
-const cli = () =>
-  supabase as unknown as import("@supabase/supabase-js").SupabaseClient;
+const cli = () => supabase as unknown as import("@supabase/supabase-js").SupabaseClient;
 
 function asStringArray(value: unknown): string[] {
   if (!Array.isArray(value)) return [];

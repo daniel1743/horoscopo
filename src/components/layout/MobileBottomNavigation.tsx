@@ -22,7 +22,7 @@ export function MobileBottomNavigation() {
           return (
             <li key={item.routeKey} className="flex-1">
               <Link
-                to={path}
+                to={path as never}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "flex h-full min-h-12 flex-col items-center justify-center gap-0.5 rounded-[var(--radius-control)] px-2 transition-colors",

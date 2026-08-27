@@ -2,10 +2,12 @@ import { Link } from "@tanstack/react-router";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { PageShell } from "@/components/layout/PageShell";
 import { AstrologyBirthForm } from "@/components/astrology/AstrologyBirthForm";
+import { TransitForm } from "@/components/astrology/TransitForm";
+import { SynastryForm } from "@/components/astrology/SynastryForm";
 import { routes } from "@/config/routes";
 import type { ReactNode } from "react";
 
-type AstrologyMode = "natal" | "ascendant" | "moon";
+export type AstrologyMode = "natal" | "ascendant" | "moon" | "transits" | "synastry";
 
 interface Props {
   mode: AstrologyMode;
@@ -30,6 +32,18 @@ const pageCopy = {
     description:
       "La Luna muestra una posición astronómica que aquí se presenta como símbolo de reflexión. Con hora desconocida, el resultado se marca como aproximado.",
   },
+  transits: {
+    eyebrow: "Astrología personal",
+    title: "Tránsitos planetarios de referencia",
+    description:
+      "Compara una fecha del cielo con tu carta natal mediante posiciones planetarias y aspectos mayores calculados localmente.",
+  },
+  synastry: {
+    eyebrow: "Astrología de dos cartas",
+    title: "Sinastría de referencia",
+    description:
+      "Compara dos cartas natales con aspectos cruzados calculados localmente, sin guardar los datos introducidos.",
+  },
 } as const;
 
 function SecondaryNav({ mode }: { mode: AstrologyMode }) {
@@ -37,6 +51,8 @@ function SecondaryNav({ mode }: { mode: AstrologyMode }) {
     { label: "Carta natal", to: routes.birthChart, current: mode === "natal" },
     { label: "Ascendente", to: routes.ascendant, current: mode === "ascendant" },
     { label: "Signo lunar", to: routes.moonSign, current: mode === "moon" },
+    { label: "Tránsitos", to: routes.transits, current: mode === "transits" },
+    { label: "Sinastría", to: routes.synastry, current: mode === "synastry" },
   ];
   return (
     <nav aria-label="Secciones de astrología personal" className="mb-8 flex flex-wrap gap-2">
@@ -76,7 +92,7 @@ export function AstrologyPage({ mode }: Props) {
   const content = pageCopy[mode];
   return (
     <PageShell
-      breadcrumbs={[{ label: "Astrología", to: routes.astrology }, { label: content.title }]}
+      breadcrumbs={[{ label: "Astrología", href: routes.astrology }, { label: content.title }]}
     >
       <PageHeader
         eyebrow={content.eyebrow}
@@ -84,7 +100,13 @@ export function AstrologyPage({ mode }: Props) {
         description={content.description}
       />
       <SecondaryNav mode={mode} />
-      <AstrologyBirthForm mode={mode} />
+      {mode === "transits" ? (
+        <TransitForm />
+      ) : mode === "synastry" ? (
+        <SynastryForm />
+      ) : (
+        <AstrologyBirthForm mode={mode} />
+      )}
       <MethodNote>
         La experiencia calcula en el navegador y no requiere una cuenta. Las posiciones y el
         ascendente dependen de los datos introducidos; las casas se expresan con el sistema de casas

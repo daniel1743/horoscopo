@@ -13,10 +13,7 @@ import {
   mapCompatibilityProfileRow,
   type CompatibilityProfileRow,
 } from "@/lib/compatibility/compatibility-mappers";
-import {
-  createPairKey,
-  normalizeSignPair,
-} from "@/lib/compatibility/normalize-sign-pair";
+import { createPairKey, normalizeSignPair } from "@/lib/compatibility/normalize-sign-pair";
 import type { CompatibilityRepository } from "./compatibility.repository";
 
 const cli = () => supabase as unknown as import("@supabase/supabase-js").SupabaseClient;
@@ -49,9 +46,7 @@ export const supabaseCompatibilityRepository: CompatibilityRepository = {
       .order("published_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
-    return (
-      (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? []
-    );
+    return (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? [];
   },
 
   async getPublishedPairs(limit = 6) {
@@ -61,9 +56,7 @@ export const supabaseCompatibilityRepository: CompatibilityRepository = {
       .order("published_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
-    return (
-      (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? []
-    );
+    return (data as CompatibilityProfileRow[] | null)?.map(mapCompatibilityProfileRow) ?? [];
   },
 
   async existsPublishedPair(signOne, signTwo) {

@@ -7,6 +7,7 @@ import { CommunityPostCard } from "@/components/community/CommunityPostCard";
 import { CommunityPostComposer } from "@/components/community/CommunityPostComposer";
 import { ReportPostButton } from "@/components/community/ReportPostButton";
 import { CommunityPostActions } from "@/components/community/CommunityPostActions";
+import { CommunityPostComments } from "@/components/community/CommunityPostComments";
 import {
   listPublicCommunityPosts,
   listPublicCommunityReposts,
@@ -203,6 +204,7 @@ export function CommunityFeedPage({ sharePrefill }: { sharePrefill?: CommunitySh
                         />
                         <ReportPostButton postId={post.id} />
                       </div>
+                      <CommunityPostComments postId={post.id} />
                     </div>
                   }
                 />

@@ -16,7 +16,6 @@ export class SectionErrorBoundary extends Component<Props, State> {
     return { hasError: true };
   }
   componentDidCatch(error: unknown) {
-    // eslint-disable-next-line no-console
     if (import.meta.env?.DEV) console.error("[SectionErrorBoundary]", error);
   }
   render() {

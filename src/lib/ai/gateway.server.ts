@@ -53,7 +53,8 @@ export async function streamChatCompletion(
   }
 
   const model = resolveModelId(options.alias);
-  const maxTokens = options.maxTokens ?? readIntEnv("AI_MAX_OUTPUT_TOKENS", aiLimits.defaultMaxOutputTokens);
+  const maxTokens =
+    options.maxTokens ?? readIntEnv("AI_MAX_OUTPUT_TOKENS", aiLimits.defaultMaxOutputTokens);
 
   const upstream = await fetch(GATEWAY_URL, {
     method: "POST",

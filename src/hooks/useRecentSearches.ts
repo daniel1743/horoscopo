@@ -15,7 +15,9 @@ function readStorage(): string[] {
     if (!raw) return [];
     const parsed = JSON.parse(raw);
     if (!Array.isArray(parsed)) return [];
-    return parsed.filter((v): v is string => typeof v === "string").slice(0, SEARCH_LIMITS.recentMax);
+    return parsed
+      .filter((v): v is string => typeof v === "string")
+      .slice(0, SEARCH_LIMITS.recentMax);
   } catch {
     return [];
   }

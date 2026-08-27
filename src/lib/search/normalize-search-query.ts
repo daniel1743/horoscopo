@@ -6,10 +6,7 @@ import { SEARCH_LIMITS } from "@/config/search";
 
 export function normalizeSearchQuery(input: string): string {
   if (typeof input !== "string") return "";
-  return input
-    .trim()
-    .replace(/\s+/g, " ")
-    .slice(0, SEARCH_LIMITS.maxQueryLength);
+  return input.trim().replace(/\s+/g, " ").slice(0, SEARCH_LIMITS.maxQueryLength);
 }
 
 /** Normalización local para comparaciones estáticas (sin tildes, minúsculas). */

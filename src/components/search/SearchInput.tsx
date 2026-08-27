@@ -7,8 +7,10 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { SEARCH_COPY, SEARCH_LIMITS } from "@/config/search";
 
-export interface SearchInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "size"> {
+export interface SearchInputProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "value" | "onChange" | "size"
+> {
   value: string;
   onValueChange: (v: string) => void;
   onClear?: () => void;
@@ -17,7 +19,10 @@ export interface SearchInputProps
 }
 
 export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ value, onValueChange, onClear, className, placeholder, size = "md", autoFocus, ...rest }, ref) => {
+  (
+    { value, onValueChange, onClear, className, placeholder, size = "md", autoFocus, ...rest },
+    ref,
+  ) => {
     const showClear = value.length > 0;
     const heights: Record<string, string> = { sm: "h-10", md: "h-12", lg: "h-14 text-lg" };
     return (

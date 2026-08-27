@@ -23,15 +23,11 @@ export function CompatibilityContextsList({ contexts }: Props) {
             className="rounded-[var(--radius-card)] border border-line-subtle bg-warm-white p-5"
           >
             <h3 className="font-display text-[16px] font-semibold text-ink">{c.label}</h3>
-            <p className="mt-2 font-body text-[14px] leading-[1.65] text-ink">
-              {contexts[c.key]}
-            </p>
+            <p className="mt-2 font-body text-[14px] leading-[1.65] text-ink">{contexts[c.key]}</p>
           </article>
         ))}
       </div>
-      <p className="font-body text-[12px] text-ink-soft italic">
-        {COMPATIBILITY_COPY.disclaimer}
-      </p>
+      <p className="font-body text-[12px] text-ink-soft italic">{COMPATIBILITY_COPY.disclaimer}</p>
     </section>
   );
 }

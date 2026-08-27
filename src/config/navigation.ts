@@ -44,6 +44,7 @@ export const desktopPrimary: NavGroup[] = [
       { label: "Carta del día", routeKey: "tarotDaily" },
       { label: "Sí o no", routeKey: "tarotYesNo" },
       { label: "Tres cartas", routeKey: "tarotThreeCards" },
+      { label: "Tomar una decisión", routeKey: "tarotDecision" },
     ],
   },
   {
@@ -54,8 +55,11 @@ export const desktopPrimary: NavGroup[] = [
       { label: "Carta natal", routeKey: "birthChart" },
       { label: "Ascendente", routeKey: "ascendant" },
       { label: "Signo lunar", routeKey: "moonSign" },
+      { label: "Tránsitos", routeKey: "transits" },
+      { label: "Sinastría", routeKey: "synastry" },
     ],
   },
+  { label: "Numerología", routeKey: "numerologyLifePath", icon: "premium" },
   { label: "Compatibilidad", routeKey: "compatibility", icon: "compatibility" },
   {
     label: "Luna",
@@ -87,6 +91,7 @@ export const drawerGroups: { id: string; title: string; items: NavLink[] }[] = [
       { label: "Horóscopo", routeKey: "horoscope", icon: "sun" },
       { label: "Tarot", routeKey: "tarot", icon: "tarot" },
       { label: "Astrología", routeKey: "astrology", icon: "premium" },
+      { label: "Numerología", routeKey: "numerologyLifePath", icon: "premium" },
       { label: "Compatibilidad", routeKey: "compatibility", icon: "compatibility" },
       { label: "Luna", routeKey: "moon", icon: "moon" },
       { label: "Guías", routeKey: "guides", icon: "article" },
@@ -131,6 +136,7 @@ export const primaryNav: NavItem[] = [
   { label: "Horóscopo", href: "/horoscopo", icon: "sun" },
   { label: "Tarot", href: "/tarot", icon: "tarot" },
   { label: "Compatibilidad", href: "/compatibilidad", icon: "compatibility" },
+  { label: "Numerología", href: "/numerologia/camino-de-vida", icon: "premium" },
   { label: "Luna", href: "/luna", icon: "moon" },
   { label: "Guías", href: "/guias", icon: "article" },
 ];

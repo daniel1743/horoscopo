@@ -23,7 +23,8 @@ const auditLog: AuditEntry[] = [];
 
 function log(test: string, status: AuditEntry["status"], detail: string): void {
   auditLog.push({ test, status, detail });
-  const prefix = status === "PASS" ? "✅" : status === "FAIL" ? "❌" : status === "NO_DEMOSTRADA" ? "⚠️" : "ℹ️";
+  const prefix =
+    status === "PASS" ? "✅" : status === "FAIL" ? "❌" : status === "NO_DEMOSTRADA" ? "⚠️" : "ℹ️";
   console.log(`${prefix} [${status}] ${test}: ${detail}`);
 }
 
@@ -180,7 +181,11 @@ for (const fixture of externalFixtures) {
     }
   } catch (err) {
     totalExternalNoDemostrada++;
-    log(fixture.label, "NO_DEMOSTRADA", `Error al calcular: ${err instanceof Error ? err.message : String(err)}`);
+    log(
+      fixture.label,
+      "NO_DEMOSTRADA",
+      `Error al calcular: ${err instanceof Error ? err.message : String(err)}`,
+    );
   }
 }
 
@@ -191,7 +196,11 @@ const noDemoFixtures: string[] = [
   "Neptuno — planeta exterior (falta fixture JPL preciso)",
 ];
 for (const f of noDemoFixtures) {
-  log(f, "NO_DEMOSTRADA", "Sin fixture externo precalculado verificable. Se requiere acceso programático a JPL Horizons");
+  log(
+    f,
+    "NO_DEMOSTRADA",
+    "Sin fixture externo precalculado verificable. Se requiere acceso programático a JPL Horizons",
+  );
   totalExternalNoDemostrada++;
 }
 
@@ -249,7 +258,9 @@ for (const point of mercuryRetroDates) {
   for (const w of WINDOWS_TO_TEST) {
     const speed = computeSpeed("mercury", date, w.ms);
     const retro = speed < 0;
-    console.log(`  Ventana ${w.name}: velocidad=${speed.toFixed(6)} °/día → ${retro ? "RETRÓGRADO" : "DIRECTO"}`);
+    console.log(
+      `  Ventana ${w.name}: velocidad=${speed.toFixed(6)} °/día → ${retro ? "RETRÓGRADO" : "DIRECTO"}`,
+    );
   }
 }
 
@@ -258,7 +269,9 @@ console.log("\n\n2B. Cruce de longitud 359° → 0° (wrap-around)\n");
 
 const wrapDate = new Date("2025-03-20T09:01:00.000Z"); // Sol equinoccio ≈ 0°
 const posAtWrap = astronomyPlanetaryEngine.calculatePosition("sun", wrapDate);
-console.log(`  Sol en ${wrapDate.toISOString()}: longitud=${posAtWrap.absoluteLongitude.toFixed(6)}°`);
+console.log(
+  `  Sol en ${wrapDate.toISOString()}: longitud=${posAtWrap.absoluteLongitude.toFixed(6)}°`,
+);
 console.log(`  Signo=${posAtWrap.sign}, degreeInSign=${posAtWrap.degreeInSign.toFixed(6)}`);
 
 // Verify signedLongitudeDelta handles 359→0 correctly
@@ -301,12 +314,20 @@ for (const iso of sunMoonTestDates) {
 }
 
 if (sunDirectFails === 0) {
-  log("Sol siempre directo", "PASS", `${sunMoonTestDates.length} fechas verificadas, velocidad siempre > 0`);
+  log(
+    "Sol siempre directo",
+    "PASS",
+    `${sunMoonTestDates.length} fechas verificadas, velocidad siempre > 0`,
+  );
 } else {
   log("Sol siempre directo", "FAIL", `${sunDirectFails} fechas con Sol retrógrado`);
 }
 if (moonDirectFails === 0) {
-  log("Luna siempre directa", "PASS", `${sunMoonTestDates.length} fechas verificadas, velocidad siempre > 0`);
+  log(
+    "Luna siempre directa",
+    "PASS",
+    `${sunMoonTestDates.length} fechas verificadas, velocidad siempre > 0`,
+  );
 } else {
   log("Luna siempre directa", "FAIL", `${moonDirectFails} fechas con Luna retrógrada`);
 }
@@ -331,17 +352,29 @@ let retroFailures = 0;
 for (const k of knownRetrograde) {
   const pos = astronomyPlanetaryEngine.calculatePosition(k.body, new Date(k.iso));
   if (pos.isRetrograde) {
-    console.log(`  ✅ ${k.body} retrógrado en ${k.iso}: speed=${pos.speedDegreesPerDay.toFixed(6)} °/día`);
+    console.log(
+      `  ✅ ${k.body} retrógrado en ${k.iso}: speed=${pos.speedDegreesPerDay.toFixed(6)} °/día`,
+    );
   } else {
     retroFailures++;
-    console.log(`  ❌ ${k.body} NO retrógrado en ${k.iso}: speed=${pos.speedDegreesPerDay.toFixed(6)} °/día (${k.label})`);
+    console.log(
+      `  ❌ ${k.body} NO retrógrado en ${k.iso}: speed=${pos.speedDegreesPerDay.toFixed(6)} °/día (${k.label})`,
+    );
   }
 }
 
 if (retroFailures > 0) {
-  log("Retrogradación planetas exteriores", "FAIL", `${retroFailures} planetas esperados retrógrados resultaron directos`);
+  log(
+    "Retrogradación planetas exteriores",
+    "FAIL",
+    `${retroFailures} planetas esperados retrógrados resultaron directos`,
+  );
 } else {
-  log("Retrogradación planetas exteriores", "PASS", `${knownRetrograde.length} verificaciones correctas`);
+  log(
+    "Retrogradación planetas exteriores",
+    "PASS",
+    `${knownRetrograde.length} verificaciones correctas`,
+  );
 }
 
 // 2E. Análisis de ventana ±12h y recomendación
@@ -393,9 +426,9 @@ log(
   "RECOMENDACIÓN ventana retrogradación",
   "INFO",
   "La ventana de ±12h es adecuada para detección de retrogradación lejos de estaciones. " +
-  "Cerca de estaciones (±3 días), la ventana debe reducirse o implementarse derivada adaptativa. " +
-  "Se recomienda: (a) reducir ventana a ±1h para velocidad instantánea, o (b) introducir estado 'stationary' " +
-  "cuando |speed| < umbral (ej. 0.01°/día). Ver detalle completo en informe."
+    "Cerca de estaciones (±3 días), la ventana debe reducirse o implementarse derivada adaptativa. " +
+    "Se recomienda: (a) reducir ventana a ±1h para velocidad instantánea, o (b) introducir estado 'stationary' " +
+    "cuando |speed| < umbral (ej. 0.01°/día). Ver detalle completo en informe.",
 );
 
 // ============================================================================
@@ -415,8 +448,8 @@ console.log("══════════════════════�
 console.log("3A. 'signo previo': análisis del test existente\n");
 console.log("  Código actual (planetary-engine.test.ts:58-64):");
 console.log('    check("signo previo ${boundary}",');
-console.log('      before.degreeInSign >= 0 && before.degreeInSign < 30,');
-console.log('      JSON.stringify(before)');
+console.log("      before.degreeInSign >= 0 && before.degreeInSign < 30,");
+console.log("      JSON.stringify(before)");
 console.log();
 console.log("  Este test SOLO verifica que degreeInSign ∈ [0, 30).");
 console.log("  NO verifica que before.sign sea el signo anterior correcto.");
@@ -426,19 +459,22 @@ console.log();
 
 // Demostración explícita:
 const boundary0Sign = astronomyPlanetaryEngine.calculatePosition(
-  "sun", new Date("2024-03-20T09:00:00.000Z") // Equinoccio ≈ 0° Aries
+  "sun",
+  new Date("2024-03-20T09:00:00.000Z"), // Equinoccio ≈ 0° Aries
 );
 const before0 = normalizeLongitude(boundary0Sign.absoluteLongitude - 0.5);
 console.log(`  Verificación adicional: longitud=${boundary0Sign.absoluteLongitude.toFixed(2)}°`);
-console.log(`  Actual sign=${boundary0Sign.sign}, degreeInSign=${boundary0Sign.degreeInSign.toFixed(2)}`);
+console.log(
+  `  Actual sign=${boundary0Sign.sign}, degreeInSign=${boundary0Sign.degreeInSign.toFixed(2)}`,
+);
 console.log(`  El test 'signo previo' pasaría para cualquier signo con degreeInSign en [0,30).`);
 
 log(
   "signo previo — signo correcto",
   "FAIL",
   "El test NO comprueba que el signo del punto 'before' sea realmente el signo zodiacal previo. " +
-  "Solo verifica que degreeInSign esté en rango [0, 30), lo cual es trivialmente cierto " +
-  "por el invariante de longitudeToZodiac."
+    "Solo verifica que degreeInSign esté en rango [0, 30), lo cual es trivialmente cierto " +
+    "por el invariante de longitudeToZodiac.",
 );
 
 // 3B. signedLongitudeDelta sin test directo
@@ -473,7 +509,9 @@ for (const t of manualDeltaTests) {
   const result = signedLongitudeDelta(t.from, t.to);
   if (Math.abs(result - t.expected) > 0.0001) {
     deltaErrors++;
-    console.log(`    ❌ signedLongitudeDelta(${t.from}, ${t.to}) = ${result} (esperado ${t.expected})`);
+    console.log(
+      `    ❌ signedLongitudeDelta(${t.from}, ${t.to}) = ${result} (esperado ${t.expected})`,
+    );
   }
 }
 if (deltaErrors === 0) {
@@ -481,7 +519,7 @@ if (deltaErrors === 0) {
   log(
     "signedLongitudeDelta — verificación manual",
     "INFO",
-    "Función correcta en verificación manual (8/8), pero sin test automatizado en el archivo de tests."
+    "Función correcta en verificación manual (8/8), pero sin test automatizado en el archivo de tests.",
   );
 } else {
   log("signedLongitudeDelta — verificación manual", "FAIL", `${deltaErrors} errores en 8 casos`);
@@ -491,7 +529,7 @@ log(
   "signedLongitudeDelta — test directo",
   "FAIL",
   "No existe test directo para signedLongitudeDelta en planetary-engine.test.ts. " +
-  "La función opera correctamente según verificación manual, pero no tiene cobertura de test explícita."
+    "La función opera correctamente según verificación manual, pero no tiene cobertura de test explícita.",
 );
 
 // 3C. No existen fixtures planetarios externos
@@ -503,7 +541,7 @@ log(
   "fixtures planetarios externos",
   "FAIL",
   "No existen fixtures externos para validación de posiciones planetarias. " +
-  "src/server/moon/ tiene __fixtures__/, pero src/server/planetary/ carece de ellos."
+    "src/server/moon/ tiene __fixtures__/, pero src/server/planetary/ carece de ellos.",
 );
 
 // 3D. No se prueban estaciones retrógradas
@@ -516,19 +554,25 @@ console.log("  - Clasificación correcta de isRetrograde en fechas conocidas");
 log(
   "tests de estaciones retrógradas",
   "FAIL",
-  "No existen tests de estaciones retrógradas, inicio/fin de retrogradación, ni instantes estacionarios."
+  "No existen tests de estaciones retrógradas, inicio/fin de retrogradación, ni instantes estacionarios.",
 );
 
 // 3E. tsx no está en package.json
 console.log("\n3E. tsx en package.json\n");
 const packageJson = await import("../package.json", { with: { type: "json" } });
-const hasTsx = "tsx" in (packageJson.default.dependencies || {}) || "tsx" in (packageJson.default.devDependencies || {});
+const hasTsx =
+  "tsx" in (packageJson.default.dependencies || {}) ||
+  "tsx" in (packageJson.default.devDependencies || {});
 console.log(`  ¿tsx en dependencies? ${"tsx" in (packageJson.default.dependencies || {})}`);
 console.log(`  ¿tsx en devDependencies? ${"tsx" in (packageJson.default.devDependencies || {})}`);
 if (hasTsx) {
   log("tsx fijado en package.json", "PASS", "tsx está presente en package.json");
 } else {
-  log("tsx fijado en package.json", "FAIL", "tsx NO está en package.json. Se requiere para ejecutar scripts .ts directamente (ej. npx tsx scripts/check-planetary-engine.ts).");
+  log(
+    "tsx fijado en package.json",
+    "FAIL",
+    "tsx NO está en package.json. Se requiere para ejecutar scripts .ts directamente (ej. npx tsx scripts/check-planetary-engine.ts).",
+  );
 }
 
 // 3F. No existe script 'test'
@@ -540,13 +584,21 @@ console.log(`  Scripts disponibles: ${Object.keys(scripts).join(", ")}`);
 if (hasTestScript) {
   log("script 'test'", "PASS", `Script 'test' definido: ${scripts.test}`);
 } else {
-  log("script 'test'", "FAIL", "No existe script 'test' en package.json. No hay forma estandarizada de ejecutar tests.");
+  log(
+    "script 'test'",
+    "FAIL",
+    "No existe script 'test' en package.json. No hay forma estandarizada de ejecutar tests.",
+  );
 }
 
 if (hasCheckScript) {
   log("script 'check:planetary'", "PASS", `Script existente: ${scripts["check:planetary"]}`);
 } else {
-  log("script 'check:planetary'", "INFO", "No existe un script 'check:planetary'. El script check-planetary-engine.ts existe pero se ejecuta manualmente.");
+  log(
+    "script 'check:planetary'",
+    "INFO",
+    "No existe un script 'check:planetary'. El script check-planetary-engine.ts existe pero se ejecuta manualmente.",
+  );
 }
 
 // 3G. Resumen de huecos y pruebas mínimas imprescindibles
@@ -580,30 +632,30 @@ console.log();
 console.log("  A. CONSTITUCIÓN (01_ARCHITECTURE_IMMUTABLE.md, REGLA 2):");
 console.log('     "Cualquier cálculo astronómico [...] DEBE ejecutarse');
 console.log('      exclusivamente en src/server/moon/."');
-console.log('     La Constitución nombra explícitamente src/server/moon/ como');
-console.log('     ubicación canónica de TODA la astronomía.');
+console.log("     La Constitución nombra explícitamente src/server/moon/ como");
+console.log("     ubicación canónica de TODA la astronomía.");
 console.log();
 console.log("  B. DOCUMENTACIÓN DE MÓDULOS (04_MODULE_BLUEPRINTS.md, M11):");
 console.log('     Menciona "server functions (moon, horoscope, tarot, editorial, search)"');
-console.log('     No menciona src/server/astrology/ como ubicación.');
+console.log("     No menciona src/server/astrology/ como ubicación.");
 console.log();
 console.log("  C. OTRA DOCUMENTACIÓN (mencionada en la tarea):");
 console.log('     Según la tarea, "Otra documentación propone: src/server/astrology/"');
-console.log('     Pero no se encontró evidencia de esta propuesta en los archivos');
-console.log('     del directorio documentacion/ ni en los blueprints.');
+console.log("     Pero no se encontró evidencia de esta propuesta en los archivos");
+console.log("     del directorio documentacion/ ni en los blueprints.");
 console.log();
 console.log("  D. IMPLEMENTACIÓN ACTUAL (CODEX):");
-console.log('     Implementó en: src/server/planetary/');
-console.log('     Archivos:');
-console.log('       planetary-engine.ts       (contrato/interfaz)');
-console.log('       astronomy-planetary-engine.ts (implementación)');
-console.log('       zodiac-math.ts            (utilidades matemáticas)');
-console.log('       planetary-engine.test.ts  (tests)');
+console.log("     Implementó en: src/server/planetary/");
+console.log("     Archivos:");
+console.log("       planetary-engine.ts       (contrato/interfaz)");
+console.log("       astronomy-planetary-engine.ts (implementación)");
+console.log("       zodiac-math.ts            (utilidades matemáticas)");
+console.log("       planetary-engine.test.ts  (tests)");
 console.log();
 console.log("  E. ESTRUCTURA EXISTENTE:");
-console.log('     src/server/moon/     — MoonEngine (motor lunar)');
-console.log('     src/server/planetary/ — PlanetaryEngine (motor planetario, NUEVO)');
-console.log('     src/server/search/   — SearchIndex');
+console.log("     src/server/moon/     — MoonEngine (motor lunar)");
+console.log("     src/server/planetary/ — PlanetaryEngine (motor planetario, NUEVO)");
+console.log("     src/server/search/   — SearchIndex");
 console.log();
 
 console.log("ANÁLISIS DE OPCIONES:");
@@ -639,10 +691,10 @@ log(
   "CONFLICTO ARQUITECTÓNICO — UBICACIÓN CANÓNICA",
   "FAIL",
   "La Constitución (REGLA 2) exige astronomía en src/server/moon/, " +
-  "pero Codex implementó en src/server/planetary/. " +
-  "Hay conflicto entre la letra de la Constitución y la implementación real. " +
-  "VEREDICTO: Se requiere Opción D primero (ADR formal), " +
-  "seguida de Opción C (src/server/astronomy/ con submódulos moon/ y planetary/)."
+    "pero Codex implementó en src/server/planetary/. " +
+    "Hay conflicto entre la letra de la Constitución y la implementación real. " +
+    "VEREDICTO: Se requiere Opción D primero (ADR formal), " +
+    "seguida de Opción C (src/server/astronomy/ con submódulos moon/ y planetary/).",
 );
 
 // ============================================================================
@@ -672,7 +724,9 @@ console.log();
 // Punto 1
 console.log("  1. PRECISIÓN EXTERNA:");
 if (totalExternalFail > 0) {
-  console.log(`     ❌ ${totalExternalFail} fixtures externos fuera de tolerancia (Δ > 1.2 arcmin).`);
+  console.log(
+    `     ❌ ${totalExternalFail} fixtures externos fuera de tolerancia (Δ > 1.2 arcmin).`,
+  );
   console.log("     La precisión NO está verificada contra fuente externa.");
 } else if (totalExternalNoDemostrada > 0 && totalExternalPass === 0) {
   console.log("     ⚠️  La mayoría de las comparaciones son NO_DEMOSTRADA.");
@@ -714,7 +768,8 @@ console.log("──────────────────────�
 // no bloquea la corrección focalizada porque estos son hallazgos de auditoría,
 // no defectos de implementación.
 const hasPrecisionFail = totalExternalFail > 0;
-const hasRetroFail = auditLog.filter((e) => e.test.includes("retrógrado") && e.status === "FAIL").length > 0;
+const hasRetroFail =
+  auditLog.filter((e) => e.test.includes("retrógrado") && e.status === "FAIL").length > 0;
 
 if (hasPrecisionFail || hasRetroFail) {
   console.log("\n⚠️  IMPLEMENTACIÓN MATEMÁTICA RECHAZADA");

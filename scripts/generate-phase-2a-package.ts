@@ -29,10 +29,13 @@ interface FixtureResult {
 const FIXTURES: FixtureResult[] = [];
 
 function addFixture(
-  body: string, iso: string, phase: string,
+  body: string,
+  iso: string,
+  phase: string,
   expected: number | null,
-  source: string, sourceUrl: string,
-  jplQuery?: string
+  source: string,
+  sourceUrl: string,
+  jplQuery?: string,
 ) {
   const pos = astronomyPlanetaryEngine.calculatePosition(body as PlanetaryBody, new Date(iso));
   const obtained = pos.absoluteLongitude;
@@ -54,8 +57,11 @@ function addFixture(
   }
 
   FIXTURES.push({
-    body, iso, phase,
-    expected, obtained: obtained,
+    body,
+    iso,
+    phase,
+    expected,
+    obtained: obtained,
     delta_deg: deltaDeg,
     delta_arcmin: deltaDeg * 60,
     tolerance_deg: 0.02,
@@ -90,83 +96,243 @@ addFixture("sun", "2025-03-20T09:01:00.000Z", "equinoccio_marzo", 0.0, USNO_SRC,
 // - expected = null (se requiere ejecutar la consulta para obtener el valor)
 
 function jplQuery(body: PlanetaryBody, desc: string): string {
-  return `https://ssd.jpl.nasa.gov/horizons/app.html#/ => ` +
+  return (
+    `https://ssd.jpl.nasa.gov/horizons/app.html#/ => ` +
     `Ephemeris Type: OBSERVER, Target Body: ${body} [Geocenter], ` +
     `Observer Location: Geocentric [500@399], ` +
     `Table Settings: Ecliptic=ECLIPTRUE (True ecliptic of date), ` +
     `Reference Frame: True equinox of date, ` +
     `Aberration: Astometric, ` +
-    `Units: degrees, Quantity: 31 (Obs ecliptic lon)`;
+    `Units: degrees, Quantity: 31 (Obs ecliptic lon)`
+  );
 }
 
 // Moon — fases lunares
-addFixture("moon", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("moon", "snapshot"));
-addFixture("moon", "2024-03-20T03:06:00.000Z", "equinoccio_marzo_2024", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("moon", "equinoccio"));
+addFixture(
+  "moon",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("moon", "snapshot"),
+);
+addFixture(
+  "moon",
+  "2024-03-20T03:06:00.000Z",
+  "equinoccio_marzo_2024",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("moon", "equinoccio"),
+);
 
 // Mercury — cruces de signo + retrogradación
-addFixture("mercury", "2024-12-06T00:00:00.000Z", "estacion_retrograda", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("mercury", "estacion_retrograda"));
-addFixture("mercury", "2024-12-15T21:00:00.000Z", "posible_post_estacion_directa", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("mercury", "estacion_directa"));
-addFixture("mercury", "2024-12-25T00:00:00.000Z", "post_estacion_directa_estable", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("mercury", "post_estacion"));
+addFixture(
+  "mercury",
+  "2024-12-06T00:00:00.000Z",
+  "estacion_retrograda",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("mercury", "estacion_retrograda"),
+);
+addFixture(
+  "mercury",
+  "2024-12-15T21:00:00.000Z",
+  "posible_post_estacion_directa",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("mercury", "estacion_directa"),
+);
+addFixture(
+  "mercury",
+  "2024-12-25T00:00:00.000Z",
+  "post_estacion_directa_estable",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("mercury", "post_estacion"),
+);
 
 // Venus
-addFixture("venus", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("venus", "snapshot"));
-addFixture("venus", "2024-01-01T00:00:00.000Z", "inicio_2024", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("venus", "inicio_2024"));
+addFixture(
+  "venus",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("venus", "snapshot"),
+);
+addFixture(
+  "venus",
+  "2024-01-01T00:00:00.000Z",
+  "inicio_2024",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("venus", "inicio_2024"),
+);
 
 // Mars — oposición (retrógrado)
-addFixture("mars", "2022-12-08T05:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("mars", "oposicion_2022"));
-addFixture("mars", "2025-01-15T00:00:00.000Z", "oposicion_retrogrado_2025", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("mars", "oposicion_2025"));
+addFixture(
+  "mars",
+  "2022-12-08T05:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("mars", "oposicion_2022"),
+);
+addFixture(
+  "mars",
+  "2025-01-15T00:00:00.000Z",
+  "oposicion_retrogrado_2025",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("mars", "oposicion_2025"),
+);
 
 // Jupiter
-addFixture("jupiter", "2024-12-07T21:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("jupiter", "oposicion_2024"));
-addFixture("jupiter", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("jupiter", "snapshot"));
+addFixture(
+  "jupiter",
+  "2024-12-07T21:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("jupiter", "oposicion_2024"),
+);
+addFixture(
+  "jupiter",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("jupiter", "snapshot"),
+);
 
 // Saturn
-addFixture("saturn", "2024-09-08T04:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("saturn", "oposicion_2024"));
-addFixture("saturn", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("saturn", "snapshot"));
+addFixture(
+  "saturn",
+  "2024-09-08T04:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("saturn", "oposicion_2024"),
+);
+addFixture(
+  "saturn",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("saturn", "snapshot"),
+);
 
 // Uranus
-addFixture("uranus", "2024-11-17T00:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("uranus", "oposicion_2024"));
-addFixture("uranus", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("uranus", "snapshot"));
+addFixture(
+  "uranus",
+  "2024-11-17T00:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("uranus", "oposicion_2024"),
+);
+addFixture(
+  "uranus",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("uranus", "snapshot"),
+);
 
 // Neptune
-addFixture("neptune", "2024-09-21T00:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("neptune", "oposicion_2024"));
-addFixture("neptune", "2024-06-21T12:00:00.000Z", "snapshot_referencia", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("neptune", "snapshot"));
+addFixture(
+  "neptune",
+  "2024-09-21T00:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("neptune", "oposicion_2024"),
+);
+addFixture(
+  "neptune",
+  "2024-06-21T12:00:00.000Z",
+  "snapshot_referencia",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("neptune", "snapshot"),
+);
 
 // Pluto
-addFixture("pluto", "2024-07-23T00:00:00.000Z", "oposicion_retrogrado", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("pluto", "oposicion_2024"));
-addFixture("pluto", "2024-11-19T20:00:00.000Z", "entrada_acuario", null, "JPL_HORIZONS_PENDIENTE", "https://ssd.jpl.nasa.gov/horizons/app.html#/", jplQuery("pluto", "entrada_acuario"));
+addFixture(
+  "pluto",
+  "2024-07-23T00:00:00.000Z",
+  "oposicion_retrogrado",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("pluto", "oposicion_2024"),
+);
+addFixture(
+  "pluto",
+  "2024-11-19T20:00:00.000Z",
+  "entrada_acuario",
+  null,
+  "JPL_HORIZONS_PENDIENTE",
+  "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+  jplQuery("pluto", "entrada_acuario"),
+);
 
 // ============================================================================
 // EMITIR JSON
 // ============================================================================
-console.log(JSON.stringify({
-  generated_at: new Date().toISOString(),
-  engine_version: astronomyPlanetaryEngine.version,
-  total_fixtures: FIXTURES.length,
-  pass_count: FIXTURES.filter(f => f.status === "PASS").length,
-  pendiente_jpl_count: FIXTURES.filter(f => f.status === "PENDIENTE_JPL").length,
-  fixtures: FIXTURES,
-  configuracion_jpl_horizons: {
-    ephemeris_type: "OBSERVER",
-    target_body: "{body} [Geocenter]",
-    observer_location: "Geocentric [500@399]",
-    table_settings: {
-      ecliptic: "ECLIPTRUE (True ecliptic of date)",
-      reference_frame: "True equinox of date",
-      aberration: "Astometric",
-      units: "degrees",
-      quantities: "31 (Obs ecliptic longitude)",
+console.log(
+  JSON.stringify(
+    {
+      generated_at: new Date().toISOString(),
+      engine_version: astronomyPlanetaryEngine.version,
+      total_fixtures: FIXTURES.length,
+      pass_count: FIXTURES.filter((f) => f.status === "PASS").length,
+      pendiente_jpl_count: FIXTURES.filter((f) => f.status === "PENDIENTE_JPL").length,
+      fixtures: FIXTURES,
+      configuracion_jpl_horizons: {
+        ephemeris_type: "OBSERVER",
+        target_body: "{body} [Geocenter]",
+        observer_location: "Geocentric [500@399]",
+        table_settings: {
+          ecliptic: "ECLIPTRUE (True ecliptic of date)",
+          reference_frame: "True equinox of date",
+          aberration: "Astometric",
+          units: "degrees",
+          quantities: "31 (Obs ecliptic longitude)",
+        },
+        web_url: "https://ssd.jpl.nasa.gov/horizons/app.html#/",
+        telnet: "telnet horizons.jpl.nasa.gov 6775",
+        api: "https://ssd-api.jpl.nasa.gov/horizons.api",
+      },
+      nota_metodologica: [
+        "SOLO los 5 fixtures USNO tienen valor esperado EXACTO (solsticios/equinoccios).",
+        "Los 20 fixtures restantes tienen expected=null y status=PENDIENTE_JPL.",
+        "Para cerrar la auditoría Fase 2A, se debe ejecutar la consulta JPL Horizons",
+        "para CADA uno de estos 20 fixtures, registrar la longitud eclíptica obtenida,",
+        "y volver a comparar contra el valor obtenido aquí registrado.",
+        "La tolerancia exigida por la Constitución es Δ ≤ 1.2 arcmin = 0.02°.",
+      ],
     },
-    web_url: "https://ssd.jpl.nasa.gov/horizons/app.html#/",
-    telnet: "telnet horizons.jpl.nasa.gov 6775",
-    api: "https://ssd-api.jpl.nasa.gov/horizons.api",
-  },
-  nota_metodologica: [
-    "SOLO los 5 fixtures USNO tienen valor esperado EXACTO (solsticios/equinoccios).",
-    "Los 20 fixtures restantes tienen expected=null y status=PENDIENTE_JPL.",
-    "Para cerrar la auditoría Fase 2A, se debe ejecutar la consulta JPL Horizons",
-    "para CADA uno de estos 20 fixtures, registrar la longitud eclíptica obtenida,",
-    "y volver a comparar contra el valor obtenido aquí registrado.",
-    "La tolerancia exigida por la Constitución es Δ ≤ 1.2 arcmin = 0.02°.",
-  ]
-}, null, 2));
+    null,
+    2,
+  ),
+);

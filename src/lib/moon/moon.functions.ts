@@ -8,11 +8,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { MOON_SITE_TIMEZONE } from "@/config/moon";
-import type {
-  MoonCalendarDay,
-  MoonPhaseEvent,
-  MoonSnapshot,
-} from "@/types/moon";
+import type { MoonCalendarDay, MoonPhaseEvent, MoonSnapshot } from "@/types/moon";
 
 const MonthInput = z.object({
   year: z.number().int().min(1900).max(2100),
@@ -21,9 +17,7 @@ const MonthInput = z.object({
 
 export const getMoonToday = createServerFn({ method: "GET" }).handler(
   async (): Promise<MoonSnapshot> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
     return astronomyMoonEngine.getSnapshot(new Date(), MOON_SITE_TIMEZONE);
   },
 );
@@ -31,25 +25,15 @@ export const getMoonToday = createServerFn({ method: "GET" }).handler(
 export const getMoonCalendar = createServerFn({ method: "POST" })
   .inputValidator((raw: unknown) => MonthInput.parse(raw))
   .handler(async ({ data }): Promise<MoonCalendarDay[]> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
-    return astronomyMoonEngine.getCalendarMonth(
-      data.year,
-      data.month,
-      MOON_SITE_TIMEZONE,
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
+    return astronomyMoonEngine.getCalendarMonth(data.year, data.month, MOON_SITE_TIMEZONE);
   });
 
 export const getUpcomingMoonEvents = createServerFn({ method: "GET" }).handler(
   async (): Promise<MoonPhaseEvent[]> => {
-    const { astronomyMoonEngine } = await import(
-      "@/server/moon/astronomy-moon-engine"
-    );
+    const { astronomyMoonEngine } = await import("@/server/moon/astronomy-moon-engine");
     const now = new Date();
     const end = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000);
-    return astronomyMoonEngine
-      .getPhaseEvents(now, end, MOON_SITE_TIMEZONE)
-      .slice(0, 8);
+    return astronomyMoonEngine.getPhaseEvents(now, end, MOON_SITE_TIMEZONE).slice(0, 8);
   },
 );

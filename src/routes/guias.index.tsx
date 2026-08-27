@@ -8,6 +8,10 @@ import {
 import { buildMeta } from "@/config/seo";
 
 export const Route = createFileRoute("/guias/")({
+  validateSearch: (search: Record<string, unknown>): { tema?: string } => {
+    const tema = typeof search.tema === "string" ? search.tema : undefined;
+    return tema ? { tema } : {};
+  },
   loader: async () => {
     try {
       const [articles, categories, authors] = await Promise.all([
@@ -42,12 +46,14 @@ export const Route = createFileRoute("/guias/")({
 
 function GuidesRoute() {
   const { articles, categories, authors, unavailable } = Route.useLoaderData();
+  const { tema } = Route.useSearch();
   return (
     <GuidesPage
       articles={articles}
       categories={categories}
       authors={authors}
       unavailable={unavailable}
+      topic={tema}
     />
   );
 }

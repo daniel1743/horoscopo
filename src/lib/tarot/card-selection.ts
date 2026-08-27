@@ -5,7 +5,7 @@
  *  - Tres cartas: sin repeticiones.
  */
 import type { TarotCard } from "@/types/tarot";
-import { tarotStorageKeys } from "@/config/tarot";
+import { tarotDeckConfig, tarotStorageKeys } from "@/config/tarot";
 
 /* -------------------------------------------------- */
 /* Fecha local YYYY-MM-DD (zona local del usuario)     */
@@ -133,6 +133,27 @@ export function writeStoredDaily(pick: StoredDaily): void {
     ls.setItem(tarotStorageKeys.daily.card, pick.cardKey);
     ls.setItem(tarotStorageKeys.daily.date, pick.dateKey);
     ls.setItem(tarotStorageKeys.daily.orientation, pick.reversed ? "reversed" : "upright");
+  } catch {
+    /* storage bloqueado */
+  }
+}
+
+export function readReversalsPreference(): boolean {
+  const ls = safeLocalStorage();
+  if (!ls) return tarotDeckConfig.reversalsEnabled;
+  try {
+    const stored = ls.getItem(tarotStorageKeys.preferences.reversalsEnabled);
+    return stored === null ? tarotDeckConfig.reversalsEnabled : stored === "true";
+  } catch {
+    return tarotDeckConfig.reversalsEnabled;
+  }
+}
+
+export function writeReversalsPreference(enabled: boolean): void {
+  const ls = safeLocalStorage();
+  if (!ls) return;
+  try {
+    ls.setItem(tarotStorageKeys.preferences.reversalsEnabled, String(enabled));
   } catch {
     /* storage bloqueado */
   }

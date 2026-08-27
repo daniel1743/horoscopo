@@ -16,6 +16,9 @@ async function selectPublished(filter?: {
   let q = cli()
     .from("tarot_cards")
     .select(TAROT_CARD_COLUMNS)
+    .eq("status", "published")
+    .not("published_at", "is", null)
+    .lte("published_at", new Date().toISOString())
     .order("display_order", { ascending: true });
   if (filter?.arcana) q = q.eq("arcana", filter.arcana);
   if (filter?.suit) q = q.eq("suit", filter.suit);
@@ -34,6 +37,9 @@ export const supabaseTarotRepository: TarotRepository = {
       .from("tarot_cards")
       .select(TAROT_CARD_COLUMNS)
       .eq("slug", slug)
+      .eq("status", "published")
+      .not("published_at", "is", null)
+      .lte("published_at", new Date().toISOString())
       .maybeSingle();
     if (error) throw error;
     return data ? mapTarotCardRow(data as TarotCardRow) : null;
@@ -44,6 +50,9 @@ export const supabaseTarotRepository: TarotRepository = {
       .from("tarot_cards")
       .select(TAROT_CARD_COLUMNS)
       .eq("card_key", cardKey)
+      .eq("status", "published")
+      .not("published_at", "is", null)
+      .lte("published_at", new Date().toISOString())
       .maybeSingle();
     if (error) throw error;
     return data ? mapTarotCardRow(data as TarotCardRow) : null;
@@ -52,7 +61,10 @@ export const supabaseTarotRepository: TarotRepository = {
   async getPublishedCardCount() {
     const { count, error } = await cli()
       .from("tarot_cards")
-      .select("id", { count: "exact", head: true });
+      .select("id", { count: "exact", head: true })
+      .eq("status", "published")
+      .not("published_at", "is", null)
+      .lte("published_at", new Date().toISOString());
     if (error) throw error;
     return count ?? 0;
   },

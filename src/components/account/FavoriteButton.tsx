@@ -5,11 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import {
-  addFavorite,
-  removeFavorite,
-  type FavoriteType,
-} from "@/lib/account/repository";
+import { addFavorite, removeFavorite, type FavoriteType } from "@/lib/account/repository";
 import { toast } from "sonner";
 
 interface Props {
@@ -53,7 +49,10 @@ export function FavoriteButton({
       <Button asChild variant={variant} size="sm">
         <Link
           to={routes.signIn}
-          search={{ redirect: typeof window !== "undefined" ? window.location.pathname : "/" }}
+          search={{
+            redirect: typeof window !== "undefined" ? window.location.pathname : "/",
+            mode: "signin",
+          }}
         >
           <Icon name="favorite" size="sm" className="mr-2" />
           Guardar en favoritos

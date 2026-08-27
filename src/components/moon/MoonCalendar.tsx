@@ -68,10 +68,7 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
               <span className="absolute right-1.5 top-1 font-body text-[11px] text-ink-soft">
                 {dayNumber}
               </span>
-              <span
-                aria-hidden
-                className={cn("text-ink-soft", hasEvent && "text-cosmic")}
-              >
+              <span aria-hidden className={cn("text-ink-soft", hasEvent && "text-cosmic")}>
                 <Icon name={meta.iconKey} size="md" />
               </span>
               <span className="mt-0.5 font-body text-[10px] text-ink-soft">
@@ -87,9 +84,7 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
           {selected && (
             <>
               <DialogHeader>
-                <DialogTitle>
-                  {MOON_PHASE_REGISTRY[selected.phase_key].label}
-                </DialogTitle>
+                <DialogTitle>{MOON_PHASE_REGISTRY[selected.phase_key].label}</DialogTitle>
                 <DialogDescription>
                   {selected.date_key} · {selected.illumination_percentage}% iluminada · edad{" "}
                   {selected.lunar_age_days.toFixed(1)} d
@@ -98,7 +93,7 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
               <div className="space-y-4 pt-2">
                 {selected.major_event && (
                   <p className="rounded-[var(--radius-card)] bg-brand-soft px-4 py-3 font-body text-[14px] text-ink">
-                    Este día se produce {" "}
+                    Este día se produce{" "}
                     <strong>
                       {MOON_PHASE_REGISTRY[selected.major_event.phase_key].label.toLowerCase()}
                     </strong>
@@ -106,7 +101,7 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
                   </p>
                 )}
                 <Link
-                  to={moonPhaseRoute(MOON_PHASE_REGISTRY[selected.phase_key].slug)}
+                  to={moonPhaseRoute(MOON_PHASE_REGISTRY[selected.phase_key].slug) as never}
                   onClick={() => setSelected(null)}
                   className="inline-flex items-center gap-1 font-body text-[14px] text-cosmic hover:underline"
                 >
@@ -122,7 +117,11 @@ export function MoonCalendar({ year, month, days, todayKey }: Props) {
 }
 
 /** Rejilla lunes-primero con celdas vacías al inicio y al final. */
-function buildGrid(year: number, month: number, days: MoonCalendarDay[]): (MoonCalendarDay | null)[] {
+function buildGrid(
+  year: number,
+  month: number,
+  days: MoonCalendarDay[],
+): (MoonCalendarDay | null)[] {
   if (!days.length) return [];
   // Weekday del día 1 en UTC (aproximación aceptable para maquetación).
   const firstUtc = new Date(Date.UTC(year, month - 1, 1));

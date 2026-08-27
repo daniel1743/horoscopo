@@ -2,10 +2,7 @@
  * Configuración central del sistema de compatibilidad.
  * Registro único de dimensiones, contextos y textos base.
  */
-import type {
-  CompatibilityContextKey,
-  CompatibilityDimensionKey,
-} from "@/types/compatibility";
+import type { CompatibilityContextKey, CompatibilityDimensionKey } from "@/types/compatibility";
 
 export const COMPATIBILITY_DIMENSIONS: readonly {
   key: CompatibilityDimensionKey;
@@ -67,7 +64,8 @@ export const COMPATIBILITY_COPY = {
   },
   disclaimer:
     "Esta lectura es simbólica y general. No evalúa una relación real ni sustituye comunicación, criterio personal o ayuda profesional.",
-  ratingScale: "Los indicadores son una síntesis editorial simbólica. No son una medición científica ni predicen el resultado de una relación.",
+  ratingScale:
+    "Los indicadores son una síntesis editorial simbólica. No son una medición científica ni predicen el resultado de una relación.",
   interpretationGuide: {
     title: "Cómo leer una compatibilidad",
     points: [

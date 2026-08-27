@@ -793,6 +793,66 @@ export type Database = {
         };
         Relationships: [];
       };
+      community_comment_reports: {
+        Row: {
+          comment_id: string;
+          created_at: string;
+          details: string | null;
+          id: string;
+          reason: string;
+          reporter_id: string;
+          status: string;
+        };
+        Insert: {
+          comment_id: string;
+          created_at?: string;
+          details?: string | null;
+          id?: string;
+          reason: string;
+          reporter_id: string;
+          status?: string;
+        };
+        Update: {
+          comment_id?: string;
+          created_at?: string;
+          details?: string | null;
+          id?: string;
+          reason?: string;
+          reporter_id?: string;
+          status?: string;
+        };
+        Relationships: [];
+      };
+      community_post_comments: {
+        Row: {
+          body: string;
+          created_at: string;
+          id: string;
+          post_id: string;
+          status: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          body: string;
+          created_at?: string;
+          id?: string;
+          post_id: string;
+          status?: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          body?: string;
+          created_at?: string;
+          id?: string;
+          post_id?: string;
+          status?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       community_post_reports: {
         Row: {
           created_at: string;
@@ -841,6 +901,24 @@ export type Database = {
         };
         Relationships: [];
       };
+      community_profile_follows: {
+        Row: {
+          created_at: string;
+          followed_id: string;
+          follower_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          followed_id: string;
+          follower_id: string;
+        };
+        Update: {
+          created_at?: string;
+          followed_id?: string;
+          follower_id?: string;
+        };
+        Relationships: [];
+      };
       community_posts: {
         Row: {
           body: string;
@@ -883,6 +961,42 @@ export type Database = {
           updated_at?: string;
           user_id?: string;
           visibility?: string;
+        };
+        Relationships: [];
+      };
+      profile_astrology_birth_data: {
+        Row: {
+          birth_date: string | null;
+          birth_latitude: number | null;
+          birth_longitude: number | null;
+          birth_place_label: string | null;
+          birth_time: string | null;
+          birth_timezone: string | null;
+          created_at: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          birth_date?: string | null;
+          birth_latitude?: number | null;
+          birth_longitude?: number | null;
+          birth_place_label?: string | null;
+          birth_time?: string | null;
+          birth_timezone?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          birth_date?: string | null;
+          birth_latitude?: number | null;
+          birth_longitude?: number | null;
+          birth_place_label?: string | null;
+          birth_time?: string | null;
+          birth_timezone?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          user_id?: string;
         };
         Relationships: [];
       };
@@ -1320,6 +1434,54 @@ export type Database = {
           source_url: string | null;
           title: string | null;
         }[];
+      };
+      toggle_public_profile_follow: {
+        Args: { p_follow: boolean; p_username: string };
+        Returns: boolean;
+      };
+      get_public_profile_follow_stats: {
+        Args: { p_username: string };
+        Returns: {
+          followed_by_viewer: boolean;
+          followers_count: number;
+          following_count: number;
+        }[];
+      };
+      list_public_community_comments: {
+        Args: { p_limit?: number; p_post_id: string };
+        Returns: {
+          author_aura_style: string;
+          author_avatar_url: string | null;
+          author_display_name: string | null;
+          author_username: string;
+          body: string;
+          created_at: string;
+          id: string;
+          owned_by_viewer: boolean;
+          post_id: string;
+        }[];
+      };
+      list_open_community_comment_reports: {
+        Args: { p_limit?: number };
+        Returns: {
+          author_username: string | null;
+          comment_body: string;
+          comment_id: string;
+          comment_status: string;
+          post_id: string;
+          post_title: string | null;
+          post_type: string;
+          report_details: string | null;
+          report_id: string;
+          report_reason: string;
+          report_status: string;
+          reported_at: string;
+          reporter_id: string;
+        }[];
+      };
+      moderate_community_comment_report: {
+        Args: { p_decision: string; p_note?: string | null; p_report_id: string };
+        Returns: boolean;
       };
       list_open_community_reports: {
         Args: { p_limit?: number };

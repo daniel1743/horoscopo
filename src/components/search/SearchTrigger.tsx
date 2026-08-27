@@ -28,11 +28,7 @@ export function SearchTrigger({ className }: { className?: string }) {
 
   if (!isDesktop) {
     return (
-      <Link
-        to={routes.search}
-        aria-label={copy.actions.search}
-        className={className}
-      >
+      <Link to={routes.search} aria-label={copy.actions.search} className={className}>
         <Icon name="search" size="md" />
       </Link>
     );

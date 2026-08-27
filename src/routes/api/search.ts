@@ -35,7 +35,8 @@ function json(status: number, body: unknown, cacheSeconds: number | null = 60) {
     "X-Robots-Tag": "noindex, follow",
   };
   if (cacheSeconds !== null) {
-    headers["Cache-Control"] = `public, max-age=0, s-maxage=${cacheSeconds}, stale-while-revalidate=60`;
+    headers["Cache-Control"] =
+      `public, max-age=0, s-maxage=${cacheSeconds}, stale-while-revalidate=60`;
   }
   return new Response(JSON.stringify(body), { status, headers });
 }

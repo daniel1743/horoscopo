@@ -16,7 +16,8 @@ export async function readOptionalAuth(request: Request): Promise<OptionalAuth> 
   if (!url || !anon) return { userId: null, authenticatedSupabase: null };
 
   const header = request.headers.get("authorization");
-  if (!header || !header.startsWith("Bearer ")) return { userId: null, authenticatedSupabase: null };
+  if (!header || !header.startsWith("Bearer "))
+    return { userId: null, authenticatedSupabase: null };
   const token = header.slice("Bearer ".length).trim();
   if (!token || token.split(".").length !== 3) return { userId: null, authenticatedSupabase: null };
 

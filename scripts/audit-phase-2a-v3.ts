@@ -31,10 +31,13 @@ const auditLog: AuditEntry[] = [];
 function log(test: string, status: AuditEntry["status"], detail: string): void {
   auditLog.push({ test, status, detail });
   const prefix =
-    status === "PASS" ? "PASS"
-    : status === "FAIL" ? "FAIL"
-    : status === "NO_DEMOSTRADA" ? "NO_DEMOSTRADA"
-    : "INFO";
+    status === "PASS"
+      ? "PASS"
+      : status === "FAIL"
+        ? "FAIL"
+        : status === "NO_DEMOSTRADA"
+          ? "NO_DEMOSTRADA"
+          : "INFO";
   console.log(`${prefix} | ${test} | ${detail}`);
 }
 
@@ -52,7 +55,9 @@ console.log("=".repeat(72));
 console.log("");
 
 const TOLERANCIA_GRADOS = 0.02; // 1.2 arcmin (Constitución REGLA 2)
-console.log(`Tolerancia exigida: Δ ≤ ${TOLERANCIA_GRADOS}° = ${degToArcmin(TOLERANCIA_GRADOS)} arcmin`);
+console.log(
+  `Tolerancia exigida: Δ ≤ ${TOLERANCIA_GRADOS}° = ${degToArcmin(TOLERANCIA_GRADOS)} arcmin`,
+);
 console.log("");
 
 // ── 1A. SISTEMA DE COORDENADAS ─────────────────────────────────────────
@@ -87,7 +92,7 @@ console.log("");
 log(
   "Sistema de coordenadas",
   "INFO",
-  "astronomy-engine: true ecliptic of date + aberración. Fixtures USNO: true equinox of date. Compatibles."
+  "astronomy-engine: true ecliptic of date + aberración. Fixtures USNO: true equinox of date. Compatibles.",
 );
 
 // ── 1B. FIXTURES DE PRECISIÓN EXACTA ────────────────────────────────────
@@ -207,8 +212,15 @@ console.log("── 1C. Cuerpos sin fixture externo exacto (NO_DEMOSTRADA) ─�
 console.log("");
 
 const bodiesNoExact: PlanetaryBody[] = [
-  "moon", "mercury", "venus", "mars",
-  "jupiter", "saturn", "uranus", "neptune", "pluto",
+  "moon",
+  "mercury",
+  "venus",
+  "mars",
+  "jupiter",
+  "saturn",
+  "uranus",
+  "neptune",
+  "pluto",
 ];
 
 for (const body of bodiesNoExact) {
@@ -216,10 +228,10 @@ for (const body of bodiesNoExact) {
     `${body} — precisión externa`,
     "NO_DEMOSTRADA",
     `Sin fixture externo exacto en true ecliptic of date. ` +
-    `Se requiere consulta a JPL Horizons (ssd.jpl.nasa.gov/horizons) ` +
-    `con settings: Observer=Geocentric[500@399], Ecliptic=ECLIPTRUE, ` +
-    `Frame=True equinox of date, Aberration=Astometric. ` +
-    `Almacenar resultado en src/server/planetary/__fixtures__/${body}.json`
+      `Se requiere consulta a JPL Horizons (ssd.jpl.nasa.gov/horizons) ` +
+      `con settings: Observer=Geocentric[500@399], Ecliptic=ECLIPTRUE, ` +
+      `Frame=True equinox of date, Aberration=Astometric. ` +
+      `Almacenar resultado en src/server/planetary/__fixtures__/${body}.json`,
   );
 }
 
@@ -284,30 +296,36 @@ console.log("");
 
 for (const probe of mercuryProbes) {
   const d = new Date(probe.iso);
-  const s12h  = computeSpeed("mercury", d, 12 * 3600_000);
-  const s1h   = computeSpeed("mercury", d,  1 * 3600_000);
-  const s15m  = computeSpeed("mercury", d, 15 * 60_000);
+  const s12h = computeSpeed("mercury", d, 12 * 3600_000);
+  const s1h = computeSpeed("mercury", d, 1 * 3600_000);
+  const s15m = computeSpeed("mercury", d, 15 * 60_000);
   const c12h = s12h < 0 ? "RETR" : s12h > 0 ? "DIR" : "≈0";
-  const c1h  = s1h  < 0 ? "RETR" : s1h  > 0 ? "DIR" : "≈0";
+  const c1h = s1h < 0 ? "RETR" : s1h > 0 ? "DIR" : "≈0";
   const c15m = s15m < 0 ? "RETR" : s15m > 0 ? "DIR" : "≈0";
 
-  const allSame = (c12h === c1h) && (c1h === c15m);
+  const allSame = c12h === c1h && c1h === c15m;
   const flag = allSame ? "" : " ← DISCREPANCIA ENTRE VENTANAS";
 
-  console.log(`  ${probe.iso}  ${probe.phase.padEnd(28)} ±12h:${s12h.toFixed(6).padStart(9)} ${c12h}  ±1h:${s1h.toFixed(6).padStart(9)} ${c1h}  ±15m:${s15m.toFixed(6).padStart(9)} ${c15m}${flag}`);
+  console.log(
+    `  ${probe.iso}  ${probe.phase.padEnd(28)} ±12h:${s12h.toFixed(6).padStart(9)} ${c12h}  ±1h:${s1h.toFixed(6).padStart(9)} ${c1h}  ±15m:${s15m.toFixed(6).padStart(9)} ${c15m}${flag}`,
+  );
 }
 
 // ── IDENTIFICAR DISCREPANCIA ──
 const critDate = new Date("2024-12-15T21:00:00.000Z");
 const s12hCrit = computeSpeed("mercury", critDate, 12 * 3600_000);
 const s15mCrit = computeSpeed("mercury", critDate, 15 * 60_000);
-const hayDiscrepancia = (s12hCrit < 0) !== (s15mCrit < 0);
+const hayDiscrepancia = s12hCrit < 0 !== s15mCrit < 0;
 
 console.log("");
 if (hayDiscrepancia) {
   console.log("  ⚠️  CONFIRMADO: En 2024-12-15T21:00Z,");
-  console.log(`     ±12h → ${s12hCrit < 0 ? "RETRÓGRADO" : "DIRECTO"} (speed=${s12hCrit.toFixed(8)} °/día)`);
-  console.log(`     ±15min → ${s15mCrit < 0 ? "RETRÓGRADO" : "DIRECTO"} (speed=${s15mCrit.toFixed(8)} °/día)`);
+  console.log(
+    `     ±12h → ${s12hCrit < 0 ? "RETRÓGRADO" : "DIRECTO"} (speed=${s12hCrit.toFixed(8)} °/día)`,
+  );
+  console.log(
+    `     ±15min → ${s15mCrit < 0 ? "RETRÓGRADO" : "DIRECTO"} (speed=${s15mCrit.toFixed(8)} °/día)`,
+  );
   console.log("     La ventana de ±12h produce clasificación opuesta a ventanas finas.");
   console.log("     Esto ocurre porque ±12h captura ~6h antes y después del instante,");
   console.log("     promediando velocidad retrógrada residual con velocidad directa.");
@@ -317,15 +335,15 @@ if (hayDiscrepancia) {
     "Mercurio 2024-12-15T21:00Z — discrepancia de clasificación por ventana",
     "FAIL",
     `±12h: speed=${s12hCrit.toFixed(8)} °/día (${s12hCrit < 0 ? "RETRÓGRADO" : "DIRECTO"}), ` +
-    `±15min: speed=${s15mCrit.toFixed(8)} °/día (${s15mCrit < 0 ? "RETRÓGRADO" : "DIRECTO"}). ` +
-    `La ventana de ±12h clasifica incorrectamente el instante cercano a la estación directa. ` +
-    `Causa raíz: promediado lineal sobre intervalo de 24h que cruza el punto estacionario.`
+      `±15min: speed=${s15mCrit.toFixed(8)} °/día (${s15mCrit < 0 ? "RETRÓGRADO" : "DIRECTO"}). ` +
+      `La ventana de ±12h clasifica incorrectamente el instante cercano a la estación directa. ` +
+      `Causa raíz: promediado lineal sobre intervalo de 24h que cruza el punto estacionario.`,
   );
 } else {
   log(
     "Mercurio 2024-12-15T21:00Z — discrepancia de clasificación por ventana",
     "PASS",
-    `Sin discrepancia entre ventanas.`
+    `Sin discrepancia entre ventanas.`,
   );
 }
 
@@ -354,14 +372,14 @@ log(
   "Separación precisión-longitud vs precisión-velocidad",
   "INFO",
   "absoluteLongitude es puntual y preciso. speedDegreesPerDay e isRetrograde " +
-  "son promedios sobre ±12h y pueden ser incorrectos cerca de estaciones."
+    "son promedios sobre ±12h y pueden ser incorrectos cerca de estaciones.",
 );
 
 // ── 2C. CRUCE 359° → 0° ────────────────────────────────────────────────
 console.log("── 2C. Cruce de longitud 359° → 0° ──");
 const d359_0_1 = signedLongitudeDelta(359.0, 1.0);
 const d359_0_2 = signedLongitudeDelta(1.0, 359.0);
-const d358_2   = signedLongitudeDelta(358.0, 2.0);
+const d358_2 = signedLongitudeDelta(358.0, 2.0);
 console.log(`  signedLongitudeDelta(359.0, 1.0) = ${d359_0_1}  (esperado +2.0)`);
 console.log(`  signedLongitudeDelta(1.0, 359.0) = ${d359_0_2}  (esperado -2.0)`);
 console.log(`  signedLongitudeDelta(358.0, 2.0) = ${d358_2}  (esperado +4.0)`);
@@ -376,13 +394,19 @@ console.log("");
 // ── 2D. SOL Y LUNA SIEMPRE DIRECTOS ────────────────────────────────────
 console.log("── 2D. Sol y Luna: movimiento siempre directo ──");
 const sunMoonDates = [
-  "2024-01-15T00:00:00.000Z", "2024-03-20T03:06:00.000Z",
-  "2024-06-20T20:51:00.000Z", "2024-09-22T12:44:00.000Z",
-  "2024-12-21T09:20:00.000Z", "2025-03-20T09:01:00.000Z",
-  "2023-07-04T00:00:00.000Z", "2022-10-31T00:00:00.000Z",
-  "2026-01-01T00:00:00.000Z", "2021-06-15T00:00:00.000Z",
+  "2024-01-15T00:00:00.000Z",
+  "2024-03-20T03:06:00.000Z",
+  "2024-06-20T20:51:00.000Z",
+  "2024-09-22T12:44:00.000Z",
+  "2024-12-21T09:20:00.000Z",
+  "2025-03-20T09:01:00.000Z",
+  "2023-07-04T00:00:00.000Z",
+  "2022-10-31T00:00:00.000Z",
+  "2026-01-01T00:00:00.000Z",
+  "2021-06-15T00:00:00.000Z",
 ];
-let sunR = 0, moonR = 0;
+let sunR = 0,
+  moonR = 0;
 for (const iso of sunMoonDates) {
   const d = new Date(iso);
   if (astronomyPlanetaryEngine.calculatePosition("sun", d).isRetrograde) sunR++;
@@ -400,13 +424,15 @@ console.log("── 2E. Planetas en fechas de oposición ──");
 console.log("  Sin fixtures JPL exactos, la clasificación es NO DEMOSTRADA.");
 console.log("  Se verifican como sanity check sin asignar PASS/FAIL.");
 const oppChecks = [
-  { body: "mars" as PlanetaryBody,    iso: "2022-12-08T05:00:00.000Z", label: "Marte oposición" },
+  { body: "mars" as PlanetaryBody, iso: "2022-12-08T05:00:00.000Z", label: "Marte oposición" },
   { body: "jupiter" as PlanetaryBody, iso: "2024-12-07T21:00:00.000Z", label: "Júpiter oposición" },
-  { body: "saturn" as PlanetaryBody,  iso: "2024-09-08T04:00:00.000Z", label: "Saturno oposición" },
+  { body: "saturn" as PlanetaryBody, iso: "2024-09-08T04:00:00.000Z", label: "Saturno oposición" },
 ];
 for (const c of oppChecks) {
   const p = astronomyPlanetaryEngine.calculatePosition(c.body, new Date(c.iso));
-  console.log(`  ${c.body.padEnd(9)} ${c.label.padEnd(20)} speed=${p.speedDegreesPerDay.toFixed(6).padStart(9)} °/d  isRetrograde=${p.isRetrograde}`);
+  console.log(
+    `  ${c.body.padEnd(9)} ${c.label.padEnd(20)} speed=${p.speedDegreesPerDay.toFixed(6).padStart(9)} °/d  isRetrograde=${p.isRetrograde}`,
+  );
 }
 console.log("  Estos valores son informativos. Sin fixture JPL no son PASS ni FAIL.");
 console.log("");
@@ -459,9 +485,9 @@ log(
   "RECOMENDACIÓN alternativa ventana retrogradación",
   "INFO",
   "Alternativa C (umbrales por cuerpo) ofrece mejor balance precisión/estabilidad " +
-  "sin cambio contractual. Alternativa A (±1h) es la más simple pero arriesga ruido " +
-  "numérico en planetas exteriores. Alternativa B añade complejidad innecesaria. " +
-  "Alternativa D requiere ADR de tolerancia documentada."
+    "sin cambio contractual. Alternativa A (±1h) es la más simple pero arriesga ruido " +
+    "numérico en planetas exteriores. Alternativa B añade complejidad innecesaria. " +
+    "Alternativa D requiere ADR de tolerancia documentada.",
 );
 
 // ============================================================================
@@ -478,17 +504,25 @@ console.log("");
 console.log("── 3A. 'signo previo' ──");
 console.log("  planetary-engine.test.ts:58-64 verifica degreeInSign ∈ [0,30).");
 console.log("  NO verifica before.sign === expectedPreviousSign.");
-log("signo previo no verifica signo correcto", "FAIL",
-  "Test solo comprueba degreeInSign ∈ [0,30). No comprueba before.sign.");
+log(
+  "signo previo no verifica signo correcto",
+  "FAIL",
+  "Test solo comprueba degreeInSign ∈ [0,30). No comprueba before.sign.",
+);
 
 // ── 3B ──
 console.log("── 3B. signedLongitudeDelta ──");
 const manualCases = [
-  { from: 10, to: 20, exp: 10 }, { from: 20, to: 10, exp: -10 },
-  { from: 350, to: 10, exp: 20 }, { from: 10, to: 350, exp: -20 },
-  { from: 170, to: 190, exp: 20 }, { from: 190, to: 170, exp: -20 },
-  { from: 359, to: 1, exp: 2 }, { from: 1, to: 359, exp: -2 },
-  { from: 0, to: 180, exp: 180 }, { from: 180, to: 0, exp: -180 },
+  { from: 10, to: 20, exp: 10 },
+  { from: 20, to: 10, exp: -10 },
+  { from: 350, to: 10, exp: 20 },
+  { from: 10, to: 350, exp: -20 },
+  { from: 170, to: 190, exp: 20 },
+  { from: 190, to: 170, exp: -20 },
+  { from: 359, to: 1, exp: 2 },
+  { from: 1, to: 359, exp: -2 },
+  { from: 0, to: 180, exp: 180 },
+  { from: 180, to: 0, exp: -180 },
 ];
 let manualErrs = 0;
 for (const c of manualCases) {
@@ -496,27 +530,39 @@ for (const c of manualCases) {
   if (Math.abs(r - c.exp) > 0.0001) manualErrs++;
 }
 if (manualErrs === 0) {
-  log("signedLongitudeDelta verificación manual", "INFO",
-    `10/10 correctos. Pero SIN test automatizado en planetary-engine.test.ts.`);
+  log(
+    "signedLongitudeDelta verificación manual",
+    "INFO",
+    `10/10 correctos. Pero SIN test automatizado en planetary-engine.test.ts.`,
+  );
 } else {
   log("signedLongitudeDelta verificación manual", "FAIL", `${manualErrs}/10 errores`);
 }
-log("signedLongitudeDelta sin test directo", "FAIL",
-  "No existe test unitario en planetary-engine.test.ts. Sin protección contra regresiones.");
+log(
+  "signedLongitudeDelta sin test directo",
+  "FAIL",
+  "No existe test unitario en planetary-engine.test.ts. Sin protección contra regresiones.",
+);
 
 // ── 3C ──
 const fixturesDir = path.resolve("src/server/planetary/__fixtures__");
 const fixturesExist = fs.existsSync(fixturesDir);
 console.log(`── 3C. __fixtures__/: ${fixturesExist ? "EXISTE" : "NO EXISTE"} ──`);
 if (!fixturesExist) {
-  log("fixtures planetarios externos", "FAIL",
-    "src/server/planetary/__fixtures__/ no existe. moon/__fixtures__/ sí existe.");
+  log(
+    "fixtures planetarios externos",
+    "FAIL",
+    "src/server/planetary/__fixtures__/ no existe. moon/__fixtures__/ sí existe.",
+  );
 }
 
 // ── 3D ──
 console.log("── 3D. Tests de estaciones ──");
-log("tests de estaciones retrógradas", "FAIL",
-  "No hay tests de inicio/fin de retrogradación, instantes estacionarios, ni clasificación contra fechas conocidas.");
+log(
+  "tests de estaciones retrógradas",
+  "FAIL",
+  "No hay tests de inicio/fin de retrogradación, instantes estacionarios, ni clasificación contra fechas conocidas.",
+);
 
 // ── 3E ──
 const pkg = JSON.parse(fs.readFileSync("package.json", "utf-8"));
@@ -573,9 +619,12 @@ console.log("  D. Emitir ADR formal primero — requisito previo.");
 console.log("");
 console.log("  Secuencia: D → C.");
 
-log("CONFLICTO ARQUITECTÓNICO", "FAIL",
+log(
+  "CONFLICTO ARQUITECTÓNICO",
+  "FAIL",
   "Constitución dice src/server/moon/, código en src/server/planetary/. " +
-  "Requiere ADR (Opción D) → migrar a src/server/astronomy/ (Opción C).");
+    "Requiere ADR (Opción D) → migrar a src/server/astronomy/ (Opción C).",
+);
 
 // ============================================================================
 // PUNTO 5: VEREDICTO AUTOMÁTICO
@@ -587,31 +636,33 @@ console.log("PUNTO 5: VEREDICTO FINAL (generado desde auditLog)");
 console.log("=".repeat(72));
 console.log("");
 
-const totalPass   = auditLog.filter(e => e.status === "PASS").length;
-const totalFail   = auditLog.filter(e => e.status === "FAIL").length;
-const totalNoDemo = auditLog.filter(e => e.status === "NO_DEMOSTRADA").length;
-const totalInfo   = auditLog.filter(e => e.status === "INFO").length;
+const totalPass = auditLog.filter((e) => e.status === "PASS").length;
+const totalFail = auditLog.filter((e) => e.status === "FAIL").length;
+const totalNoDemo = auditLog.filter((e) => e.status === "NO_DEMOSTRADA").length;
+const totalInfo = auditLog.filter((e) => e.status === "INFO").length;
 
-console.log(`PASS: ${totalPass}  FAIL: ${totalFail}  NO_DEMOSTRADA: ${totalNoDemo}  INFO: ${totalInfo}`);
+console.log(
+  `PASS: ${totalPass}  FAIL: ${totalFail}  NO_DEMOSTRADA: ${totalNoDemo}  INFO: ${totalInfo}`,
+);
 console.log("");
 
 // ── Clasificación de FAIL ──
 const precisionFail = exactFail; // del Punto 1
-const retroFail = auditLog.filter(e =>
-  e.status === "FAIL" && e.test.includes("Mercurio 2024")
+const retroFail = auditLog.filter(
+  (e) => e.status === "FAIL" && e.test.includes("Mercurio 2024"),
 ).length;
-const testGaps = auditLog.filter(e =>
-  e.status === "FAIL" && (
-    e.test.includes("signo previo") ||
-    e.test.includes("signedLongitudeDelta sin test") ||
-    e.test.includes("fixtures planetarios") ||
-    e.test.includes("estaciones retrógradas") ||
-    e.test.includes("tsx") ||
-    e.test.includes("script test")
-  )
+const testGaps = auditLog.filter(
+  (e) =>
+    e.status === "FAIL" &&
+    (e.test.includes("signo previo") ||
+      e.test.includes("signedLongitudeDelta sin test") ||
+      e.test.includes("fixtures planetarios") ||
+      e.test.includes("estaciones retrógradas") ||
+      e.test.includes("tsx") ||
+      e.test.includes("script test")),
 ).length;
-const archFail = auditLog.filter(e =>
-  e.status === "FAIL" && e.test.includes("CONFLICTO ARQUITECTÓNICO")
+const archFail = auditLog.filter(
+  (e) => e.status === "FAIL" && e.test.includes("CONFLICTO ARQUITECTÓNICO"),
 ).length;
 
 console.log("Desglose de FAIL:");
@@ -631,7 +682,9 @@ if (implementationMathFails) {
   console.log("IMPLEMENTACIÓN MATEMÁTICA RECHAZADA");
   console.log("");
   if (precisionFail > 0) {
-    console.log(`  Motivo 1: ${precisionFail} fixture(s) USNO fuera de tolerancia (Δ > 1.2 arcmin).`);
+    console.log(
+      `  Motivo 1: ${precisionFail} fixture(s) USNO fuera de tolerancia (Δ > 1.2 arcmin).`,
+    );
   }
   if (retroFail > 0) {
     console.log(`  Motivo 2: Discrepancia de clasificación en Mercurio cerca de estación directa.`);
@@ -642,16 +695,28 @@ if (implementationMathFails) {
   console.log("");
   const filesToModify: string[] = [];
   if (precisionFail > 0) {
-    filesToModify.push("  src/server/planetary/astronomy-planetary-engine.ts — investigar Δ > 1.2 arcmin");
+    filesToModify.push(
+      "  src/server/planetary/astronomy-planetary-engine.ts — investigar Δ > 1.2 arcmin",
+    );
   }
   if (retroFail > 0) {
-    filesToModify.push("  src/server/planetary/astronomy-planetary-engine.ts — RETROGRADE_SAMPLE_MS (línea 14)");
-    filesToModify.push("  src/server/planetary/astronomy-planetary-engine.ts — calculateSpeedDegreesPerDay (líneas 68-77)");
+    filesToModify.push(
+      "  src/server/planetary/astronomy-planetary-engine.ts — RETROGRADE_SAMPLE_MS (línea 14)",
+    );
+    filesToModify.push(
+      "  src/server/planetary/astronomy-planetary-engine.ts — calculateSpeedDegreesPerDay (líneas 68-77)",
+    );
   }
-  filesToModify.push("  src/server/planetary/planetary-engine.test.ts — agregar 10 tests mínimos (sección 3G)");
-  filesToModify.push("  src/server/planetary/__fixtures__/ — crear directorio con ≥20 timestamps JPL");
+  filesToModify.push(
+    "  src/server/planetary/planetary-engine.test.ts — agregar 10 tests mínimos (sección 3G)",
+  );
+  filesToModify.push(
+    "  src/server/planetary/__fixtures__/ — crear directorio con ≥20 timestamps JPL",
+  );
   filesToModify.push("  package.json — agregar tsx a devDependencies + script 'test'");
-  filesToModify.push("  documentacion/gobierno-y-roadmap/10_MASTER_DECISION_LOG.md — emitir ADR para conflicto arquitectónico");
+  filesToModify.push(
+    "  documentacion/gobierno-y-roadmap/10_MASTER_DECISION_LOG.md — emitir ADR para conflicto arquitectónico",
+  );
   for (const f of filesToModify) console.log(f);
   console.log("");
   console.log("IMPLEMENTACIÓN MATEMÁTICA RECHAZADA");

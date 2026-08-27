@@ -19,19 +19,47 @@ const ROUTE_MOON_PHASE = (slug: string) => `/luna/fases/${slug}`;
 
 function stripHtml(s: string | null | undefined): string {
   if (!s) return "";
-  return s.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return s
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 function joinNonEmpty(parts: (string | null | undefined)[]): string {
-  return parts.map((p) => (p ? String(p) : "")).filter(Boolean).join(" · ");
+  return parts
+    .map((p) => (p ? String(p) : ""))
+    .filter(Boolean)
+    .join(" · ");
 }
 
 function textFromJson(value: unknown): string {
   if (!value) return "";
   if (typeof value === "string") return value;
   if (Array.isArray(value)) return value.map(textFromJson).join(" ");
-  if (typeof value === "object") return Object.values(value as object).map(textFromJson).join(" ");
+  if (typeof value === "object")
+    return Object.values(value as object)
+      .map(textFromJson)
+      .join(" ");
   return String(value);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+type ArticleRelation = {
+  key?: string;
+  label?: string;
+  name?: string;
+};
+
+function asArticleRelation(value: unknown): ArticleRelation | null {
+  if (!isRecord(value)) return null;
+  return {
+    key: typeof value.key === "string" ? value.key : undefined,
+    label: typeof value.label === "string" ? value.label : undefined,
+    name: typeof value.name === "string" ? value.name : undefined,
+  };
 }
 
 // ============ Articles ============
@@ -47,22 +75,27 @@ async function fetchArticles(client: Client) {
   return data ?? [];
 }
 
-function mapArticle(row: Awaited<ReturnType<typeof fetchArticles>>[number]): SearchDocumentInput | null {
+function mapArticle(
+  row: Awaited<ReturnType<typeof fetchArticles>>[number],
+): SearchDocumentInput | null {
   if (!row.slug || !row.title) return null;
-  const category = (row as any).editorial_categories;
-  const author = (row as any).editorial_authors;
+  const category = asArticleRelation(row.editorial_categories);
+  const author = asArticleRelation(row.editorial_authors);
   const contentText = stripHtml(textFromJson(row.content)).slice(0, 4000);
   return {
     sourceType: "article",
     sourceId: row.id,
     title: row.title,
     excerpt: row.excerpt ?? row.subtitle ?? null,
-    searchableText: joinNonEmpty([row.subtitle, row.excerpt, contentText, (row.tags ?? []).join(" ")]),
-    keywords: [
-      ...(row.tags ?? []),
-      category?.label,
-      author?.name,
-    ].filter((v): v is string => typeof v === "string"),
+    searchableText: joinNonEmpty([
+      row.subtitle,
+      row.excerpt,
+      contentText,
+      (row.tags ?? []).join(" "),
+    ]),
+    keywords: [...(row.tags ?? []), category?.label, author?.name].filter(
+      (v): v is string => typeof v === "string",
+    ),
     routePath: ROUTE_ARTICLE(row.slug),
     imageKey: row.image_url ?? null,
     metadata: {
@@ -89,7 +122,9 @@ async function fetchAuthors(client: Client) {
   return data ?? [];
 }
 
-function mapAuthor(row: Awaited<ReturnType<typeof fetchAuthors>>[number]): SearchDocumentInput | null {
+function mapAuthor(
+  row: Awaited<ReturnType<typeof fetchAuthors>>[number],
+): SearchDocumentInput | null {
   if (!row.slug || !row.name) return null;
   return {
     sourceType: "author",
@@ -117,7 +152,9 @@ async function fetchCategories(client: Client) {
   return data ?? [];
 }
 
-function mapCategory(row: Awaited<ReturnType<typeof fetchCategories>>[number]): SearchDocumentInput | null {
+function mapCategory(
+  row: Awaited<ReturnType<typeof fetchCategories>>[number],
+): SearchDocumentInput | null {
   if (!row.slug || !row.label) return null;
   return {
     sourceType: "category",
@@ -140,14 +177,18 @@ function mapCategory(row: Awaited<ReturnType<typeof fetchCategories>>[number]): 
 async function fetchHoroscopes(client: Client) {
   const { data, error } = await client
     .from("horoscopes")
-    .select("id, sign_slug, period, date_for, summary, focus, mood, love, work, wellbeing, published_at, updated_at")
+    .select(
+      "id, sign_slug, period, date_for, summary, focus, mood, love, work, wellbeing, published_at, updated_at",
+    )
     .not("published_at", "is", null)
     .lte("published_at", new Date().toISOString());
   if (error) throw error;
   return data ?? [];
 }
 
-function mapHoroscope(row: Awaited<ReturnType<typeof fetchHoroscopes>>[number]): SearchDocumentInput | null {
+function mapHoroscope(
+  row: Awaited<ReturnType<typeof fetchHoroscopes>>[number],
+): SearchDocumentInput | null {
   if (!row.sign_slug) return null;
   const periodLabel = row.period === "daily" ? "hoy" : row.period === "weekly" ? "semana" : "mes";
   const title = `Horóscopo de ${row.sign_slug} — ${periodLabel} (${row.date_for})`;
@@ -195,7 +236,9 @@ async function fetchTarotCards(client: Client) {
   return data ?? [];
 }
 
-function mapTarotCard(row: Awaited<ReturnType<typeof fetchTarotCards>>[number]): SearchDocumentInput | null {
+function mapTarotCard(
+  row: Awaited<ReturnType<typeof fetchTarotCards>>[number],
+): SearchDocumentInput | null {
   if (!row.slug || !row.name) return null;
   const kws = Array.isArray(row.keywords) ? (row.keywords as unknown as string[]) : [];
   return {
@@ -204,7 +247,9 @@ function mapTarotCard(row: Awaited<ReturnType<typeof fetchTarotCards>>[number]):
     title: row.name,
     excerpt: row.summary ?? null,
     searchableText: joinNonEmpty([row.upright_meaning, kws.join(" "), row.arcana, row.suit]),
-    keywords: [row.name, ...kws, row.arcana, row.suit].filter((v): v is string => typeof v === "string"),
+    keywords: [row.name, ...kws, row.arcana, row.suit].filter(
+      (v): v is string => typeof v === "string",
+    ),
     routePath: ROUTE_TAROT_CARD(row.slug),
     imageKey: row.image_key ?? null,
     metadata: {
@@ -225,7 +270,9 @@ function mapTarotCard(row: Awaited<ReturnType<typeof fetchTarotCards>>[number]):
 async function fetchMoonPhases(client: Client) {
   const { data, error } = await client
     .from("moon_phase_content")
-    .select("id, phase_key, title, summary, meaning, reflection_questions, image_key, published_at, updated_at, status")
+    .select(
+      "id, phase_key, title, summary, meaning, reflection_questions, image_key, published_at, updated_at, status",
+    )
     .eq("status", "published")
     .not("published_at", "is", null)
     .lte("published_at", new Date().toISOString());
@@ -233,7 +280,9 @@ async function fetchMoonPhases(client: Client) {
   return data ?? [];
 }
 
-function mapMoonPhase(row: Awaited<ReturnType<typeof fetchMoonPhases>>[number]): SearchDocumentInput | null {
+function mapMoonPhase(
+  row: Awaited<ReturnType<typeof fetchMoonPhases>>[number],
+): SearchDocumentInput | null {
   const meta = MOON_PHASE_REGISTRY[row.phase_key as keyof typeof MOON_PHASE_REGISTRY];
   if (!meta) return null;
   const questions = Array.isArray(row.reflection_questions)
@@ -284,9 +333,16 @@ function mapCompatibility(
     sourceId: row.id,
     title: row.title,
     excerpt: row.summary,
-    searchableText: joinNonEmpty([row.relationship_dynamic, row.dynamic_label, strengths, challenges]),
-    keywords: [row.sign_a, row.sign_b, "compatibilidad", row.dynamic_label ?? ""].filter(Boolean) as string[],
-    routePath: compatibilityRoute(row.sign_a as any, row.sign_b as any),
+    searchableText: joinNonEmpty([
+      row.relationship_dynamic,
+      row.dynamic_label,
+      strengths,
+      challenges,
+    ]),
+    keywords: [row.sign_a, row.sign_b, "compatibilidad", row.dynamic_label ?? ""].filter(
+      Boolean,
+    ) as string[],
+    routePath: compatibilityRoute(row.sign_a, row.sign_b),
     imageKey: null,
     metadata: {
       kind: "compatibility",
@@ -305,15 +361,27 @@ function mapCompatibility(
 export interface AdapterEntry {
   sourceType: Exclude<SearchSourceType, "zodiac_sign" | "static_page">;
   fetchAll: (client: Client) => Promise<unknown[]>;
-  toDocument: (row: any) => SearchDocumentInput | null;
+  toDocument: (row: unknown) => SearchDocumentInput | null;
+}
+
+function createAdapter<Row>(
+  sourceType: AdapterEntry["sourceType"],
+  fetchAll: (client: Client) => Promise<Row[]>,
+  toDocument: (row: Row) => SearchDocumentInput | null,
+): AdapterEntry {
+  return {
+    sourceType,
+    fetchAll,
+    toDocument: (row) => (isRecord(row) ? toDocument(row as Row) : null),
+  };
 }
 
 export const SEARCH_SOURCE_REGISTRY: readonly AdapterEntry[] = [
-  { sourceType: "article", fetchAll: fetchArticles, toDocument: mapArticle },
-  { sourceType: "author", fetchAll: fetchAuthors, toDocument: mapAuthor },
-  { sourceType: "category", fetchAll: fetchCategories, toDocument: mapCategory },
-  { sourceType: "horoscope", fetchAll: fetchHoroscopes, toDocument: mapHoroscope },
-  { sourceType: "tarot_card", fetchAll: fetchTarotCards, toDocument: mapTarotCard },
-  { sourceType: "moon_phase", fetchAll: fetchMoonPhases, toDocument: mapMoonPhase },
-  { sourceType: "compatibility", fetchAll: fetchCompatibilities, toDocument: mapCompatibility },
+  createAdapter("article", fetchArticles, mapArticle),
+  createAdapter("author", fetchAuthors, mapAuthor),
+  createAdapter("category", fetchCategories, mapCategory),
+  createAdapter("horoscope", fetchHoroscopes, mapHoroscope),
+  createAdapter("tarot_card", fetchTarotCards, mapTarotCard),
+  createAdapter("moon_phase", fetchMoonPhases, mapMoonPhase),
+  createAdapter("compatibility", fetchCompatibilities, mapCompatibility),
 ];

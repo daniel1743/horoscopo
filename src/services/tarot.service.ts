@@ -13,8 +13,9 @@ import {
   readStoredDaily,
   toLocalDateKey,
   writeStoredDaily,
+  readReversalsPreference,
 } from "@/lib/tarot/card-selection";
-import { tarotDeckConfig, tarotQuestionLimits, tarotSpreads } from "@/config/tarot";
+import { tarotQuestionLimits, tarotSpreads } from "@/config/tarot";
 
 export class TarotDeckIncompleteError extends Error {
   constructor(
@@ -55,6 +56,7 @@ export class TarotService {
     const deck = input?.deck ?? (await this.loadDeck());
     if (deck.length === 0) return null;
     const dateKey = toLocalDateKey(input?.date ?? new Date());
+    const reversalsEnabled = readReversalsPreference();
     const stored = readStoredDaily();
     if (stored && stored.dateKey === dateKey) {
       const found = deck.find((c) => c.cardKey === stored.cardKey);
@@ -62,14 +64,14 @@ export class TarotService {
         return {
           card: found,
           position: tarotSpreads.daily.positions[0],
-          reversed: tarotDeckConfig.reversalsEnabled ? stored.reversed : false,
+          reversed: reversalsEnabled ? stored.reversed : false,
         };
       }
     }
     const seed = getOrCreateAnonymousSeed();
     const pick = pickDailyCard({ deck, date: input?.date, anonymousSeed: seed });
     if (!pick) return null;
-    const reversed = tarotDeckConfig.reversalsEnabled ? pick.reversed : false;
+    const reversed = reversalsEnabled ? pick.reversed : false;
     writeStoredDaily({ cardKey: pick.card.cardKey, dateKey: pick.dateKey, reversed });
     return { card: pick.card, position: tarotSpreads.daily.positions[0], reversed };
   }
@@ -80,6 +82,7 @@ export class TarotService {
     deck?: readonly TarotCard[];
   }): Promise<TarotReading | null> {
     const deck = input?.deck ?? (await this.loadDeck());
+    const reversalsEnabled = readReversalsPreference();
     const card = drawOneCard(deck);
     if (!card) return null;
     const question = sanitizeQuestion(input?.question);
@@ -89,9 +92,32 @@ export class TarotService {
         {
           card,
           position: tarotSpreads.yes_no.positions[0],
-          reversed: tarotDeckConfig.reversalsEnabled ? drawReversed() : false,
+          reversed: reversalsEnabled ? drawReversed() : false,
         },
       ],
+      question,
+      drawnAtIso: new Date().toISOString(),
+    };
+  }
+
+  /** Tirada de decisión de dos cartas ÚNICAS. No dicta una respuesta absoluta. */
+  async drawDecisionCards(input?: {
+    question?: string;
+    deck?: readonly TarotCard[];
+  }): Promise<TarotReading | null> {
+    const deck = input?.deck ?? (await this.loadDeck());
+    const reversalsEnabled = readReversalsPreference();
+    if (deck.length < tarotSpreads.decision.numberOfCards) return null;
+    const cards = drawUniqueCards(deck, tarotSpreads.decision.numberOfCards);
+    const question = sanitizeQuestion(input?.question);
+    const drawn: TarotDrawnCard[] = tarotSpreads.decision.positions.map((position, idx) => ({
+      card: cards[idx],
+      position,
+      reversed: reversalsEnabled ? drawReversed() : false,
+    }));
+    return {
+      spread: "decision",
+      drawn,
       question,
       drawnAtIso: new Date().toISOString(),
     };
@@ -103,13 +129,14 @@ export class TarotService {
     deck?: readonly TarotCard[];
   }): Promise<TarotReading | null> {
     const deck = input?.deck ?? (await this.loadDeck());
+    const reversalsEnabled = readReversalsPreference();
     if (deck.length < tarotSpreads.three_cards.numberOfCards) return null;
     const cards = drawUniqueCards(deck, tarotSpreads.three_cards.numberOfCards);
     const question = sanitizeQuestion(input?.question);
     const drawn: TarotDrawnCard[] = tarotSpreads.three_cards.positions.map((position, idx) => ({
       card: cards[idx],
       position,
-      reversed: tarotDeckConfig.reversalsEnabled ? drawReversed() : false,
+      reversed: reversalsEnabled ? drawReversed() : false,
     }));
     return {
       spread: "three_cards" as TarotSpreadKey,

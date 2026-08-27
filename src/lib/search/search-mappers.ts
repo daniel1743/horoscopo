@@ -54,7 +54,8 @@ const VALID_MATCH_TYPES: readonly SearchMatchType[] = [
 
 function coerceMetadata(raw: unknown, sourceType: SearchSourceType): SearchMetadata {
   const obj = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
-  const kind = sourceType === "static_page" ? "static_page" : (sourceType as SearchMetadata["kind"]);
+  const kind =
+    sourceType === "static_page" ? "static_page" : (sourceType as SearchMetadata["kind"]);
   return { kind, ...obj } as SearchMetadata;
 }
 
@@ -99,9 +100,13 @@ export function mapRpcRowToDocument(row: RpcSearchRow): SearchDocument | null {
   return doc;
 }
 
-export function mapSuggestRow(
-  row: RpcSuggestRow,
-): { sourceType: SearchSourceType; title: string; routePath: string; matchType: SearchMatchType; imageKey?: string | null } | null {
+export function mapSuggestRow(row: RpcSuggestRow): {
+  sourceType: SearchSourceType;
+  title: string;
+  routePath: string;
+  matchType: SearchMatchType;
+  imageKey?: string | null;
+} | null {
   const st = coerceSourceType(row.source_type);
   if (!st) return null;
   if (!isValidRoute(row.route_path)) return null;

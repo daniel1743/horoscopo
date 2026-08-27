@@ -116,13 +116,13 @@ function MoonPhasePage() {
         className="mt-12 flex items-center justify-between gap-4 border-t border-ink/10 pt-6"
       >
         <Link
-          to={moonPhaseRoute(MOON_PHASE_REGISTRY[prevKey].slug)}
+          to={moonPhaseRoute(MOON_PHASE_REGISTRY[prevKey].slug) as never}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           <Icon name="back" size="sm" /> {MOON_PHASE_REGISTRY[prevKey].label}
         </Link>
         <Link
-          to={moonPhaseRoute(MOON_PHASE_REGISTRY[nextKey].slug)}
+          to={moonPhaseRoute(MOON_PHASE_REGISTRY[nextKey].slug) as never}
           className="inline-flex items-center gap-2 font-body text-[14px] text-cosmic hover:underline"
         >
           {MOON_PHASE_REGISTRY[nextKey].label} <Icon name="forward" size="sm" />

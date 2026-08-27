@@ -47,7 +47,8 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
     title: "Tarot",
     description: "Carta del día, tirada de tres cartas, sí o no.",
     keywords: ["tarot", "cartas", "arcanos"],
-    enabledIf: () => featureFlags.tarotDaily || featureFlags.tarotYesNo || featureFlags.tarotThreeCards,
+    enabledIf: () =>
+      featureFlags.tarotDaily || featureFlags.tarotYesNo || featureFlags.tarotThreeCards,
   },
   {
     routeKey: "moon",
@@ -62,6 +63,12 @@ const STATIC_PAGES: readonly StaticPageEntry[] = [
     description: "Explora compatibilidades entre signos zodiacales.",
     keywords: ["compatibilidad", "signos", "pareja"],
     enabledIf: () => featureFlags.compatibilityBasic,
+  },
+  {
+    routeKey: "numerologyLifePath",
+    title: "Camino de vida",
+    description: "Calcula un número simbólico a partir de tu fecha sin guardar datos personales.",
+    keywords: ["numerología", "camino de vida", "número de vida"],
   },
   {
     routeKey: "guides",

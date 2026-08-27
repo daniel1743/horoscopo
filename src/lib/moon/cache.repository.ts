@@ -44,19 +44,17 @@ export async function writeCache(
     expiresAt: Date;
   },
 ): Promise<void> {
-  await supabaseAdmin
-    .from("moon_calculation_cache")
-    .upsert(
-      {
-        cache_key: entry.cacheKey,
-        calculation_type: entry.calculationType,
-        period_start: entry.periodStart,
-        period_end: entry.periodEnd,
-        timezone: entry.timezone,
-        engine_version: entry.engineVersion,
-        result: entry.result,
-        expires_at: entry.expiresAt.toISOString(),
-      },
-      { onConflict: "cache_key" },
-    );
+  await supabaseAdmin.from("moon_calculation_cache").upsert(
+    {
+      cache_key: entry.cacheKey,
+      calculation_type: entry.calculationType,
+      period_start: entry.periodStart,
+      period_end: entry.periodEnd,
+      timezone: entry.timezone,
+      engine_version: entry.engineVersion,
+      result: entry.result,
+      expires_at: entry.expiresAt.toISOString(),
+    },
+    { onConflict: "cache_key" },
+  );
 }

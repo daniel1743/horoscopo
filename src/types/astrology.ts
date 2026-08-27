@@ -35,6 +35,7 @@ export interface CelestialPlacement {
   latitude: number;
   sign: ZodiacSign;
   degreeInSign: number;
+  house?: number;
 }
 
 export interface HouseCusp {
@@ -42,6 +43,30 @@ export interface HouseCusp {
   longitude: number;
   sign: ZodiacSign;
   degreeInSign: number;
+}
+
+export type NatalAngleKey = "ascendant" | "mc" | "descendant" | "ic";
+
+export interface NatalAngle {
+  key: NatalAngleKey;
+  label: string;
+  longitude: number;
+  sign: ZodiacSign;
+  degreeInSign: number;
+}
+
+export type NatalAspectKey = "conjunction" | "sextile" | "square" | "trine" | "opposition";
+
+export interface NatalAspect {
+  key: NatalAspectKey;
+  label: string;
+  firstBody: string;
+  firstLabel: string;
+  secondBody: string;
+  secondLabel: string;
+  separation: number;
+  exactAngle: number;
+  orb: number;
 }
 
 export interface AstrologyCalculationMeta {
@@ -61,6 +86,8 @@ export interface NatalChart {
   placements: CelestialPlacement[];
   ascendant: CelestialPlacement;
   houses: HouseCusp[];
+  angles: NatalAngle[];
+  aspects: NatalAspect[];
 }
 
 export interface LunarSignResult {

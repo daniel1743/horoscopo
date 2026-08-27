@@ -113,7 +113,7 @@ export function DesktopNavDropdown({ group, isOpen, onOpen, onClose }: Props) {
           className="absolute left-0 top-full z-40 mt-2 min-w-[280px] max-w-[360px] rounded-[var(--radius-card)] border border-line-subtle bg-warm-white p-2 shadow-floating"
         >
           <Link
-            to={parentPath}
+            to={parentPath as never}
             role="menuitem"
             data-menu-item
             onKeyDown={handleItemKeyDown}
@@ -126,7 +126,7 @@ export function DesktopNavDropdown({ group, isOpen, onOpen, onClose }: Props) {
           {group.children?.map((child) => (
             <Link
               key={child.routeKey}
-              to={routes[child.routeKey]}
+              to={routes[child.routeKey] as never}
               role="menuitem"
               data-menu-item
               onKeyDown={handleItemKeyDown}

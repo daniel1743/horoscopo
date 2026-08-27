@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const siteUrl = (process.env.SITE_URL ?? "https://www.creovision.io").replace(/\/$/, "");
@@ -12,11 +12,15 @@ const corePaths = [
   "/tarot/carta-del-dia",
   "/tarot/si-o-no",
   "/tarot/tres-cartas",
+  "/tarot/decision",
   "/tarot/cartas",
+  "/temas",
   "/astrologia",
   "/astrologia/carta-natal",
   "/astrologia/ascendente",
   "/astrologia/signo-lunar",
+  "/astrologia/transitos",
+  "/numerologia/camino-de-vida",
   "/compatibilidad",
   "/luna",
   "/luna/hoy",
@@ -66,8 +70,13 @@ const guideSlugs = [
   "como-distinguir-un-dato-astronomico-de-una-interpretacion",
 ];
 
+const tarotData = await readFile(resolve("src/data/tarot-cards.ts"), "utf8");
+const tarotCardSlugs = [...tarotData.matchAll(/^\s+slug: "([^"]+)"/gm)].map((match) => match[1]);
+const tarotCardPaths = [...new Set(tarotCardSlugs)].map((slug) => `/tarot/cartas/${slug}`);
+
 const paths = [
   ...corePaths,
+  ...tarotCardPaths,
   ...zodiacSlugs.map((slug) => `/horoscopo/${slug}`),
   ...guideCategorySlugs.map((slug) => `/temas/${slug}`),
   ...guideSlugs.map((slug) => `/guias/${slug}`),
@@ -82,4 +91,6 @@ const xml = [
 ].join("\n");
 
 await writeFile(resolve("public/sitemap.xml"), xml, "utf8");
-console.log(`Sitemap generado: ${paths.length} URLs en public/sitemap.xml`);
+console.log(
+  `Sitemap generado: ${paths.length} URLs en public/sitemap.xml (${tarotCardPaths.length} cartas Tarot)`,
+);

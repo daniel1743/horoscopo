@@ -9,11 +9,15 @@
   <url><loc>https://www.creovision.io/tarot/carta-del-dia</loc></url>
   <url><loc>https://www.creovision.io/tarot/si-o-no</loc></url>
   <url><loc>https://www.creovision.io/tarot/tres-cartas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/decision</loc></url>
   <url><loc>https://www.creovision.io/tarot/cartas</loc></url>
+  <url><loc>https://www.creovision.io/temas</loc></url>
   <url><loc>https://www.creovision.io/astrologia</loc></url>
   <url><loc>https://www.creovision.io/astrologia/carta-natal</loc></url>
   <url><loc>https://www.creovision.io/astrologia/ascendente</loc></url>
   <url><loc>https://www.creovision.io/astrologia/signo-lunar</loc></url>
+  <url><loc>https://www.creovision.io/astrologia/transitos</loc></url>
+  <url><loc>https://www.creovision.io/numerologia/camino-de-vida</loc></url>
   <url><loc>https://www.creovision.io/compatibilidad</loc></url>
   <url><loc>https://www.creovision.io/luna</loc></url>
   <url><loc>https://www.creovision.io/luna/hoy</loc></url>
@@ -22,6 +26,84 @@
   <url><loc>https://www.creovision.io/guias</loc></url>
   <url><loc>https://www.creovision.io/metodo</loc></url>
   <url><loc>https://www.creovision.io/nosotros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-loco</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-mago</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-sacerdotisa</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-emperatriz</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-emperador</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-sumo-sacerdote</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/los-enamorados</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-carro</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-justicia</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-ermitano</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-rueda-de-la-fortuna</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-fuerza</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-colgado</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-muerte</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-templanza</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-diablo</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-torre</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-estrella</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/la-luna</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-sol</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-juicio</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/el-mundo</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/as-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/dos-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/tres-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cuatro-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cinco-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/seis-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/siete-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/ocho-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/nueve-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/diez-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/paje-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/caballero-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/reina-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/rey-de-bastos</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/as-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/dos-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/tres-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cuatro-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cinco-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/seis-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/siete-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/ocho-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/nueve-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/diez-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/paje-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/caballero-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/reina-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/rey-de-copas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/as-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/dos-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/tres-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cuatro-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cinco-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/seis-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/siete-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/ocho-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/nueve-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/diez-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/paje-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/caballero-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/reina-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/rey-de-espadas</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/as-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/dos-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/tres-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cuatro-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/cinco-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/seis-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/siete-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/ocho-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/nueve-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/diez-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/paje-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/caballero-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/reina-de-oros</loc></url>
+  <url><loc>https://www.creovision.io/tarot/cartas/rey-de-oros</loc></url>
   <url><loc>https://www.creovision.io/horoscopo/aries</loc></url>
   <url><loc>https://www.creovision.io/horoscopo/tauro</loc></url>
   <url><loc>https://www.creovision.io/horoscopo/geminis</loc></url>

@@ -3,7 +3,11 @@ import { useSession } from "@/hooks/useSession";
 import { AccountShell } from "@/components/account/AccountShell";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { fetchPrivacySettings, updatePrivacySettings, type PrivacySettings } from "@/lib/account/repository";
+import {
+  fetchPrivacySettings,
+  updatePrivacySettings,
+  type PrivacySettings,
+} from "@/lib/account/repository";
 import { toast } from "sonner";
 
 const rows: Array<{

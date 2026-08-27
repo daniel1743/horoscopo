@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { TarotPositionResult } from "./TarotPositionResult";
 import { TarotReadingDisclaimer } from "./TarotReadingDisclaimer";
-import { tarotThreeCardsSynthesis, yesNoLabels } from "@/config/tarot";
+import { tarotSpreads, tarotThreeCardsSynthesis, yesNoLabels } from "@/config/tarot";
 import type { TarotReading } from "@/types/tarot";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
@@ -92,7 +92,7 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
         />
         <ShareReadingButton
           postType="tarot"
-          title={`Mi lectura de Tarot · ${reading.spread === "yes_no" ? "Sí o no" : "Tres cartas"}`}
+          title={`Mi lectura de Tarot · ${tarotSpreads[reading.spread].label}`}
           body={[
             reading.drawn.map((drawn) => describeDrawnCard(drawn)).join("\n"),
             yesNo?.description,

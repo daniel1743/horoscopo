@@ -25,6 +25,7 @@ import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as TemasRouteImport } from './routes/temas'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedMiEspacioRouteImport } from './routes/_authenticated/mi-espacio'
@@ -33,6 +34,8 @@ import { Route as AstrologiaIndexRouteImport } from './routes/astrologia.index'
 import { Route as AstrologiaAscendenteRouteImport } from './routes/astrologia.ascendente'
 import { Route as AstrologiaCartaNatalRouteImport } from './routes/astrologia.carta-natal'
 import { Route as AstrologiaSignoLunarRouteImport } from './routes/astrologia.signo-lunar'
+import { Route as AstrologiaSinastriaRouteImport } from './routes/astrologia.sinastria'
+import { Route as AstrologiaTransitosRouteImport } from './routes/astrologia.transitos'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AutoresSlugRouteImport } from './routes/autores.$slug'
 import { Route as CompatibilidadIndexRouteImport } from './routes/compatibilidad.index'
@@ -47,9 +50,11 @@ import { Route as LunaCalendarioRouteImport } from './routes/luna.calendario'
 import { Route as LunaFasesRouteImport } from './routes/luna.fases'
 import { Route as LunaHoyRouteImport } from './routes/luna.hoy'
 import { Route as NewsletterUnsubscribeRouteImport } from './routes/newsletter.unsubscribe'
+import { Route as NumerologiaCaminoDeVidaRouteImport } from './routes/numerologia.camino-de-vida'
 import { Route as PerfilUsernameRouteImport } from './routes/perfil.$username'
 import { Route as TarotIndexRouteImport } from './routes/tarot.index'
 import { Route as TarotCartaDelDiaRouteImport } from './routes/tarot.carta-del-dia'
+import { Route as TarotDecisionRouteImport } from './routes/tarot.decision'
 import { Route as TarotSiONoRouteImport } from './routes/tarot.si-o-no'
 import { Route as TarotTresCartasRouteImport } from './routes/tarot.tres-cartas'
 import { Route as TemasCategoryRouteImport } from './routes/temas.$category'
@@ -155,6 +160,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TemasRoute = TemasRouteImport.update({
+  id: '/temas',
+  path: '/temas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TerminosRoute = TerminosRouteImport.update({
   id: '/terminos',
   path: '/terminos',
@@ -193,6 +203,16 @@ const AstrologiaCartaNatalRoute = AstrologiaCartaNatalRouteImport.update({
 const AstrologiaSignoLunarRoute = AstrologiaSignoLunarRouteImport.update({
   id: '/astrologia/signo-lunar',
   path: '/astrologia/signo-lunar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AstrologiaSinastriaRoute = AstrologiaSinastriaRouteImport.update({
+  id: '/astrologia/sinastria',
+  path: '/astrologia/sinastria',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AstrologiaTransitosRoute = AstrologiaTransitosRouteImport.update({
+  id: '/astrologia/transitos',
+  path: '/astrologia/transitos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
@@ -265,6 +285,11 @@ const NewsletterUnsubscribeRoute = NewsletterUnsubscribeRouteImport.update({
   path: '/newsletter/unsubscribe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NumerologiaCaminoDeVidaRoute = NumerologiaCaminoDeVidaRouteImport.update({
+  id: '/numerologia/camino-de-vida',
+  path: '/numerologia/camino-de-vida',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PerfilUsernameRoute = PerfilUsernameRouteImport.update({
   id: '/perfil/$username',
   path: '/perfil/$username',
@@ -280,6 +305,11 @@ const TarotCartaDelDiaRoute = TarotCartaDelDiaRouteImport.update({
   path: '/tarot/carta-del-dia',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TarotDecisionRoute = TarotDecisionRouteImport.update({
+  id: '/tarot/decision',
+  path: '/tarot/decision',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TarotSiONoRoute = TarotSiONoRouteImport.update({
   id: '/tarot/si-o-no',
   path: '/tarot/si-o-no',
@@ -291,9 +321,9 @@ const TarotTresCartasRoute = TarotTresCartasRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const TemasCategoryRoute = TemasCategoryRouteImport.update({
-  id: '/temas/$category',
-  path: '/temas/$category',
-  getParentRoute: () => rootRouteImport,
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => TemasRoute,
 } as any)
 const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   id: '/',
@@ -437,6 +467,7 @@ export interface FileRoutesByFullPath {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
@@ -444,6 +475,8 @@ export interface FileRoutesByFullPath {
   '/astrologia/ascendente': typeof AstrologiaAscendenteRoute
   '/astrologia/carta-natal': typeof AstrologiaCartaNatalRoute
   '/astrologia/signo-lunar': typeof AstrologiaSignoLunarRoute
+  '/astrologia/sinastria': typeof AstrologiaSinastriaRoute
+  '/astrologia/transitos': typeof AstrologiaTransitosRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
@@ -455,8 +488,10 @@ export interface FileRoutesByFullPath {
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
+  '/numerologia/camino-de-vida': typeof NumerologiaCaminoDeVidaRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
+  '/tarot/decision': typeof TarotDecisionRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -504,12 +539,15 @@ export interface FileRoutesByTo {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
   '/api/search': typeof ApiSearchRouteWithChildren
   '/astrologia/ascendente': typeof AstrologiaAscendenteRoute
   '/astrologia/carta-natal': typeof AstrologiaCartaNatalRoute
   '/astrologia/signo-lunar': typeof AstrologiaSignoLunarRoute
+  '/astrologia/sinastria': typeof AstrologiaSinastriaRoute
+  '/astrologia/transitos': typeof AstrologiaTransitosRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
@@ -521,8 +559,10 @@ export interface FileRoutesByTo {
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
+  '/numerologia/camino-de-vida': typeof NumerologiaCaminoDeVidaRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
+  '/tarot/decision': typeof TarotDecisionRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -572,6 +612,7 @@ export interface FileRoutesById {
   '/nosotros': typeof NosotrosRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/temas': typeof TemasRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/_authenticated/mi-espacio': typeof AuthenticatedMiEspacioRouteWithChildren
@@ -579,6 +620,8 @@ export interface FileRoutesById {
   '/astrologia/ascendente': typeof AstrologiaAscendenteRoute
   '/astrologia/carta-natal': typeof AstrologiaCartaNatalRoute
   '/astrologia/signo-lunar': typeof AstrologiaSignoLunarRoute
+  '/astrologia/sinastria': typeof AstrologiaSinastriaRoute
+  '/astrologia/transitos': typeof AstrologiaTransitosRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/autores/$slug': typeof AutoresSlugRoute
   '/guias/$slug': typeof GuiasSlugRoute
@@ -590,8 +633,10 @@ export interface FileRoutesById {
   '/luna/fases': typeof LunaFasesRouteWithChildren
   '/luna/hoy': typeof LunaHoyRoute
   '/newsletter/unsubscribe': typeof NewsletterUnsubscribeRoute
+  '/numerologia/camino-de-vida': typeof NumerologiaCaminoDeVidaRoute
   '/perfil/$username': typeof PerfilUsernameRoute
   '/tarot/carta-del-dia': typeof TarotCartaDelDiaRoute
+  '/tarot/decision': typeof TarotDecisionRoute
   '/tarot/si-o-no': typeof TarotSiONoRoute
   '/tarot/tres-cartas': typeof TarotTresCartasRoute
   '/temas/$category': typeof TemasCategoryRoute
@@ -641,6 +686,7 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/temas'
     | '/terminos'
     | '/admin'
     | '/mi-espacio'
@@ -648,6 +694,8 @@ export interface FileRouteTypes {
     | '/astrologia/ascendente'
     | '/astrologia/carta-natal'
     | '/astrologia/signo-lunar'
+    | '/astrologia/sinastria'
+    | '/astrologia/transitos'
     | '/auth/callback'
     | '/autores/$slug'
     | '/guias/$slug'
@@ -659,8 +707,10 @@ export interface FileRouteTypes {
     | '/luna/fases'
     | '/luna/hoy'
     | '/newsletter/unsubscribe'
+    | '/numerologia/camino-de-vida'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
+    | '/tarot/decision'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -708,12 +758,15 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/temas'
     | '/terminos'
     | '/mi-espacio'
     | '/api/search'
     | '/astrologia/ascendente'
     | '/astrologia/carta-natal'
     | '/astrologia/signo-lunar'
+    | '/astrologia/sinastria'
+    | '/astrologia/transitos'
     | '/auth/callback'
     | '/autores/$slug'
     | '/guias/$slug'
@@ -725,8 +778,10 @@ export interface FileRouteTypes {
     | '/luna/fases'
     | '/luna/hoy'
     | '/newsletter/unsubscribe'
+    | '/numerologia/camino-de-vida'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
+    | '/tarot/decision'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -775,6 +830,7 @@ export interface FileRouteTypes {
     | '/nosotros'
     | '/privacidad'
     | '/reset-password'
+    | '/temas'
     | '/terminos'
     | '/_authenticated/admin'
     | '/_authenticated/mi-espacio'
@@ -782,6 +838,8 @@ export interface FileRouteTypes {
     | '/astrologia/ascendente'
     | '/astrologia/carta-natal'
     | '/astrologia/signo-lunar'
+    | '/astrologia/sinastria'
+    | '/astrologia/transitos'
     | '/auth/callback'
     | '/autores/$slug'
     | '/guias/$slug'
@@ -793,8 +851,10 @@ export interface FileRouteTypes {
     | '/luna/fases'
     | '/luna/hoy'
     | '/newsletter/unsubscribe'
+    | '/numerologia/camino-de-vida'
     | '/perfil/$username'
     | '/tarot/carta-del-dia'
+    | '/tarot/decision'
     | '/tarot/si-o-no'
     | '/tarot/tres-cartas'
     | '/temas/$category'
@@ -844,11 +904,14 @@ export interface RootRouteChildren {
   NosotrosRoute: typeof NosotrosRoute
   PrivacidadRoute: typeof PrivacidadRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  TemasRoute: typeof TemasRouteWithChildren
   TerminosRoute: typeof TerminosRoute
   ApiSearchRoute: typeof ApiSearchRouteWithChildren
   AstrologiaAscendenteRoute: typeof AstrologiaAscendenteRoute
   AstrologiaCartaNatalRoute: typeof AstrologiaCartaNatalRoute
   AstrologiaSignoLunarRoute: typeof AstrologiaSignoLunarRoute
+  AstrologiaSinastriaRoute: typeof AstrologiaSinastriaRoute
+  AstrologiaTransitosRoute: typeof AstrologiaTransitosRoute
   AutoresSlugRoute: typeof AutoresSlugRoute
   GuiasSlugRoute: typeof GuiasSlugRoute
   HoroscopoSignRoute: typeof HoroscopoSignRoute
@@ -856,11 +919,12 @@ export interface RootRouteChildren {
   HoroscopoMesRoute: typeof HoroscopoMesRoute
   HoroscopoSemanaRoute: typeof HoroscopoSemanaRoute
   NewsletterUnsubscribeRoute: typeof NewsletterUnsubscribeRoute
+  NumerologiaCaminoDeVidaRoute: typeof NumerologiaCaminoDeVidaRoute
   PerfilUsernameRoute: typeof PerfilUsernameRoute
   TarotCartaDelDiaRoute: typeof TarotCartaDelDiaRoute
+  TarotDecisionRoute: typeof TarotDecisionRoute
   TarotSiONoRoute: typeof TarotSiONoRoute
   TarotTresCartasRoute: typeof TarotTresCartasRoute
-  TemasCategoryRoute: typeof TemasCategoryRoute
   AstrologiaIndexRoute: typeof AstrologiaIndexRoute
   CompatibilidadIndexRoute: typeof CompatibilidadIndexRoute
   GuiasIndexRoute: typeof GuiasIndexRoute
@@ -986,6 +1050,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/temas': {
+      id: '/temas'
+      path: '/temas'
+      fullPath: '/temas'
+      preLoaderRoute: typeof TemasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terminos': {
       id: '/terminos'
       path: '/terminos'
@@ -1040,6 +1111,20 @@ declare module '@tanstack/react-router' {
       path: '/astrologia/signo-lunar'
       fullPath: '/astrologia/signo-lunar'
       preLoaderRoute: typeof AstrologiaSignoLunarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/astrologia/sinastria': {
+      id: '/astrologia/sinastria'
+      path: '/astrologia/sinastria'
+      fullPath: '/astrologia/sinastria'
+      preLoaderRoute: typeof AstrologiaSinastriaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/astrologia/transitos': {
+      id: '/astrologia/transitos'
+      path: '/astrologia/transitos'
+      fullPath: '/astrologia/transitos'
+      preLoaderRoute: typeof AstrologiaTransitosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
@@ -1140,6 +1225,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsletterUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/numerologia/camino-de-vida': {
+      id: '/numerologia/camino-de-vida'
+      path: '/numerologia/camino-de-vida'
+      fullPath: '/numerologia/camino-de-vida'
+      preLoaderRoute: typeof NumerologiaCaminoDeVidaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/perfil/$username': {
       id: '/perfil/$username'
       path: '/perfil/$username'
@@ -1161,6 +1253,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TarotCartaDelDiaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tarot/decision': {
+      id: '/tarot/decision'
+      path: '/tarot/decision'
+      fullPath: '/tarot/decision'
+      preLoaderRoute: typeof TarotDecisionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tarot/si-o-no': {
       id: '/tarot/si-o-no'
       path: '/tarot/si-o-no'
@@ -1177,10 +1276,10 @@ declare module '@tanstack/react-router' {
     }
     '/temas/$category': {
       id: '/temas/$category'
-      path: '/temas/$category'
+      path: '/$category'
       fullPath: '/temas/$category'
       preLoaderRoute: typeof TemasCategoryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof TemasRoute
     }
     '/_authenticated/admin/': {
       id: '/_authenticated/admin/'
@@ -1485,6 +1584,16 @@ const LunaRouteChildren: LunaRouteChildren = {
 
 const LunaRouteWithChildren = LunaRoute._addFileChildren(LunaRouteChildren)
 
+interface TemasRouteChildren {
+  TemasCategoryRoute: typeof TemasCategoryRoute
+}
+
+const TemasRouteChildren: TemasRouteChildren = {
+  TemasCategoryRoute: TemasCategoryRoute,
+}
+
+const TemasRouteWithChildren = TemasRoute._addFileChildren(TemasRouteChildren)
+
 interface ApiSearchRouteChildren {
   ApiSearchSuggestionsRoute: typeof ApiSearchSuggestionsRoute
 }
@@ -1514,11 +1623,14 @@ const rootRouteChildren: RootRouteChildren = {
   NosotrosRoute: NosotrosRoute,
   PrivacidadRoute: PrivacidadRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  TemasRoute: TemasRouteWithChildren,
   TerminosRoute: TerminosRoute,
   ApiSearchRoute: ApiSearchRouteWithChildren,
   AstrologiaAscendenteRoute: AstrologiaAscendenteRoute,
   AstrologiaCartaNatalRoute: AstrologiaCartaNatalRoute,
   AstrologiaSignoLunarRoute: AstrologiaSignoLunarRoute,
+  AstrologiaSinastriaRoute: AstrologiaSinastriaRoute,
+  AstrologiaTransitosRoute: AstrologiaTransitosRoute,
   AutoresSlugRoute: AutoresSlugRoute,
   GuiasSlugRoute: GuiasSlugRoute,
   HoroscopoSignRoute: HoroscopoSignRoute,
@@ -1526,11 +1638,12 @@ const rootRouteChildren: RootRouteChildren = {
   HoroscopoMesRoute: HoroscopoMesRoute,
   HoroscopoSemanaRoute: HoroscopoSemanaRoute,
   NewsletterUnsubscribeRoute: NewsletterUnsubscribeRoute,
+  NumerologiaCaminoDeVidaRoute: NumerologiaCaminoDeVidaRoute,
   PerfilUsernameRoute: PerfilUsernameRoute,
   TarotCartaDelDiaRoute: TarotCartaDelDiaRoute,
+  TarotDecisionRoute: TarotDecisionRoute,
   TarotSiONoRoute: TarotSiONoRoute,
   TarotTresCartasRoute: TarotTresCartasRoute,
-  TemasCategoryRoute: TemasCategoryRoute,
   AstrologiaIndexRoute: AstrologiaIndexRoute,
   CompatibilidadIndexRoute: CompatibilidadIndexRoute,
   GuiasIndexRoute: GuiasIndexRoute,

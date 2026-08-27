@@ -9,7 +9,7 @@ import type {
 
 const SubscribeInput = z.object({
   email: z.string().trim().email("Introduce un correo electrónico válido.").max(255),
-  consent: z.literal(true, { error: "Necesitamos tu consentimiento para continuar." }),
+  consent: z.literal(true, { message: "Necesitamos tu consentimiento para continuar." }),
   source: z.string().trim().max(80).optional(),
 });
 

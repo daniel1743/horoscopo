@@ -21,13 +21,7 @@ interface Props {
   title?: string;
 }
 
-export function MoonPhaseVisual({
-  fraction,
-  waxing,
-  size = 200,
-  className,
-  title,
-}: Props) {
+export function MoonPhaseVisual({ fraction, waxing, size = 200, className, title }: Props) {
   const clamped = Math.max(0, Math.min(1, fraction));
   const r = 80;
   const cx = 100;

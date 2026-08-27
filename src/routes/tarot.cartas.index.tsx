@@ -7,7 +7,7 @@ export const Route = createFileRoute("/tarot/cartas/")({
     const m = buildMeta({
       title: "Biblioteca de cartas · Tarot · Creovision",
       description:
-        "Explora los Arcanos Mayores publicados con su significado, palabras clave y preguntas para reflexionar.",
+        "Explora las 78 cartas del Tarot, sus significados al derecho e invertidos, palabras clave y preguntas para reflexionar.",
       canonical: "/tarot/cartas",
     });
     return { meta: m.meta, links: m.links };

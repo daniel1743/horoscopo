@@ -3,10 +3,7 @@
  * Se usa para decidir si un perfil publicado puede considerarse "completo"
  * (indexable) o "pendiente" (renderiza estado editorial pendiente).
  */
-import type {
-  CompatibilityDimensionKey,
-  CompatibilityProfile,
-} from "@/types/compatibility";
+import type { CompatibilityDimensionKey, CompatibilityProfile } from "@/types/compatibility";
 
 const REQUIRED_DIMENSIONS: readonly CompatibilityDimensionKey[] = [
   "communication",

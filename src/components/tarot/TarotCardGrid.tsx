@@ -18,7 +18,7 @@ export function TarotCardGrid({ cards }: Props) {
       {cards.map((card) => (
         <li key={card.id}>
           <Link
-            to={tarotCardRoute(card.slug)}
+            to={tarotCardRoute(card.slug) as never}
             className="group flex h-full flex-col items-center gap-3 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-4 text-center transition-colors hover:border-cosmic/40"
           >
             <TarotCardVisual card={card} revealed size="sm" />

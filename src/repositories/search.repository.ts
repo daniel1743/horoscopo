@@ -1,11 +1,7 @@
 /**
  * YAML 12 — Contrato de repositorio de búsqueda.
  */
-import type {
-  SearchFilters,
-  SearchResult,
-  SearchSuggestion,
-} from "@/types/search";
+import type { SearchFilters, SearchResult, SearchSuggestion } from "@/types/search";
 
 export interface SearchRepository {
   search(input: {

@@ -25,7 +25,9 @@ export const exportAccountFn = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
     const client = supabase as unknown as {
-      from: (t: string) => { select: (c: string) => Promise<{ data: unknown; error: { message: string } | null }> };
+      from: (t: string) => {
+        select: (c: string) => Promise<{ data: unknown; error: { message: string } | null }>;
+      };
     };
 
     const payload: Record<string, unknown> = {

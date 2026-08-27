@@ -17,7 +17,9 @@ function fmt(options: Intl.DateTimeFormatOptions) {
 }
 
 export function formatLongDate(iso: string): string {
-  return fmt({ weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(iso));
+  return fmt({ weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(
+    new Date(iso),
+  );
 }
 export function formatShortDate(iso: string): string {
   return fmt({ day: "numeric", month: "long" }).format(new Date(iso));

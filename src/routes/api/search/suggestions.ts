@@ -12,7 +12,8 @@ function json(status: number, body: unknown, cacheSeconds: number | null = 120) 
     "X-Robots-Tag": "noindex, follow",
   };
   if (cacheSeconds !== null) {
-    headers["Cache-Control"] = `public, max-age=0, s-maxage=${cacheSeconds}, stale-while-revalidate=60`;
+    headers["Cache-Control"] =
+      `public, max-age=0, s-maxage=${cacheSeconds}, stale-while-revalidate=60`;
   }
   return new Response(JSON.stringify(body), { status, headers });
 }
@@ -22,7 +23,10 @@ export const Route = createFileRoute("/api/search/suggestions")({
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
-        const q = (url.searchParams.get("q") ?? "").slice(0, SEARCH_LIMITS.suggestionsMaxQueryLength);
+        const q = (url.searchParams.get("q") ?? "").slice(
+          0,
+          SEARCH_LIMITS.suggestionsMaxQueryLength,
+        );
         if (!q || q.trim().length < SEARCH_LIMITS.minQueryLength) {
           return json(200, { query: q, suggestions: [] });
         }

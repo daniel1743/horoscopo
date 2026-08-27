@@ -24,10 +24,19 @@ function assert(condition: boolean, message: string) {
 }
 
 // 1. Reglas básicas
-assert(normalizeSignPair("tauro", "aries").pair_key === "aries__tauro", "tauro+aries → aries__tauro");
-assert(normalizeSignPair("aries", "tauro").pair_key === "aries__tauro", "aries+tauro → aries__tauro");
+assert(
+  normalizeSignPair("tauro", "aries").pair_key === "aries__tauro",
+  "tauro+aries → aries__tauro",
+);
+assert(
+  normalizeSignPair("aries", "tauro").pair_key === "aries__tauro",
+  "aries+tauro → aries__tauro",
+);
 assert(normalizeSignPair("libra", "libra").pair_key === "libra__libra", "libra+libra permitido");
-assert(normalizeSignPair("piscis", "aries").pair_key === "aries__piscis", "piscis+aries → aries__piscis");
+assert(
+  normalizeSignPair("piscis", "aries").pair_key === "aries__piscis",
+  "piscis+aries → aries__piscis",
+);
 
 // 2. Signo inválido
 try {
@@ -77,4 +86,6 @@ if (failures > 0) {
   console.error(`\n${failures} check(s) fallaron.`);
   process.exit(1);
 }
-console.log("\nTodas las verificaciones pasaron: 78 pair keys, 144 selecciones, mismo signo válido.");
+console.log(
+  "\nTodas las verificaciones pasaron: 78 pair keys, 144 selecciones, mismo signo válido.",
+);

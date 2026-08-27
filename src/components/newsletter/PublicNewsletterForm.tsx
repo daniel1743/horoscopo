@@ -146,6 +146,7 @@ export function PublicNewsletterForm({
           {privacyHelper}{" "}
           <Link
             to={routes.newsletterUnsubscribe}
+            search={{ token: "" }}
             className={
               dark
                 ? "text-gold underline underline-offset-2"

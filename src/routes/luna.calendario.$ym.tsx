@@ -10,7 +10,7 @@ import { MoonUnavailableState } from "@/components/moon/MoonUnavailableState";
 import { MoonScientificFacts } from "@/components/moon/MoonScientificFacts";
 import { MoonDisclaimer } from "@/components/moon/MoonDisclaimer";
 import { moonQueries } from "@/services/moon.service";
-import { routes } from "@/config/routes";
+import { moonCalendarMonthRoute, routes } from "@/config/routes";
 import { MOON_SITE_TIMEZONE, MOON_CALENDAR_RANGE_YEARS } from "@/config/moon";
 import { getZonedParts } from "@/lib/moon/timezone";
 import { parseYearMonth, formatMonthYear } from "@/lib/moon/format";

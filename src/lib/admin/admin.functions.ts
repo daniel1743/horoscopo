@@ -9,6 +9,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { ADMIN_ROLES, type AdminRole, hasAnyRole } from "./roles";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
 export interface AdminIdentity {
   userId: string;
@@ -24,10 +26,7 @@ export const getMyAdminRoles = createServerFn({ method: "GET" })
   .handler(async ({ context }): Promise<AdminIdentity> => {
     const { supabase, userId } = context;
 
-    const { data, error } = await supabase
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", userId);
+    const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", userId);
 
     if (error) throw new Error(error.message);
 
@@ -43,7 +42,7 @@ export const getMyAdminRoles = createServerFn({ method: "GET" })
  * Lanza Error("FORBIDDEN") si no. Usar al inicio de cada server fn admin.
  */
 export async function assertRole(
-  context: { supabase: any; userId: string },
+  context: { supabase: SupabaseClient<Database>; userId: string },
   allowed: readonly AdminRole[],
 ): Promise<AdminRole[]> {
   const { data, error } = await context.supabase
@@ -72,21 +71,22 @@ export async function assertRole(
  */
 export const logAdminAction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: {
-    action: string;
-    resourceType?: string;
-    resourceId?: string;
-    status?: "success" | "denied" | "error";
-    metadata?: Record<string, unknown>;
-  }) => input)
+  .inputValidator(
+    (input: {
+      action: string;
+      resourceType?: string;
+      resourceId?: string;
+      status?: "success" | "denied" | "error";
+      metadata?: Record<string, unknown>;
+    }) => input,
+  )
   .handler(async ({ data, context }) => {
     // Obtener el rol "más alto" para dejarlo trazado, sin exponerlo al cliente.
     const rolesResp = await context.supabase
       .from("user_roles")
       .select("role")
       .eq("user_id", context.userId);
-    const roleForAudit =
-      rolesResp.data?.[0]?.role ?? null;
+    const roleForAudit = rolesResp.data?.[0]?.role ?? null;
 
     // Cargar cliente admin solo dentro del handler (nunca a nivel módulo).
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

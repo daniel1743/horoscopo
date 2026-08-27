@@ -2,28 +2,24 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import {
-  adminListArticles,
-  adminListCategoriesAndAuthors,
-} from "@/lib/admin/articles.functions";
+import { adminListArticles, adminListCategoriesAndAuthors } from "@/lib/admin/articles.functions";
 import { WORKFLOW_LABEL, type WorkflowState } from "@/lib/admin/workflow";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 
+type ArticleListStatus = "all" | "draft" | "published" | "archived";
+
 export const Route = createFileRoute("/_authenticated/admin/articulos")({
   head: () => ({
-    meta: [
-      { title: "Artículos — Admin" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Artículos — Admin" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: ArticlesListPage,
 });
 
 function ArticlesListPage() {
   const [page, setPage] = useState(1);
-  const [status, setStatus] = useState<"all" | "draft" | "published" | "archived">("all");
+  const [status, setStatus] = useState<ArticleListStatus>("all");
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
 
@@ -39,8 +35,8 @@ function ArticlesListPage() {
         <div>
           <h1 className="text-h2 text-ink">Artículos</h1>
           <p className="text-caption text-ink-soft">
-            Gestión editorial. Los cambios se guardan como borrador y siguen el
-            flujo de revisión antes de publicarse.
+            Gestión editorial. Los cambios se guardan como borrador y siguen el flujo de revisión
+            antes de publicarse.
           </p>
         </div>
         <Button asChild>
@@ -65,7 +61,7 @@ function ArticlesListPage() {
         <select
           value={status}
           onChange={(e) => {
-            setStatus(e.target.value as any);
+            setStatus(e.target.value as ArticleListStatus);
             setPage(1);
           }}
           className="h-9 rounded-[var(--radius-control)] border border-line bg-warm-white px-3 text-sm"
@@ -112,7 +108,7 @@ function ArticlesListPage() {
                 </td>
               </tr>
             ) : (
-              query.data!.items.map((a: any) => (
+              query.data!.items.map((a) => (
                 <tr key={a.id} className="border-t border-line">
                   <td className="p-3">
                     <div className="font-medium text-ink">{a.title}</div>
@@ -126,9 +122,7 @@ function ArticlesListPage() {
                   <td className="p-3 text-ink-soft">
                     {WORKFLOW_LABEL[a.workflow_state as WorkflowState] ?? a.workflow_state}
                   </td>
-                  <td className="p-3 text-ink-soft">
-                    {new Date(a.updated_at).toLocaleString()}
-                  </td>
+                  <td className="p-3 text-ink-soft">{new Date(a.updated_at).toLocaleString()}</td>
                   <td className="p-3 tabular-nums text-ink-soft">{a.version}</td>
                   <td className="p-3 text-right">
                     <Link
@@ -163,8 +157,7 @@ function ArticlesListPage() {
             variant="secondary"
             size="sm"
             disabled={
-              !query.data ||
-              query.data.page * query.data.pageSize >= (query.data.total ?? 0)
+              !query.data || query.data.page * query.data.pageSize >= (query.data.total ?? 0)
             }
             onClick={() => setPage((p) => p + 1)}
           >

@@ -231,7 +231,14 @@ export function AstrologyProfileSection() {
         <p className="mt-5 font-body text-[13px] text-ink-soft">
           Inicia sesión para guardar y recuperar datos natales. Puedes seguir usando las
           herramientas locales sin guardar nada.{" "}
-          <Link to={routes.signIn} className="text-brand underline">
+          <Link
+            to={routes.signIn}
+            search={{
+              redirect: typeof window !== "undefined" ? window.location.pathname : "/",
+              mode: "signin",
+            }}
+            className="text-brand underline"
+          >
             Iniciar sesión
           </Link>
         </p>

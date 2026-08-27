@@ -56,7 +56,7 @@ export interface Favorite {
   created_at: string;
 }
 
-export type SpreadType = "daily" | "yes_no" | "three_cards";
+export type SpreadType = "daily" | "yes_no" | "three_cards" | "decision";
 
 export interface SavedReadingCard {
   slug: string;
@@ -169,6 +169,24 @@ export interface PublicCommunityRepost extends PublicCommunityPost {
   reposter_display_name: string | null;
 }
 
+export interface PublicCommunityComment {
+  id: string;
+  post_id: string;
+  body: string;
+  created_at: string;
+  author_username: string;
+  author_display_name: string | null;
+  author_avatar_url: string | null;
+  author_aura_style: AuraStyle;
+  owned_by_viewer: boolean;
+}
+
+export interface PublicProfileFollowStats {
+  followers_count: number;
+  following_count: number;
+  followed_by_viewer: boolean;
+}
+
 export async function listPublicCommunityPosts(limit = 30): Promise<PublicCommunityPost[]> {
   const { data, error } = await supabase.rpc("list_public_community_posts", { p_limit: limit });
   if (error) throw error;
@@ -203,6 +221,69 @@ export async function listPublicProfileReposts(
   });
   if (error) throw error;
   return (data ?? []) as PublicCommunityRepost[];
+}
+
+export async function listPublicCommunityComments(
+  postId: string,
+  limit = 50,
+): Promise<PublicCommunityComment[]> {
+  const { data, error } = await supabase.rpc("list_public_community_comments", {
+    p_post_id: postId,
+    p_limit: limit,
+  });
+  if (error) throw error;
+  return (data ?? []) as PublicCommunityComment[];
+}
+
+export async function fetchPublicProfileFollowStats(
+  username: string,
+): Promise<PublicProfileFollowStats | null> {
+  const { data, error } = await supabase.rpc("get_public_profile_follow_stats", {
+    p_username: username,
+  });
+  if (error) throw error;
+  return (data?.[0] ?? null) as PublicProfileFollowStats | null;
+}
+
+export async function setPublicProfileFollow(input: {
+  username: string;
+  followed: boolean;
+}): Promise<boolean> {
+  const { data, error } = await supabase.rpc("toggle_public_profile_follow", {
+    p_username: input.username,
+    p_follow: input.followed,
+  });
+  if (error) throw error;
+  return Boolean(data);
+}
+
+export async function createCommunityComment(input: {
+  postId: string;
+  userId: string;
+  body: string;
+}): Promise<void> {
+  const body = input.body.trim();
+  if (body.length < 1 || body.length > 1000) {
+    throw new Error("El comentario debe tener entre 1 y 1000 caracteres.");
+  }
+  const { error } = await supabase.from("community_post_comments").insert({
+    post_id: input.postId,
+    user_id: input.userId,
+    body,
+  });
+  if (error) throw error;
+}
+
+export async function deleteOwnCommunityComment(input: {
+  commentId: string;
+  userId: string;
+}): Promise<void> {
+  const { error } = await supabase
+    .from("community_post_comments")
+    .delete()
+    .eq("id", input.commentId)
+    .eq("user_id", input.userId);
+  if (error) throw error;
 }
 
 export async function toggleCommunityPostLike(input: {
@@ -322,6 +403,21 @@ export async function reportCommunityPost(input: {
   if (error) throw error;
 }
 
+export async function reportCommunityComment(input: {
+  commentId: string;
+  reporterId: string;
+  reason: CommunityReportReason;
+  details?: string | null;
+}): Promise<void> {
+  const { error } = await supabase.from("community_comment_reports").insert({
+    comment_id: input.commentId,
+    reporter_id: input.reporterId,
+    reason: input.reason,
+    details: input.details?.trim() || null,
+  });
+  if (error) throw error;
+}
+
 export interface CommunityModerationReport {
   report_id: string;
   post_id: string;
@@ -341,6 +437,46 @@ export async function listOpenCommunityReports(limit = 50): Promise<CommunityMod
   const { data, error } = await supabase.rpc("list_open_community_reports", { p_limit: limit });
   if (error) throw error;
   return (data ?? []) as CommunityModerationReport[];
+}
+
+export interface CommunityCommentModerationReport {
+  report_id: string;
+  comment_id: string;
+  report_reason: CommunityReportReason;
+  report_details: string | null;
+  report_status: "open" | "reviewed" | "dismissed";
+  reported_at: string;
+  comment_body: string;
+  comment_status: CommunityPostStatus;
+  post_id: string;
+  post_title: string | null;
+  post_type: CommunityPostType;
+  author_username: string | null;
+  reporter_id: string;
+}
+
+export async function listOpenCommunityCommentReports(
+  limit = 50,
+): Promise<CommunityCommentModerationReport[]> {
+  const { data, error } = await supabase.rpc("list_open_community_comment_reports", {
+    p_limit: limit,
+  });
+  if (error) throw error;
+  return (data ?? []) as CommunityCommentModerationReport[];
+}
+
+export async function moderateCommunityCommentReport(input: {
+  reportId: string;
+  decision: "dismiss" | "hide";
+  note?: string | null;
+}): Promise<boolean> {
+  const { data, error } = await supabase.rpc("moderate_community_comment_report", {
+    p_report_id: input.reportId,
+    p_decision: input.decision,
+    p_note: input.note?.trim() || null,
+  });
+  if (error) throw error;
+  return Boolean(data);
 }
 
 export async function moderateCommunityReport(input: {

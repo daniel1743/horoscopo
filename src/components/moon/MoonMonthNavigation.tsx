@@ -35,7 +35,7 @@ export function MoonMonthNavigation({ year, month }: Props) {
     >
       {canPrev ? (
         <Link
-          to={moonCalendarMonthRoute(prev.year, prev.month)}
+          to={moonCalendarMonthRoute(prev.year, prev.month) as never}
           className="inline-flex items-center gap-1 rounded-full border border-ink/15 px-4 py-2 font-body text-[14px] text-ink hover:border-cosmic hover:text-cosmic"
         >
           <Icon name="back" size="sm" /> {formatMonthYear(prev.year, prev.month)}
@@ -48,7 +48,7 @@ export function MoonMonthNavigation({ year, month }: Props) {
       </h2>
       {canNext ? (
         <Link
-          to={moonCalendarMonthRoute(next.year, next.month)}
+          to={moonCalendarMonthRoute(next.year, next.month) as never}
           className="inline-flex items-center gap-1 rounded-full border border-ink/15 px-4 py-2 font-body text-[14px] text-ink hover:border-cosmic hover:text-cosmic"
         >
           {formatMonthYear(next.year, next.month)} <Icon name="forward" size="sm" />

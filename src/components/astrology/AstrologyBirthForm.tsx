@@ -7,6 +7,7 @@ import {
   formatDegree,
 } from "@/services/astrology.service";
 import type { AscendantResult, BirthData, LunarSignResult, NatalChart } from "@/types/astrology";
+import { NatalChartWheel } from "@/components/astrology/NatalChartWheel";
 
 type AstrologyMode = "natal" | "ascendant" | "moon";
 type AstrologyResult = NatalChart | AscendantResult | LunarSignResult;
@@ -85,7 +86,7 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
                   {placement.sign.symbol} {placement.sign.label}
                 </p>
                 <p className="mt-1 font-body text-[13px] text-ink-soft">
-                  {formatDegree(placement.degreeInSign)} · longitud{" "}
+                  {formatDegree(placement.degreeInSign)} · Casa {placement.house} · longitud{" "}
                   {formatDegree(placement.longitude)}
                 </p>
               </div>
@@ -103,6 +104,30 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
               detail="Cada cúspide avanza 30° desde el ascendente."
             />
           </div>
+          <section className="mt-6" aria-labelledby="natal-angles-title">
+            <h3 id="natal-angles-title" className="font-display text-[20px] text-ink">
+              Ángulos principales
+            </h3>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {result.angles.map((angle) => (
+                <div
+                  key={angle.key}
+                  className="rounded-xl border border-line/70 bg-background px-4 py-3"
+                >
+                  <p className="font-body text-[12px] uppercase tracking-[0.12em] text-ink-soft">
+                    {angle.label}
+                  </p>
+                  <p className="mt-1 font-display text-[17px] text-ink">
+                    {angle.sign.symbol} {angle.sign.label}
+                  </p>
+                  <p className="font-body text-[12px] text-ink-soft">
+                    {formatDegree(angle.degreeInSign)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+          <NatalChartWheel chart={result} />
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {result.houses.map((house) => (
               <div
@@ -121,6 +146,40 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
               </div>
             ))}
           </div>
+          <section className="mt-6" aria-labelledby="natal-aspects-title">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h3 id="natal-aspects-title" className="font-display text-[20px] text-ink">
+                Aspectos mayores
+              </h3>
+              <span className="text-xs text-ink-muted">
+                {result.aspects.length} {result.aspects.length === 1 ? "aspecto" : "aspectos"}
+              </span>
+            </div>
+            {result.aspects.length > 0 ? (
+              <ul className="mt-3 grid gap-3 sm:grid-cols-2">
+                {result.aspects.map((aspect) => (
+                  <li
+                    key={`${aspect.firstBody}-${aspect.secondBody}-${aspect.key}`}
+                    className="rounded-xl border border-line/70 bg-background px-4 py-3"
+                  >
+                    <p className="font-body text-[12px] font-semibold uppercase tracking-[0.12em] text-cosmic">
+                      {aspect.label}
+                    </p>
+                    <p className="mt-1 font-display text-[17px] text-ink">
+                      {aspect.firstLabel} · {aspect.secondLabel}
+                    </p>
+                    <p className="font-body text-[12px] text-ink-soft">
+                      Separación {aspect.separation.toFixed(1)}° · orbe {aspect.orb.toFixed(1)}°
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mt-3 rounded-xl border border-dashed border-line px-4 py-3 text-sm text-ink-soft">
+                No se formaron aspectos con los orbes configurados para estos datos.
+              </p>
+            )}
+          </section>
         </>
       )}
 
@@ -146,8 +205,8 @@ function ResultPanel({ mode, result }: { mode: AstrologyMode; result: AstrologyR
           {meta.dateTimeIso}.
         </p>
         <p className="mt-2 font-body text-[13px] leading-6 text-ink-soft">
-          Método: posiciones geocéntricas en aproximación tropical y casas iguales. No se presenta
-          como carta profesional ni como una afirmación científica.
+          Método: posiciones geocéntricas en aproximación tropical, casas iguales y aspectos mayores
+          con orbes fijos. No se presenta como carta profesional ni como una afirmación científica.
         </p>
         {meta.limitations.length > 0 && (
           <details className="mt-3">

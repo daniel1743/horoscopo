@@ -23,5 +23,5 @@ export const Route = createFileRoute("/luna/calendario")({
 
 function RedirectToCurrentMonth() {
   const { year, month } = getZonedParts(new Date(), MOON_SITE_TIMEZONE);
-  return <Navigate to={moonCalendarMonthRoute(year, month)} replace />;
+  return <Navigate to={moonCalendarMonthRoute(year, month) as never} replace />;
 }

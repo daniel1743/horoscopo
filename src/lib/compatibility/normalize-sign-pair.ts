@@ -46,9 +46,7 @@ export function normalizeSignPair(signOne: unknown, signTwo: unknown): Normalize
   if (!isZodiacSign(signTwo)) throw new InvalidZodiacSignError(signTwo);
 
   const [sign_a, sign_b] =
-    zodiacPosition(signOne) <= zodiacPosition(signTwo)
-      ? [signOne, signTwo]
-      : [signTwo, signOne];
+    zodiacPosition(signOne) <= zodiacPosition(signTwo) ? [signOne, signTwo] : [signTwo, signOne];
 
   const pair_key = createPairKey(sign_a, sign_b);
   return {
@@ -59,10 +57,7 @@ export function normalizeSignPair(signOne: unknown, signTwo: unknown): Normalize
   };
 }
 
-export function createPairKey(
-  sign_a: ZodiacSignKey,
-  sign_b: ZodiacSignKey,
-): CompatibilityPairKey {
+export function createPairKey(sign_a: ZodiacSignKey, sign_b: ZodiacSignKey): CompatibilityPairKey {
   return `${sign_a}__${sign_b}` as CompatibilityPairKey;
 }
 

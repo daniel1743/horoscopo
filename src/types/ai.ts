@@ -3,12 +3,7 @@
  * Los componentes NUNCA reciben filas crudas.
  */
 export type AiModuleMode =
-  | "general"
-  | "tarot"
-  | "horoscope"
-  | "article"
-  | "recommendation"
-  | "reflection";
+  "general" | "tarot" | "horoscope" | "article" | "recommendation" | "reflection";
 
 export type AiRole = "user" | "assistant";
 
@@ -39,11 +34,7 @@ export interface AiConversation {
 }
 
 export type AiMemoryCategory =
-  | "preference"
-  | "interest"
-  | "goal"
-  | "personal_context"
-  | "content_preference";
+  "preference" | "interest" | "goal" | "personal_context" | "content_preference";
 
 export interface AiMemory {
   id: string;
@@ -65,7 +56,7 @@ export interface AiUserPreferences {
 }
 
 export interface AiTarotContextInput {
-  spreadKey: "daily" | "yes_no" | "three_cards";
+  spreadKey: "daily" | "yes_no" | "three_cards" | "decision";
   cardKeys: string[];
   positionKeys: string[];
   question?: string;

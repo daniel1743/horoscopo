@@ -11,11 +11,7 @@
  *
  * SERVER-ONLY: no importar desde componentes ni desde loaders isomórficos.
  */
-import type {
-  MoonCalendarDay,
-  MoonPhaseEvent,
-  MoonSnapshot,
-} from "@/types/moon";
+import type { MoonCalendarDay, MoonPhaseEvent, MoonSnapshot } from "@/types/moon";
 
 export interface MoonEngine {
   /** Versión del motor. Se usa como parte de las claves de caché. */
@@ -29,11 +25,7 @@ export interface MoonEngine {
    * de fase/iluminación de cada día se hace en un único barrido y se
    * asocia como major_event los eventos principales que caen en ese día.
    */
-  getCalendarMonth(
-    year: number,
-    month: number,
-    timezone: string,
-  ): MoonCalendarDay[];
+  getCalendarMonth(year: number, month: number, timezone: string): MoonCalendarDay[];
 
   /** Eventos de fases principales en un rango cerrado [startUtc, endUtc]. */
   getPhaseEvents(startUtc: Date, endUtc: Date, timezone: string): MoonPhaseEvent[];

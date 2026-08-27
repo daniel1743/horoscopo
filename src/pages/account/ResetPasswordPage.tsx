@@ -48,9 +48,7 @@ export function ResetPasswordPage() {
     <PageShell>
       <div className="mx-auto max-w-md py-8">
         <h1 className="font-display text-3xl font-semibold text-ink">Restablecer contraseña</h1>
-        <p className="mt-2 text-sm text-ink-soft">
-          Elige una nueva contraseña para tu cuenta.
-        </p>
+        <p className="mt-2 text-sm text-ink-soft">Elige una nueva contraseña para tu cuenta.</p>
 
         {!ready ? (
           <Alert className="mt-6">

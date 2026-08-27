@@ -100,9 +100,7 @@ ${h.love ? `Amor: ${h.love}\n` : ""}${h.work ? `Trabajo: ${h.work}\n` : ""}${h.w
       );
       return {
         text,
-        sources: [
-          { title: data.title, sourceType: "article", url: articleRoute(data.slug) },
-        ],
+        sources: [{ title: data.title, sourceType: "article", url: articleRoute(data.slug) }],
       };
     }
 
@@ -116,14 +114,24 @@ ${h.love ? `Amor: ${h.love}\n` : ""}${h.work ? `Trabajo: ${h.work}\n` : ""}${h.w
 function flattenArticleContent(content: unknown): string {
   if (!Array.isArray(content)) return "";
   return content
-    .map((block: any) => {
+    .map((rawBlock) => {
+      const block = asRecord(rawBlock);
       if (typeof block?.text === "string") return block.text;
       if (typeof block?.content === "string") return block.content;
       if (Array.isArray(block?.children)) {
-        return block.children.map((c: any) => c?.text ?? "").join(" ");
+        return block.children
+          .map((rawChild) => {
+            const child = asRecord(rawChild);
+            return typeof child?.text === "string" ? child.text : "";
+          })
+          .join(" ");
       }
       return "";
     })
     .filter(Boolean)
     .join("\n\n");
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : null;
 }

@@ -1,8 +1,5 @@
 import { COMPATIBILITY_DIMENSIONS, COMPATIBILITY_COPY } from "@/config/compatibility";
-import type {
-  CompatibilityDimensions,
-  CompatibilityDimensionKey,
-} from "@/types/compatibility";
+import type { CompatibilityDimensions, CompatibilityDimensionKey } from "@/types/compatibility";
 
 interface Props {
   dimensions: CompatibilityDimensions;
@@ -22,9 +19,7 @@ export function CompatibilityDimensionsList({ dimensions }: Props) {
         >
           Dimensiones editoriales
         </h2>
-        <p className="mt-2 font-body text-[14px] text-ink-soft">
-          {COMPATIBILITY_COPY.ratingScale}
-        </p>
+        <p className="mt-2 font-body text-[14px] text-ink-soft">{COMPATIBILITY_COPY.ratingScale}</p>
       </div>
 
       <ul className="grid gap-4 md:grid-cols-2">
@@ -37,9 +32,7 @@ export function CompatibilityDimensionsList({ dimensions }: Props) {
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h3 className="font-display text-[17px] font-semibold text-ink">
-                    {d.label}
-                  </h3>
+                  <h3 className="font-display text-[17px] font-semibold text-ink">{d.label}</h3>
                   <p className="mt-1 font-body text-[13px] text-ink-soft">{d.description}</p>
                 </div>
                 <RatingDots value={value?.rating ?? null} label={d.key} />
@@ -61,20 +54,12 @@ export function CompatibilityDimensionsList({ dimensions }: Props) {
   );
 }
 
-function RatingDots({
-  value,
-  label,
-}: {
-  value: number | null;
-  label: CompatibilityDimensionKey;
-}) {
+function RatingDots({ value, label }: { value: number | null; label: CompatibilityDimensionKey }) {
   return (
     <div
       role="img"
       aria-label={
-        value === null
-          ? `Dimensión ${label} sin publicar`
-          : `Indicador simbólico ${value} de 5`
+        value === null ? `Dimensión ${label} sin publicar` : `Indicador simbólico ${value} de 5`
       }
       className="flex shrink-0 items-center gap-1"
     >
@@ -83,8 +68,7 @@ function RatingDots({
           key={i}
           aria-hidden
           className={
-            "h-2.5 w-2.5 rounded-full " +
-            (value !== null && i <= value ? "bg-brand" : "bg-line")
+            "h-2.5 w-2.5 rounded-full " + (value !== null && i <= value ? "bg-brand" : "bg-line")
           }
         />
       ))}

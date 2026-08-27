@@ -37,6 +37,9 @@ export const tarotStorageKeys = {
     yesNo: "tarot-reading-yes-no",
     threeCards: "tarot-reading-three-cards",
   },
+  preferences: {
+    reversalsEnabled: "tarot-reversals-enabled",
+  },
 } as const;
 
 export const tarotSpreads: Record<TarotSpreadKey, TarotSpreadDefinition> = {
@@ -98,12 +101,33 @@ export const tarotSpreads: Record<TarotSpreadKey, TarotSpreadDefinition> = {
       },
     ],
   },
+  decision: {
+    key: "decision",
+    routeKey: "tarotDecision",
+    label: "Tarot para una decisión",
+    description: "Dos cartas para separar lo que necesitas valorar de un siguiente paso posible.",
+    numberOfCards: 2,
+    icon: "premium",
+    positions: [
+      {
+        key: "consider",
+        label: "Lo que conviene valorar",
+        description: "El factor que merece atención antes de elegir.",
+      },
+      {
+        key: "next_step",
+        label: "Siguiente paso posible",
+        description: "Una acción pequeña y concreta para avanzar con criterio.",
+      },
+    ],
+  },
 };
 
 export const enabledSpreadKeys: readonly TarotSpreadKey[] = [
   "daily",
   "yes_no",
   "three_cards",
+  "decision",
 ] as const;
 
 export const tarotDisclaimer =

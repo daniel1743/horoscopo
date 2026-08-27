@@ -4,6 +4,7 @@ import { TarotDeckIncompleteState } from "@/components/tarot/TarotDeckIncomplete
 import { TarotPositionResult } from "@/components/tarot/TarotPositionResult";
 import { TarotReadingDisclaimer } from "@/components/tarot/TarotReadingDisclaimer";
 import { ShareReadingButton } from "@/components/community/ShareReadingButton";
+import { SaveReadingButton } from "@/components/account/SaveReadingButton";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 import { useTarotDeck } from "@/hooks/useTarotDeck";
@@ -78,6 +79,13 @@ export function TarotDailyExperience() {
         <>
           <TarotPositionResult drawn={drawn} showPosition={false} />
           <div className="flex flex-wrap gap-3">
+            <SaveReadingButton
+              spreadType="daily"
+              cards={[
+                { slug: drawn.card.slug, position: drawn.position.label, reversed: drawn.reversed },
+              ]}
+              interpretation={`${drawn.card.name} (${orientation}): ${meaning}`}
+            />
             <ShareReadingButton
               postType="tarot"
               title={`Mi carta del día · ${drawn.card.name} · ${orientation}`}

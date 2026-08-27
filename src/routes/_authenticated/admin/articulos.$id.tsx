@@ -26,13 +26,25 @@ import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/_authenticated/admin/articulos/$id")({
   head: () => ({
-    meta: [
-      { title: "Editar artículo — Admin" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
+    meta: [{ title: "Editar artículo — Admin" }, { name: "robots", content: "noindex, nofollow" }],
   }),
   component: EditArticlePage,
 });
+
+interface ArticleFormState {
+  title: string;
+  subtitle: string;
+  excerpt: string;
+  slug: string;
+  categoryId: string;
+  authorId: string;
+  imageUrl: string;
+  imageAlt: string;
+  tags: string;
+  featured: boolean;
+  homeFeatured: boolean;
+  readingTime: string | number;
+}
 
 function EditArticlePage() {
   const { id } = Route.useParams();
@@ -63,7 +75,7 @@ function EditArticlePage() {
     queryFn: () => listRevisionsFn({ data: { id } }),
   });
 
-  const [form, setForm] = useState<any>(null);
+  const [form, setForm] = useState<ArticleFormState | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [contentJson, setContentJson] = useState<string>("[]");
@@ -86,10 +98,11 @@ function EditArticlePage() {
       });
       setContentJson(JSON.stringify(data.article.content ?? [], null, 2));
     }
-  }, [data]);
+  }, [data, form]);
 
   const saveMutation = useMutation({
     mutationFn: async () => {
+      if (!form) throw new Error("FORM_NOT_READY");
       setErrMsg(null);
       let content: unknown;
       try {
@@ -133,8 +146,7 @@ function EditArticlePage() {
   });
 
   const transitionMutation = useMutation({
-    mutationFn: (to: WorkflowState) =>
-      transitionFn({ data: { id, to, note: undefined } }),
+    mutationFn: (to: WorkflowState) => transitionFn({ data: { id, to, note: undefined } }),
     onSuccess: async () => {
       await refetch();
       setFeedback("Workflow actualizado.");
@@ -187,12 +199,7 @@ function EditArticlePage() {
         </div>
         <div className="flex gap-2">
           <Button asChild variant="secondary" size="sm">
-            <Link
-              to="/admin/articulos/$id/preview"
-              params={{ id }}
-              target="_blank"
-              rel="noopener"
-            >
+            <Link to="/admin/articulos/$id/preview" params={{ id }} target="_blank" rel="noopener">
               Vista previa
             </Link>
           </Button>
@@ -313,7 +320,7 @@ function EditArticlePage() {
               className="block h-9 w-full rounded-[var(--radius-control)] border border-line bg-warm-white px-3"
               required
             >
-              {catalog?.categories.map((c: any) => (
+              {catalog?.categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.label}
                 </option>
@@ -328,7 +335,7 @@ function EditArticlePage() {
               className="block h-9 w-full rounded-[var(--radius-control)] border border-line bg-warm-white px-3"
               required
             >
-              {catalog?.authors.map((a: any) => (
+              {catalog?.authors.map((a) => (
                 <option key={a.id} value={a.id}>
                   {a.name}
                 </option>
@@ -356,10 +363,7 @@ function EditArticlePage() {
 
         <label className="block text-sm">
           <span className="mb-1 block font-medium">Tags (separados por coma)</span>
-          <Input
-            value={form.tags}
-            onChange={(e) => setForm({ ...form, tags: e.target.value })}
-          />
+          <Input value={form.tags} onChange={(e) => setForm({ ...form, tags: e.target.value })} />
         </label>
 
         <div className="grid gap-4 sm:grid-cols-3">
@@ -391,9 +395,7 @@ function EditArticlePage() {
         </div>
 
         <label className="block text-sm">
-          <span className="mb-1 block font-medium">
-            Bloques de contenido (JSON array)
-          </span>
+          <span className="mb-1 block font-medium">Bloques de contenido (JSON array)</span>
           <Textarea
             value={contentJson}
             onChange={(e) => setContentJson(e.target.value)}
@@ -419,11 +421,11 @@ function EditArticlePage() {
       >
         <h2 className="text-h4 text-ink">Historial de revisiones</h2>
         <p className="text-caption text-ink-soft">
-          Cada guardado crea un snapshot. Restaurar devuelve el artículo a borrador
-          (nunca publica automáticamente).
+          Cada guardado crea un snapshot. Restaurar devuelve el artículo a borrador (nunca publica
+          automáticamente).
         </p>
         <ul className="mt-3 divide-y divide-line">
-          {(revisions ?? []).map((r: any) => (
+          {(revisions ?? []).map((r) => (
             <li key={r.id} className="flex items-center justify-between py-2 text-sm">
               <div>
                 <span className="font-medium">v{r.version}</span>

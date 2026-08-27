@@ -7,6 +7,9 @@ import type {
   HouseCusp,
   LunarSignResult,
   NatalChart,
+  NatalAngle,
+  NatalAspect,
+  NatalAspectKey,
   ZodiacSign,
 } from "@/types/astrology";
 import { ZODIAC_SIGNS } from "@/types/astrology";
@@ -28,6 +31,19 @@ const BODIES = [
   { body: Astronomy.Body.Neptune, label: "Neptuno" },
   { body: Astronomy.Body.Pluto, label: "Plutón" },
 ] as const;
+
+const ASPECT_DEFINITIONS: ReadonlyArray<{
+  key: NatalAspectKey;
+  label: string;
+  angle: number;
+  maxOrb: number;
+}> = [
+  { key: "conjunction", label: "Conjunción", angle: 0, maxOrb: 8 },
+  { key: "sextile", label: "Sextil", angle: 60, maxOrb: 5 },
+  { key: "square", label: "Cuadratura", angle: 90, maxOrb: 7 },
+  { key: "trine", label: "Trígono", angle: 120, maxOrb: 7 },
+  { key: "opposition", label: "Oposición", angle: 180, maxOrb: 8 },
+];
 
 export const ASTROLOGY_LIMITATIONS = [
   "El cálculo se realiza en el navegador y no guarda los datos de nacimiento por defecto.",
@@ -177,13 +193,18 @@ function eclipticPosition(
   body: Astronomy.Body,
   date: Date,
 ): { longitude: number; latitude: number } {
-  const coordinates =
-    body === Astronomy.Body.Moon
-      ? Astronomy.EclipticGeoMoon(date)
-      : Astronomy.Ecliptic(Astronomy.GeoVector(body, date, true));
+  if (body === Astronomy.Body.Moon) {
+    const coordinates = Astronomy.EclipticGeoMoon(date);
+    return {
+      longitude: coordinates.lon,
+      latitude: coordinates.lat,
+    };
+  }
+
+  const coordinates = Astronomy.Ecliptic(Astronomy.GeoVector(body, date, true));
   return {
-    longitude: body === Astronomy.Body.Moon ? coordinates.lon : coordinates.elon,
-    latitude: body === Astronomy.Body.Moon ? coordinates.lat : coordinates.elat,
+    longitude: coordinates.elon,
+    latitude: coordinates.elat,
   };
 }
 
@@ -192,6 +213,67 @@ function calculatePlacements(date: Date): CelestialPlacement[] {
     const position = eclipticPosition(body, date);
     return placementFromLongitude(body, label, position.longitude, position.latitude);
   });
+}
+
+function houseForLongitude(longitude: number, ascendantLongitude: number): number {
+  return Math.floor(normalize360(longitude - ascendantLongitude) / 30) + 1;
+}
+
+function calculateAngles(ascendantLongitude: number): NatalAngle[] {
+  const definitions: ReadonlyArray<{
+    key: NatalAngle["key"];
+    label: string;
+    longitude: number;
+  }> = [
+    { key: "ascendant", label: "Ascendente", longitude: ascendantLongitude },
+    { key: "mc", label: "Medio Cielo (MC)", longitude: normalize360(ascendantLongitude + 90) },
+    {
+      key: "descendant",
+      label: "Descendente (DSC)",
+      longitude: normalize360(ascendantLongitude + 180),
+    },
+    { key: "ic", label: "Fondo del Cielo (IC)", longitude: normalize360(ascendantLongitude + 270) },
+  ];
+  return definitions.map(({ key, label, longitude }) => {
+    const sign = signForLongitude(longitude);
+    return {
+      key,
+      label,
+      longitude,
+      sign,
+      degreeInSign: longitude - sign.startDegree,
+    };
+  });
+}
+
+function calculateAspects(placements: readonly CelestialPlacement[]): NatalAspect[] {
+  const aspects: NatalAspect[] = [];
+  for (let firstIndex = 0; firstIndex < placements.length; firstIndex += 1) {
+    const first = placements[firstIndex];
+    if (!first) continue;
+    for (let secondIndex = firstIndex + 1; secondIndex < placements.length; secondIndex += 1) {
+      const second = placements[secondIndex];
+      if (!second) continue;
+      const separation = Math.abs(normalize180(second.longitude - first.longitude));
+      const best = ASPECT_DEFINITIONS.map((definition) => ({
+        ...definition,
+        orb: Math.abs(separation - definition.angle),
+      })).sort((a, b) => a.orb - b.orb)[0];
+      if (!best || best.orb > best.maxOrb) continue;
+      aspects.push({
+        key: best.key,
+        label: best.label,
+        firstBody: first.body,
+        firstLabel: first.label,
+        secondBody: second.body,
+        secondLabel: second.label,
+        separation,
+        exactAngle: best.angle,
+        orb: best.orb,
+      });
+    }
+  }
+  return aspects;
 }
 
 function eclipticLongitudeToEquatorial(longitude: number): {
@@ -283,10 +365,12 @@ function buildResult(data: BirthData): {
   placements: CelestialPlacement[];
   ascendant: CelestialPlacement;
   houses: HouseCusp[];
+  angles: NatalAngle[];
+  aspects: NatalAspect[];
 } {
   const date = resolveBirthDate(data);
   const meta = metaFor(data, date);
-  const placements = calculatePlacements(date);
+  const rawPlacements = calculatePlacements(date);
   const ascendantLongitude = calculateAscendantLongitude(date, data.latitude, data.longitude);
   const ascendant = placementFromLongitude("Ascendant", "Ascendente", ascendantLongitude, 0);
   const houses = Array.from({ length: 12 }, (_, index) => {
@@ -299,7 +383,16 @@ function buildResult(data: BirthData): {
       degreeInSign: cuspLongitude - sign.startDegree,
     };
   });
-  return { date, meta, placements, ascendant, houses };
+  const placements = rawPlacements.map((placement) => ({
+    ...placement,
+    house: houseForLongitude(placement.longitude, ascendantLongitude),
+  }));
+  const angles = calculateAngles(ascendantLongitude);
+  const aspects = calculateAspects(placements);
+  meta.limitations.push(
+    "Los aspectos mostrados son los cinco aspectos mayores entre los diez cuerpos calculados y usan orbes fijos; no sustituyen una carta profesional.",
+  );
+  return { date, meta, placements, ascendant, houses, angles, aspects };
 }
 
 export function calculateNatalChart(data: BirthData): NatalChart {
@@ -314,6 +407,8 @@ export function calculateNatalChart(data: BirthData): NatalChart {
     placements: result.placements,
     ascendant: result.ascendant,
     houses: result.houses,
+    angles: result.angles,
+    aspects: result.aspects,
   };
 }
 

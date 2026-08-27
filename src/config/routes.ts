@@ -16,12 +16,15 @@ export const routes = {
   tarotDaily: "/tarot/carta-del-dia",
   tarotYesNo: "/tarot/si-o-no",
   tarotThreeCards: "/tarot/tres-cartas",
+  tarotDecision: "/tarot/decision",
   tarotLibrary: "/tarot/cartas",
 
   astrology: "/astrologia",
   birthChart: "/astrologia/carta-natal",
   ascendant: "/astrologia/ascendente",
   moonSign: "/astrologia/signo-lunar",
+  transits: "/astrologia/transitos",
+  synastry: "/astrologia/sinastria",
 
   compatibility: "/compatibilidad",
 
@@ -29,6 +32,8 @@ export const routes = {
   moonToday: "/luna/hoy",
   moonCalendar: "/luna/calendario",
   moonPhases: "/luna/fases",
+
+  numerologyLifePath: "/numerologia/camino-de-vida",
 
   guides: "/guias",
   topics: "/temas",
@@ -71,6 +76,15 @@ export const routes = {
 } as const;
 
 export type RouteKey = keyof typeof routes;
+
+export const emptyCommunitySearch = {
+  shareType: undefined,
+  shareTitle: undefined,
+  shareBody: undefined,
+  shareSourceRef: undefined,
+  shareSourceTitle: undefined,
+  shareSourceUrl: undefined,
+} as const;
 
 /** Helpers para rutas dinámicas. */
 export const zodiacRoute = (sign: string) => `/horoscopo/${sign}` as const;

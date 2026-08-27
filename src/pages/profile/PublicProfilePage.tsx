@@ -5,8 +5,9 @@ import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CommunityPostActions } from "@/components/community/CommunityPostActions";
 import { CommunityPostCard } from "@/components/community/CommunityPostCard";
+import { ProfileFollowButton } from "@/components/community/ProfileFollowButton";
 import { getAuraStyle } from "@/config/profile";
-import { routes, zodiacRoute } from "@/config/routes";
+import { emptyCommunitySearch, routes, zodiacRoute } from "@/config/routes";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import {
   listPublicProfilePosts,
@@ -154,6 +155,9 @@ function PublicProfileContent({ profile }: { profile: PublicProfile }) {
               <p className="mt-1 font-body text-[13px] text-ink-muted">{profile.city}</p>
             )}
           </div>
+          <div className="mt-5">
+            <ProfileFollowButton username={profile.username} />
+          </div>
         </div>
       </section>
 
@@ -172,6 +176,7 @@ function PublicProfileContent({ profile }: { profile: PublicProfile }) {
           </div>
           <Link
             to={routes.community}
+            search={emptyCommunitySearch}
             className="font-body text-[13px] font-medium text-brand underline underline-offset-4"
           >
             Ver comunidad

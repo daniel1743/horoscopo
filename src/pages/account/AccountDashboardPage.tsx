@@ -91,7 +91,7 @@ export function AccountDashboardPage() {
           .map((item) => (
             <Link
               key={item.routeKey}
-              to={routes[item.routeKey]}
+              to={routes[item.routeKey] as never}
               className={`group rounded-[var(--radius-card)] border border-line bg-warm-white p-4 transition-colors hover:bg-brand-soft/60 ${
                 item.disabled ? "pointer-events-none opacity-50" : ""
               }`}

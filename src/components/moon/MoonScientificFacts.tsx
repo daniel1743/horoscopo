@@ -20,9 +20,7 @@ export function MoonScientificFacts() {
           <li key={item.title}>
             <Card className="p-5">
               <h3 className="font-display text-[17px] text-ink">{item.title}</h3>
-              <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">
-                {item.text}
-              </p>
+              <p className="mt-2 font-body text-[14px] leading-[1.6] text-ink-soft">{item.text}</p>
             </Card>
           </li>
         ))}

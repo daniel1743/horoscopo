@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { adminGetArticle } from "@/lib/admin/articles.functions";
 import { ArticleContentRenderer } from "@/components/editorial/ArticleContentRenderer";
+import type { ArticleContentBlock } from "@/types/editorial";
 
 /**
  * Vista previa privada de un artículo. Reutiliza el renderer público
@@ -40,13 +41,9 @@ function PreviewPage() {
   return (
     <article className="mx-auto max-w-3xl">
       <div className="mb-6 rounded-[var(--radius-control)] border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
-        Vista previa privada · versión {a.version} · estado <strong>{a.status}</strong>.
-        No indexable. Cierra y vuelve al{" "}
-        <Link
-          to="/admin/articulos/$id"
-          params={{ id }}
-          className="underline"
-        >
+        Vista previa privada · versión {a.version} · estado <strong>{a.status}</strong>. No
+        indexable. Cierra y vuelve al{" "}
+        <Link to="/admin/articulos/$id" params={{ id }} className="underline">
           editor
         </Link>
         .
@@ -57,7 +54,7 @@ function PreviewPage() {
         <p className="text-body text-ink-soft">{a.excerpt}</p>
       </header>
       <div className="mt-6">
-        <ArticleContentRenderer blocks={blocks as any} />
+        <ArticleContentRenderer blocks={blocks as unknown as ArticleContentBlock[]} />
       </div>
     </article>
   );

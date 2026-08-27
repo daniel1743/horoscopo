@@ -1,7 +1,19 @@
 import * as Astronomy from "astronomy-engine";
 
+type CelestialBody =
+  | "sun"
+  | "moon"
+  | "mercury"
+  | "venus"
+  | "mars"
+  | "jupiter"
+  | "saturn"
+  | "uranus"
+  | "neptune"
+  | "pluto";
+
 interface Fixture {
-  body: string;
+  body: CelestialBody;
   iso: string;
   label: string;
 }
@@ -34,7 +46,7 @@ const fixtures: Fixture[] = [
   { body: "pluto", iso: "2024-10-12T00:00:00.000Z", label: "Pluton Estacion Directa 2024" },
 ];
 
-const mapBody: Record<string, any> = {
+const mapBody: Record<CelestialBody, Astronomy.Body> = {
   sun: Astronomy.Body.Sun,
   moon: Astronomy.Body.Moon,
   mercury: Astronomy.Body.Mercury,

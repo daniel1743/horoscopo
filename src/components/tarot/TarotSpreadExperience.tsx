@@ -11,7 +11,7 @@ import type { TarotReading } from "@/types/tarot";
 import { detectSensitiveTopic, sensitiveMessages } from "@/lib/tarot/sensitive-question";
 
 interface Props {
-  mode: "yes_no" | "three_cards";
+  mode: "yes_no" | "three_cards" | "decision";
 }
 
 export function TarotSpreadExperience({ mode }: Props) {
@@ -30,7 +30,9 @@ export function TarotSpreadExperience({ mode }: Props) {
       const r =
         mode === "yes_no"
           ? await tarotService.drawYesNoCard({ question, deck: deckQuery.data.cards })
-          : await tarotService.drawThreeCards({ question, deck: deckQuery.data.cards });
+          : mode === "three_cards"
+            ? await tarotService.drawThreeCards({ question, deck: deckQuery.data.cards })
+            : await tarotService.drawDecisionCards({ question, deck: deckQuery.data.cards });
       setReading(r);
     } finally {
       setDrawing(false);
@@ -70,7 +72,9 @@ export function TarotSpreadExperience({ mode }: Props) {
                 ? "Barajando…"
                 : mode === "yes_no"
                   ? "Consultar la carta"
-                  : "Realizar tirada"}
+                  : mode === "decision"
+                    ? "Explorar la decisión"
+                    : "Realizar tirada"}
             </Button>
           </div>
         </div>
