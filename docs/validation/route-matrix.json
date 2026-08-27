@@ -1,0 +1,105 @@
+{
+  "base": "http://127.0.0.1:8080",
+  "total": 14,
+  "failures": [],
+  "results": [
+    {
+      "path": "/astrologia",
+      "status": 200,
+      "title": "Astrología personal: carta natal y signos | Creovision",
+      "has404": false,
+      "bytes": 43198
+    },
+    {
+      "path": "/astrologia/carta-natal",
+      "status": 200,
+      "title": "Carta natal de referencia | Creovision",
+      "has404": false,
+      "bytes": 46304
+    },
+    {
+      "path": "/astrologia/ascendente",
+      "status": 200,
+      "title": "Ascendente: cálculo de referencia | Creovision",
+      "has404": false,
+      "bytes": 46288
+    },
+    {
+      "path": "/astrologia/signo-lunar",
+      "status": 200,
+      "title": "Signo lunar: cálculo de referencia | Creovision",
+      "has404": false,
+      "bytes": 46392
+    },
+    {
+      "path": "/guias",
+      "status": 200,
+      "title": "Guías de astrología, tarot y luna | Creovision",
+      "has404": false,
+      "bytes": 140332
+    },
+    {
+      "path": "/guias/carta-al-derecho-y-carta-invertida-leer-matices-no-condenas",
+      "status": 200,
+      "title": "Carta al derecho y carta invertida: leer matices, no condenas | Creovision",
+      "has404": false,
+      "bytes": 71941
+    },
+    {
+      "path": "/temas/tarot",
+      "status": 200,
+      "title": "Tarot | Creovision",
+      "has404": false,
+      "bytes": 55888
+    },
+    {
+      "path": "/tarot/carta-del-dia",
+      "status": 200,
+      "title": "Carta del día · Tarot · Creovision",
+      "has404": false,
+      "bytes": 40217
+    },
+    {
+      "path": "/tarot/si-o-no",
+      "status": 200,
+      "title": "Tarot sí o no · Creovision",
+      "has404": false,
+      "bytes": 40199
+    },
+    {
+      "path": "/tarot/tres-cartas",
+      "status": 200,
+      "title": "Tirada de tres cartas · Tarot · Creovision",
+      "has404": false,
+      "bytes": 40295
+    },
+    {
+      "path": "/tarot/cartas",
+      "status": 200,
+      "title": "Biblioteca de cartas · Tarot · Creovision",
+      "has404": false,
+      "bytes": 40255
+    },
+    {
+      "path": "/tarot/cartas/as-de-bastos",
+      "status": 200,
+      "title": "As De Bastos · Tarot · Creovision",
+      "has404": false,
+      "bytes": 39466
+    },
+    {
+      "path": "/horoscopo/aries",
+      "status": 200,
+      "title": "Aries — Horóscopo de hoy · Creovision",
+      "has404": false,
+      "bytes": 70729
+    },
+    {
+      "path": "/luna/hoy",
+      "status": 200,
+      "title": "Luna de hoy — Creovision",
+      "has404": false,
+      "bytes": 71218
+    }
+  ]
+}
