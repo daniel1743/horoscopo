@@ -52,6 +52,7 @@ import { Route as TemasCategoryRouteImport } from './routes/temas.$category'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
 import { Route as AuthenticatedAdminArticulosRouteImport } from './routes/_authenticated/admin/articulos'
 import { Route as AuthenticatedAdminAuditoriaRouteImport } from './routes/_authenticated/admin/auditoria'
+import { Route as AuthenticatedAdminComunidadRouteImport } from './routes/_authenticated/admin/comunidad'
 import { Route as AuthenticatedMiEspacioConfiguracionRouteImport } from './routes/_authenticated/mi-espacio.configuracion'
 import { Route as AuthenticatedMiEspacioFavoritosRouteImport } from './routes/_authenticated/mi-espacio.favoritos'
 import { Route as AuthenticatedMiEspacioHistorialRouteImport } from './routes/_authenticated/mi-espacio.historial'
@@ -287,6 +288,12 @@ const AuthenticatedAdminAuditoriaRoute =
     path: '/auditoria',
     getParentRoute: () => AuthenticatedAdminRouteRoute,
   } as any)
+const AuthenticatedAdminComunidadRoute =
+  AuthenticatedAdminComunidadRouteImport.update({
+    id: '/comunidad',
+    path: '/comunidad',
+    getParentRoute: () => AuthenticatedAdminRouteRoute,
+  } as any)
 const AuthenticatedMiEspacioConfiguracionRoute =
   AuthenticatedMiEspacioConfiguracionRouteImport.update({
     id: '/configuracion',
@@ -432,6 +439,7 @@ export interface FileRoutesByFullPath {
   '/tarot/': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
+  '/admin/comunidad': typeof AuthenticatedAdminComunidadRoute
   '/mi-espacio/configuracion': typeof AuthenticatedMiEspacioConfiguracionRoute
   '/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
@@ -493,6 +501,7 @@ export interface FileRoutesByTo {
   '/tarot': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
+  '/admin/comunidad': typeof AuthenticatedAdminComunidadRoute
   '/mi-espacio/configuracion': typeof AuthenticatedMiEspacioConfiguracionRoute
   '/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
@@ -557,6 +566,7 @@ export interface FileRoutesById {
   '/tarot/': typeof TarotIndexRoute
   '/_authenticated/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
   '/_authenticated/admin/auditoria': typeof AuthenticatedAdminAuditoriaRoute
+  '/_authenticated/admin/comunidad': typeof AuthenticatedAdminComunidadRoute
   '/_authenticated/mi-espacio/configuracion': typeof AuthenticatedMiEspacioConfiguracionRoute
   '/_authenticated/mi-espacio/favoritos': typeof AuthenticatedMiEspacioFavoritosRoute
   '/_authenticated/mi-espacio/historial': typeof AuthenticatedMiEspacioHistorialRoute
@@ -621,6 +631,7 @@ export interface FileRouteTypes {
     | '/tarot/'
     | '/admin/articulos'
     | '/admin/auditoria'
+    | '/admin/comunidad'
     | '/mi-espacio/configuracion'
     | '/mi-espacio/favoritos'
     | '/mi-espacio/historial'
@@ -682,6 +693,7 @@ export interface FileRouteTypes {
     | '/tarot'
     | '/admin/articulos'
     | '/admin/auditoria'
+    | '/admin/comunidad'
     | '/mi-espacio/configuracion'
     | '/mi-espacio/favoritos'
     | '/mi-espacio/historial'
@@ -745,6 +757,7 @@ export interface FileRouteTypes {
     | '/tarot/'
     | '/_authenticated/admin/articulos'
     | '/_authenticated/admin/auditoria'
+    | '/_authenticated/admin/comunidad'
     | '/_authenticated/mi-espacio/configuracion'
     | '/_authenticated/mi-espacio/favoritos'
     | '/_authenticated/mi-espacio/historial'
@@ -1109,6 +1122,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAuditoriaRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
+    '/_authenticated/admin/comunidad': {
+      id: '/_authenticated/admin/comunidad'
+      path: '/comunidad'
+      fullPath: '/admin/comunidad'
+      preLoaderRoute: typeof AuthenticatedAdminComunidadRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
     '/_authenticated/mi-espacio/configuracion': {
       id: '/_authenticated/mi-espacio/configuracion'
       path: '/configuracion'
@@ -1274,6 +1294,7 @@ const AuthenticatedAdminArticulosRouteWithChildren =
 interface AuthenticatedAdminRouteRouteChildren {
   AuthenticatedAdminArticulosRoute: typeof AuthenticatedAdminArticulosRouteWithChildren
   AuthenticatedAdminAuditoriaRoute: typeof AuthenticatedAdminAuditoriaRoute
+  AuthenticatedAdminComunidadRoute: typeof AuthenticatedAdminComunidadRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
@@ -1282,6 +1303,7 @@ const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren
     AuthenticatedAdminArticulosRoute:
       AuthenticatedAdminArticulosRouteWithChildren,
     AuthenticatedAdminAuditoriaRoute: AuthenticatedAdminAuditoriaRoute,
+    AuthenticatedAdminComunidadRoute: AuthenticatedAdminComunidadRoute,
     AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   }
 

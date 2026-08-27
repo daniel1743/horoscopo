@@ -35,6 +35,7 @@ const ADMIN_NAV = [
   { key: "dashboard", label: "Dashboard", href: "/admin" },
   { key: "articles", label: "Artículos", href: "/admin/articulos" },
   { key: "audit", label: "Auditoría", href: "/admin/auditoria" },
+  { key: "community", label: "Moderación", href: "/admin/comunidad" },
 ] as const;
 
 function AdminLayout() {

@@ -322,6 +322,41 @@ export async function reportCommunityPost(input: {
   if (error) throw error;
 }
 
+export interface CommunityModerationReport {
+  report_id: string;
+  post_id: string;
+  report_reason: CommunityReportReason;
+  report_details: string | null;
+  report_status: "open" | "reviewed" | "dismissed";
+  reported_at: string;
+  post_title: string | null;
+  post_body: string;
+  post_type: CommunityPostType;
+  post_status: CommunityPostStatus;
+  author_username: string | null;
+  reporter_id: string;
+}
+
+export async function listOpenCommunityReports(limit = 50): Promise<CommunityModerationReport[]> {
+  const { data, error } = await supabase.rpc("list_open_community_reports", { p_limit: limit });
+  if (error) throw error;
+  return (data ?? []) as CommunityModerationReport[];
+}
+
+export async function moderateCommunityReport(input: {
+  reportId: string;
+  decision: "dismiss" | "hide";
+  note?: string | null;
+}): Promise<boolean> {
+  const { data, error } = await supabase.rpc("moderate_community_report", {
+    p_report_id: input.reportId,
+    p_decision: input.decision,
+    p_note: input.note?.trim() || null,
+  });
+  if (error) throw error;
+  return Boolean(data);
+}
+
 // ---------- Privacy ----------
 export async function fetchPrivacySettings(userId: string): Promise<PrivacySettings> {
   const { data, error } = await supabase
