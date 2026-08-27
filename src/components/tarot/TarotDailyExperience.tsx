@@ -52,6 +52,11 @@ export function TarotDailyExperience() {
   }
   if (!drawn) return <TarotSkeleton label="Preparando tu carta" />;
 
+  const meaning = drawn.reversed
+    ? (drawn.card.reversedMeaning ?? drawn.card.uprightMeaning)
+    : drawn.card.uprightMeaning;
+  const orientation = drawn.reversed ? "Invertida" : "Al derecho";
+
   return (
     <section aria-label="Carta del día" className="flex flex-col gap-6">
       {!revealed ? (
@@ -75,9 +80,9 @@ export function TarotDailyExperience() {
           <div className="flex flex-wrap gap-3">
             <ShareReadingButton
               postType="tarot"
-              title={`Mi carta del día · ${drawn.card.name}`}
-              body={`${drawn.card.name}: ${drawn.card.uprightMeaning}\n\nPregunta para reflexionar: ${drawn.card.reflectionQuestion ?? "¿Qué parte de este símbolo reconoces en tu día?"}`}
-              sourceRef={`tarot:daily:${drawn.card.cardKey}`}
+              title={`Mi carta del día · ${drawn.card.name} · ${orientation}`}
+              body={`${drawn.card.name} (${orientation}): ${meaning}\n\nPregunta para reflexionar: ${drawn.card.reflectionQuestion ?? "¿Qué parte de este símbolo reconoces en tu día?"}`}
+              sourceRef={`tarot:daily:${drawn.card.cardKey}:${orientation.toLowerCase()}`}
               sourceTitle={`Carta del día · ${drawn.card.name}`}
               sourceUrl="/tarot/carta-del-dia"
             />

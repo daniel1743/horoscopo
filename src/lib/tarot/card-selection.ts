@@ -83,6 +83,7 @@ function fnv1a(input: string): number {
 export interface DailyPick {
   card: TarotCard;
   dateKey: string;
+  reversed: boolean;
 }
 
 export function pickDailyCard(params: {
@@ -94,7 +95,8 @@ export function pickDailyCard(params: {
   const dateKey = toLocalDateKey(params.date ?? new Date());
   const seed = params.anonymousSeed ?? "shared";
   const index = fnv1a(`${dateKey}::${seed}`) % params.deck.length;
-  return { card: params.deck[index], dateKey };
+  const reversed = fnv1a(`${dateKey}::${seed}::orientation`) % 2 === 1;
+  return { card: params.deck[index], dateKey, reversed };
 }
 
 /* -------------------------------------------------- */
@@ -104,6 +106,7 @@ export function pickDailyCard(params: {
 export interface StoredDaily {
   cardKey: string;
   dateKey: string;
+  reversed: boolean;
 }
 
 export function readStoredDaily(): StoredDaily | null {
@@ -113,7 +116,11 @@ export function readStoredDaily(): StoredDaily | null {
     const cardKey = ls.getItem(tarotStorageKeys.daily.card);
     const dateKey = ls.getItem(tarotStorageKeys.daily.date);
     if (!cardKey || !dateKey) return null;
-    return { cardKey, dateKey };
+    return {
+      cardKey,
+      dateKey,
+      reversed: ls.getItem(tarotStorageKeys.daily.orientation) === "reversed",
+    };
   } catch {
     return null;
   }
@@ -125,6 +132,7 @@ export function writeStoredDaily(pick: StoredDaily): void {
   try {
     ls.setItem(tarotStorageKeys.daily.card, pick.cardKey);
     ls.setItem(tarotStorageKeys.daily.date, pick.dateKey);
+    ls.setItem(tarotStorageKeys.daily.orientation, pick.reversed ? "reversed" : "upright");
   } catch {
     /* storage bloqueado */
   }
@@ -162,4 +170,8 @@ export function drawUniqueCards<T>(deck: readonly T[], count: number): T[] {
 export function drawOneCard<T>(deck: readonly T[]): T | null {
   if (deck.length === 0) return null;
   return deck[secureUintBelow(deck.length)];
+}
+
+export function drawReversed(): boolean {
+  return secureUintBelow(2) === 1;
 }

@@ -9,8 +9,8 @@ import { tarotQueryKeys } from "@/hooks/useTarotDeck";
 
 export function TarotLibraryPage() {
   const q = useQuery({
-    queryKey: tarotQueryKeys.library("major"),
-    queryFn: () => tarotService.getLibrary({ arcana: "major" }),
+    queryKey: tarotQueryKeys.library(),
+    queryFn: () => tarotService.getLibrary(),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -25,7 +25,7 @@ export function TarotLibraryPage() {
       <PageHeader
         eyebrow="Tarot"
         title="Biblioteca de cartas"
-        description="Explora los Arcanos Mayores disponibles. Con el tiempo iremos incorporando los Arcanos Menores."
+        description="Explora las 78 cartas del Tarot, con significados al derecho e invertidos, palabras clave y una pregunta para llevar el símbolo a tu momento."
       />
       {q.isLoading ? (
         <TarotSkeleton label="Cargando biblioteca" />

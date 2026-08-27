@@ -8,12 +8,13 @@ import type { TarotSpreadDefinition, TarotSpreadKey, TarotYesNoTendency } from "
 
 export const tarotDeckConfig = {
   initialMode: "major_arcana" as const,
-  reversalsEnabled: false,
+  reversalsEnabled: true,
   minimumCards: {
-    development: 6,
-    production: 22,
+    development: 22,
+    production: 78,
   },
-  incompleteMessage: "Estamos completando la baraja antes de habilitar las lecturas.",
+  incompleteMessage:
+    "La baraja completa se está preparando; puedes explorar el catálogo local mientras tanto.",
 } as const;
 
 export const tarotQuestionLimits = {
@@ -30,6 +31,7 @@ export const tarotStorageKeys = {
     card: "tarot-daily-card",
     date: "tarot-daily-date",
     anonymousSeed: "tarot-anonymous-seed",
+    orientation: "tarot-daily-orientation",
   },
   session: {
     yesNo: "tarot-reading-yes-no",

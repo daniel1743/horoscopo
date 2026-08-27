@@ -12,11 +12,12 @@ interface Props {
 
 /** Resultado de UNA posición dentro de una tirada. */
 export function TarotPositionResult({ drawn, showPosition = true, revealed = true }: Props) {
-  const { card, position } = drawn;
+  const { card, position, reversed } = drawn;
+  const meaning = reversed ? (card.reversedMeaning ?? card.uprightMeaning) : card.uprightMeaning;
   return (
     <article className="flex flex-col gap-4 rounded-[var(--radius-card-lg)] border border-line-soft bg-parchment-elevated p-5 md:flex-row md:gap-6 md:p-6">
       <div className="mx-auto md:mx-0">
-        <TarotCardVisual card={card} revealed={revealed} size="md" />
+        <TarotCardVisual card={card} revealed={revealed} reversed={reversed} size="md" />
       </div>
       <div className="flex flex-1 flex-col">
         {showPosition && (
@@ -24,7 +25,12 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
             {position.label}
           </p>
         )}
-        <h3 className="mt-1 font-display text-[22px] text-ink">{card.name}</h3>
+        <div className="mt-1 flex flex-wrap items-center gap-2">
+          <h3 className="font-display text-[22px] text-ink">{card.name}</h3>
+          <span className="rounded-full border border-cosmic/25 bg-cosmic/5 px-2.5 py-1 font-body text-[11px] font-semibold uppercase tracking-[0.08em] text-cosmic">
+            {reversed ? "Invertida" : "Al derecho"}
+          </span>
+        </div>
         <div className="mt-3">
           <h4 className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-cosmic">
             En esta tirada
@@ -37,7 +43,7 @@ export function TarotPositionResult({ drawn, showPosition = true, revealed = tru
           <h4 className="font-body text-[11px] font-semibold uppercase tracking-[0.12em] text-cosmic">
             Significado que aporta
           </h4>
-          <p className="mt-1 font-body text-[15px] leading-[1.7] text-ink">{card.uprightMeaning}</p>
+          <p className="mt-1 font-body text-[15px] leading-[1.7] text-ink"> {meaning}</p>
         </div>
         {card.reflectionQuestion && (
           <div className="mt-4 rounded-[var(--radius-control)] border-l-2 border-cosmic/50 bg-cosmic/5 px-4 py-3">

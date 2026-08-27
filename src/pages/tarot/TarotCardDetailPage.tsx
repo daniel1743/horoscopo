@@ -62,7 +62,9 @@ export function TarotCardDetailPage({ slug }: Props) {
       ]}
     >
       <PageHeader
-        eyebrow="Arcano mayor"
+        eyebrow={
+          card.arcana === "major" ? "Arcano mayor" : `Arcano menor · ${card.suit ?? "Tarot"}`
+        }
         title={card.name}
         description="Una ficha para comprender el símbolo, llevarlo a tu contexto y observar qué pregunta despierta en ti."
       />
@@ -79,10 +81,23 @@ export function TarotCardDetailPage({ slug }: Props) {
           </section>
           <section>
             <h2 className="font-display text-[20px] font-semibold text-ink">
-              Significado en tu momento
+              Significado al derecho
             </h2>
             <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink">
               {card.uprightMeaning}
+            </p>
+          </section>
+          <section className="rounded-[var(--radius-card-md)] border border-cosmic/20 bg-cosmic/5 p-5">
+            <h2 className="font-display text-[20px] font-semibold text-ink">
+              Significado invertido
+            </h2>
+            <p className="mt-2 font-body text-[15px] leading-[1.7] text-ink-soft">
+              {card.reversedMeaning ??
+                "Esta carta todavía no tiene una lectura invertida publicada."}
+            </p>
+            <p className="mt-3 font-body text-[12px] leading-[1.5] text-ink-muted">
+              Una carta invertida no es “mala”: señala una energía bloqueada, internalizada o que
+              pide otra forma de atención.
             </p>
           </section>
           {card.keywords.length > 0 && (

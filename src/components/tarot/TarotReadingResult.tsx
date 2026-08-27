@@ -30,7 +30,9 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
       type: "tarot_reading",
       refType: "tarot_spread",
       refId: reading.spread,
-      metadata: { cardKeys: reading.drawn.map(({ card }) => card.cardKey) },
+      metadata: {
+        cards: reading.drawn.map(({ card, reversed }) => ({ cardKey: card.cardKey, reversed })),
+      },
     });
   }, [reading, user]);
 
@@ -75,13 +77,14 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
       <div className="flex flex-wrap items-center gap-3">
         <SaveReadingButton
           spreadType={reading.spread}
-          cards={reading.drawn.map(({ card, position }) => ({
+          cards={reading.drawn.map(({ card, position, reversed }) => ({
             slug: card.slug,
             position: position.key,
+            reversed,
           }))}
           interpretation={[
             yesNo?.description,
-            ...reading.drawn.map(({ card }) => card.uprightMeaning),
+            ...reading.drawn.map((drawn) => describeDrawnCard(drawn)),
             showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
           ]
             .filter(Boolean)
@@ -91,7 +94,7 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
           postType="tarot"
           title={`Mi lectura de Tarot · ${reading.spread === "yes_no" ? "Sí o no" : "Tres cartas"}`}
           body={[
-            reading.drawn.map(({ card }) => `${card.name}: ${card.uprightMeaning}`).join("\n"),
+            reading.drawn.map((drawn) => describeDrawnCard(drawn)).join("\n"),
             yesNo?.description,
             showSynthesis && reading.spread === "three_cards" ? tarotThreeCardsSynthesis : null,
           ]
@@ -128,4 +131,9 @@ export function TarotReadingResult({ reading, onDrawAgain, showSynthesis }: Prop
       <TarotReadingDisclaimer />
     </section>
   );
+}
+
+function describeDrawnCard({ card, reversed }: TarotReading["drawn"][number]): string {
+  const meaning = reversed ? (card.reversedMeaning ?? card.uprightMeaning) : card.uprightMeaning;
+  return `${card.name} (${reversed ? "Invertida" : "Al derecho"}): ${meaning}`;
 }

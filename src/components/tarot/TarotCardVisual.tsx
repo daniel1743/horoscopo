@@ -6,6 +6,7 @@ interface Props {
   card?: TarotCard | null;
   revealed?: boolean;
   size?: "sm" | "md" | "lg";
+  reversed?: boolean;
   className?: string;
 }
 
@@ -19,7 +20,13 @@ const sizeMap: Record<NonNullable<Props["size"]>, string> = {
  * Visual simbólico y neutral: gradiente, número y nombre.
  * No usa imágenes de barajas comerciales.
  */
-export function TarotCardVisual({ card, revealed = true, size = "md", className }: Props) {
+export function TarotCardVisual({
+  card,
+  revealed = true,
+  size = "md",
+  reversed = false,
+  className,
+}: Props) {
   const showFace = revealed && !!card;
 
   return (
@@ -30,6 +37,11 @@ export function TarotCardVisual({ card, revealed = true, size = "md", className 
         className,
       )}
       aria-hidden={!showFace}
+      aria-label={
+        showFace
+          ? `${card!.name}, ${reversed ? "carta invertida" : "carta al derecho"}`
+          : "Carta de Tarot oculta"
+      }
     >
       {showFace ? (
         <div className="flex h-full w-full flex-col justify-between bg-gradient-to-b from-night to-night-elevated p-4 text-ink-inverse">
@@ -37,6 +49,11 @@ export function TarotCardVisual({ card, revealed = true, size = "md", className 
             <span>{card!.arcana === "major" ? "Arcano" : "Menor"}</span>
             {card!.number !== null && <span>{romanize(card!.number)}</span>}
           </div>
+          {reversed && (
+            <span className="absolute left-3 top-10 rounded-full border border-gold/40 bg-night/70 px-2 py-1 font-body text-[9px] font-semibold uppercase tracking-[0.12em] text-gold">
+              Invertida
+            </span>
+          )}
           <div className="flex flex-col items-center gap-3">
             <Icon name="tarot" className="h-8 w-8 text-gold" />
             <p className="text-center font-display text-[18px] leading-tight">{card!.name}</p>

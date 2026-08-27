@@ -39,19 +39,31 @@ export function DailyTarotCard() {
     >
       <div className="flex flex-col gap-6 p-6 md:flex-row md:p-8">
         <div className="mx-auto w-full max-w-[220px] shrink-0 md:mx-0 md:w-[42%]">
-          <TarotCardVisual card={drawn?.card ?? null} revealed={revealed && !!drawn} size="lg" />
+          <TarotCardVisual
+            card={drawn?.card ?? null}
+            revealed={revealed && !!drawn}
+            reversed={drawn?.reversed ?? false}
+            size="lg"
+          />
         </div>
 
         <div className="flex flex-1 flex-col">
           <p className="font-body text-[12px] font-medium uppercase tracking-[0.14em] text-gold">
             Carta del día
           </p>
-          <h3
-            id="daily-tarot-title"
-            className="mt-3 font-display text-[24px] font-semibold text-ink-inverse md:text-[28px]"
-          >
-            {revealed && drawn ? drawn.card.name : "Una carta te espera"}
-          </h3>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <h3
+              id="daily-tarot-title"
+              className="font-display text-[24px] font-semibold text-ink-inverse md:text-[28px]"
+            >
+              {revealed && drawn ? drawn.card.name : "Una carta te espera"}
+            </h3>
+            {revealed && drawn && (
+              <span className="rounded-full border border-gold/35 bg-white/5 px-2.5 py-1 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
+                {drawn.reversed ? "Invertida" : "Al derecho"}
+              </span>
+            )}
+          </div>
           <p className="mt-3 min-h-[4.5rem] font-body text-[15px] leading-[1.7] text-ink-inverse-soft">
             {status === "empty"
               ? "Estamos completando la baraja."
@@ -65,7 +77,9 @@ export function DailyTarotCard() {
                 Qué puede aportar esta carta
               </h4>
               <p className="mt-2 font-body text-[14px] leading-[1.65] text-ink-inverse-soft">
-                {drawn.card.uprightMeaning}
+                {drawn.reversed
+                  ? (drawn.card.reversedMeaning ?? drawn.card.uprightMeaning)
+                  : drawn.card.uprightMeaning}
               </p>
               {drawn.card.reflectionQuestion && (
                 <div className="mt-4 border-l-2 border-gold/60 pl-4">

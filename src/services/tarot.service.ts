@@ -2,18 +2,19 @@
  * Servicio de tarot. Consume el repositorio; nunca guarda preguntas ni resultados.
  */
 import type { TarotCard, TarotDrawnCard, TarotReading, TarotSpreadKey } from "@/types/tarot";
-import { supabaseTarotRepository } from "@/repositories/supabase-tarot.repository";
+import { resilientTarotRepository } from "@/repositories/resilient-tarot.repository";
 import type { TarotRepository } from "@/repositories/tarot.repository";
 import {
   drawOneCard,
   drawUniqueCards,
+  drawReversed,
   getOrCreateAnonymousSeed,
   pickDailyCard,
   readStoredDaily,
   toLocalDateKey,
   writeStoredDaily,
 } from "@/lib/tarot/card-selection";
-import { tarotQuestionLimits, tarotSpreads } from "@/config/tarot";
+import { tarotDeckConfig, tarotQuestionLimits, tarotSpreads } from "@/config/tarot";
 
 export class TarotDeckIncompleteError extends Error {
   constructor(
@@ -39,11 +40,11 @@ function sanitizeQuestion(raw: string | undefined): string | undefined {
 }
 
 export class TarotService {
-  constructor(private readonly repo: TarotRepository = supabaseTarotRepository) {}
+  constructor(private readonly repo: TarotRepository = resilientTarotRepository) {}
 
   /** Devuelve la baraja publicada ordenada por display_order. */
   loadDeck(): Promise<TarotCard[]> {
-    return this.repo.getPublishedCards({ arcana: "major" });
+    return this.repo.getPublishedCards();
   }
 
   /** Carta del día estable. Persiste en localStorage y renueva al cambiar la fecha. */
@@ -61,14 +62,16 @@ export class TarotService {
         return {
           card: found,
           position: tarotSpreads.daily.positions[0],
+          reversed: tarotDeckConfig.reversalsEnabled ? stored.reversed : false,
         };
       }
     }
     const seed = getOrCreateAnonymousSeed();
     const pick = pickDailyCard({ deck, date: input?.date, anonymousSeed: seed });
     if (!pick) return null;
-    writeStoredDaily({ cardKey: pick.card.cardKey, dateKey: pick.dateKey });
-    return { card: pick.card, position: tarotSpreads.daily.positions[0] };
+    const reversed = tarotDeckConfig.reversalsEnabled ? pick.reversed : false;
+    writeStoredDaily({ cardKey: pick.card.cardKey, dateKey: pick.dateKey, reversed });
+    return { card: pick.card, position: tarotSpreads.daily.positions[0], reversed };
   }
 
   /** Consulta sí/no con una única carta. No persiste la pregunta. */
@@ -82,7 +85,13 @@ export class TarotService {
     const question = sanitizeQuestion(input?.question);
     return {
       spread: "yes_no" as TarotSpreadKey,
-      drawn: [{ card, position: tarotSpreads.yes_no.positions[0] }],
+      drawn: [
+        {
+          card,
+          position: tarotSpreads.yes_no.positions[0],
+          reversed: tarotDeckConfig.reversalsEnabled ? drawReversed() : false,
+        },
+      ],
       question,
       drawnAtIso: new Date().toISOString(),
     };
@@ -100,6 +109,7 @@ export class TarotService {
     const drawn: TarotDrawnCard[] = tarotSpreads.three_cards.positions.map((position, idx) => ({
       card: cards[idx],
       position,
+      reversed: tarotDeckConfig.reversalsEnabled ? drawReversed() : false,
     }));
     return {
       spread: "three_cards" as TarotSpreadKey,

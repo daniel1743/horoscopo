@@ -50,6 +50,7 @@ export interface TarotSpreadDefinition {
 export interface TarotDrawnCard {
   card: TarotCard;
   position: TarotSpreadPosition;
+  reversed: boolean;
 }
 
 export interface TarotReading {
