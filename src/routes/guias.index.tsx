@@ -1,15 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GuidesPage } from "@/pages/editorial/GuidesPage";
-import { listAuthors, listCategories, listPublishedArticles } from "@/lib/editorial/repository";
+import {
+  listAuthorsResilient,
+  listCategoriesResilient,
+  listPublishedArticlesResilient,
+} from "@/lib/editorial/resilient-repository";
 import { buildMeta } from "@/config/seo";
 
-export const Route = createFileRoute("/guias")({
+export const Route = createFileRoute("/guias/")({
   loader: async () => {
     try {
       const [articles, categories, authors] = await Promise.all([
-        listPublishedArticles({ limit: 60 }),
-        listCategories(),
-        listAuthors(),
+        listPublishedArticlesResilient({ limit: 60 }),
+        listCategoriesResilient(),
+        listAuthorsResilient(),
       ]);
       return { articles, categories, authors, unavailable: false };
     } catch {
@@ -18,7 +22,7 @@ export const Route = createFileRoute("/guias")({
   },
   head: () => {
     const m = buildMeta({
-      title: "Guías — Proyecto Astral",
+      title: "Guías de astrología, tarot y luna | Creovision",
       description:
         "Ensayos y artículos editoriales sobre astrología, tarot, luna y compatibilidad, con una mirada clara y contemporánea.",
       canonical: "/guias",

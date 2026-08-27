@@ -1,14 +1,17 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { CategoryPage } from "@/pages/editorial/CategoryPage";
-import { getCategoryBySlug, listPublishedArticles } from "@/lib/editorial/repository";
+import {
+  getCategoryBySlugResilient,
+  listPublishedArticlesResilient,
+} from "@/lib/editorial/resilient-repository";
 import { buildMeta } from "@/config/seo";
 import { categoryRoute } from "@/config/routes";
 
 export const Route = createFileRoute("/temas/$category")({
   loader: async ({ params }) => {
-    const category = await getCategoryBySlug(params.category);
+    const category = await getCategoryBySlugResilient(params.category);
     if (!category) throw notFound();
-    const articles = await listPublishedArticles({ categoryId: category.id, limit: 60 });
+    const articles = await listPublishedArticlesResilient({ categoryId: category.id, limit: 60 });
     return { category, articles };
   },
   head: ({ loaderData }) => {
@@ -19,7 +22,7 @@ export const Route = createFileRoute("/temas/$category")({
     }
     const { category } = loaderData;
     const m = buildMeta({
-      title: `${category.label} | Proyecto Astral`,
+      title: `${category.label} | Creovision`,
       description: category.description ?? undefined,
       canonical: categoryRoute(category.slug),
     });

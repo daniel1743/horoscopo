@@ -5,9 +5,12 @@ import { Container, Section, SectionHeading } from "@/components/layout/Containe
 import { EditorialCard } from "@/components/editorial/EditorialCard";
 import { homeConfig } from "@/config/home";
 import { routes } from "@/config/routes";
-import { listCategories, listPublishedArticles } from "@/lib/editorial/repository";
+import {
+  listCategoriesResilient,
+  listPublishedArticlesResilient,
+} from "@/lib/editorial/resilient-repository";
 
-/** Guías destacadas: obtiene los artículos publicados (home_featured) desde Supabase. */
+/** Guías destacadas: fusiona artículos publicados remotos con el catálogo local resiliente. */
 export function FeaturedGuidesSection() {
   const { featuredGuides: cfg } = homeConfig;
 
@@ -15,8 +18,8 @@ export function FeaturedGuidesSection() {
     queryKey: ["home", "featured-guides", cfg.maxItems],
     queryFn: async () => {
       const [articles, categories] = await Promise.all([
-        listPublishedArticles({ limit: cfg.maxItems }),
-        listCategories(),
+        listPublishedArticlesResilient({ limit: cfg.maxItems }),
+        listCategoriesResilient(),
       ]);
       return { articles, categories };
     },

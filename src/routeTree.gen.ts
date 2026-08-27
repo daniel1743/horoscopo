@@ -20,7 +20,6 @@ import { Route as ComunidadRouteImport } from './routes/comunidad'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as DesignSystemRouteImport } from './routes/design-system'
-import { Route as GuiasRouteImport } from './routes/guias'
 import { Route as LunaRouteImport } from './routes/luna'
 import { Route as MetodoRouteImport } from './routes/metodo'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
@@ -37,6 +36,7 @@ import { Route as AstrologiaSignoLunarRouteImport } from './routes/astrologia.si
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AutoresSlugRouteImport } from './routes/autores.$slug'
 import { Route as CompatibilidadIndexRouteImport } from './routes/compatibilidad.index'
+import { Route as GuiasIndexRouteImport } from './routes/guias.index'
 import { Route as GuiasSlugRouteImport } from './routes/guias.$slug'
 import { Route as HoroscopoIndexRouteImport } from './routes/horoscopo.index'
 import { Route as HoroscopoSignRouteImport } from './routes/horoscopo.$sign'
@@ -129,11 +129,6 @@ const DesignSystemRoute = DesignSystemRouteImport.update({
   path: '/design-system',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuiasRoute = GuiasRouteImport.update({
-  id: '/guias',
-  path: '/guias',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LunaRoute = LunaRouteImport.update({
   id: '/luna',
   path: '/luna',
@@ -214,10 +209,15 @@ const CompatibilidadIndexRoute = CompatibilidadIndexRouteImport.update({
   path: '/compatibilidad/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuiasIndexRoute = GuiasIndexRouteImport.update({
+  id: '/guias/',
+  path: '/guias/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GuiasSlugRoute = GuiasSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => GuiasRoute,
+  id: '/guias/$slug',
+  path: '/guias/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const HoroscopoIndexRoute = HoroscopoIndexRouteImport.update({
   id: '/horoscopo/',
@@ -426,7 +426,6 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
-  '/guias': typeof GuiasRouteWithChildren
   '/luna': typeof LunaRouteWithChildren
   '/metodo': typeof MetodoRoute
   '/nosotros': typeof NosotrosRoute
@@ -456,6 +455,7 @@ export interface FileRoutesByFullPath {
   '/temas/$category': typeof TemasCategoryRoute
   '/astrologia/': typeof AstrologiaIndexRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
+  '/guias/': typeof GuiasIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
   '/tarot/': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
@@ -492,7 +492,6 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
-  '/guias': typeof GuiasRouteWithChildren
   '/luna': typeof LunaRouteWithChildren
   '/metodo': typeof MetodoRoute
   '/nosotros': typeof NosotrosRoute
@@ -521,6 +520,7 @@ export interface FileRoutesByTo {
   '/temas/$category': typeof TemasCategoryRoute
   '/astrologia': typeof AstrologiaIndexRoute
   '/compatibilidad': typeof CompatibilidadIndexRoute
+  '/guias': typeof GuiasIndexRoute
   '/horoscopo': typeof HoroscopoIndexRoute
   '/tarot': typeof TarotIndexRoute
   '/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
@@ -559,7 +559,6 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/cookies': typeof CookiesRoute
   '/design-system': typeof DesignSystemRoute
-  '/guias': typeof GuiasRouteWithChildren
   '/luna': typeof LunaRouteWithChildren
   '/metodo': typeof MetodoRoute
   '/nosotros': typeof NosotrosRoute
@@ -589,6 +588,7 @@ export interface FileRoutesById {
   '/temas/$category': typeof TemasCategoryRoute
   '/astrologia/': typeof AstrologiaIndexRoute
   '/compatibilidad/': typeof CompatibilidadIndexRoute
+  '/guias/': typeof GuiasIndexRoute
   '/horoscopo/': typeof HoroscopoIndexRoute
   '/tarot/': typeof TarotIndexRoute
   '/_authenticated/admin/articulos': typeof AuthenticatedAdminArticulosRouteWithChildren
@@ -627,7 +627,6 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/design-system'
-    | '/guias'
     | '/luna'
     | '/metodo'
     | '/nosotros'
@@ -657,6 +656,7 @@ export interface FileRouteTypes {
     | '/temas/$category'
     | '/astrologia/'
     | '/compatibilidad/'
+    | '/guias/'
     | '/horoscopo/'
     | '/tarot/'
     | '/admin/articulos'
@@ -693,7 +693,6 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/design-system'
-    | '/guias'
     | '/luna'
     | '/metodo'
     | '/nosotros'
@@ -722,6 +721,7 @@ export interface FileRouteTypes {
     | '/temas/$category'
     | '/astrologia'
     | '/compatibilidad'
+    | '/guias'
     | '/horoscopo'
     | '/tarot'
     | '/admin/articulos'
@@ -759,7 +759,6 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cookies'
     | '/design-system'
-    | '/guias'
     | '/luna'
     | '/metodo'
     | '/nosotros'
@@ -789,6 +788,7 @@ export interface FileRouteTypes {
     | '/temas/$category'
     | '/astrologia/'
     | '/compatibilidad/'
+    | '/guias/'
     | '/horoscopo/'
     | '/tarot/'
     | '/_authenticated/admin/articulos'
@@ -827,7 +827,6 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   CookiesRoute: typeof CookiesRoute
   DesignSystemRoute: typeof DesignSystemRoute
-  GuiasRoute: typeof GuiasRouteWithChildren
   LunaRoute: typeof LunaRouteWithChildren
   MetodoRoute: typeof MetodoRoute
   NosotrosRoute: typeof NosotrosRoute
@@ -839,6 +838,7 @@ export interface RootRouteChildren {
   AstrologiaCartaNatalRoute: typeof AstrologiaCartaNatalRoute
   AstrologiaSignoLunarRoute: typeof AstrologiaSignoLunarRoute
   AutoresSlugRoute: typeof AutoresSlugRoute
+  GuiasSlugRoute: typeof GuiasSlugRoute
   HoroscopoSignRoute: typeof HoroscopoSignRoute
   HoroscopoHoyRoute: typeof HoroscopoHoyRoute
   HoroscopoMesRoute: typeof HoroscopoMesRoute
@@ -850,6 +850,7 @@ export interface RootRouteChildren {
   TemasCategoryRoute: typeof TemasCategoryRoute
   AstrologiaIndexRoute: typeof AstrologiaIndexRoute
   CompatibilidadIndexRoute: typeof CompatibilidadIndexRoute
+  GuiasIndexRoute: typeof GuiasIndexRoute
   HoroscopoIndexRoute: typeof HoroscopoIndexRoute
   TarotIndexRoute: typeof TarotIndexRoute
   ApiAiRespondRoute: typeof ApiAiRespondRoute
@@ -935,13 +936,6 @@ declare module '@tanstack/react-router' {
       path: '/design-system'
       fullPath: '/design-system'
       preLoaderRoute: typeof DesignSystemRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/guias': {
-      id: '/guias'
-      path: '/guias'
-      fullPath: '/guias'
-      preLoaderRoute: typeof GuiasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/luna': {
@@ -1056,12 +1050,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CompatibilidadIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guias/': {
+      id: '/guias/'
+      path: '/guias'
+      fullPath: '/guias/'
+      preLoaderRoute: typeof GuiasIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/guias/$slug': {
       id: '/guias/$slug'
-      path: '/$slug'
+      path: '/guias/$slug'
       fullPath: '/guias/$slug'
       preLoaderRoute: typeof GuiasSlugRouteImport
-      parentRoute: typeof GuiasRoute
+      parentRoute: typeof rootRouteImport
     }
     '/horoscopo/': {
       id: '/horoscopo/'
@@ -1426,16 +1427,6 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
-interface GuiasRouteChildren {
-  GuiasSlugRoute: typeof GuiasSlugRoute
-}
-
-const GuiasRouteChildren: GuiasRouteChildren = {
-  GuiasSlugRoute: GuiasSlugRoute,
-}
-
-const GuiasRouteWithChildren = GuiasRoute._addFileChildren(GuiasRouteChildren)
-
 interface LunaCalendarioRouteChildren {
   LunaCalendarioYmRoute: typeof LunaCalendarioYmRoute
 }
@@ -1498,7 +1489,6 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   CookiesRoute: CookiesRoute,
   DesignSystemRoute: DesignSystemRoute,
-  GuiasRoute: GuiasRouteWithChildren,
   LunaRoute: LunaRouteWithChildren,
   MetodoRoute: MetodoRoute,
   NosotrosRoute: NosotrosRoute,
@@ -1510,6 +1500,7 @@ const rootRouteChildren: RootRouteChildren = {
   AstrologiaCartaNatalRoute: AstrologiaCartaNatalRoute,
   AstrologiaSignoLunarRoute: AstrologiaSignoLunarRoute,
   AutoresSlugRoute: AutoresSlugRoute,
+  GuiasSlugRoute: GuiasSlugRoute,
   HoroscopoSignRoute: HoroscopoSignRoute,
   HoroscopoHoyRoute: HoroscopoHoyRoute,
   HoroscopoMesRoute: HoroscopoMesRoute,
@@ -1521,6 +1512,7 @@ const rootRouteChildren: RootRouteChildren = {
   TemasCategoryRoute: TemasCategoryRoute,
   AstrologiaIndexRoute: AstrologiaIndexRoute,
   CompatibilidadIndexRoute: CompatibilidadIndexRoute,
+  GuiasIndexRoute: GuiasIndexRoute,
   HoroscopoIndexRoute: HoroscopoIndexRoute,
   TarotIndexRoute: TarotIndexRoute,
   ApiAiRespondRoute: ApiAiRespondRoute,

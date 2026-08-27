@@ -1,6 +1,10 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { ArticlePage } from "@/pages/editorial/ArticlePage";
-import { getArticleBySlug, listCategories, listRelatedArticles } from "@/lib/editorial/repository";
+import {
+  getArticleBySlugResilient,
+  listCategoriesResilient,
+  listRelatedArticlesResilient,
+} from "@/lib/editorial/resilient-repository";
 import { buildMeta } from "@/config/seo";
 import { articleRoute } from "@/config/routes";
 import type { ArticleWithRelations, EditorialArticle, EditorialCategory } from "@/types/editorial";
@@ -13,11 +17,11 @@ interface LoaderData {
 
 export const Route = createFileRoute("/guias/$slug")({
   loader: async ({ params }): Promise<LoaderData> => {
-    const article = await getArticleBySlug(params.slug);
+    const article = await getArticleBySlugResilient(params.slug);
     if (!article) throw notFound();
     const [related, categories] = await Promise.all([
-      listRelatedArticles(article, 3),
-      listCategories(),
+      listRelatedArticlesResilient(article, 3),
+      listCategoriesResilient(),
     ]);
     return { article, related, categories };
   },
@@ -29,7 +33,7 @@ export const Route = createFileRoute("/guias/$slug")({
     }
     const { article } = loaderData;
     const meta = buildMeta({
-      title: article.seo.title ?? `${article.title} | Proyecto Astral`,
+      title: article.seo.title ?? `${article.title} | Creovision`,
       description: article.seo.description ?? article.excerpt,
       image: article.seo.og_image ?? article.imageUrl ?? undefined,
       canonical: article.canonicalOverride ?? articleRoute(article.slug),
