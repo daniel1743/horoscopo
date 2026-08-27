@@ -100,7 +100,7 @@ Los feeds de comunidad, republicaciones, publicaciones de perfil y republicacion
 1. El lint ya no tiene errores; permanecen siete warnings estructurales de Fast Refresh en componentes compartidos.
 2. El tipo `profile_astrology_birth_data` fue añadido manualmente a `types.ts`; conviene regenerarlo desde el esquema remoto cuando exista un flujo seguro para ello.
 3. La privacidad natal y el ciclo de exportación/eliminación están corregidos en código local, pero siguen sin prueba E2E desplegada.
-4. La rama local parte de `8352e46`, contiene el diff reconstruido y todavía debe recibir el commit local cohesivo; no se ha hecho push.
+4. La rama local parte de `8352e46` y quedó consolidada en el commit local `ff1483b`; no se ha hecho push.
 5. El estado remoto de las migraciones históricas de horóscopo, Luna, compatibilidad, búsqueda, IA, cuenta, admin y métricas no fue confirmado mediante capturas.
 6. El muro social base está preparado a nivel de base y código, pero no se ha probado en la aplicación desplegada. Comentarios, follows y reportes de comentarios tienen SQL local 07–08 pendiente y no deben declararse activos hasta su aplicación y verificación.
 7. Los módulos restantes —mazos alternativos, informes, notificaciones, astrocartografía, Lenormand, runas, oráculos, chakras, cristales, rituales y sueños— siguen sin implementación completa. Tránsitos, sinastría y Numerología Camino de Vida sí tienen una primera implementación local con límites explícitos.

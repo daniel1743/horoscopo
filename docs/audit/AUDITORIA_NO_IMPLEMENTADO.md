@@ -293,4 +293,4 @@ Sí encontré tres categorías que deben permanecer visibles para no repetir el 
 
 El producto no está completo según el documento maestro. El estado honesto es: **MVP real y parcialmente activado, con Tarot, astrología local, Comunidad y Numerología ampliados en código, SQL nuevo pendiente y una cantidad importante de módulos todavía inexistentes**. No hay evidencia para declarar 100% de cumplimiento.
 
-El siguiente paso operativo es conservar la rama, revisar el diff y realizar el commit local autorizado. Después Daniel debe aplicar los bloques SQL 07 y 08 uno por uno, capturar sus resultados y ejecutar las pruebas autenticadas y multiusuario. Las mejoras futuras deben priorizarse solo después de esa evidencia.
+La consolidación local quedó en el commit `ff1483b`. Después Daniel debe aplicar los bloques SQL 07 y 08 uno por uno, capturar sus resultados y ejecutar las pruebas autenticadas y multiusuario. Las mejoras futuras deben priorizarse solo después de esa evidencia.

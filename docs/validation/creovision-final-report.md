@@ -3,6 +3,7 @@
 **Fecha:** 27 de agosto de 2026
 **Rama:** `redesign/fases-1-5`
 **Alcance:** consolidación local del rediseño, privacidad, Tarot, astrología, Comunidad, contenido/SEO, IA contextual y una primera vertical de Numerología.
+**Commit local:** `ff1483b`
 **Estado remoto:** Daniel confirmó manualmente Tarot, Editorial, datos natales privados y Comunidad base 01–06. Este agente no ejecutó SQL remoto, no hizo deploy, no hizo push y no modificó `main`.
 
 ## Resumen ejecutivo
@@ -77,7 +78,7 @@ La IA continúa acotada a Tarot, horóscopos y artículos editoriales publicados
 
 ## Estado de Git y entrega
 
-La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge, rebase, force push, push ni deploy. Antes del commit local final se debe revisar `git status --short`, `git diff --stat`, `git diff --check`, el lockfile y la diferencia completa. El respaldo `/home/ubuntu/horoscopo-restored-backup-20260827` debe conservarse hasta terminar la consolidación satisfactoriamente.
+La rama autorizada es `redesign/fases-1-5`. No se tocó `main`, no se hizo merge, rebase, force push, push ni deploy. Se revisaron `git status --short`, `git diff --stat`, `git diff --check` y el lockfile; el commit local cohesivo quedó creado como `ff1483b`. El respaldo `/home/ubuntu/horoscopo-restored-backup-20260827` se conserva como respaldo de recuperación.
 
 ## Referencias internas
 
