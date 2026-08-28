@@ -14,8 +14,9 @@ export const Route = createFileRoute("/tarot/si-o-no")({
       description:
         "Una consulta orientativa del tarot que sugiere avance, cautela o la necesidad de observar más antes de decidir.",
       canonical: routes.tarotYesNo,
+      structuredData: "WebPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   component: TarotYesNoPage,
 });

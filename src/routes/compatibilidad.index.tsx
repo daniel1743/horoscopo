@@ -16,8 +16,9 @@ export const Route = createFileRoute("/compatibilidad/")({
       title: `Compatibilidad entre signos · Creovision`,
       description: COMPATIBILITY_COPY.hubDescription,
       canonical: routes.compatibility,
+      structuredData: "CollectionPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-[720px] py-20 text-center">

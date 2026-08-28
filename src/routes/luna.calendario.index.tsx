@@ -1,7 +1,10 @@
 import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { absoluteUrl, buildJsonLdScript } from "@/config/seo";
 import { MOON_SITE_TIMEZONE } from "@/config/moon";
-import { moonCalendarMonthRoute } from "@/config/routes";
+import { moonCalendarMonthRoute, routes } from "@/config/routes";
 import { getZonedParts } from "@/lib/moon/timezone";
+
+export const moonCalendarCanonicalUrl = absoluteUrl(routes.moonCalendar);
 
 /**
  * Redirección al mes actual (respetando timezone del sitio).
@@ -21,8 +24,18 @@ export const Route = createFileRoute("/luna/calendario/")({
         content: "Calendario mensual con fases y eventos lunares mayores.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: moonCalendarCanonicalUrl },
       { name: "twitter:card", content: "summary" },
     ],
+    scripts: [
+      buildJsonLdScript({
+        canonical: moonCalendarCanonicalUrl,
+        name: "Calendario lunar — Creovision",
+        description: "Calendario mensual con fases, iluminación y eventos lunares mayores.",
+        pageType: "WebPage",
+      }),
+    ],
+    links: [{ rel: "canonical", href: moonCalendarCanonicalUrl }],
   }),
   component: RedirectToCurrentMonth,
 });

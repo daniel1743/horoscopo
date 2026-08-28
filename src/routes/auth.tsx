@@ -1,14 +1,25 @@
 import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { AuthPage } from "@/pages/account/AuthPage";
 
+type AuthMode = "signin" | "signup" | "forgot";
+
+export interface AuthSearch {
+  redirect?: string;
+  mode?: AuthMode;
+}
+
 export const Route = createFileRoute("/auth")({
-  validateSearch: (search: Record<string, unknown>) => ({
-    redirect: typeof search.redirect === "string" ? search.redirect : undefined,
-    mode:
+  validateSearch: (search: Record<string, unknown>): AuthSearch => {
+    const mode =
       search.mode === "signup" || search.mode === "forgot" || search.mode === "signin"
         ? search.mode
-        : "signin",
-  }),
+        : undefined;
+
+    return {
+      redirect: typeof search.redirect === "string" ? search.redirect : undefined,
+      mode,
+    };
+  },
   head: () => ({
     meta: [
       { title: "Iniciar sesión — Creovision" },

@@ -24,7 +24,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { fetchProfile, upsertProfile, fetchPrivacySettings, updatePrivacySettings, isUsernameAvailable } from "@/lib/account/repository";
+import {
+  fetchProfile,
+  upsertProfile,
+  fetchPrivacySettings,
+  updatePrivacySettings,
+  isUsernameAvailable,
+} from "@/lib/account/repository";
 import { calculateAstralIdentityFn } from "@/lib/social/identity.functions";
 import { normalizeDisplayName } from "@/lib/account/auth-profile";
 import { profileFormSchema, type ProfileFormValues } from "@/lib/account/profile.schema";
@@ -103,12 +109,15 @@ export function ProfilePage() {
   const onSubmit = async (data: ProfileFormValues) => {
     if (!user) return;
     setBusy(true);
-    
+
     try {
       if (data.username) {
         const available = await isUsernameAvailable(data.username, user.id);
         if (!available) {
-          form.setError("username", { type: "manual", message: "Este nombre de usuario ya está en uso." });
+          form.setError("username", {
+            type: "manual",
+            message: "Este nombre de usuario ya está en uso.",
+          });
           setBusy(false);
           return;
         }
@@ -120,9 +129,11 @@ export function ProfilePage() {
       if (data.birth_date) {
         try {
           const signs = await calculateAstralIdentityFn({
-            birthDate: data.birth_date,
-            birthTime: data.birth_time_status === "unknown" ? null : (data.birth_time ?? null),
-            timezoneOffset: 0, // Placeholder
+            data: {
+              birthDate: data.birth_date,
+              birthTime: data.birth_time_status === "unknown" ? null : data.birth_time,
+              timezoneOffset: 0, // Placeholder
+            },
           });
           sun_sign = signs.sun_sign;
           moon_sign = signs.moon_sign;
@@ -144,7 +155,7 @@ export function ProfilePage() {
           favorite_signs: data.favorite_signs,
           city: data.city || null,
           birth_date: data.birth_date || null,
-          birth_time: data.birth_time_status === "unknown" ? null : (data.birth_time || null),
+          birth_time: data.birth_time_status === "unknown" ? null : data.birth_time || null,
           birth_time_status: data.birth_time_status || "unknown",
           birth_place_label: data.birth_place_label || null,
           birth_city: data.birth_city || null,
@@ -159,7 +170,7 @@ export function ProfilePage() {
           show_sun_sign: data.show_sun_sign,
           show_moon_sign: data.show_moon_sign,
           show_favorite_signs: data.show_favorite_signs,
-        })
+        }),
       ]);
 
       toast.success("Perfil astral guardado.");
@@ -185,12 +196,13 @@ export function ProfilePage() {
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="max-w-3xl space-y-10">
-          
           {/* SECCIÓN: Tu Identidad Pública */}
           <section className="space-y-6">
             <h3 className="text-lg font-medium">Tu perfil público</h3>
-            <p className="text-sm text-ink-muted">Esta información será visible en tu perfil social.</p>
-            
+            <p className="text-sm text-ink-muted">
+              Esta información será visible en tu perfil social.
+            </p>
+
             <div className="grid gap-6 sm:grid-cols-2">
               <FormField
                 control={form.control}
@@ -288,7 +300,7 @@ export function ProfilePage() {
           <section className="space-y-6">
             <h3 className="text-lg font-medium">Tu identidad astral</h3>
             <p className="text-sm text-ink-muted">Tus signos y afinidades.</p>
-            
+
             <FormField
               control={form.control}
               name="preferred_sign"
@@ -350,7 +362,9 @@ export function ProfilePage() {
           {/* SECCIÓN: Privacidad */}
           <section className="space-y-6">
             <h3 className="text-lg font-medium">Privacidad del Perfil Público</h3>
-            <p className="text-sm text-ink-muted">Controla qué información astral muestras en tu perfil público.</p>
+            <p className="text-sm text-ink-muted">
+              Controla qué información astral muestras en tu perfil público.
+            </p>
 
             <FormField
               control={form.control}
@@ -375,7 +389,9 @@ export function ProfilePage() {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 shadow-sm">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">Mostrar Signo Lunar</FormLabel>
-                    <FormDescription>Tu signo lunar aparecerá en tu perfil (si tienes hora de nacimiento).</FormDescription>
+                    <FormDescription>
+                      Tu signo lunar aparecerá en tu perfil (si tienes hora de nacimiento).
+                    </FormDescription>
                   </div>
                   <FormControl>
                     <Switch checked={field.value} onCheckedChange={field.onChange} />
@@ -404,7 +420,10 @@ export function ProfilePage() {
           {/* SECCIÓN: Datos Natales (Privados) */}
           <section className="space-y-6 rounded-[var(--radius-card)] border border-line bg-warm-white p-6 shadow-card">
             <h3 className="text-lg font-medium">Datos Natales Privados</h3>
-            <p className="text-sm text-ink-muted">Estos datos <strong>nunca</strong> son públicos. Se usan exclusivamente para calcular tu carta astral (Signo Solar, Lunar, etc.).</p>
+            <p className="text-sm text-ink-muted">
+              Estos datos <strong>nunca</strong> son públicos. Se usan exclusivamente para calcular
+              tu carta astral (Signo Solar, Lunar, etc.).
+            </p>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <FormField
@@ -491,42 +510,105 @@ export function ProfilePage() {
             />
 
             <div className="grid gap-4 sm:grid-cols-3">
-              <FormField control={form.control} name="birth_city" render={({ field }) => (
-                <FormItem><FormLabel>Ciudad</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
-              )} />
-              <FormField control={form.control} name="birth_region" render={({ field }) => (
-                <FormItem><FormLabel>Región</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
-              )} />
-              <FormField control={form.control} name="birth_country" render={({ field }) => (
-                <FormItem><FormLabel>País</FormLabel><FormControl><Input {...field} value={field.value || ""} /></FormControl></FormItem>
-              )} />
+              <FormField
+                control={form.control}
+                name="birth_city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Ciudad</FormLabel>
+                    <FormControl>
+                      <Input {...field} value={field.value || ""} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birth_region"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Región</FormLabel>
+                    <FormControl>
+                      <Input {...field} value={field.value || ""} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birth_country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>País</FormLabel>
+                    <FormControl>
+                      <Input {...field} value={field.value || ""} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
             </div>
 
             <div className="grid gap-4 sm:grid-cols-4">
-              <FormField control={form.control} name="birth_country_code" render={({ field }) => (
-                <FormItem><FormLabel>Cód. País</FormLabel><FormControl><Input {...field} value={field.value || ""} maxLength={2} /></FormControl></FormItem>
-              )} />
-              <FormField control={form.control} name="birth_timezone" render={({ field }) => (
-                <FormItem><FormLabel>Zona horaria</FormLabel><FormControl><Input {...field} /></FormControl></FormItem>
-              )} />
-              <FormField control={form.control} name="birth_latitude" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Latitud</FormLabel>
-                  <FormControl>
-                    <Input type="number" step="any" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
-              <FormField control={form.control} name="birth_longitude" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Longitud</FormLabel>
-                  <FormControl>
-                    <Input type="number" step="any" {...field} onChange={e => field.onChange(parseFloat(e.target.value))} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )} />
+              <FormField
+                control={form.control}
+                name="birth_country_code"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cód. País</FormLabel>
+                    <FormControl>
+                      <Input {...field} value={field.value || ""} maxLength={2} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birth_timezone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zona horaria</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birth_latitude"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Latitud</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="any"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="birth_longitude"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Longitud</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        step="any"
+                        {...field}
+                        onChange={(e) => field.onChange(parseFloat(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </section>
 

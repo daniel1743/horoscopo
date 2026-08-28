@@ -3,6 +3,7 @@ import { HoroscopePeriodPage } from "@/pages/horoscope/HoroscopePeriodPage";
 import { listHoroscopesForCurrentPeriod } from "@/lib/horoscope/repository";
 import { buildMeta } from "@/config/seo";
 import { isPublicFeatureEnabled } from "@/config/public-features";
+import { routes } from "@/config/routes";
 
 export const Route = createFileRoute("/horoscopo/mes")({
   beforeLoad: () => {
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/horoscopo/mes")({
     const m = buildMeta({
       title: "Horóscopo del mes — Creovision",
       description: "Lectura mensual con los tránsitos más relevantes.",
+      canonical: routes.horoscopeMonth,
     });
     return { meta: m.meta, links: m.links };
   },

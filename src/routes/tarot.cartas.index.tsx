@@ -10,8 +10,9 @@ export const Route = createFileRoute("/tarot/cartas/")({
       description:
         "Explora los Arcanos Mayores publicados con su significado, palabras clave y preguntas para reflexionar.",
       canonical: routes.tarotLibrary,
+      structuredData: "CollectionPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   component: TarotLibraryPage,
 });

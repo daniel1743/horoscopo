@@ -14,8 +14,9 @@ export const Route = createFileRoute("/tarot/carta-del-dia")({
       description:
         "Una carta simbólica diaria del tarot para observar con calma. Permanece estable durante todo el día.",
       canonical: routes.tarotDaily,
+      structuredData: "WebPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   component: TarotDailyPage,
 });

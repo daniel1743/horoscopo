@@ -5,15 +5,22 @@ import { fetchPublicProfileByUsername, type PublicProfile } from "@/lib/social/q
 import { SocialHeader } from "@/components/profile/SocialHeader";
 import { Icon } from "@/components/ui/icon";
 
-export function PublicProfilePage() {
+export function PublicProfilePage({ initialProfile }: { initialProfile?: PublicProfile }) {
   const { username } = useParams({ strict: false }) as { username?: string };
   const { user } = useSession();
 
-  const [profile, setProfile] = useState<PublicProfile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState<PublicProfile | null>(initialProfile ?? null);
+  const [loading, setLoading] = useState(!initialProfile);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (initialProfile) {
+      setProfile(initialProfile);
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     if (!username) {
       setError("Usuario no especificado");
       setLoading(false);
@@ -31,7 +38,7 @@ export function PublicProfilePage() {
       })
       .catch(() => setError("Error al cargar el perfil"))
       .finally(() => setLoading(false));
-  }, [username]);
+  }, [initialProfile, username]);
 
   if (loading) {
     return (

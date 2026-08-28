@@ -15,8 +15,9 @@ export const Route = createFileRoute("/tarot/tres-cartas/trabajo")({
       title: config.seo.title,
       description: config.seo.description,
       canonical: config.seo.canonical,
+      structuredData: "WebPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   component: TarotThreeCardsTrabajoPage,
 });

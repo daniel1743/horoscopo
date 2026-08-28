@@ -22,8 +22,9 @@ export const Route = createFileRoute("/luna/hoy")({
         "Fase, iluminación, edad lunar y próxima fase mayor calculadas para hoy con un motor astronómico validado.",
       canonical: routes.moonToday,
       type: "article",
+      structuredData: "WebPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   loader: async ({ context }) => {
     await Promise.all([

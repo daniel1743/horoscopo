@@ -6,6 +6,10 @@ import { buildMeta } from "@/config/seo";
 import { compatibilityRoute } from "@/config/routes";
 import { getZodiacBySlug } from "@/data/zodiac-signs";
 import type { ZodiacSignKey } from "@/types/compatibility";
+import { isIndexableCompatibilityPair } from "@/config/compatibility-indexability";
+
+export const GEMINI_SAGITTARIUS_META_DESCRIPTION =
+  "Compatibilidad entre Géminis y Sagitario: cómo conectan en amor, comunicación y amistad, dónde chocan y qué puede ayudarles a funcionar.";
 
 /**
  * Ruta canónica de una combinación. Si `signA/signB` no está en orden zodiacal,
@@ -29,16 +33,8 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
       compatibilityQueries.pair(params.signA as ZodiacSignKey, params.signB as ZodiacSignKey),
     ),
   head: ({ params }) => {
-    const a = getZodiacBySlug(params.signA);
-    const b = getZodiacBySlug(params.signB);
-    const nameA = a?.name ?? params.signA;
-    const nameB = b?.name ?? params.signB;
-    const m = buildMeta({
-      title: `${nameA} y ${nameB}: compatibilidad simbólica · Creovision`,
-      description: `Lectura editorial de la dinámica entre ${nameA} y ${nameB}: comunicación, ritmo emocional y áreas de crecimiento.`,
-      canonical: compatibilityRoute(params.signA, params.signB),
-    });
-    return { meta: m.meta, links: m.links };
+    const m = buildCompatibilityPairMeta(params.signA, params.signB);
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-[720px] py-20 text-center">
@@ -60,4 +56,33 @@ export const Route = createFileRoute("/compatibilidad/$signA/$signB")({
 function PairComponent() {
   const { signA, signB } = Route.useParams();
   return <CompatibilityPairPage signA={signA as ZodiacSignKey} signB={signB as ZodiacSignKey} />;
+}
+
+export function getCompatibilityPairMeta(signA: string, signB: string) {
+  const a = getZodiacBySlug(signA);
+  const b = getZodiacBySlug(signB);
+  const nameA = a?.name ?? signA;
+  const nameB = b?.name ?? signB;
+  const isGeminiSagittarius = signA === "geminis" && signB === "sagitario";
+
+  return {
+    title: `${nameA} y ${nameB}: compatibilidad simbólica · Creovision`,
+    description: isGeminiSagittarius
+      ? GEMINI_SAGITTARIUS_META_DESCRIPTION
+      : `Lectura editorial de la dinámica entre ${nameA} y ${nameB}: comunicación, ritmo emocional y áreas de crecimiento.`,
+    canonical: compatibilityRoute(signA, signB),
+    structuredData: "WebPage" as const,
+  };
+}
+
+export function buildCompatibilityPairMeta(signA: string, signB: string) {
+  const result = buildMeta(getCompatibilityPairMeta(signA, signB));
+  if (isIndexableCompatibilityPair(signA, signB)) return result;
+
+  return {
+    ...result,
+    meta: result.meta.map((item) =>
+      item.name === "robots" ? { ...item, content: "noindex, follow" } : item,
+    ),
+  };
 }

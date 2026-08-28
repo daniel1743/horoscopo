@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { threeCardReadings, enabledThreeCardReadings } from "@/config/three-card-readings";
+import { tarotThreeCardsGeneralCopy } from "@/pages/tarot/TarotThreeCardsPage";
 import { buildThreeCardSynthesisFallback } from "@/lib/tarot/synthesis-generator";
 import type { TarotCard } from "@/types/tarot";
 
@@ -78,6 +79,21 @@ describe("Configuración de tiradas de tres cartas", () => {
     expect(threeCardReadings.general.enabled).toBe(true);
     expect(threeCardReadings.trabajo.enabled).toBe(true);
     expect(threeCardReadings.decision.enabled).toBe(true);
+  });
+
+  it("General comunica la tirada real sin convertirla en pasado presente futuro", () => {
+    expect(tarotThreeCardsGeneralCopy.h1).toBe("Tarot de tres cartas");
+    expect(tarotThreeCardsGeneralCopy.positionSummary).toBe(
+      "Influencia · Qué mirar · Próximo paso",
+    );
+    expect(tarotThreeCardsGeneralCopy.description).toContain("elige tres cartas");
+    expect(tarotThreeCardsGeneralCopy.description).not.toMatch(/pasado|presente|futuro/i);
+
+    expect(threeCardReadings.general.positions.map((position) => position.key)).toEqual([
+      "influence",
+      "what_to_look_at",
+      "next_step",
+    ]);
   });
 
   it("enabledThreeCardReadings incluye todas las tiradas activas", () => {

@@ -10,7 +10,8 @@ import { MoonUnavailableState } from "@/components/moon/MoonUnavailableState";
 import { MoonScientificFacts } from "@/components/moon/MoonScientificFacts";
 import { MoonDisclaimer } from "@/components/moon/MoonDisclaimer";
 import { moonQueries } from "@/services/moon.service";
-import { routes } from "@/config/routes";
+import { moonCalendarMonthRoute, routes } from "@/config/routes";
+import { absoluteUrl } from "@/config/seo";
 import { MOON_SITE_TIMEZONE, MOON_CALENDAR_RANGE_YEARS } from "@/config/moon";
 import { getZonedParts } from "@/lib/moon/timezone";
 import { parseYearMonth, formatMonthYear } from "@/lib/moon/format";
@@ -31,6 +32,9 @@ export const Route = createFileRoute("/luna/calendario/$ym")({
   },
   head: ({ params }) => {
     const label = params ? formatMonthYear(params.year, params.month) : "Calendario";
+    const canonical = params
+      ? absoluteUrl(moonCalendarMonthRoute(params.year, params.month))
+      : undefined;
     return {
       meta: [
         { title: `Calendario lunar · ${label} — Creovision` },
@@ -44,8 +48,10 @@ export const Route = createFileRoute("/luna/calendario/$ym")({
           content: `Fases lunares y eventos mayores en ${label}.`,
         },
         { property: "og:type", content: "website" },
+        ...(canonical ? [{ property: "og:url", content: canonical }] : []),
         { name: "twitter:card", content: "summary" },
       ],
+      links: canonical ? [{ rel: "canonical", href: canonical }] : [],
     };
   },
   loader: async ({ context, params }) => {

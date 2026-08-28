@@ -13,15 +13,16 @@ import { MoonUnavailableState } from "@/components/moon/MoonUnavailableState";
 import { NextMoonPhases } from "@/components/moon/NextMoonPhases";
 import { ContextualAiButton } from "@/components/ai/ContextualAiButton";
 import { moonQueries } from "@/services/moon.service";
-import {
-  MOON_PHASE_ORDER,
-  MOON_PHASE_REGISTRY,
-  phaseBySlug,
-} from "@/config/moon";
+import { MOON_PHASE_ORDER, MOON_PHASE_REGISTRY, phaseBySlug } from "@/config/moon";
 import { routes, moonPhaseRoute } from "@/config/routes";
+import { absoluteUrl, buildJsonLdScript } from "@/config/seo";
 import { SectionErrorBoundary } from "@/components/SectionErrorBoundary";
-import type { MoonPhaseKey } from "@/types/moon";
+import type { MoonEditorialContent, MoonPhaseKey } from "@/types/moon";
 import { Skeleton } from "@/components/ui/skeleton";
+
+interface LoaderData {
+  content: MoonEditorialContent | null;
+}
 
 export const Route = createFileRoute("/luna/fases/$slug")({
   parseParams: (raw) => {
@@ -29,12 +30,11 @@ export const Route = createFileRoute("/luna/fases/$slug")({
     if (!meta) throw notFound();
     return { slug: raw.slug, phaseKey: meta.key };
   },
-  head: ({ params }) => {
+  head: ({ params, loaderData }) => {
     const meta = params?.phaseKey ? MOON_PHASE_REGISTRY[params.phaseKey] : null;
-    const title = meta ? `${meta.label} — Creovision` : "Fase lunar";
-    const desc = meta
-      ? `${meta.label}: astronomía y lectura simbólica en Creovision.`
-      : "Fase lunar en Creovision.";
+    const content = (loaderData as LoaderData | undefined)?.content;
+    const { title, description: desc } = getMoonPhaseHeadMetadata(meta, content);
+    const canonical = meta ? absoluteUrl(moonPhaseRoute(meta.slug)) : undefined;
     return {
       meta: [
         { title },
@@ -42,15 +42,21 @@ export const Route = createFileRoute("/luna/fases/$slug")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
+        ...(canonical ? [{ property: "og:url", content: canonical }] : []),
         { name: "twitter:card", content: "summary_large_image" },
       ],
+      links: canonical ? [{ rel: "canonical", href: canonical }] : [],
+      scripts: canonical
+        ? [buildJsonLdScript({ canonical, name: title, description: desc, pageType: "WebPage" })]
+        : undefined,
     };
   },
-  loader: async ({ context, params }) => {
-    await Promise.all([
+  loader: async ({ context, params }): Promise<LoaderData> => {
+    const [content] = await Promise.all([
       context.queryClient.ensureQueryData(moonQueries.contentByPhase(params.phaseKey)),
       context.queryClient.ensureQueryData(moonQueries.upcoming()),
     ]);
+    return { content };
   },
   notFoundComponent: () => (
     <PageShell breadcrumbs={[{ label: "Luna", href: routes.moon }, { label: "Fase" }]}>
@@ -71,12 +77,28 @@ export const Route = createFileRoute("/luna/fases/$slug")({
   component: MoonPhasePage,
 });
 
+export function getMoonPhaseHeadMetadata(
+  meta: (typeof MOON_PHASE_REGISTRY)[MoonPhaseKey] | null,
+  content?: Pick<MoonEditorialContent, "seo_title" | "seo_description"> | null,
+) {
+  const fallbackTitle = meta ? `${meta.label} — Creovision` : "Fase lunar";
+  const fallbackDescription = meta
+    ? `${meta.label}: astronomía y lectura simbólica en Creovision.`
+    : "Fase lunar en Creovision.";
+
+  return {
+    title: content?.seo_title?.trim() || fallbackTitle,
+    description: content?.seo_description?.trim() || fallbackDescription,
+  };
+}
+
 function MoonPhasePage() {
   const params = Route.useParams() as { slug: string; phaseKey: MoonPhaseKey };
   const phaseKey = params.phaseKey;
   const meta = MOON_PHASE_REGISTRY[phaseKey];
   const orderIndex = MOON_PHASE_ORDER.indexOf(phaseKey);
-  const prevKey = MOON_PHASE_ORDER[(orderIndex - 1 + MOON_PHASE_ORDER.length) % MOON_PHASE_ORDER.length];
+  const prevKey =
+    MOON_PHASE_ORDER[(orderIndex - 1 + MOON_PHASE_ORDER.length) % MOON_PHASE_ORDER.length];
   const nextKey = MOON_PHASE_ORDER[(orderIndex + 1) % MOON_PHASE_ORDER.length];
 
   return (
@@ -174,9 +196,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
         >
           Qué es esta fase
         </h2>
-        <p className="mt-3 font-body text-[16px] leading-[1.75] text-ink">
-          {content.summary}
-        </p>
+        <p className="mt-3 font-body text-[16px] leading-[1.75] text-ink">{content.summary}</p>
       </section>
 
       <section aria-labelledby="phase-meaning">
@@ -197,16 +217,15 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.reflection_questions.length > 0 && (
         <section aria-labelledby="phase-questions">
-          <h2
-            id="phase-questions"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-questions" className="font-display text-[20px] font-semibold text-ink">
             Preguntas para reflexionar
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink">
             {content.reflection_questions.map((q) => (
               <li key={q} className="flex gap-3">
-                <span aria-hidden className="mt-1 text-cosmic">•</span>
+                <span aria-hidden className="mt-1 text-cosmic">
+                  •
+                </span>
                 <span>{q}</span>
               </li>
             ))}
@@ -216,16 +235,15 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.practical_suggestions.length > 0 && (
         <section aria-labelledby="phase-practical">
-          <h2
-            id="phase-practical"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-practical" className="font-display text-[20px] font-semibold text-ink">
             Sugerencias prácticas
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink">
             {content.practical_suggestions.map((s) => (
               <li key={s} className="flex gap-3">
-                <span aria-hidden className="mt-1 text-cosmic">·</span>
+                <span aria-hidden className="mt-1 text-cosmic">
+                  ·
+                </span>
                 <span>{s}</span>
               </li>
             ))}
@@ -235,10 +253,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
 
       {content.misconceptions.length > 0 && (
         <section aria-labelledby="phase-myths">
-          <h2
-            id="phase-myths"
-            className="font-display text-[20px] font-semibold text-ink"
-          >
+          <h2 id="phase-myths" className="font-display text-[20px] font-semibold text-ink">
             Malentendidos frecuentes
           </h2>
           <ul className="mt-3 space-y-2 font-body text-[15px] text-ink-soft">
@@ -252,10 +267,7 @@ function PhaseContentDynamic({ phaseKey }: { phaseKey: MoonPhaseKey }) {
       )}
 
       <section aria-labelledby="phase-upcoming">
-        <h2
-          id="phase-upcoming"
-          className="font-display text-[20px] font-semibold text-ink"
-        >
+        <h2 id="phase-upcoming" className="font-display text-[20px] font-semibold text-ink">
           Próximas fases mayores
         </h2>
         <div className="mt-4">

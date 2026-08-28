@@ -10,8 +10,9 @@ export const Route = createFileRoute("/tarot/")({
       description:
         "Lecturas simbólicas de tarot para reflexionar con calma: carta del día, consulta sí o no y tirada de tres cartas.",
       canonical: routes.tarot,
+      structuredData: "CollectionPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   component: TarotHubPage,
 });

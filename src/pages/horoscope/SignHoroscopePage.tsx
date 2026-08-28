@@ -3,7 +3,8 @@ import { PageShell } from "@/components/layout/PageShell";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { HoroscopePeriodTabs } from "@/components/horoscope/HoroscopePeriodTabs";
 import { SignQuickSelector } from "@/components/horoscope/SignQuickSelector";
-import { routes, zodiacRoute } from "@/config/routes";
+import { compatibilityRoute, routes, zodiacRoute } from "@/config/routes";
+import { getIndexableCompatibilityPairForSign } from "@/config/compatibility-internal-links";
 import { formatPeriodLabel, getPeriodByKey, referenceDateFor } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import type { HoroscopeEntry, HoroscopePeriod } from "@/types/horoscope";
@@ -32,6 +33,7 @@ export function SignHoroscopePage({ signSlug, period, entry }: Props) {
   const prev = zodiacSigns[(idx - 1 + zodiacSigns.length) % zodiacSigns.length];
   const next = zodiacSigns[(idx + 1) % zodiacSigns.length];
   const dateKey = entry?.dateFor ?? referenceDateFor(period);
+  const compatibilityPair = getIndexableCompatibilityPairForSign(sign.slug);
 
   return (
     <PageShell
@@ -134,6 +136,26 @@ export function SignHoroscopePage({ signSlug, period, entry }: Props) {
         </article>
       ) : (
         notFound
+      )}
+
+      {compatibilityPair && (
+        <section
+          aria-labelledby="sign-compatibility-link"
+          className="mt-8 rounded-[var(--radius-card)] border border-line-subtle bg-ivory p-5"
+        >
+          <h2
+            id="sign-compatibility-link"
+            className="font-display text-[20px] font-semibold text-ink"
+          >
+            Compatibilidad destacada
+          </h2>
+          <Link
+            to={compatibilityRoute(compatibilityPair.signA, compatibilityPair.signB) as string}
+            className="mt-3 inline-flex rounded-[var(--radius-control)] border border-line-subtle bg-warm-white px-4 py-2 font-body text-[14px] font-medium text-ink transition hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(108,75,217,0.18)]"
+          >
+            Compatibilidad {compatibilityPair.signAName} y {compatibilityPair.signBName}
+          </Link>
+        </section>
       )}
 
       <nav

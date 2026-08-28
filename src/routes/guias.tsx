@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { GuidesPage } from "@/pages/editorial/GuidesPage";
 import { listAuthors, listCategories, listPublishedArticles } from "@/lib/editorial/repository";
 import { buildMeta } from "@/config/seo";
+import { routes } from "@/config/routes";
 
 export const Route = createFileRoute("/guias")({
   loader: async () => {
@@ -17,6 +18,7 @@ export const Route = createFileRoute("/guias")({
       title: "Guías — Creovision",
       description:
         "Ensayos y artículos editoriales sobre tarot, luna y símbolos, con una mirada clara y contemporánea.",
+      canonical: routes.guides,
     });
     return { meta: m.meta, links: m.links };
   },

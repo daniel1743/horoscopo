@@ -5,6 +5,9 @@ import { MoonPhaseGrid } from "@/components/moon/MoonPhaseGrid";
 import { MoonScientificFacts } from "@/components/moon/MoonScientificFacts";
 import { MoonDisclaimer } from "@/components/moon/MoonDisclaimer";
 import { routes } from "@/config/routes";
+import { absoluteUrl } from "@/config/seo";
+
+const moonPhasesCanonicalUrl = absoluteUrl(routes.moonPhases);
 
 export const Route = createFileRoute("/luna/fases/")({
   head: () => ({
@@ -21,8 +24,10 @@ export const Route = createFileRoute("/luna/fases/")({
         content: "Astronomía y lectura simbólica de las ocho fases del ciclo lunar.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: moonPhasesCanonicalUrl },
       { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: moonPhasesCanonicalUrl }],
   }),
   component: MoonPhasesIndexPage,
 });

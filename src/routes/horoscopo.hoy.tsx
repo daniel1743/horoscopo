@@ -3,6 +3,7 @@ import { HoroscopePeriodPage } from "@/pages/horoscope/HoroscopePeriodPage";
 import { listHoroscopesForCurrentPeriod } from "@/lib/horoscope/repository";
 import { buildMeta } from "@/config/seo";
 import { isPublicFeatureEnabled } from "@/config/public-features";
+import { routes } from "@/config/routes";
 
 export const Route = createFileRoute("/horoscopo/hoy")({
   beforeLoad: () => {
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/horoscopo/hoy")({
     const m = buildMeta({
       title: "Horóscopo de hoy — Creovision",
       description: "Tendencia diaria por signo, con foco, ánimo y energía.",
+      canonical: routes.horoscopeToday,
     });
     return { meta: m.meta, links: m.links };
   },

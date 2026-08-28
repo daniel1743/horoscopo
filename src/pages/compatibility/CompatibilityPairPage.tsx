@@ -8,11 +8,26 @@ import { CompatibilityContextsList } from "@/components/compatibility/Compatibil
 import { CompatibilityPairSelector } from "@/components/compatibility/CompatibilityPairSelector";
 import { compatibilityQueries } from "@/services/compatibility.service";
 import { COMPATIBILITY_COPY } from "@/config/compatibility";
-import { routes } from "@/config/routes";
+import { routes, zodiacRoute } from "@/config/routes";
+import { filterIndexableAlternativePairs } from "@/config/compatibility-internal-links";
 import { compatibilityRoute } from "@/lib/compatibility/route-helpers";
 import type { ZodiacSignKey } from "@/types/compatibility";
 import { NextBestAction } from "@/components/layout/NextBestAction";
 import type { NBAActionId } from "@/config/next-best-actions.config";
+
+const GEMINI_SAGITTARIUS_PAIR_KEY = "geminis__sagitario";
+
+const GEMINI_SAGITTARIUS_EDITORIAL_COPY = {
+  answerHeading: "¿Géminis y Sagitario son compatibles?",
+  answerText:
+    "Sí, pueden tener una compatibilidad alta cuando la libertad, la conversación y el movimiento tienen espacio. Géminis aporta agilidad mental y Sagitario amplitud de visión; el desafío aparece cuando ambos evitan sostener conversaciones emocionales o compromisos cotidianos.",
+  loveHeading: "Géminis y Sagitario en el amor",
+  loveText:
+    "En pareja, esta combinación suele sentirse ligera, curiosa y estimulante. La atracción crece cuando hay conversación, planes nuevos y permiso para cambiar de ritmo. Para que no quede solo en entusiasmo, necesitan acuerdos concretos: qué se promete, qué se sostiene y cómo se habla cuando algo incomoda.",
+  longTermHeading: "Vida cotidiana y largo plazo",
+  longTermText:
+    "El punto delicado no suele ser la falta de interés, sino la continuidad. Si cada plan cambia demasiado, la relación puede perder suelo. Les ayuda convertir la libertad en acuerdos simples: fechas, tareas, límites y tiempos para hablar sin escapar hacia otra idea.",
+} as const;
 
 interface Props {
   signA: ZodiacSignKey;
@@ -22,6 +37,8 @@ interface Props {
 export function CompatibilityPairPage({ signA, signB }: Props) {
   const { data } = useSuspenseQuery(compatibilityQueries.pair(signA, signB));
   const { normalized, signA: metaA, signB: metaB, profile, alternativePairs } = data;
+  const isGeminiSagittarius = normalized.pair_key === GEMINI_SAGITTARIUS_PAIR_KEY;
+  const safeAlternativePairs = filterIndexableAlternativePairs(alternativePairs);
 
   const headerTitle = profile?.title ?? `${metaA.name} y ${metaB.name}`;
   const headerDescription =
@@ -45,6 +62,14 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
 
       {profile ? (
         <div className="mt-2 space-y-12">
+          {isGeminiSagittarius && (
+            <GeminiSagittariusEditorialBlock
+              heading={GEMINI_SAGITTARIUS_EDITORIAL_COPY.answerHeading}
+              body={GEMINI_SAGITTARIUS_EDITORIAL_COPY.answerText}
+              variant="answer"
+            />
+          )}
+
           <section className="grid gap-4 rounded-[var(--radius-card-lg)] border border-brand/10 bg-brand/5 p-5 md:grid-cols-3 md:p-6">
             <QuickReadItem label="Energía" value={profile.dynamicLabel ?? "Dinámica simbólica"} />
             <QuickReadItem
@@ -86,6 +111,13 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
             </section>
           )}
 
+          {isGeminiSagittarius && (
+            <GeminiSagittariusEditorialBlock
+              heading={GEMINI_SAGITTARIUS_EDITORIAL_COPY.longTermHeading}
+              body={GEMINI_SAGITTARIUS_EDITORIAL_COPY.longTermText}
+            />
+          )}
+
           {profile.communicationTips.length > 0 && (
             <section aria-labelledby="compat-tips" className="space-y-4">
               <h2
@@ -107,7 +139,40 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
             </section>
           )}
 
+          {isGeminiSagittarius && (
+            <GeminiSagittariusEditorialBlock
+              heading={GEMINI_SAGITTARIUS_EDITORIAL_COPY.loveHeading}
+              body={GEMINI_SAGITTARIUS_EDITORIAL_COPY.loveText}
+            />
+          )}
+
           <CompatibilityContextsList contexts={profile.contexts} />
+
+          <section
+            aria-labelledby="compat-sign-horoscopes"
+            className="rounded-[var(--radius-card)] border border-line-subtle bg-ivory p-5"
+          >
+            <h2
+              id="compat-sign-horoscopes"
+              className="font-display text-[20px] font-semibold text-ink"
+            >
+              También puedes mirar cada signo por separado
+            </h2>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Link
+                to={zodiacRoute(normalized.sign_a) as string}
+                className="inline-flex rounded-[var(--radius-control)] border border-line-subtle bg-warm-white px-4 py-2 font-body text-[14px] font-medium text-ink transition hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(108,75,217,0.18)]"
+              >
+                Horóscopo de {metaA.name}
+              </Link>
+              <Link
+                to={zodiacRoute(normalized.sign_b) as string}
+                className="inline-flex rounded-[var(--radius-control)] border border-line-subtle bg-warm-white px-4 py-2 font-body text-[14px] font-medium text-ink transition hover:border-brand hover:text-brand focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[rgba(108,75,217,0.18)]"
+              >
+                Horóscopo de {metaB.name}
+              </Link>
+            </div>
+          </section>
 
           {profile.reflectionQuestions.length > 0 && (
             <section aria-labelledby="compat-reflection" className="space-y-3">
@@ -176,7 +241,7 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
         </div>
       </section>
 
-      {alternativePairs.length > 0 && (
+      {safeAlternativePairs.length > 0 && (
         <section aria-labelledby="compat-alt" className="mt-14">
           <h2
             id="compat-alt"
@@ -185,7 +250,7 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
             Otras combinaciones relacionadas
           </h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {alternativePairs.map((p) => (
+            {safeAlternativePairs.map((p) => (
               <li key={p.id}>
                 <Link
                   to={compatibilityRoute(p.signA, p.signB)}
@@ -201,6 +266,44 @@ export function CompatibilityPairPage({ signA, signB }: Props) {
       )}
     </PageShell>
   );
+}
+
+function GeminiSagittariusEditorialBlock({
+  heading,
+  body,
+  variant = "default",
+}: {
+  heading: string;
+  body: string;
+  variant?: "answer" | "default";
+}) {
+  const sectionClass =
+    variant === "answer"
+      ? "rounded-[var(--radius-card-lg)] border border-brand/15 bg-brand/5 p-5 md:p-7"
+      : "space-y-3 border-l-2 border-brand/30 pl-4 md:pl-5";
+
+  return (
+    <section aria-labelledby={slugifyHeading(heading)} className={sectionClass}>
+      <h2
+        id={slugifyHeading(heading)}
+        className="font-display text-[22px] font-semibold text-ink md:text-[26px]"
+      >
+        {heading}
+      </h2>
+      <p className="mt-3 max-w-[68ch] font-body text-[16px] leading-[1.7] text-ink-soft md:text-[17px]">
+        {body}
+      </p>
+    </section>
+  );
+}
+
+function slugifyHeading(heading: string) {
+  return `compat-${heading
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")}`;
 }
 
 function QuickReadItem({ label, value }: { label: string; value: string }) {

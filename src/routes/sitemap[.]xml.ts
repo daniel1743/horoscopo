@@ -12,6 +12,8 @@ import { majorArcana } from "@/data/tarot-cards";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { MOON_PHASE_ORDER, MOON_PHASE_REGISTRY } from "@/config/moon";
 import { isRoutePubliclyEnabled } from "@/config/public-features";
+import { indexableCompatibilityPairs } from "@/config/compatibility-indexability";
+import { tarotService, type TarotService } from "@/services/tarot.service";
 
 type ChangeFrequency = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 
@@ -22,19 +24,22 @@ interface SitemapEntry {
   lastmod?: string;
 }
 
+interface SitemapTarotCard {
+  slug: string;
+}
+
 /**
  * Sitemap dinámico y optimizado para SEO 2026.
  * Incluye prioridades estratégicas y frecuencias de actualización reales.
  */
-export function getSitemapEntries(): SitemapEntry[] {
+export function getSitemapEntries(
+  tarotCards: readonly SitemapTarotCard[] = majorArcana,
+): SitemapEntry[] {
   const today = new Date().toISOString().slice(0, 10);
   const entries: SitemapEntry[] = [];
 
   // 1. PÁGINAS PRINCIPALES (Alta prioridad)
-  entries.push(
-    { path: routes.home, priority: "1.0", changefreq: "daily", lastmod: today },
-    { path: routes.search, priority: "0.7", changefreq: "weekly" },
-  );
+  entries.push({ path: routes.home, priority: "1.0", changefreq: "daily", lastmod: today });
   if (isRoutePubliclyEnabled("about")) {
     entries.push({ path: routes.about, priority: "0.5", changefreq: "monthly" });
   }
@@ -75,7 +80,7 @@ export function getSitemapEntries(): SitemapEntry[] {
   );
 
   // Páginas individuales de cartas del tarot
-  majorArcana.forEach((card) => {
+  tarotCards.forEach((card) => {
     entries.push({
       path: tarotCardRoute(card.slug),
       priority: "0.75",
@@ -134,22 +139,25 @@ export function getSitemapEntries(): SitemapEntry[] {
     priority: "0.85",
     changefreq: "weekly",
   });
-  for (let i = 0; i < zodiacSigns.length; i += 1) {
-    for (let j = i; j < zodiacSigns.length; j += 1) {
-      entries.push({
-        path: compatibilityRoute(zodiacSigns[i].slug, zodiacSigns[j].slug),
-        priority: "0.72",
-        changefreq: "monthly",
-      });
-    }
+  for (const pair of indexableCompatibilityPairs()) {
+    entries.push({
+      path: compatibilityRoute(pair.signA, pair.signB),
+      priority: "0.72",
+      changefreq: "monthly",
+    });
   }
 
   // 7. CONTENIDO EDITORIAL (Si hay guías)
-  entries.push(
-    { path: routes.guides, priority: "0.75", changefreq: "weekly" },
-  );
+  entries.push({ path: routes.guides, priority: "0.75", changefreq: "weekly" });
 
   return entries;
+}
+
+export async function getSitemapEntriesWithPublishedTarot(
+  service: Pick<TarotService, "getLibrary"> = tarotService,
+): Promise<SitemapEntry[]> {
+  const tarotCards = await service.getLibrary();
+  return getSitemapEntries(tarotCards);
 }
 
 function escapeXml(unsafe: string): string {
@@ -189,8 +197,8 @@ ${urls}
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
-      GET: () =>
-        new Response(buildSitemapXml(getSitemapEntries()), {
+      GET: async () =>
+        new Response(buildSitemapXml(await getSitemapEntriesWithPublishedTarot()), {
           headers: {
             "Content-Type": "application/xml; charset=utf-8",
             "Cache-Control": "public, max-age=3600, s-maxage=7200, stale-while-revalidate=86400",

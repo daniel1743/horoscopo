@@ -4,6 +4,7 @@ import { getLatestHoroscope } from "@/lib/horoscope/repository";
 import { getPeriodBySlug } from "@/config/horoscope";
 import { zodiacSigns } from "@/data/zodiac-signs";
 import { buildMeta } from "@/config/seo";
+import { zodiacRoute } from "@/config/routes";
 import { isPublicFeatureEnabled } from "@/config/public-features";
 import type { HoroscopePeriod } from "@/types/horoscope";
 
@@ -34,8 +35,10 @@ export const Route = createFileRoute("/horoscopo/$sign")({
     const m = buildMeta({
       title: `${name} — Horóscopo · Creovision`,
       description: `Horóscopo diario, semanal y mensual para ${name}, con foco, ánimo y energía.`,
+      canonical: sign ? zodiacRoute(sign.slug) : undefined,
+      structuredData: "WebPage",
     });
-    return { meta: m.meta, links: m.links };
+    return { meta: m.meta, links: m.links, scripts: m.scripts };
   },
   errorComponent: ({ error }) => (
     <div className="mx-auto max-w-[720px] py-20 text-center">

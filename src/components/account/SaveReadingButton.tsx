@@ -57,9 +57,7 @@ export function SaveReadingButton({ spreadType, cards, interpretation }: Props) 
     try {
       const privacy = await fetchPrivacySettings(user.id);
       if (!privacy.save_readings_allowed) {
-        toast.error(
-          "Guardar lecturas está desactivado en tus preferencias de privacidad.",
-        );
+        toast.error("Guardar lecturas está desactivado en tus preferencias de privacidad.");
         return;
       }
       await saveTarotReading({
@@ -91,8 +89,7 @@ export function SaveReadingButton({ spreadType, cards, interpretation }: Props) 
           <DialogHeader>
             <DialogTitle>Guardar esta lectura</DialogTitle>
             <DialogDescription>
-              Guardaremos únicamente las cartas y la interpretación. No guardamos tu
-              pregunta.
+              Guardaremos únicamente las cartas y la interpretación. No guardamos tu pregunta.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-2">

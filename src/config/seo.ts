@@ -145,6 +145,8 @@ export const seoTemplates = {
   }),
 } as const;
 
+export type JsonLdPageType = "WebPage" | "CollectionPage";
+
 export function absoluteUrl(pathOrUrl: string): string {
   if (/^https?:\/\//i.test(pathOrUrl)) return pathOrUrl;
   const path = pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`;
@@ -163,6 +165,7 @@ export function buildMeta(input: {
   canonical?: string;
   noindex?: boolean;
   type?: "website" | "article";
+  structuredData?: JsonLdPageType;
 }) {
   const title = input.title;
   const description = input.description ?? seoDefaults.defaultDescription;
@@ -231,112 +234,69 @@ export function buildMeta(input: {
     { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
   );
 
-  return { meta, links };
+  const scripts =
+    input.structuredData && canonical
+      ? [
+          buildJsonLdScript({
+            canonical,
+            name: title,
+            description,
+            pageType: input.structuredData,
+          }),
+        ]
+      : undefined;
+
+  return { meta, links, scripts };
 }
 
-/**
- * JSON-LD Structured Data para SEO avanzado.
- * Google usa esto para rich snippets y featured snippets.
- */
-export const structuredData = {
-  organization: () => ({
+export interface JsonLdGraph {
+  "@context": "https://schema.org";
+  "@graph": Array<Record<string, unknown>>;
+}
+
+export function buildJsonLd(input: {
+  canonical: string;
+  name: string;
+  description: string;
+  pageType: JsonLdPageType;
+}): JsonLdGraph {
+  const canonical = absoluteUrl(input.canonical);
+
+  return {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: site.name,
-    description: site.description,
-    url: site.url,
-    logo: `${site.url}/logo.png`,
-    sameAs: [
-      // Agregar redes sociales cuando existan
-      // "https://www.facebook.com/creovision",
-      // "https://www.instagram.com/creovision",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": `${site.url}/#website`,
+        url: `${site.url}/`,
+        name: site.name,
+        description: site.description,
+      },
+      {
+        "@type": input.pageType,
+        "@id": `${canonical}#webpage`,
+        url: canonical,
+        name: input.name,
+        description: input.description,
+        isPartOf: {
+          "@id": `${site.url}/#website`,
+        },
+      },
     ],
-  }),
+  };
+}
 
-  website: () => ({
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: site.name,
-    description: site.description,
-    url: site.url,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${site.url}/buscar?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
-  }),
+export function serializeJsonLdForScript(input: JsonLdGraph): string {
+  return JSON.stringify(input).replace(/[<>&]/g, (char) => {
+    if (char === "<") return "\\u003c";
+    if (char === ">") return "\\u003e";
+    return "\\u0026";
+  });
+}
 
-  breadcrumb: (items: { name: string; url: string }[]) => ({
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: items.map((item, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: item.name,
-      item: absoluteUrl(item.url),
-    })),
-  }),
-
-  article: (input: {
-    headline: string;
-    description: string;
-    datePublished?: string;
-    dateModified?: string;
-    author?: string;
-    image?: string;
-  }) => ({
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: input.headline,
-    description: input.description,
-    datePublished: input.datePublished,
-    dateModified: input.dateModified || input.datePublished,
-    author: input.author
-      ? { "@type": "Person", name: input.author }
-      : { "@type": "Organization", name: site.name },
-    publisher: {
-      "@type": "Organization",
-      name: site.name,
-      logo: {
-        "@type": "ImageObject",
-        url: `${site.url}/logo.png`,
-      },
-    },
-    image: input.image ? absoluteUrl(input.image) : `${site.url}/og-image.jpg`,
-  }),
-
-  // FAQ Schema para rich snippets
-  faq: (questions: Array<{ question: string; answer: string }>) => ({
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: questions.map((q) => ({
-      "@type": "Question",
-      name: q.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: q.answer,
-      },
-    })),
-  }),
-
-  // HowTo Schema para guías
-  howTo: (input: {
-    name: string;
-    description: string;
-    steps: Array<{ name: string; text: string }>;
-  }) => ({
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: input.name,
-    description: input.description,
-    step: input.steps.map((step, i) => ({
-      "@type": "HowToStep",
-      position: i + 1,
-      name: step.name,
-      text: step.text,
-    })),
-  }),
-};
+export function buildJsonLdScript(input: Parameters<typeof buildJsonLd>[0]) {
+  return {
+    type: "application/ld+json",
+    children: serializeJsonLdForScript(buildJsonLd(input)),
+  };
+}

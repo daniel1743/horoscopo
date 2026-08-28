@@ -5,11 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { routes } from "@/config/routes";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
-import {
-  addFavorite,
-  removeFavorite,
-  type FavoriteType,
-} from "@/lib/account/repository";
+import { addFavorite, removeFavorite, type FavoriteType } from "@/lib/account/repository";
 import { toast } from "sonner";
 
 interface Props {

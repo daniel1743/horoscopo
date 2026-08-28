@@ -1,14 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HomePage } from "@/pages/HomePage";
 import { buildMeta } from "@/config/seo";
+import { routes } from "@/config/routes";
 
 const meta = buildMeta({
   title: "Tarot, luna y guías simbólicas | Creovision",
   description:
     "Explora tarot, ciclos lunares y guías simbólicas mediante una experiencia editorial clara y contemporánea.",
+  canonical: routes.home,
+  structuredData: "WebPage",
 });
 
 export const Route = createFileRoute("/")({
-  head: () => ({ meta: meta.meta, links: meta.links }),
+  head: () => ({ meta: meta.meta, links: meta.links, scripts: meta.scripts }),
   component: HomePage,
 });
